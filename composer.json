@@ -1,5 +1,5 @@
 {
-    "name": "shanginn/telegram-bot-api-bindings",
+    "name": "phenogram/bindings",
     "description": "Low level type-safe PHP bindings for the Telegram Bot API",
     "version": "1.0.0",
     "type": "library",
@@ -39,10 +39,5 @@
         "phpstan": [
             "php -d xdebug.mode=off ./tools/phpstan/vendor/bin/phpstan analyse --memory-limit=2G -c phpstan.neon"
         ]
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
     }
 }
