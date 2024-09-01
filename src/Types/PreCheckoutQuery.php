@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * This object contains information about an incoming pre-checkout query.

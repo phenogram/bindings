@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * This object represents one row of the high scores table for a game.

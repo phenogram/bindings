@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * This object contains information about a message that is being replied to, which may come from another chat or forum topic.

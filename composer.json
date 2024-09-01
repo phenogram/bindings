@@ -1,17 +1,17 @@
 {
     "name": "phenogram/bindings",
     "description": "Low level type-safe PHP bindings for the Telegram Bot API",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Shanginn\\TelegramBotApiBindings\\": "src/"
+            "Phenogram\\Bindings\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Shanginn\\TelegramBotApiBindings\\Tests\\": "tests"
+            "Phenogram\\Bindings\\Tests\\": "tests"
         }
     },
     "authors": [

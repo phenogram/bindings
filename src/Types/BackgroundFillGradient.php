@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * The background is a gradient fill.

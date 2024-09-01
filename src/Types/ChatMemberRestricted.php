@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * Represents a chat member that is under certain restrictions in the chat. Supergroups only.

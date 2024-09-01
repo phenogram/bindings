@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings;
+namespace Phenogram\Bindings;
 
 interface SerializerInterface
 {

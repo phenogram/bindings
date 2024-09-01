@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.

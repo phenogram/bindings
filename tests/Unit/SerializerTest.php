@@ -1,15 +1,15 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Tests\Unit;
+namespace Phenogram\Bindings\Tests\Unit;
 
+use Phenogram\Bindings\Serializer;
+use Phenogram\Bindings\Types\ChatMemberMember;
+use Phenogram\Bindings\Types\InlineKeyboardButton;
+use Phenogram\Bindings\Types\InlineKeyboardMarkup;
+use Phenogram\Bindings\Types\Message;
+use Phenogram\Bindings\Types\MessageOriginUser;
+use Phenogram\Bindings\Types\Update;
 use PHPUnit\Framework\TestCase;
-use Shanginn\TelegramBotApiBindings\Serializer;
-use Shanginn\TelegramBotApiBindings\Types\ChatMemberMember;
-use Shanginn\TelegramBotApiBindings\Types\InlineKeyboardButton;
-use Shanginn\TelegramBotApiBindings\Types\InlineKeyboardMarkup;
-use Shanginn\TelegramBotApiBindings\Types\Message;
-use Shanginn\TelegramBotApiBindings\Types\MessageOriginUser;
-use Shanginn\TelegramBotApiBindings\Types\Update;
 
 class SerializerTest extends TestCase
 {

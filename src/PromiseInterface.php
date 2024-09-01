@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shanginn\TelegramBotApiBindings;
+namespace Phenogram\Bindings;
 
 /**
  * A promise represents the eventual result of an asynchronous operation.

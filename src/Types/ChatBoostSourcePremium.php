@@ -1,6 +1,6 @@
 <?php
 
-namespace Shanginn\TelegramBotApiBindings\Types;
+namespace Phenogram\Bindings\Types;
 
 /**
  * The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
