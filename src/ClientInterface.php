@@ -2,6 +2,8 @@
 
 namespace Phenogram\Bindings;
 
+use React\Promise\PromiseInterface;
+
 interface ClientInterface
 {
     /**

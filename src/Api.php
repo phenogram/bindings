@@ -52,6 +52,7 @@ use Phenogram\Bindings\Types\User;
 use Phenogram\Bindings\Types\UserChatBoosts;
 use Phenogram\Bindings\Types\UserProfilePhotos;
 use Phenogram\Bindings\Types\WebhookInfo;
+use React\Promise\PromiseInterface;
 
 class Api implements ApiInterface
 {
