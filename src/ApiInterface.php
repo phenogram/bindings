@@ -52,7 +52,6 @@ use Phenogram\Bindings\Types\User;
 use Phenogram\Bindings\Types\UserChatBoosts;
 use Phenogram\Bindings\Types\UserProfilePhotos;
 use Phenogram\Bindings\Types\WebhookInfo;
-use React\Promise\PromiseInterface;
 
 interface ApiInterface
 {
@@ -64,14 +63,14 @@ interface ApiInterface
      * @param int|null           $timeout        Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
      * @param array<string>|null $allowedUpdates A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
      *
-     * @return PromiseInterface<array<Update>>
+     * @return array<Update>
      */
     public function getUpdates(
         ?int $offset = null,
         ?int $limit = 100,
         ?int $timeout = null,
         ?array $allowedUpdates = null,
-    ): PromiseInterface;
+    ): array;
 
     /**
      * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
@@ -84,8 +83,6 @@ interface ApiInterface
      * @param array<string>|null $allowedUpdates     A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
      * @param bool|null          $dropPendingUpdates Pass True to drop all pending updates
      * @param string|null        $secretToken        A secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request, 1-256 characters. Only characters A-Z, a-z, 0-9, _ and - are allowed. The header is useful to ensure that the request comes from a webhook set by you.
-     *
-     * @return PromiseInterface<bool>
      */
     public function setWebhook(
         string $url,
@@ -95,44 +92,34 @@ interface ApiInterface
         ?array $allowedUpdates = null,
         ?bool $dropPendingUpdates = null,
         ?string $secretToken = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
      *
      * @param bool|null $dropPendingUpdates Pass True to drop all pending updates
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteWebhook(?bool $dropPendingUpdates = null): PromiseInterface;
+    public function deleteWebhook(?bool $dropPendingUpdates = null): bool;
 
     /**
      * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
-     *
-     * @return PromiseInterface<WebhookInfo>
      */
-    public function getWebhookInfo(): PromiseInterface;
+    public function getWebhookInfo(): WebhookInfo;
 
     /**
      * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
-     *
-     * @return PromiseInterface<User>
      */
-    public function getMe(): PromiseInterface;
+    public function getMe(): User;
 
     /**
      * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function logOut(): PromiseInterface;
+    public function logOut(): bool;
 
     /**
      * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function close(): PromiseInterface;
+    public function close(): bool;
 
     /**
      * Use this method to send text messages. On success, the sent Message is returned.
@@ -149,8 +136,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendMessage(
         int|string $chatId,
@@ -165,7 +150,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
@@ -176,8 +161,6 @@ interface ApiInterface
      * @param int|null   $messageThreadId     Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param bool|null  $disableNotification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null  $protectContent      Protects the contents of the forwarded message from forwarding and saving
-     *
-     * @return PromiseInterface<Message>
      */
     public function forwardMessage(
         int|string $chatId,
@@ -186,7 +169,7 @@ interface ApiInterface
         ?int $messageThreadId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
@@ -198,7 +181,7 @@ interface ApiInterface
      * @param bool|null  $disableNotification Sends the messages silently. Users will receive a notification with no sound.
      * @param bool|null  $protectContent      Protects the contents of the forwarded messages from forwarding and saving
      *
-     * @return PromiseInterface<array<MessageId>>
+     * @return array<MessageId>
      */
     public function forwardMessages(
         int|string $chatId,
@@ -207,7 +190,7 @@ interface ApiInterface
         ?int $messageThreadId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
-    ): PromiseInterface;
+    ): array;
 
     /**
      * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
@@ -224,8 +207,6 @@ interface ApiInterface
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<MessageId>
      */
     public function copyMessage(
         int|string $chatId,
@@ -240,7 +221,7 @@ interface ApiInterface
         ?bool $protectContent = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): MessageId;
 
     /**
      * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
@@ -253,7 +234,7 @@ interface ApiInterface
      * @param bool|null  $protectContent      Protects the contents of the sent messages from forwarding and saving
      * @param bool|null  $removeCaption       Pass True to copy the messages without their captions
      *
-     * @return PromiseInterface<array<MessageId>>
+     * @return array<MessageId>
      */
     public function copyMessages(
         int|string $chatId,
@@ -263,7 +244,7 @@ interface ApiInterface
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $removeCaption = null,
-    ): PromiseInterface;
+    ): array;
 
     /**
      * Use this method to send photos. On success, the sent Message is returned.
@@ -282,8 +263,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendPhoto(
         int|string $chatId,
@@ -300,7 +279,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -322,8 +301,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendAudio(
         int|string $chatId,
@@ -342,7 +319,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -361,8 +338,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId             Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters             Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup                 Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendDocument(
         int|string $chatId,
@@ -379,7 +354,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -403,8 +378,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendVideo(
         int|string $chatId,
@@ -426,7 +399,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
@@ -449,8 +422,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendAnimation(
         int|string $chatId,
@@ -471,7 +442,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -489,8 +460,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendVoice(
         int|string $chatId,
@@ -506,7 +475,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
@@ -523,8 +492,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendVideoNote(
         int|string $chatId,
@@ -539,7 +506,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send paid media. On success, the sent Message is returned.
@@ -556,8 +523,6 @@ interface ApiInterface
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendPaidMedia(
         int|string $chatId,
@@ -572,7 +537,7 @@ interface ApiInterface
         ?bool $protectContent = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
@@ -586,7 +551,7 @@ interface ApiInterface
      * @param string|null                                                               $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                      $replyParameters      Description of the message to reply to
      *
-     * @return PromiseInterface<array<Message>>
+     * @return array<Message>
      */
     public function sendMediaGroup(
         int|string $chatId,
@@ -597,7 +562,7 @@ interface ApiInterface
         ?bool $protectContent = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
-    ): PromiseInterface;
+    ): array;
 
     /**
      * Use this method to send point on the map. On success, the sent Message is returned.
@@ -616,8 +581,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendLocation(
         int|string $chatId,
@@ -634,7 +597,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send information about a venue. On success, the sent Message is returned.
@@ -655,8 +618,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendVenue(
         int|string $chatId,
@@ -675,7 +636,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send phone contacts. On success, the sent Message is returned.
@@ -692,8 +653,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendContact(
         int|string $chatId,
@@ -708,7 +667,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send a native poll. On success, the sent Message is returned.
@@ -735,8 +694,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendPoll(
         int|string $chatId,
@@ -761,7 +718,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
@@ -775,8 +732,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendDice(
         int|string $chatId,
@@ -788,7 +743,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
@@ -798,15 +753,13 @@ interface ApiInterface
      * @param string      $action               Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
      * @param string|null $businessConnectionId Unique identifier of the business connection on behalf of which the action will be sent
      * @param int|null    $messageThreadId      Unique identifier for the target message thread; for supergroups only
-     *
-     * @return PromiseInterface<bool>
      */
     public function sendChatAction(
         int|string $chatId,
         string $action,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
@@ -815,15 +768,13 @@ interface ApiInterface
      * @param int                      $messageId Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.
      * @param array<ReactionType>|null $reaction  A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.
      * @param bool|null                $isBig     Pass True to set the reaction with a big animation
-     *
-     * @return PromiseInterface<bool>
      */
     public function setMessageReaction(
         int|string $chatId,
         int $messageId,
         ?array $reaction = null,
         ?bool $isBig = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -831,19 +782,15 @@ interface ApiInterface
      * @param int      $userId Unique identifier of the target user
      * @param int|null $offset Sequential number of the first photo to be returned. By default, all photos are returned.
      * @param int|null $limit  Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
-     *
-     * @return PromiseInterface<UserProfilePhotos>
      */
-    public function getUserProfilePhotos(int $userId, ?int $offset = null, ?int $limit = 100): PromiseInterface;
+    public function getUserProfilePhotos(int $userId, ?int $offset = null, ?int $limit = 100): UserProfilePhotos;
 
     /**
      * Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
      *
      * @param string $fileId File identifier to get information about
-     *
-     * @return PromiseInterface<File>
      */
-    public function getFile(string $fileId): PromiseInterface;
+    public function getFile(string $fileId): File;
 
     /**
      * Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -852,15 +799,13 @@ interface ApiInterface
      * @param int        $userId         Unique identifier of the target user
      * @param int|null   $untilDate      Date when the user will be unbanned; Unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
      * @param bool|null  $revokeMessages Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
-     *
-     * @return PromiseInterface<bool>
      */
     public function banChatMember(
         int|string $chatId,
         int $userId,
         ?int $untilDate = null,
         ?bool $revokeMessages = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
@@ -868,10 +813,8 @@ interface ApiInterface
      * @param int|string $chatId       Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
      * @param int        $userId       Unique identifier of the target user
      * @param bool|null  $onlyIfBanned Do nothing if the user is not banned
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unbanChatMember(int|string $chatId, int $userId, ?bool $onlyIfBanned = null): PromiseInterface;
+    public function unbanChatMember(int|string $chatId, int $userId, ?bool $onlyIfBanned = null): bool;
 
     /**
      * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
@@ -881,8 +824,6 @@ interface ApiInterface
      * @param ChatPermissions $permissions                   A JSON-serialized object for new user permissions
      * @param bool|null       $useIndependentChatPermissions Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
      * @param int|null        $untilDate                     Date when restrictions will be lifted for the user; Unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
-     *
-     * @return PromiseInterface<bool>
      */
     public function restrictChatMember(
         int|string $chatId,
@@ -890,7 +831,7 @@ interface ApiInterface
         ChatPermissions $permissions,
         ?bool $useIndependentChatPermissions = null,
         ?int $untilDate = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success.
@@ -912,8 +853,6 @@ interface ApiInterface
      * @param bool|null  $canEditMessages     Pass True if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|null  $canPinMessages      Pass True if the administrator can pin messages; for supergroups only
      * @param bool|null  $canManageTopics     Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
-     *
-     * @return PromiseInterface<bool>
      */
     public function promoteChatMember(
         int|string $chatId,
@@ -933,7 +872,7 @@ interface ApiInterface
         ?bool $canEditMessages = null,
         ?bool $canPinMessages = null,
         ?bool $canManageTopics = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
@@ -941,34 +880,24 @@ interface ApiInterface
      * @param int|string $chatId      Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int        $userId      Unique identifier of the target user
      * @param string     $customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatAdministratorCustomTitle(
-        int|string $chatId,
-        int $userId,
-        string $customTitle,
-    ): PromiseInterface;
+    public function setChatAdministratorCustomTitle(int|string $chatId, int $userId, string $customTitle): bool;
 
     /**
      * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string $chatId       Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $senderChatId Unique identifier of the target sender chat
-     *
-     * @return PromiseInterface<bool>
      */
-    public function banChatSenderChat(int|string $chatId, int $senderChatId): PromiseInterface;
+    public function banChatSenderChat(int|string $chatId, int $senderChatId): bool;
 
     /**
      * Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string $chatId       Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $senderChatId Unique identifier of the target sender chat
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unbanChatSenderChat(int|string $chatId, int $senderChatId): PromiseInterface;
+    public function unbanChatSenderChat(int|string $chatId, int $senderChatId): bool;
 
     /**
      * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success.
@@ -976,23 +905,19 @@ interface ApiInterface
      * @param int|string      $chatId                        Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param ChatPermissions $permissions                   A JSON-serialized object for new default chat permissions
      * @param bool|null       $useIndependentChatPermissions Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
-     *
-     * @return PromiseInterface<bool>
      */
     public function setChatPermissions(
         int|string $chatId,
         ChatPermissions $permissions,
         ?bool $useIndependentChatPermissions = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the new invite link as String on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<string>
      */
-    public function exportChatInviteLink(int|string $chatId): PromiseInterface;
+    public function exportChatInviteLink(int|string $chatId): string;
 
     /**
      * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
@@ -1002,8 +927,6 @@ interface ApiInterface
      * @param int|null    $expireDate         Point in time (Unix timestamp) when the link will expire
      * @param int|null    $memberLimit        The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
      * @param bool|null   $createsJoinRequest True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
-     *
-     * @return PromiseInterface<ChatInviteLink>
      */
     public function createChatInviteLink(
         int|string $chatId,
@@ -1011,7 +934,7 @@ interface ApiInterface
         ?int $expireDate = null,
         ?int $memberLimit = null,
         ?bool $createsJoinRequest = null,
-    ): PromiseInterface;
+    ): ChatInviteLink;
 
     /**
      * Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
@@ -1022,8 +945,6 @@ interface ApiInterface
      * @param int|null    $expireDate         Point in time (Unix timestamp) when the link will expire
      * @param int|null    $memberLimit        The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
      * @param bool|null   $createsJoinRequest True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
-     *
-     * @return PromiseInterface<ChatInviteLink>
      */
     public function editChatInviteLink(
         int|string $chatId,
@@ -1032,7 +953,7 @@ interface ApiInterface
         ?int $expireDate = null,
         ?int $memberLimit = null,
         ?bool $createsJoinRequest = null,
-    ): PromiseInterface;
+    ): ChatInviteLink;
 
     /**
      * Use this method to create a subscription invite link for a channel chat. The bot must have the can_invite_users administrator rights. The link can be edited using the method editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink. Returns the new invite link as a ChatInviteLink object.
@@ -1041,15 +962,13 @@ interface ApiInterface
      * @param int         $subscriptionPeriod The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).
      * @param int         $subscriptionPrice  The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500
      * @param string|null $name               Invite link name; 0-32 characters
-     *
-     * @return PromiseInterface<ChatInviteLink>
      */
     public function createChatSubscriptionInviteLink(
         int|string $chatId,
         int $subscriptionPeriod,
         int $subscriptionPrice,
         ?string $name = null,
-    ): PromiseInterface;
+    ): ChatInviteLink;
 
     /**
      * Use this method to edit a subscription invite link created by the bot. The bot must have the can_invite_users administrator rights. Returns the edited invite link as a ChatInviteLink object.
@@ -1057,83 +976,67 @@ interface ApiInterface
      * @param int|string  $chatId     Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string      $inviteLink The invite link to edit
      * @param string|null $name       Invite link name; 0-32 characters
-     *
-     * @return PromiseInterface<ChatInviteLink>
      */
     public function editChatSubscriptionInviteLink(
         int|string $chatId,
         string $inviteLink,
         ?string $name = null,
-    ): PromiseInterface;
+    ): ChatInviteLink;
 
     /**
      * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
      *
      * @param int|string $chatId     Unique identifier of the target chat or username of the target channel (in the format @channelusername)
      * @param string     $inviteLink The invite link to revoke
-     *
-     * @return PromiseInterface<ChatInviteLink>
      */
-    public function revokeChatInviteLink(int|string $chatId, string $inviteLink): PromiseInterface;
+    public function revokeChatInviteLink(int|string $chatId, string $inviteLink): ChatInviteLink;
 
     /**
      * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $userId Unique identifier of the target user
-     *
-     * @return PromiseInterface<bool>
      */
-    public function approveChatJoinRequest(int|string $chatId, int $userId): PromiseInterface;
+    public function approveChatJoinRequest(int|string $chatId, int $userId): bool;
 
     /**
      * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $userId Unique identifier of the target user
-     *
-     * @return PromiseInterface<bool>
      */
-    public function declineChatJoinRequest(int|string $chatId, int $userId): PromiseInterface;
+    public function declineChatJoinRequest(int|string $chatId, int $userId): bool;
 
     /**
      * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param InputFile  $photo  New chat photo, uploaded using multipart/form-data
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatPhoto(int|string $chatId, InputFile $photo): PromiseInterface;
+    public function setChatPhoto(int|string $chatId, InputFile $photo): bool;
 
     /**
      * Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteChatPhoto(int|string $chatId): PromiseInterface;
+    public function deleteChatPhoto(int|string $chatId): bool;
 
     /**
      * Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string     $title  New chat title, 1-128 characters
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatTitle(int|string $chatId, string $title): PromiseInterface;
+    public function setChatTitle(int|string $chatId, string $title): bool;
 
     /**
      * Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string  $chatId      Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string|null $description New chat description, 0-255 characters
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatDescription(int|string $chatId, ?string $description = null): PromiseInterface;
+    public function setChatDescription(int|string $chatId, ?string $description = null): bool;
 
     /**
      * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
@@ -1142,15 +1045,13 @@ interface ApiInterface
      * @param int         $messageId            Identifier of a message to pin
      * @param string|null $businessConnectionId Unique identifier of the business connection on behalf of which the message will be pinned
      * @param bool|null   $disableNotification  Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
-     *
-     * @return PromiseInterface<bool>
      */
     public function pinChatMessage(
         int|string $chatId,
         int $messageId,
         ?string $businessConnectionId = null,
         ?bool $disableNotification = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
@@ -1158,95 +1059,79 @@ interface ApiInterface
      * @param int|string  $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string|null $businessConnectionId Unique identifier of the business connection on behalf of which the message will be unpinned
      * @param int|null    $messageId            Identifier of the message to unpin. Required if business_connection_id is specified. If not specified, the most recent pinned message (by sending date) will be unpinned.
-     *
-     * @return PromiseInterface<bool>
      */
     public function unpinChatMessage(
         int|string $chatId,
         ?string $businessConnectionId = null,
         ?int $messageId = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unpinAllChatMessages(int|string $chatId): PromiseInterface;
+    public function unpinAllChatMessages(int|string $chatId): bool;
 
     /**
      * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function leaveChat(int|string $chatId): PromiseInterface;
+    public function leaveChat(int|string $chatId): bool;
 
     /**
      * Use this method to get up-to-date information about the chat. Returns a ChatFullInfo object on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<ChatFullInfo>
      */
-    public function getChat(int|string $chatId): PromiseInterface;
+    public function getChat(int|string $chatId): ChatFullInfo;
 
     /**
      * Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of ChatMember objects.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
      *
-     * @return PromiseInterface<array<ChatMember>>
+     * @return array<ChatMember>
      */
-    public function getChatAdministrators(int|string $chatId): PromiseInterface;
+    public function getChatAdministrators(int|string $chatId): array;
 
     /**
      * Use this method to get the number of members in a chat. Returns Int on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
-     *
-     * @return PromiseInterface<int>
      */
-    public function getChatMemberCount(int|string $chatId): PromiseInterface;
+    public function getChatMemberCount(int|string $chatId): int;
 
     /**
      * Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
      * @param int        $userId Unique identifier of the target user
-     *
-     * @return PromiseInterface<ChatMember>
      */
-    public function getChatMember(int|string $chatId, int $userId): PromiseInterface;
+    public function getChatMember(int|string $chatId, int $userId): ChatMember;
 
     /**
      * Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
      *
      * @param int|string $chatId         Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string     $stickerSetName Name of the sticker set to be set as the group sticker set
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatStickerSet(int|string $chatId, string $stickerSetName): PromiseInterface;
+    public function setChatStickerSet(int|string $chatId, string $stickerSetName): bool;
 
     /**
      * Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteChatStickerSet(int|string $chatId): PromiseInterface;
+    public function deleteChatStickerSet(int|string $chatId): bool;
 
     /**
      * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
      *
-     * @return PromiseInterface<array<Sticker>>
+     * @return array<Sticker>
      */
-    public function getForumTopicIconStickers(): PromiseInterface;
+    public function getForumTopicIconStickers(): array;
 
     /**
      * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
@@ -1255,15 +1140,13 @@ interface ApiInterface
      * @param string      $name              Topic name, 1-128 characters
      * @param int|null    $iconColor         Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
      * @param string|null $iconCustomEmojiId Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
-     *
-     * @return PromiseInterface<ForumTopic>
      */
     public function createForumTopic(
         int|string $chatId,
         string $name,
         ?int $iconColor = null,
         ?string $iconCustomEmojiId = null,
-    ): PromiseInterface;
+    ): ForumTopic;
 
     /**
      * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
@@ -1272,110 +1155,88 @@ interface ApiInterface
      * @param int         $messageThreadId   Unique identifier for the target message thread of the forum topic
      * @param string|null $name              New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
      * @param string|null $iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
-     *
-     * @return PromiseInterface<bool>
      */
     public function editForumTopic(
         int|string $chatId,
         int $messageThreadId,
         ?string $name = null,
         ?string $iconCustomEmojiId = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
      *
      * @param int|string $chatId          Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int        $messageThreadId Unique identifier for the target message thread of the forum topic
-     *
-     * @return PromiseInterface<bool>
      */
-    public function closeForumTopic(int|string $chatId, int $messageThreadId): PromiseInterface;
+    public function closeForumTopic(int|string $chatId, int $messageThreadId): bool;
 
     /**
      * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
      *
      * @param int|string $chatId          Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int        $messageThreadId Unique identifier for the target message thread of the forum topic
-     *
-     * @return PromiseInterface<bool>
      */
-    public function reopenForumTopic(int|string $chatId, int $messageThreadId): PromiseInterface;
+    public function reopenForumTopic(int|string $chatId, int $messageThreadId): bool;
 
     /**
      * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
      *
      * @param int|string $chatId          Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int        $messageThreadId Unique identifier for the target message thread of the forum topic
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteForumTopic(int|string $chatId, int $messageThreadId): PromiseInterface;
+    public function deleteForumTopic(int|string $chatId, int $messageThreadId): bool;
 
     /**
      * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
      *
      * @param int|string $chatId          Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int        $messageThreadId Unique identifier for the target message thread of the forum topic
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unpinAllForumTopicMessages(int|string $chatId, int $messageThreadId): PromiseInterface;
+    public function unpinAllForumTopicMessages(int|string $chatId, int $messageThreadId): bool;
 
     /**
      * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string     $name   New topic name, 1-128 characters
-     *
-     * @return PromiseInterface<bool>
      */
-    public function editGeneralForumTopic(int|string $chatId, string $name): PromiseInterface;
+    public function editGeneralForumTopic(int|string $chatId, string $name): bool;
 
     /**
      * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function closeGeneralForumTopic(int|string $chatId): PromiseInterface;
+    public function closeGeneralForumTopic(int|string $chatId): bool;
 
     /**
      * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function reopenGeneralForumTopic(int|string $chatId): PromiseInterface;
+    public function reopenGeneralForumTopic(int|string $chatId): bool;
 
     /**
      * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function hideGeneralForumTopic(int|string $chatId): PromiseInterface;
+    public function hideGeneralForumTopic(int|string $chatId): bool;
 
     /**
      * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unhideGeneralForumTopic(int|string $chatId): PromiseInterface;
+    public function unhideGeneralForumTopic(int|string $chatId): bool;
 
     /**
      * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
-     *
-     * @return PromiseInterface<bool>
      */
-    public function unpinAllGeneralForumTopicMessages(int|string $chatId): PromiseInterface;
+    public function unpinAllGeneralForumTopicMessages(int|string $chatId): bool;
 
     /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
@@ -1385,8 +1246,6 @@ interface ApiInterface
      * @param bool|null   $showAlert       If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
      * @param string|null $url             URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button.Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
      * @param int|null    $cacheTime       The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
-     *
-     * @return PromiseInterface<bool>
      */
     public function answerCallbackQuery(
         string $callbackQueryId,
@@ -1394,26 +1253,22 @@ interface ApiInterface
         ?bool $showAlert = null,
         ?string $url = null,
         ?int $cacheTime = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
      *
      * @param int|string $chatId Unique identifier for the chat or username of the channel (in the format @channelusername)
      * @param int        $userId Unique identifier of the target user
-     *
-     * @return PromiseInterface<UserChatBoosts>
      */
-    public function getUserChatBoosts(int|string $chatId, int $userId): PromiseInterface;
+    public function getUserChatBoosts(int|string $chatId, int $userId): UserChatBoosts;
 
     /**
      * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
      *
      * @param string $businessConnectionId Unique identifier of the business connection
-     *
-     * @return PromiseInterface<BusinessConnection>
      */
-    public function getBusinessConnection(string $businessConnectionId): PromiseInterface;
+    public function getBusinessConnection(string $businessConnectionId): BusinessConnection;
 
     /**
      * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
@@ -1421,24 +1276,16 @@ interface ApiInterface
      * @param array<BotCommand>    $commands     A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
      * @param BotCommandScope|null $scope        A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
      * @param string|null          $languageCode A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setMyCommands(
-        array $commands,
-        ?BotCommandScope $scope = null,
-        ?string $languageCode = null,
-    ): PromiseInterface;
+    public function setMyCommands(array $commands, ?BotCommandScope $scope = null, ?string $languageCode = null): bool;
 
     /**
      * Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
      *
      * @param BotCommandScope|null $scope        A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault.
      * @param string|null          $languageCode A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteMyCommands(?BotCommandScope $scope = null, ?string $languageCode = null): PromiseInterface;
+    public function deleteMyCommands(?BotCommandScope $scope = null, ?string $languageCode = null): bool;
 
     /**
      * Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
@@ -1446,110 +1293,87 @@ interface ApiInterface
      * @param BotCommandScope|null $scope        A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
      * @param string|null          $languageCode A two-letter ISO 639-1 language code or an empty string
      *
-     * @return PromiseInterface<array<BotCommand>>
+     * @return array<BotCommand>
      */
-    public function getMyCommands(?BotCommandScope $scope = null, ?string $languageCode = null): PromiseInterface;
+    public function getMyCommands(?BotCommandScope $scope = null, ?string $languageCode = null): array;
 
     /**
      * Use this method to change the bot's name. Returns True on success.
      *
      * @param string|null $name         New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
      * @param string|null $languageCode A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setMyName(?string $name = null, ?string $languageCode = null): PromiseInterface;
+    public function setMyName(?string $name = null, ?string $languageCode = null): bool;
 
     /**
      * Use this method to get the current bot name for the given user language. Returns BotName on success.
      *
      * @param string|null $languageCode A two-letter ISO 639-1 language code or an empty string
-     *
-     * @return PromiseInterface<BotName>
      */
-    public function getMyName(?string $languageCode = null): PromiseInterface;
+    public function getMyName(?string $languageCode = null): BotName;
 
     /**
      * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
      *
      * @param string|null $description  New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language.
      * @param string|null $languageCode A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setMyDescription(?string $description = null, ?string $languageCode = null): PromiseInterface;
+    public function setMyDescription(?string $description = null, ?string $languageCode = null): bool;
 
     /**
      * Use this method to get the current bot description for the given user language. Returns BotDescription on success.
      *
      * @param string|null $languageCode A two-letter ISO 639-1 language code or an empty string
-     *
-     * @return PromiseInterface<BotDescription>
      */
-    public function getMyDescription(?string $languageCode = null): PromiseInterface;
+    public function getMyDescription(?string $languageCode = null): BotDescription;
 
     /**
      * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
      *
      * @param string|null $shortDescription New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language.
      * @param string|null $languageCode     A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setMyShortDescription(
-        ?string $shortDescription = null,
-        ?string $languageCode = null,
-    ): PromiseInterface;
+    public function setMyShortDescription(?string $shortDescription = null, ?string $languageCode = null): bool;
 
     /**
      * Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
      *
      * @param string|null $languageCode A two-letter ISO 639-1 language code or an empty string
-     *
-     * @return PromiseInterface<BotShortDescription>
      */
-    public function getMyShortDescription(?string $languageCode = null): PromiseInterface;
+    public function getMyShortDescription(?string $languageCode = null): BotShortDescription;
 
     /**
      * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
      *
      * @param int|null        $chatId     Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
      * @param MenuButton|null $menuButton A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setChatMenuButton(?int $chatId = null, ?MenuButton $menuButton = null): PromiseInterface;
+    public function setChatMenuButton(?int $chatId = null, ?MenuButton $menuButton = null): bool;
 
     /**
      * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
      *
      * @param int|null $chatId Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
-     *
-     * @return PromiseInterface<MenuButton>
      */
-    public function getChatMenuButton(?int $chatId = null): PromiseInterface;
+    public function getChatMenuButton(?int $chatId = null): MenuButton;
 
     /**
      * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
      *
      * @param ChatAdministratorRights|null $rights      A JSON-serialized object describing new default administrator rights. If not specified, the default administrator rights will be cleared.
      * @param bool|null                    $forChannels Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
-     *
-     * @return PromiseInterface<bool>
      */
     public function setMyDefaultAdministratorRights(
         ?ChatAdministratorRights $rights = null,
         ?bool $forChannels = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
      *
      * @param bool|null $forChannels Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.
-     *
-     * @return PromiseInterface<ChatAdministratorRights>
      */
-    public function getMyDefaultAdministratorRights(?bool $forChannels = null): PromiseInterface;
+    public function getMyDefaultAdministratorRights(?bool $forChannels = null): ChatAdministratorRights;
 
     /**
      * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
@@ -1563,8 +1387,6 @@ interface ApiInterface
      * @param array<MessageEntity>|null $entities             A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
      * @param LinkPreviewOptions|null   $linkPreviewOptions   Link preview generation options for the message
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for an inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function editMessageText(
         string $text,
@@ -1576,7 +1398,7 @@ interface ApiInterface
         ?array $entities = null,
         ?LinkPreviewOptions $linkPreviewOptions = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
@@ -1590,8 +1412,6 @@ interface ApiInterface
      * @param array<MessageEntity>|null $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
      * @param bool|null                 $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
      * @param InlineKeyboardMarkup|null $replyMarkup           a JSON-serialized object for an inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function editMessageCaption(
         ?string $businessConnectionId = null,
@@ -1603,7 +1423,7 @@ interface ApiInterface
         ?array $captionEntities = null,
         ?bool $showCaptionAboveMedia = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
@@ -1614,8 +1434,6 @@ interface ApiInterface
      * @param int|null                  $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
      * @param string|null               $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function editMessageMedia(
         InputMedia $media,
@@ -1624,7 +1442,7 @@ interface ApiInterface
         ?int $messageId = null,
         ?string $inlineMessageId = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -1640,8 +1458,6 @@ interface ApiInterface
      * @param int|null                  $heading              Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
      * @param int|null                  $proximityAlertRadius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function editMessageLiveLocation(
         float $latitude,
@@ -1655,7 +1471,7 @@ interface ApiInterface
         ?int $heading = null,
         ?int $proximityAlertRadius = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -1665,8 +1481,6 @@ interface ApiInterface
      * @param int|null                  $messageId            Required if inline_message_id is not specified. Identifier of the message with live location to stop
      * @param string|null               $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function stopMessageLiveLocation(
         ?string $businessConnectionId = null,
@@ -1674,7 +1488,7 @@ interface ApiInterface
         ?int $messageId = null,
         ?string $inlineMessageId = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
@@ -1684,8 +1498,6 @@ interface ApiInterface
      * @param int|null                  $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
      * @param string|null               $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for an inline keyboard
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function editMessageReplyMarkup(
         ?string $businessConnectionId = null,
@@ -1693,7 +1505,7 @@ interface ApiInterface
         ?int $messageId = null,
         ?string $inlineMessageId = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
@@ -1702,35 +1514,29 @@ interface ApiInterface
      * @param int                       $messageId            Identifier of the original message with the poll
      * @param string|null               $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param InlineKeyboardMarkup|null $replyMarkup          a JSON-serialized object for a new message inline keyboard
-     *
-     * @return PromiseInterface<Poll>
      */
     public function stopPoll(
         int|string $chatId,
         int $messageId,
         ?string $businessConnectionId = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Poll;
 
     /**
      * Use this method to delete a message, including service messages, with the following limitations:- A message can only be deleted if it was sent less than 48 hours ago.- Service messages about a supergroup, channel, or forum topic creation can't be deleted.- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted can_post_messages permissions can delete outgoing messages in channels.- If the bot is an administrator of a group, it can delete any message there.- If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.Returns True on success.
      *
      * @param int|string $chatId    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $messageId Identifier of the message to delete
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteMessage(int|string $chatId, int $messageId): PromiseInterface;
+    public function deleteMessage(int|string $chatId, int $messageId): bool;
 
     /**
      * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
      *
      * @param int|string $chatId     Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param array<int> $messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteMessages(int|string $chatId, array $messageIds): PromiseInterface;
+    public function deleteMessages(int|string $chatId, array $messageIds): bool;
 
     /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
@@ -1745,8 +1551,6 @@ interface ApiInterface
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendSticker(
         int|string $chatId,
@@ -1759,25 +1563,23 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to get a sticker set. On success, a StickerSet object is returned.
      *
      * @param string $name Name of the sticker set
-     *
-     * @return PromiseInterface<StickerSet>
      */
-    public function getStickerSet(string $name): PromiseInterface;
+    public function getStickerSet(string $name): StickerSet;
 
     /**
      * Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
      *
      * @param array<string> $customEmojiIds A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
      *
-     * @return PromiseInterface<array<Sticker>>
+     * @return array<Sticker>
      */
-    public function getCustomEmojiStickers(array $customEmojiIds): PromiseInterface;
+    public function getCustomEmojiStickers(array $customEmojiIds): array;
 
     /**
      * Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
@@ -1785,10 +1587,8 @@ interface ApiInterface
      * @param int       $userId        User identifier of sticker file owner
      * @param InputFile $sticker       A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files »
      * @param string    $stickerFormat Format of the sticker, must be one of “static”, “animated”, “video”
-     *
-     * @return PromiseInterface<File>
      */
-    public function uploadStickerFile(int $userId, InputFile $sticker, string $stickerFormat): PromiseInterface;
+    public function uploadStickerFile(int $userId, InputFile $sticker, string $stickerFormat): File;
 
     /**
      * Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
@@ -1799,8 +1599,6 @@ interface ApiInterface
      * @param array<InputSticker> $stickers        A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
      * @param string|null         $stickerType     Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
      * @param bool|null           $needsRepainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
-     *
-     * @return PromiseInterface<bool>
      */
     public function createNewStickerSet(
         int $userId,
@@ -1809,7 +1607,7 @@ interface ApiInterface
         array $stickers,
         ?string $stickerType = null,
         ?bool $needsRepainting = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
@@ -1817,29 +1615,23 @@ interface ApiInterface
      * @param int          $userId  User identifier of sticker set owner
      * @param string       $name    Sticker set name
      * @param InputSticker $sticker A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function addStickerToSet(int $userId, string $name, InputSticker $sticker): PromiseInterface;
+    public function addStickerToSet(int $userId, string $name, InputSticker $sticker): bool;
 
     /**
      * Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
      *
      * @param string $sticker  File identifier of the sticker
      * @param int    $position New sticker position in the set, zero-based
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setStickerPositionInSet(string $sticker, int $position): PromiseInterface;
+    public function setStickerPositionInSet(string $sticker, int $position): bool;
 
     /**
      * Use this method to delete a sticker from a set created by the bot. Returns True on success.
      *
      * @param string $sticker File identifier of the sticker
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteStickerFromSet(string $sticker): PromiseInterface;
+    public function deleteStickerFromSet(string $sticker): bool;
 
     /**
      * Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet. Returns True on success.
@@ -1848,55 +1640,40 @@ interface ApiInterface
      * @param string       $name       Sticker set name
      * @param string       $oldSticker File identifier of the replaced sticker
      * @param InputSticker $sticker    A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set remains unchanged.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function replaceStickerInSet(
-        int $userId,
-        string $name,
-        string $oldSticker,
-        InputSticker $sticker,
-    ): PromiseInterface;
+    public function replaceStickerInSet(int $userId, string $name, string $oldSticker, InputSticker $sticker): bool;
 
     /**
      * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
      *
      * @param string        $sticker   File identifier of the sticker
      * @param array<string> $emojiList A JSON-serialized list of 1-20 emoji associated with the sticker
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setStickerEmojiList(string $sticker, array $emojiList): PromiseInterface;
+    public function setStickerEmojiList(string $sticker, array $emojiList): bool;
 
     /**
      * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
      *
      * @param string             $sticker  File identifier of the sticker
      * @param array<string>|null $keywords A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setStickerKeywords(string $sticker, ?array $keywords = null): PromiseInterface;
+    public function setStickerKeywords(string $sticker, ?array $keywords = null): bool;
 
     /**
      * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
      *
      * @param string            $sticker      File identifier of the sticker
      * @param MaskPosition|null $maskPosition A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setStickerMaskPosition(string $sticker, ?MaskPosition $maskPosition = null): PromiseInterface;
+    public function setStickerMaskPosition(string $sticker, ?MaskPosition $maskPosition = null): bool;
 
     /**
      * Use this method to set the title of a created sticker set. Returns True on success.
      *
      * @param string $name  Sticker set name
      * @param string $title Sticker set title, 1-64 characters
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setStickerSetTitle(string $name, string $title): PromiseInterface;
+    public function setStickerSetTitle(string $name, string $title): bool;
 
     /**
      * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
@@ -1905,34 +1682,28 @@ interface ApiInterface
      * @param int                   $userId    User identifier of the sticker set owner
      * @param string                $format    Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a WEBM video
      * @param InputFile|string|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
-     *
-     * @return PromiseInterface<bool>
      */
     public function setStickerSetThumbnail(
         string $name,
         int $userId,
         string $format,
         InputFile|string|null $thumbnail = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
      *
      * @param string      $name          Sticker set name
      * @param string|null $customEmojiId custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setCustomEmojiStickerSetThumbnail(string $name, ?string $customEmojiId = null): PromiseInterface;
+    public function setCustomEmojiStickerSetThumbnail(string $name, ?string $customEmojiId = null): bool;
 
     /**
      * Use this method to delete a sticker set that was created by the bot. Returns True on success.
      *
      * @param string $name Sticker set name
-     *
-     * @return PromiseInterface<bool>
      */
-    public function deleteStickerSet(string $name): PromiseInterface;
+    public function deleteStickerSet(string $name): bool;
 
     /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
@@ -1943,8 +1714,6 @@ interface ApiInterface
      * @param bool|null                     $isPersonal    Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query.
      * @param string|null                   $nextOffset    Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.
      * @param InlineQueryResultsButton|null $button        A JSON-serialized object describing a button to be shown above inline query results
-     *
-     * @return PromiseInterface<bool>
      */
     public function answerInlineQuery(
         string $inlineQueryId,
@@ -1953,17 +1722,15 @@ interface ApiInterface
         ?bool $isPersonal = null,
         ?string $nextOffset = null,
         ?InlineQueryResultsButton $button = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
      *
      * @param string            $webAppQueryId Unique identifier for the query to be answered
      * @param InlineQueryResult $result        A JSON-serialized object describing the message to be sent
-     *
-     * @return PromiseInterface<SentWebAppMessage>
      */
-    public function answerWebAppQuery(string $webAppQueryId, InlineQueryResult $result): PromiseInterface;
+    public function answerWebAppQuery(string $webAppQueryId, InlineQueryResult $result): SentWebAppMessage;
 
     /**
      * Use this method to send invoices. On success, the sent Message is returned.
@@ -1996,8 +1763,6 @@ interface ApiInterface
      * @param string|null               $messageEffectId           Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null      $replyParameters           Description of the message to reply to
      * @param InlineKeyboardMarkup|null $replyMarkup               A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendInvoice(
         int|string $chatId,
@@ -2028,7 +1793,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to create a link for an invoice. Returns the created invoice link as String on success.
@@ -2053,8 +1818,6 @@ interface ApiInterface
      * @param bool|null           $sendPhoneNumberToProvider Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
      * @param bool|null           $sendEmailToProvider       Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
      * @param bool|null           $isFlexible                Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
-     *
-     * @return PromiseInterface<string>
      */
     public function createInvoiceLink(
         string $title,
@@ -2077,7 +1840,7 @@ interface ApiInterface
         ?bool $sendPhoneNumberToProvider = null,
         ?bool $sendEmailToProvider = null,
         ?bool $isFlexible = null,
-    ): PromiseInterface;
+    ): string;
 
     /**
      * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
@@ -2086,15 +1849,13 @@ interface ApiInterface
      * @param bool                       $ok              Pass True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
      * @param array<ShippingOption>|null $shippingOptions Required if ok is True. A JSON-serialized array of available shipping options.
      * @param string|null                $errorMessage    Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
-     *
-     * @return PromiseInterface<bool>
      */
     public function answerShippingQuery(
         string $shippingQueryId,
         bool $ok,
         ?array $shippingOptions = null,
         ?string $errorMessage = null,
-    ): PromiseInterface;
+    ): bool;
 
     /**
      * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
@@ -2102,34 +1863,24 @@ interface ApiInterface
      * @param string      $preCheckoutQueryId Unique identifier for the query to be answered
      * @param bool        $ok                 Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use False if there are any problems.
      * @param string|null $errorMessage       Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
-     *
-     * @return PromiseInterface<bool>
      */
-    public function answerPreCheckoutQuery(
-        string $preCheckoutQueryId,
-        bool $ok,
-        ?string $errorMessage = null,
-    ): PromiseInterface;
+    public function answerPreCheckoutQuery(string $preCheckoutQueryId, bool $ok, ?string $errorMessage = null): bool;
 
     /**
      * Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
      *
      * @param int|null $offset Number of transactions to skip in the response
      * @param int|null $limit  The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
-     *
-     * @return PromiseInterface<StarTransactions>
      */
-    public function getStarTransactions(?int $offset = null, ?int $limit = 100): PromiseInterface;
+    public function getStarTransactions(?int $offset = null, ?int $limit = 100): StarTransactions;
 
     /**
      * Refunds a successful payment in Telegram Stars. Returns True on success.
      *
      * @param int    $userId                  Identifier of the user whose payment will be refunded
      * @param string $telegramPaymentChargeId Telegram payment identifier
-     *
-     * @return PromiseInterface<bool>
      */
-    public function refundStarPayment(int $userId, string $telegramPaymentChargeId): PromiseInterface;
+    public function refundStarPayment(int $userId, string $telegramPaymentChargeId): bool;
 
     /**
      * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
@@ -2137,10 +1888,8 @@ interface ApiInterface
      *
      * @param int                         $userId User identifier
      * @param array<PassportElementError> $errors A JSON-serialized array describing the errors
-     *
-     * @return PromiseInterface<bool>
      */
-    public function setPassportDataErrors(int $userId, array $errors): PromiseInterface;
+    public function setPassportDataErrors(int $userId, array $errors): bool;
 
     /**
      * Use this method to send a game. On success, the sent Message is returned.
@@ -2154,8 +1903,6 @@ interface ApiInterface
      * @param string|null               $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null      $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|null $replyMarkup          A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
-     *
-     * @return PromiseInterface<Message>
      */
     public function sendGame(
         int $chatId,
@@ -2167,7 +1914,7 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
-    ): PromiseInterface;
+    ): Message;
 
     /**
      * Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
@@ -2179,8 +1926,6 @@ interface ApiInterface
      * @param int|null    $chatId             Required if inline_message_id is not specified. Unique identifier for the target chat
      * @param int|null    $messageId          Required if inline_message_id is not specified. Identifier of the sent message
      * @param string|null $inlineMessageId    Required if chat_id and message_id are not specified. Identifier of the inline message
-     *
-     * @return PromiseInterface<Message|bool>
      */
     public function setGameScore(
         int $userId,
@@ -2190,7 +1935,7 @@ interface ApiInterface
         ?int $chatId = null,
         ?int $messageId = null,
         ?string $inlineMessageId = null,
-    ): PromiseInterface;
+    ): Message|bool;
 
     /**
      * Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects.
@@ -2200,12 +1945,12 @@ interface ApiInterface
      * @param int|null    $messageId       Required if inline_message_id is not specified. Identifier of the sent message
      * @param string|null $inlineMessageId Required if chat_id and message_id are not specified. Identifier of the inline message
      *
-     * @return PromiseInterface<array<GameHighScore>>
+     * @return array<GameHighScore>
      */
     public function getGameHighScores(
         int $userId,
         ?int $chatId = null,
         ?int $messageId = null,
         ?string $inlineMessageId = null,
-    ): PromiseInterface;
+    ): array;
 }
