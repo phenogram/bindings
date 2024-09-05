@@ -1,35 +1,35 @@
-# Telegram Bot API PHP bindings
+# PHP типы для Telegram Bot API
 
-Strictly typed PHP classes for Telegram Bot API v7.9 based on the [official documentation](https://core.telegram.org/bots/api)
-to use in the [Phenogram Framework](https://github.com/phenogram/framework)
+Строго типизированные PHP классы для Telegram Bot API, основанные на [официальной документации](https://core.telegram.org/bots/api),
+для использования в [Фреймворке Phenogram](https://github.com/phenogram/framework)
 
-Mostly generated using [scrapper](https://github.com/phenogram/scraper)
+В основном сгенерированы с помощью [scrapper](https://github.com/phenogram/scraper)
 
-This is still a work in progress and not every class is tested or used.
-If you find some inconsistency with the documentation, feel free to file an issue.
-Everything that is not covered in the documentation is out of the scope of this project.
+Работа всё ещё в процессе, и не каждый класс протестирован или использовался.
+Если вы обнаружите какие-либо несоответствия с документацией, не стесняйтесь создать ишью.
+Всё, что не описано в документации, выходит за рамки этого проекта.
 
-Current supported Telegram bot API version is **v7.9**
+Текущая поддерживаемая версия Telegram bot API - **v7.9**
 
-# Installation
+# Установка
 
 ```bash
-composer require phenogram/bindings:^2
+composer require phenogram/bindings
 ```
 
-# Usage
+# Использование
 
-## Serializer
-You can see the example usage in the [Api](src/Api.php) class.
+## Сериализатор
+Пример использования можно увидеть в классе [Api](src/Api.php).
 
-But here is a simple example:
+Но вот простой пример:
 ```php
 use Phenogram\Bindings\Serializer;
 
 $serializer = new Serializer();
 $inlineKeyboardMarkup = new InlineKeyboardMarkup(
     inlineKeyboard: [[
-        new InlineKeyboardButton(text: 'Button 1', callbackData: 'data1')
+        new InlineKeyboardButton(text: 'Кнопка 1', callbackData: 'data1')
     ]],
 );
 
@@ -40,7 +40,7 @@ $json = $serializer->serialize([
 $arrayKeyboard = [
     'reply_markup' => [
         'inline_keyboard' => [[
-            ['text' => 'Button 1', 'callback_data' => 'data1']
+            ['text' => 'Кнопка 1', 'callback_data' => 'data1']
         ]],
     ],
 ];
@@ -50,9 +50,9 @@ $jsonFromArray = json_encode($arrayKeyboard);
 assert($jsonFromArray === $json);
 ```
 
-It can also be used to deserialize Telegram requests into typed PHP classes.
-The only not so obvious thing is that you need to pass json encoded string
-from the `result` field of the Telegram request, not the whole request.
+Его также можно использовать для десериализации запросов Telegram в типизированные PHP-классы.
+Единственное не совсем очевидное - вам нужно передать JSON-закодированную строку
+из поля `result` запроса Telegram, а не весь запрос.
 
 ```php
 use Phenogram\Bindings\Serializer;
@@ -84,16 +84,17 @@ assert($updates[0]->message instanceof Message::class);
 assert($updates[0]->message->chat instanceof Chat::class);
 ```
 
-## API usage
+## Использование API
 
-### Client
-To actually use the API you first need to implement the ClientInterface, which is a simple interface with a single method `sendRequest`.
-Then you can use the `TelegramBotApi` class to send requests to the Telegram API.
+### Клиент
+Чтобы использовать API, вам сначала нужно реализовать интерфейс ClientInterface,
+в котором есть только один метод - `sendRequest`.
+Затем вы можете использовать класс `Api` для отправки запросов к API Telegram.
 
-The implementation of the client is out of the scope of this project, but you can check
-the example implementation in the [Phenogram Framework](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
+Реализация клиента выходит за рамки этого проекта, но вы можете посмотреть
+пример реализации с amphp/http-client в [Фреймворке Phenogram](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
 
-The most basic implementation with ext-curl might look like this:
+Самая базовая реализация с использованием ext-curl может выглядеть так:
 ```php
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
@@ -116,7 +117,7 @@ final readonly class TelegramBotApiClient implements ClientInterface
         $response = curl_exec($ch);
     
         if (curl_errno($ch)) {
-            throw new \RuntimeException('Request Error: ' . curl_error($ch));
+            throw new \RuntimeException('Ошибка запроса: ' . curl_error($ch));
         }
     
         curl_close($ch);
@@ -150,9 +151,9 @@ final readonly class TelegramBotApiClient implements ClientInterface
 }
 ```
 
-But I would of course recommend using some library like Guzzle or amphp/http-client.
+Но я, конечно, рекомендую использовать какую-нибудь библиотеку, например Guzzle или amphp/http-client.
 
-### Making requests
+### Выполнение запросов
 
 ```php
 $api = new Api(
@@ -165,13 +166,14 @@ $me = $api->getMe();
 assert($me instanceof User::class);
 ```
 
-# Work in progress
-The main issue for now if file uploads with MultiPart requests, but I'm thinking about it.
+# Всё ещё work in progress
+Основная проблема на данный момент - это загрузка файлов с MultiPart-запросами, но я думаю об этом.
 
-Also I need to make Api::doRequest method type safe with generics, not sure how to do it yet, phpstan keeps winning.
+Также мне нужно сделать придумать возвращаемый из Api::doRequest тип с помощью шаблонов,
+но пока не уверен, как это сделать, phpstan побеждает.
 
-# Conclusion
-This is just an SDK, a building block for your Telegram bot, not the full framework,
-you can use it as is or extend it to fit your needs.
+# Заключение
+Это просто SDK для вашего Telegram-бота, а не полноценный фреймворк,
+вы можете использовать его как есть или расширить для своих нужд.
 
-If you need a framework, check out the [Phenogram Framework](https://github.com/phenogram/framework)
+Если вам нужен фреймворк, посмотрите на [Phenogram](https://github.com/phenogram/framework)
