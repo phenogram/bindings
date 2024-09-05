@@ -3,6 +3,7 @@
 namespace Phenogram\Bindings\Tests\Unit;
 
 use Phenogram\Bindings\Serializer;
+use Phenogram\Bindings\Types\Chat;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
@@ -55,7 +56,7 @@ class SerializerTest extends TestCase
             'reply_markup' => $inlineKeyboardMarkup,
         ]);
 
-        $this->assertEquals(json_encode($arrayKeyboard), $json);
+        self::assertEquals(json_encode($arrayKeyboard), $json);
     }
 
     public function testAbstractChatMemberDeserializeIntoConcreteClass()
@@ -107,7 +108,33 @@ class SerializerTest extends TestCase
             isArray: true,
         );
 
-        $this->assertInstanceOf(ChatMemberMember::class, $updates[0]->myChatMember->newChatMember);
+        self::assertInstanceOf(ChatMemberMember::class, $updates[0]->myChatMember->newChatMember);
+    }
+
+    public function testDeserializeExampleFromReadme()
+    {
+        $updatesData = [[
+            'update_id' => 1,
+            'message' => [
+                'message_id' => 54321,
+                'chat' => [
+                    'id' => 11223344,
+                    'type' => 'private',
+                ],
+                'date' => 1600000000,
+            ],
+        ]];
+
+        $serializer = new Serializer();
+        $updates = $serializer->deserialize(
+            data: json_encode($updatesData),
+            type: Update::class,
+            isArray: true,
+        );
+
+        self::assertInstanceOf(Update::class, $updates[0]);
+        self::assertInstanceOf(Message::class, $updates[0]->message);
+        self::assertInstanceOf(Chat::class, $updates[0]->message->chat);
     }
 
     public function testAbstractMaybeInaccessibleMessageDeserializeIntoConcreteClass()
@@ -162,7 +189,7 @@ class SerializerTest extends TestCase
             isArray: true,
         );
 
-        $this->assertInstanceOf(Message::class, $updates[0]->callbackQuery->message);
+        self::assertInstanceOf(Message::class, $updates[0]->callbackQuery->message);
     }
 
     public function testAbstractMessageOriginIntoConcreteClass()
@@ -219,7 +246,7 @@ class SerializerTest extends TestCase
             isArray: true,
         );
 
-        $this->assertInstanceOf(MessageOriginUser::class, $updates[0]->message->forwardOrigin);
+        self::assertInstanceOf(MessageOriginUser::class, $updates[0]->message->forwardOrigin);
     }
 
     public function testDeserializeBoolean(): void
@@ -230,6 +257,6 @@ class SerializerTest extends TestCase
             type: 'bool',
         );
 
-        $this->assertTrue($data);
+        self::assertTrue($data);
     }
 }
