@@ -1,3 +1,5 @@
+🇬🇧 ENGLISH | [🇷🇺 РУССКИЙ](README.md)
+
 # Telegram Bot API PHP bindings
 
 Strictly typed PHP classes for Telegram Bot API based on the [official documentation](https://core.telegram.org/bots/api)
