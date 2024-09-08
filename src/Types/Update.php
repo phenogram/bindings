@@ -24,6 +24,7 @@ class Update implements TypeInterface
      * @param CallbackQuery|null               $callbackQuery           Optional. New incoming callback query
      * @param ShippingQuery|null               $shippingQuery           Optional. New incoming shipping query. Only for invoices with flexible price
      * @param PreCheckoutQuery|null            $preCheckoutQuery        Optional. New incoming pre-checkout query. Contains full information about checkout
+     * @param PaidMediaPurchased|null          $purchasedPaidMedia      Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
      * @param Poll|null                        $poll                    Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
      * @param PollAnswer|null                  $pollAnswer              Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
      * @param ChatMemberUpdated|null           $myChatMember            Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
@@ -49,6 +50,7 @@ class Update implements TypeInterface
         public ?CallbackQuery $callbackQuery = null,
         public ?ShippingQuery $shippingQuery = null,
         public ?PreCheckoutQuery $preCheckoutQuery = null,
+        public ?PaidMediaPurchased $purchasedPaidMedia = null,
         public ?Poll $poll = null,
         public ?PollAnswer $pollAnswer = null,
         public ?ChatMemberUpdated $myChatMember = null,

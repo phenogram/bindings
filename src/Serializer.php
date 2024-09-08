@@ -144,6 +144,7 @@ use Phenogram\Bindings\Types\OrderInfo;
 use Phenogram\Bindings\Types\PaidMediaInfo;
 use Phenogram\Bindings\Types\PaidMediaPhoto;
 use Phenogram\Bindings\Types\PaidMediaPreview;
+use Phenogram\Bindings\Types\PaidMediaPurchased;
 use Phenogram\Bindings\Types\PaidMediaVideo;
 use Phenogram\Bindings\Types\PassportData;
 use Phenogram\Bindings\Types\PassportElementErrorDataField;
@@ -276,6 +277,9 @@ class Serializer implements SerializerInterface
                 : null,
             preCheckoutQuery: ($data['pre_checkout_query'] ?? null) !== null
                 ? $this->denormalizePreCheckoutQuery($data['pre_checkout_query'])
+                : null,
+            purchasedPaidMedia: ($data['purchased_paid_media'] ?? null) !== null
+                ? $this->denormalizePaidMediaPurchased($data['purchased_paid_media'])
                 : null,
             poll: ($data['poll'] ?? null) !== null
                 ? $this->denormalizePoll($data['poll'])
@@ -2234,7 +2238,9 @@ class Serializer implements SerializerInterface
 
     public function denormalizeGiveawayCreated(array $data): GiveawayCreated
     {
-        return new GiveawayCreated();
+        return new GiveawayCreated(
+            prizeStarCount: $data['prize_star_count'] ?? null,
+        );
     }
 
     public function denormalizeGiveaway(array $data): Giveaway
@@ -2265,6 +2271,7 @@ class Serializer implements SerializerInterface
             hasPublicWinners: $data['has_public_winners'] ?? null,
             prizeDescription: $data['prize_description'] ?? null,
             countryCodes: $data['country_codes'] ?? null,
+            prizeStarCount: $data['prize_star_count'] ?? null,
             premiumSubscriptionMonthCount: $data['premium_subscription_month_count'] ?? null,
         );
     }
@@ -2298,6 +2305,7 @@ class Serializer implements SerializerInterface
             winnerCount: $data['winner_count'],
             winners: array_map(fn (array $item) => $this->denormalizeUser($item), $data['winners']),
             additionalChatCount: $data['additional_chat_count'] ?? null,
+            prizeStarCount: $data['prize_star_count'] ?? null,
             premiumSubscriptionMonthCount: $data['premium_subscription_month_count'] ?? null,
             unclaimedPrizeCount: $data['unclaimed_prize_count'] ?? null,
             onlyNewMembers: $data['only_new_members'] ?? null,
@@ -2330,6 +2338,7 @@ class Serializer implements SerializerInterface
             giveawayMessage: ($data['giveaway_message'] ?? null) !== null
                 ? $this->denormalizeMessage($data['giveaway_message'])
                 : null,
+            isStarGiveaway: $data['is_star_giveaway'] ?? null,
         );
     }
 
@@ -3819,6 +3828,7 @@ class Serializer implements SerializerInterface
             user: ($data['user'] ?? null) !== null
                 ? $this->denormalizeUser($data['user'])
                 : null,
+            prizeStarCount: $data['prize_star_count'] ?? null,
             isUnclaimed: $data['is_unclaimed'] ?? null,
         );
     }
@@ -5720,6 +5730,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizePaidMediaPurchased(array $data): PaidMediaPurchased
+    {
+        $requiredFields = [
+            'from',
+            'paid_media_payload',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PaidMediaPurchased missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new PaidMediaPurchased(
+            from: $this->denormalizeUser($data['from']),
+            paidMediaPayload: $data['paid_media_payload'],
+        );
+    }
+
     public function denormalizeRevenueWithdrawalState(array $data): Types\RevenueWithdrawalState
     {
         throw new \RuntimeException('class RevenueWithdrawalState is abstract and not yet implemented');
@@ -5829,6 +5864,7 @@ class Serializer implements SerializerInterface
             paidMedia: ($data['paid_media'] ?? null) !== null
                 ? array_map(fn (array $item) => $this->denormalizePaidMedia($item), $data['paid_media'])
                 : null,
+            paidMediaPayload: $data['paid_media_payload'] ?? null,
         );
     }
 
@@ -6620,6 +6656,7 @@ class Serializer implements SerializerInterface
             RefundedPayment::class => $this->denormalizeRefundedPayment($data),
             ShippingQuery::class => $this->denormalizeShippingQuery($data),
             PreCheckoutQuery::class => $this->denormalizePreCheckoutQuery($data),
+            PaidMediaPurchased::class => $this->denormalizePaidMediaPurchased($data),
             RevenueWithdrawalStatePending::class => $this->denormalizeRevenueWithdrawalStatePending($data),
             RevenueWithdrawalStateSucceeded::class => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
             RevenueWithdrawalStateFailed::class => $this->denormalizeRevenueWithdrawalStateFailed($data),

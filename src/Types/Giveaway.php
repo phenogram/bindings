@@ -15,7 +15,8 @@ class Giveaway implements TypeInterface
      * @param bool|null          $hasPublicWinners              Optional. True, if the list of giveaway winners will be visible to everyone
      * @param string|null        $prizeDescription              Optional. Description of additional giveaway prize
      * @param array<string>|null $countryCodes                  Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway. Users with a phone number that was bought on Fragment can always participate in giveaways.
-     * @param int|null           $premiumSubscriptionMonthCount Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
+     * @param int|null           $prizeStarCount                Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+     * @param int|null           $premiumSubscriptionMonthCount Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only
      */
     public function __construct(
         public array $chats,
@@ -25,6 +26,7 @@ class Giveaway implements TypeInterface
         public ?bool $hasPublicWinners = null,
         public ?string $prizeDescription = null,
         public ?array $countryCodes = null,
+        public ?int $prizeStarCount = null,
         public ?int $premiumSubscriptionMonthCount = null,
     ) {
     }

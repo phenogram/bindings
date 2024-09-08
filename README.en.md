@@ -11,7 +11,7 @@ This is still a work in progress and not every class is tested or used.
 If you find some inconsistency with the documentation, feel free to file an issue.
 Everything that is not covered in the documentation is out of the scope of this project.
 
-Current supported Telegram bot API version is **v7.9**
+Current supported Telegram bot API version is **v7.10**
 
 # Installation
 

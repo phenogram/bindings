@@ -512,9 +512,10 @@ interface ApiInterface
      * Use this method to send paid media. On success, the sent Message is returned.
      *
      * @param int|string                                                                   $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
-     * @param int                                                                          $starCount             The number of Telegram Stars that must be paid to buy access to the media
+     * @param int                                                                          $starCount             The number of Telegram Stars that must be paid to buy access to the media; 1-2500
      * @param array<InputPaidMedia>                                                        $media                 A JSON-serialized array describing the media to be sent; up to 10 items
      * @param string|null                                                                  $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
+     * @param string|null                                                                  $payload               Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
      * @param string|null                                                                  $caption               Media caption, 0-1024 characters after entities parsing
      * @param string|null                                                                  $parseMode             Mode for parsing entities in the media caption. See formatting options for more details.
      * @param array<MessageEntity>|null                                                    $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -529,6 +530,7 @@ interface ApiInterface
         int $starCount,
         array $media,
         ?string $businessConnectionId = null,
+        ?string $payload = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -1738,7 +1740,7 @@ interface ApiInterface
      * @param int|string                $chatId                    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string                    $title                     Product name, 1-32 characters
      * @param string                    $description               Product description, 1-255 characters
-     * @param string                    $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+     * @param string                    $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
      * @param string                    $currency                  Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
      * @param array<LabeledPrice>       $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
      * @param int|null                  $messageThreadId           Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -1800,7 +1802,7 @@ interface ApiInterface
      *
      * @param string              $title                     Product name, 1-32 characters
      * @param string              $description               Product description, 1-255 characters
-     * @param string              $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+     * @param string              $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
      * @param string              $currency                  Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
      * @param array<LabeledPrice> $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
      * @param string|null         $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.

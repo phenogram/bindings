@@ -11,11 +11,13 @@ class GiveawayCompleted implements TypeInterface
      * @param int          $winnerCount         Number of winners in the giveaway
      * @param int|null     $unclaimedPrizeCount Optional. Number of undistributed prizes
      * @param Message|null $giveawayMessage     Optional. Message with the giveaway that was completed, if it wasn't deleted
+     * @param bool|null    $isStarGiveaway      Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway.
      */
     public function __construct(
         public int $winnerCount,
         public ?int $unclaimedPrizeCount = null,
         public ?Message $giveawayMessage = null,
+        public ?bool $isStarGiveaway = null,
     ) {
     }
 }
