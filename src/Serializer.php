@@ -3750,7 +3750,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizeChatBoostSource(array $data): Types\ChatBoostSource
     {
-        throw new \RuntimeException('class ChatBoostSource is abstract and not yet implemented');
+        return match ($data['source']) {
+            'premium' => $this->denormalizeChatBoostSourcePremium($data),
+            'gift_code' => $this->denormalizeChatBoostSourceGiftCode($data),
+            'giveaway' => $this->denormalizeChatBoostSourceGiveaway($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid source value for ChatBoostSource: %s', $data['source'])),
+        };
     }
 
     public function denormalizeChatBoostSourcePremium(array $data): ChatBoostSourcePremium
