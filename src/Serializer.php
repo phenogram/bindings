@@ -3307,7 +3307,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizeReactionType(array $data): Types\ReactionType
     {
-        throw new \RuntimeException('class ReactionType is abstract and not yet implemented');
+        return match ($data['type']) {
+            'emoji' => $this->denormalizeReactionTypeEmoji($data),
+            'custom_emoji' => $this->denormalizeReactionTypeCustomEmoji($data),
+            'paid' => $this->denormalizeReactionTypePaid($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for ReactionType: %s', $data['type'])),
+        };
     }
 
     public function denormalizeReactionTypeEmoji(array $data): ReactionTypeEmoji
