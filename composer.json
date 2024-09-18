@@ -1,7 +1,7 @@
 {
     "name": "phenogram/bindings",
     "description": "Low level type-safe PHP bindings for the Telegram Bot API",
-    "version": "2.4.3",
+    "version": "2.5.0",
     "type": "library",
     "license": "MIT",
     "autoload": {

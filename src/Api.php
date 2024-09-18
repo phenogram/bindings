@@ -57,7 +57,7 @@ class Api implements ApiInterface
 {
     public function __construct(
         protected ClientInterface $client,
-        protected SerializerInterface $serializer,
+        protected SerializerInterface $serializer = new Serializer(),
     ) {
     }
 
