@@ -67,7 +67,7 @@ class Api implements ApiInterface
      *
      * @phpstan-ignore-next-line TODO: add generics to the promise from $returnType
      */
-    private function doRequest(string $method, array $args, string $returnType, bool $returnsArray = false): mixed
+    protected function doRequest(string $method, array $args, string $returnType, bool $returnsArray = false): mixed
     {
         $response = $this->client->sendRequest(
             $method,
