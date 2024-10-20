@@ -7,7 +7,8 @@ namespace Phenogram\Bindings\Types;
  */
 class InputFile implements TypeInterface
 {
-    public function __construct()
-    {
+    public function __construct(
+        public string $filePath,
+    ) {
     }
 }

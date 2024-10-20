@@ -35,7 +35,7 @@ $inlineKeyboardMarkup = new InlineKeyboardMarkup(
     ]],
 );
 
-$json = $serializer->serialize([
+$data = $serializer->serialize([
     'reply_markup' => $inlineKeyboardMarkup,
 ]);
 
@@ -47,9 +47,8 @@ $arrayKeyboard = [
     ],
 ];
 
-$jsonFromArray = json_encode($arrayKeyboard);
 
-assert($jsonFromArray === $json);
+assert($arrayKeyboard === $data);
 ```
 
 It can also be used to deserialize Telegram requests into typed PHP classes.
@@ -92,39 +91,56 @@ assert($updates[0]->message->chat instanceof Chat::class);
 To actually use the API you first need to implement the ClientInterface, which is a simple interface with a single method `sendRequest`.
 Then you can use the `Api` class to send requests to the Telegram API.
 
+> Note the InputFile handling. You could skip this part and just json_encode the request if there is no need to send files
+> but this will crash with some horrible exception if you actually try to send a file.
+
+
 The implementation of the client is out of the scope of this project, but you can check
 the example amphp/http-client implementation in the [Phenogram Framework](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
 
 The most basic implementation with ext-curl might look like this:
+> You can see it in action in [tests](tests/Feature/ReadmeClientTest.php)
 ```php
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
 
-final readonly class TelegramBotApiClient implements ClientInterface
+final readonly class ReadmeClient implements ClientInterface
 {
     public function __construct(
         private string $token,
         private string $apiUrl = 'https://api.telegram.org',
     ) {
     }
-    
-    public function sendRequest(string $method, string $json): Types\Response
+
+    public function sendRequest(string $method, array $data): Types\Response
     {
         $ch = curl_init("{$this->apiUrl}/bot{$this->token}/{$method}");
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Check if any InputFile objects are present in $data and convert them to CURLFile
+        foreach ($data as $key => $value) {
+            if ($value instanceof Types\InputFile) {
+                dump($value);
+                if (file_exists($value->filePath)) {
+                    $data[$key] = new \CURLFile($value->filePath);
+                } else {
+                    throw new \RuntimeException("File not found: {$value->filePath}");
+                }
+            }
+        }
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
         $response = curl_exec($ch);
-    
+
         if (curl_errno($ch)) {
             throw new \RuntimeException('Request Error: ' . curl_error($ch));
         }
-    
+
         curl_close($ch);
-    
+
         $responseData = json_decode($response, true);
-    
+
         if (!isset($responseData['ok']) || !isset($responseData['result'])) {
             return new Types\Response(
                 ok: false,
@@ -137,10 +153,10 @@ final readonly class TelegramBotApiClient implements ClientInterface
                 ) : null,
             );
         }
-    
+
         return new Types\Response(
             ok: $responseData['ok'],
-            result: json_encode($responseData['result']),
+            result: $responseData['result'],
             errorCode: $responseData['error_code'] ?? null,
             description: $responseData['description'] ?? null,
             parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(
@@ -168,9 +184,7 @@ assert($me instanceof User::class);
 ```
 
 # Work in progress
-The main issue for now if file uploads with MultiPart requests, but I'm thinking about it.
-
-Also I need to make Api::doRequest method type safe with generics, not sure how to do it yet, phpstan keeps winning.
+Need to make Api::doRequest method type safe with generics, not sure how to do it yet, phpstan keeps winning.
 
 # Conclusion
 This is just an SDK, a building block for your Telegram bot, not the full framework,

@@ -1,4 +1,4 @@
-[🇬🇧 ENGLISH ](README.en.md) | 🇷🇺 РУССКИЙ
+[🇬🇧 ENGLISH](README.en.md) | 🇷🇺 РУССКИЙ
 
 # PHP типы для Telegram Bot API
 
@@ -24,7 +24,7 @@ composer require phenogram/bindings
 ## Сериализатор
 Пример использования можно увидеть в классе [Api](src/Api.php).
 
-Но вот простой пример:
+Вот простой пример:
 ```php
 use Phenogram\Bindings\Serializer;
 
@@ -35,7 +35,7 @@ $inlineKeyboardMarkup = new InlineKeyboardMarkup(
     ]],
 );
 
-$json = $serializer->serialize([
+$data = $serializer->serialize([
     'reply_markup' => $inlineKeyboardMarkup,
 ]);
 
@@ -47,9 +47,7 @@ $arrayKeyboard = [
     ],
 ];
 
-$jsonFromArray = json_encode($arrayKeyboard);
-
-assert($jsonFromArray === $json);
+assert($arrayKeyboard === $data);
 ```
 
 Его также можно использовать для десериализации запросов Telegram в типизированные PHP-классы.
@@ -91,41 +89,57 @@ assert($updates[0]->message->chat instanceof Chat::class);
 ### Клиент
 Чтобы использовать API, вам сначала нужно реализовать интерфейс ClientInterface,
 в котором есть только один метод - `sendRequest`.
-Затем вы можете использовать класс `Api` для отправки запросов к API Telegram.
+
+> Обратите особое внимание на обработку InputFile.
+> Вы можете пропустить эту часть и просто преобразовать запрос в json, если нет необходимости отправлять файлы,
+> но это вызовет ужасное исключение, если вы действительно попытаетесь отправить файл.
 
 Реализация клиента выходит за рамки этого проекта, но вы можете посмотреть
 пример реализации с amphp/http-client в [Фреймворке Phenogram](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
 
 Самая базовая реализация с использованием ext-curl может выглядеть так:
+
+> Можете посмотреть его в действии в [тестах](tests/Feature/ReadmeClientTest.php))
 ```php
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
 
-final readonly class TelegramBotApiClient implements ClientInterface
+final readonly class ReadmeClient implements ClientInterface
 {
     public function __construct(
         private string $token,
         private string $apiUrl = 'https://api.telegram.org',
     ) {
     }
-    
-    public function sendRequest(string $method, string $json): Types\Response
+
+    public function sendRequest(string $method, array $data): Types\Response
     {
         $ch = curl_init("{$this->apiUrl}/bot{$this->token}/{$method}");
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Проверка наличия InputFile объектов в $data и конвертация их в CURLFile
+        foreach ($data as $key => $value) {
+            if ($value instanceof Types\InputFile) {
+                if (file_exists($value->filePath)) {
+                    $data[$key] = new \CURLFile($value->filePath);
+                } else {
+                    throw new \RuntimeException("Файл не найден: {$value->filePath}");
+                }
+            }
+        }
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
         $response = curl_exec($ch);
-    
+
         if (curl_errno($ch)) {
             throw new \RuntimeException('Ошибка запроса: ' . curl_error($ch));
         }
-    
+
         curl_close($ch);
-    
+
         $responseData = json_decode($response, true);
-    
+
         if (!isset($responseData['ok']) || !isset($responseData['result'])) {
             return new Types\Response(
                 ok: false,
@@ -138,10 +152,10 @@ final readonly class TelegramBotApiClient implements ClientInterface
                 ) : null,
             );
         }
-    
+
         return new Types\Response(
             ok: $responseData['ok'],
-            result: json_encode($responseData['result']),
+            result: $responseData['result'],
             errorCode: $responseData['error_code'] ?? null,
             description: $responseData['description'] ?? null,
             parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(
@@ -169,10 +183,8 @@ assert($me instanceof User::class);
 ```
 
 # Всё ещё work in progress
-Основная проблема на данный момент - это загрузка файлов с MultiPart-запросами, но я думаю об этом.
-
-Также мне нужно сделать придумать возвращаемый из Api::doRequest тип с помощью шаблонов,
-но пока не уверен, как это сделать, phpstan побеждает.
+Также нужно придумать возвращаемый из Api::doRequest тип с помощью шаблонов,
+но пока не уверен, как это сделать и phpstan побеждает.
 
 # Заключение
 Это просто SDK для вашего Telegram-бота, а не полноценный фреймворк,

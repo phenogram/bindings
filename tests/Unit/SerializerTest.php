@@ -3,6 +3,7 @@
 namespace Phenogram\Bindings\Tests\Unit;
 
 use Phenogram\Bindings\Serializer;
+use Phenogram\Bindings\Tests\TestCase;
 use Phenogram\Bindings\Types\Chat;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
@@ -10,7 +11,6 @@ use Phenogram\Bindings\Types\InlineKeyboardMarkup;
 use Phenogram\Bindings\Types\Message;
 use Phenogram\Bindings\Types\MessageOriginUser;
 use Phenogram\Bindings\Types\Update;
-use PHPUnit\Framework\TestCase;
 
 class SerializerTest extends TestCase
 {
@@ -52,11 +52,11 @@ class SerializerTest extends TestCase
             ],
         ];
 
-        $json = $serializer->serialize([
+        $data = $serializer->serialize([
             'reply_markup' => $inlineKeyboardMarkup,
         ]);
 
-        self::assertEquals(json_encode($arrayKeyboard), $json);
+        self::assertEquals($arrayKeyboard, $data);
     }
 
     public function testAbstractChatMemberDeserializeIntoConcreteClass()
@@ -103,7 +103,7 @@ class SerializerTest extends TestCase
 
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
-            data: json_encode($updatesData),
+            data: $updatesData,
             type: Update::class,
             isArray: true,
         );
@@ -127,7 +127,7 @@ class SerializerTest extends TestCase
 
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
-            data: json_encode($updatesData),
+            data: $updatesData,
             type: Update::class,
             isArray: true,
         );
@@ -184,7 +184,7 @@ class SerializerTest extends TestCase
 
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
-            data: json_encode($updatesData),
+            data: $updatesData,
             type: Update::class,
             isArray: true,
         );
@@ -241,7 +241,7 @@ class SerializerTest extends TestCase
 
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
-            data: json_encode($updatesData),
+            data: $updatesData,
             type: Update::class,
             isArray: true,
         );
@@ -253,7 +253,7 @@ class SerializerTest extends TestCase
     {
         $serializer = new Serializer();
         $data = $serializer->deserialize(
-            data: json_encode(true),
+            data: true,
             type: 'bool',
         );
 

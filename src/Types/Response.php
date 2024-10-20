@@ -19,8 +19,8 @@ class Response implements TypeInterface
 {
     public function __construct(
         public bool $ok,
-        /** JSON encoded value of the result field */
-        public ?string $result = null,
+        /** associative JSON decoded value of the result field */
+        public mixed $result = null,
         public ?int $errorCode = null,
         public ?string $description = null,
         public ?ResponseParameters $parameters = null,

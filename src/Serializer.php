@@ -6455,18 +6455,16 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function serialize(array $data): string
+    public function serialize(array $data): array
     {
-        return json_encode($this->normalize($data));
+        return $this->normalize($data);
     }
 
-    public function deserialize(string $data, string $type, bool $isArray = false): mixed
+    public function deserialize(mixed $data, string $type, bool $isArray = false): mixed
     {
-        $decoded = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-
-        return is_array($decoded)
-            ? $this->denormalize($decoded, $type, $isArray)
-            : $decoded;
+        return is_array($data)
+            ? $this->denormalize($data, $type, $isArray)
+            : $data;
     }
 
     public function denormalize(array $data, string $type, bool $isArray = false): mixed
@@ -6707,7 +6705,7 @@ class Serializer implements SerializerInterface
 
             $snakeKey = $this->camelToSnake($key);
 
-            if ($value instanceof TypeInterface) {
+            if ($value instanceof TypeInterface && !$value instanceof InputFile) {
                 $value = get_object_vars($value);
             }
 
