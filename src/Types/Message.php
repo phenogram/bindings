@@ -8,7 +8,7 @@ namespace Phenogram\Bindings\Types;
 class Message extends MaybeInaccessibleMessage
 {
     /**
-     * @param int                                $messageId                     Unique message identifier inside this chat
+     * @param int                                $messageId                     Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
      * @param int                                $date                          Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param Chat                               $chat                          Chat the message belongs to
      * @param int|null                           $messageThreadId               Optional. Unique identifier of a message thread to which the message belongs; for supergroups only

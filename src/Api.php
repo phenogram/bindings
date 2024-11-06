@@ -211,6 +211,7 @@ class Api implements ApiInterface
      * @param LinkPreviewOptions|null                                                      $linkPreviewOptions   Link preview generation options for the message
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -225,6 +226,7 @@ class Api implements ApiInterface
         ?LinkPreviewOptions $linkPreviewOptions = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -302,6 +304,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
@@ -316,6 +319,7 @@ class Api implements ApiInterface
         ?bool $showCaptionAboveMedia = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
     ): MessageId {
@@ -370,6 +374,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $hasSpoiler            Pass True if the photo needs to be covered with a spoiler animation
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -386,6 +391,7 @@ class Api implements ApiInterface
         ?bool $hasSpoiler = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -414,6 +420,7 @@ class Api implements ApiInterface
      * @param InputFile|string|null                                                        $thumbnail            Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -432,6 +439,7 @@ class Api implements ApiInterface
         InputFile|string|null $thumbnail = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -457,6 +465,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $disableContentTypeDetection Disables automatic server-side content type detection for files uploaded using multipart/form-data
      * @param bool|null                                                                    $disableNotification         Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent              Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast          Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId             Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters             Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup                 Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -473,6 +482,7 @@ class Api implements ApiInterface
         ?bool $disableContentTypeDetection = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -503,6 +513,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $supportsStreaming     Pass True if the uploaded video is suitable for streaming
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -524,6 +535,7 @@ class Api implements ApiInterface
         ?bool $supportsStreaming = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -553,6 +565,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $hasSpoiler            Pass True if the animation needs to be covered with a spoiler animation
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -573,6 +586,7 @@ class Api implements ApiInterface
         ?bool $hasSpoiler = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -597,6 +611,7 @@ class Api implements ApiInterface
      * @param int|null                                                                     $duration             Duration of the voice message in seconds
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -612,6 +627,7 @@ class Api implements ApiInterface
         ?int $duration = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -635,6 +651,7 @@ class Api implements ApiInterface
      * @param InputFile|string|null                                                        $thumbnail            Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -649,6 +666,7 @@ class Api implements ApiInterface
         InputFile|string|null $thumbnail = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -674,6 +692,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $showCaptionAboveMedia Pass True, if the caption must be shown above the message media
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
@@ -689,6 +708,7 @@ class Api implements ApiInterface
         ?bool $showCaptionAboveMedia = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
     ): Message {
@@ -708,6 +728,7 @@ class Api implements ApiInterface
      * @param int|null                                                                  $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param bool|null                                                                 $disableNotification  Sends messages silently. Users will receive a notification with no sound.
      * @param bool|null                                                                 $protectContent       Protects the contents of the sent messages from forwarding and saving
+     * @param bool|null                                                                 $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                               $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                      $replyParameters      Description of the message to reply to
      *
@@ -720,6 +741,7 @@ class Api implements ApiInterface
         ?int $messageThreadId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
     ): array {
@@ -745,6 +767,7 @@ class Api implements ApiInterface
      * @param int|null                                                                     $proximityAlertRadius For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -761,6 +784,7 @@ class Api implements ApiInterface
         ?int $proximityAlertRadius = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -788,6 +812,7 @@ class Api implements ApiInterface
      * @param string|null                                                                  $googlePlaceType      Google Places type of the venue. (See supported types.)
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -806,6 +831,7 @@ class Api implements ApiInterface
         ?string $googlePlaceType = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -829,6 +855,7 @@ class Api implements ApiInterface
      * @param string|null                                                                  $vcard                Additional data about the contact in the form of a vCard, 0-2048 bytes
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -843,6 +870,7 @@ class Api implements ApiInterface
         ?string $vcard = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -876,6 +904,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                    $isClosed              Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
      * @param bool|null                                                                    $disableNotification   Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent        Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters       Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -900,6 +929,7 @@ class Api implements ApiInterface
         ?bool $isClosed = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -920,6 +950,7 @@ class Api implements ApiInterface
      * @param string|null                                                                  $emoji                Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -931,6 +962,7 @@ class Api implements ApiInterface
         ?string $emoji = '🎲',
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -2063,7 +2095,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
      *
      * @param InputMedia                $media                A JSON-serialized object for a new media content of the message
      * @param string|null               $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
@@ -2229,6 +2261,7 @@ class Api implements ApiInterface
      * @param string|null                                                                  $emoji                Emoji associated with the sticker; only for just uploaded stickers
      * @param bool|null                                                                    $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                    $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                    $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                  $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null                                                         $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -2241,6 +2274,7 @@ class Api implements ApiInterface
         ?string $emoji = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $replyMarkup = null,
@@ -2564,6 +2598,7 @@ class Api implements ApiInterface
      * @param bool|null                 $isFlexible                Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
      * @param bool|null                 $disableNotification       Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                 $protectContent            Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                 $allowPaidBroadcast        Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null               $messageEffectId           Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null      $replyParameters           Description of the message to reply to
      * @param InlineKeyboardMarkup|null $replyMarkup               A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
@@ -2594,6 +2629,7 @@ class Api implements ApiInterface
         ?bool $isFlexible = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         ?InlineKeyboardMarkup $replyMarkup = null,
@@ -2750,6 +2786,7 @@ class Api implements ApiInterface
      * @param int|null                  $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param bool|null                 $disableNotification  Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                 $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                 $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null               $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|null      $replyParameters      Description of the message to reply to
      * @param InlineKeyboardMarkup|null $replyMarkup          A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
@@ -2761,6 +2798,7 @@ class Api implements ApiInterface
         ?int $messageThreadId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
         ?ReplyParameters $replyParameters = null,
         ?InlineKeyboardMarkup $replyMarkup = null,

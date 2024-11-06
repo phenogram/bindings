@@ -8,7 +8,7 @@ namespace Phenogram\Bindings\Types;
 class StarTransaction implements TypeInterface
 {
     /**
-     * @param string                  $id       Unique identifier of the transaction. Coincides with the identifer of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
+     * @param string                  $id       Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
      * @param int                     $amount   Number of Telegram Stars transferred by the transaction
      * @param int                     $date     Date the transaction was created in Unix time
      * @param TransactionPartner|null $source   Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions

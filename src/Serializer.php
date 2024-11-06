@@ -57,6 +57,7 @@ use Phenogram\Bindings\Types\ChatPhoto;
 use Phenogram\Bindings\Types\ChatShared;
 use Phenogram\Bindings\Types\ChosenInlineResult;
 use Phenogram\Bindings\Types\Contact;
+use Phenogram\Bindings\Types\CopyTextButton;
 use Phenogram\Bindings\Types\Dice;
 use Phenogram\Bindings\Types\Document;
 use Phenogram\Bindings\Types\EncryptedCredentials;
@@ -191,6 +192,7 @@ use Phenogram\Bindings\Types\TextQuote;
 use Phenogram\Bindings\Types\TransactionPartnerFragment;
 use Phenogram\Bindings\Types\TransactionPartnerOther;
 use Phenogram\Bindings\Types\TransactionPartnerTelegramAds;
+use Phenogram\Bindings\Types\TransactionPartnerTelegramApi;
 use Phenogram\Bindings\Types\TransactionPartnerUser;
 use Phenogram\Bindings\Types\TypeInterface;
 use Phenogram\Bindings\Types\Update;
@@ -2649,6 +2651,9 @@ class Serializer implements SerializerInterface
             switchInlineQueryChosenChat: ($data['switch_inline_query_chosen_chat'] ?? null) !== null
                 ? $this->denormalizeSwitchInlineQueryChosenChat($data['switch_inline_query_chosen_chat'])
                 : null,
+            copyText: ($data['copy_text'] ?? null) !== null
+                ? $this->denormalizeCopyTextButton($data['copy_text'])
+                : null,
             callbackGame: ($data['callback_game'] ?? null) !== null
                 ? $this->denormalizeCallbackGame($data['callback_game'])
                 : null,
@@ -2690,6 +2695,29 @@ class Serializer implements SerializerInterface
             allowBotChats: $data['allow_bot_chats'] ?? null,
             allowGroupChats: $data['allow_group_chats'] ?? null,
             allowChannelChats: $data['allow_channel_chats'] ?? null,
+        );
+    }
+
+    public function denormalizeCopyTextButton(array $data): CopyTextButton
+    {
+        $requiredFields = [
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class CopyTextButton missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new CopyTextButton(
+            text: $data['text'],
         );
     }
 
@@ -5927,6 +5955,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeTransactionPartnerTelegramApi(array $data): TransactionPartnerTelegramApi
+    {
+        $requiredFields = [
+            'type',
+            'request_count',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TransactionPartnerTelegramApi missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new TransactionPartnerTelegramApi(
+            type: $data['type'],
+            requestCount: $data['request_count'],
+        );
+    }
+
     public function denormalizeTransactionPartnerOther(array $data): TransactionPartnerOther
     {
         $requiredFields = [
@@ -6563,6 +6616,7 @@ class Serializer implements SerializerInterface
             InlineKeyboardButton::class => $this->denormalizeInlineKeyboardButton($data),
             LoginUrl::class => $this->denormalizeLoginUrl($data),
             SwitchInlineQueryChosenChat::class => $this->denormalizeSwitchInlineQueryChosenChat($data),
+            CopyTextButton::class => $this->denormalizeCopyTextButton($data),
             CallbackQuery::class => $this->denormalizeCallbackQuery($data),
             ForceReply::class => $this->denormalizeForceReply($data),
             ChatPhoto::class => $this->denormalizeChatPhoto($data),
@@ -6671,6 +6725,7 @@ class Serializer implements SerializerInterface
             TransactionPartnerUser::class => $this->denormalizeTransactionPartnerUser($data),
             TransactionPartnerFragment::class => $this->denormalizeTransactionPartnerFragment($data),
             TransactionPartnerTelegramAds::class => $this->denormalizeTransactionPartnerTelegramAds($data),
+            TransactionPartnerTelegramApi::class => $this->denormalizeTransactionPartnerTelegramApi($data),
             TransactionPartnerOther::class => $this->denormalizeTransactionPartnerOther($data),
             StarTransaction::class => $this->denormalizeStarTransaction($data),
             StarTransactions::class => $this->denormalizeStarTransactions($data),

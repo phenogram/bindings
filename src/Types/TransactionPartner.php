@@ -8,6 +8,7 @@ namespace Phenogram\Bindings\Types;
  * @see TransactionPartnerUser
  * @see TransactionPartnerFragment
  * @see TransactionPartnerTelegramAds
+ * @see TransactionPartnerTelegramApi
  * @see TransactionPartnerOther
  */
 abstract class TransactionPartner implements TypeInterface
