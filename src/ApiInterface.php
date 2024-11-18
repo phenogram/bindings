@@ -17,6 +17,7 @@ use Phenogram\Bindings\Types\File;
 use Phenogram\Bindings\Types\ForceReply;
 use Phenogram\Bindings\Types\ForumTopic;
 use Phenogram\Bindings\Types\GameHighScore;
+use Phenogram\Bindings\Types\Gifts;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
 use Phenogram\Bindings\Types\InlineQueryResult;
 use Phenogram\Bindings\Types\InlineQueryResultsButton;
@@ -38,6 +39,7 @@ use Phenogram\Bindings\Types\MessageEntity;
 use Phenogram\Bindings\Types\MessageId;
 use Phenogram\Bindings\Types\PassportElementError;
 use Phenogram\Bindings\Types\Poll;
+use Phenogram\Bindings\Types\PreparedInlineMessage;
 use Phenogram\Bindings\Types\ReactionType;
 use Phenogram\Bindings\Types\ReplyKeyboardMarkup;
 use Phenogram\Bindings\Types\ReplyKeyboardRemove;
@@ -818,6 +820,19 @@ interface ApiInterface
      * @param int|null $limit  Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
      */
     public function getUserProfilePhotos(int $userId, ?int $offset = null, ?int $limit = 100): UserProfilePhotos;
+
+    /**
+     * Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method requestEmojiStatusAccess. Returns True on success.
+     *
+     * @param int         $userId                    Unique identifier of the target user
+     * @param string|null $emojiStatusCustomEmojiId  Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
+     * @param int|null    $emojiStatusExpirationDate Expiration date of the emoji status, if any
+     */
+    public function setUserEmojiStatus(
+        int $userId,
+        ?string $emojiStatusCustomEmojiId = null,
+        ?int $emojiStatusExpirationDate = null,
+    ): bool;
 
     /**
      * Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
@@ -1742,6 +1757,28 @@ interface ApiInterface
     public function deleteStickerSet(string $name): bool;
 
     /**
+     * Returns the list of gifts that can be sent by the bot to users. Requires no parameters. Returns a Gifts object.
+     */
+    public function getAvailableGifts(): Gifts;
+
+    /**
+     * Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user. Returns True on success.
+     *
+     * @param int                       $userId        Unique identifier of the target user that will receive the gift
+     * @param string                    $giftId        Identifier of the gift
+     * @param string|null               $text          Text that will be shown along with the gift; 0-255 characters
+     * @param string|null               $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @param array<MessageEntity>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     */
+    public function sendGift(
+        int $userId,
+        string $giftId,
+        ?string $text = null,
+        ?string $textParseMode = null,
+        ?array $textEntities = null,
+    ): bool;
+
+    /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
      *
      * @param string                        $inlineQueryId Unique identifier for the answered query
@@ -1767,6 +1804,25 @@ interface ApiInterface
      * @param InlineQueryResult $result        A JSON-serialized object describing the message to be sent
      */
     public function answerWebAppQuery(string $webAppQueryId, InlineQueryResult $result): SentWebAppMessage;
+
+    /**
+     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
+     *
+     * @param int               $userId            Unique identifier of the target user that can use the prepared message
+     * @param InlineQueryResult $result            A JSON-serialized object describing the message to be sent
+     * @param bool|null         $allowUserChats    Pass True if the message can be sent to private chats with users
+     * @param bool|null         $allowBotChats     Pass True if the message can be sent to private chats with bots
+     * @param bool|null         $allowGroupChats   Pass True if the message can be sent to group and supergroup chats
+     * @param bool|null         $allowChannelChats Pass True if the message can be sent to channel chats
+     */
+    public function savePreparedInlineMessage(
+        int $userId,
+        InlineQueryResult $result,
+        ?bool $allowUserChats = null,
+        ?bool $allowBotChats = null,
+        ?bool $allowGroupChats = null,
+        ?bool $allowChannelChats = null,
+    ): PreparedInlineMessage;
 
     /**
      * Use this method to send invoices. On success, the sent Message is returned.
@@ -1841,7 +1897,9 @@ interface ApiInterface
      * @param string              $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
      * @param string              $currency                  Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
      * @param array<LabeledPrice> $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
+     * @param string|null         $businessConnectionId      Unique identifier of the business connection on behalf of which the link will be created
      * @param string|null         $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
+     * @param int|null            $subscriptionPeriod        The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
      * @param int|null            $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
      * @param array<int>|null     $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
      * @param string|null         $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
@@ -1863,7 +1921,9 @@ interface ApiInterface
         string $payload,
         string $currency,
         array $prices,
+        ?string $businessConnectionId = null,
         ?string $providerToken = null,
+        ?int $subscriptionPeriod = null,
         ?int $maxTipAmount = null,
         ?array $suggestedTipAmounts = null,
         ?string $providerData = null,
@@ -1919,6 +1979,15 @@ interface ApiInterface
      * @param string $telegramPaymentChargeId Telegram payment identifier
      */
     public function refundStarPayment(int $userId, string $telegramPaymentChargeId): bool;
+
+    /**
+     * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars. Returns True on success.
+     *
+     * @param int    $userId                  Identifier of the user whose subscription will be edited
+     * @param string $telegramPaymentChargeId Telegram payment identifier for the subscription
+     * @param bool   $isCanceled              Pass True to cancel extension of the user subscription; the subscription must be active up to the end of the current subscription period. Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
+     */
+    public function editUserStarSubscription(int $userId, string $telegramPaymentChargeId, bool $isCanceled): bool;
 
     /**
      * Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.

@@ -74,6 +74,8 @@ use Phenogram\Bindings\Types\Game;
 use Phenogram\Bindings\Types\GameHighScore;
 use Phenogram\Bindings\Types\GeneralForumTopicHidden;
 use Phenogram\Bindings\Types\GeneralForumTopicUnhidden;
+use Phenogram\Bindings\Types\Gift;
+use Phenogram\Bindings\Types\Gifts;
 use Phenogram\Bindings\Types\Giveaway;
 use Phenogram\Bindings\Types\GiveawayCompleted;
 use Phenogram\Bindings\Types\GiveawayCreated;
@@ -163,6 +165,7 @@ use Phenogram\Bindings\Types\Poll;
 use Phenogram\Bindings\Types\PollAnswer;
 use Phenogram\Bindings\Types\PollOption;
 use Phenogram\Bindings\Types\PreCheckoutQuery;
+use Phenogram\Bindings\Types\PreparedInlineMessage;
 use Phenogram\Bindings\Types\ProximityAlertTriggered;
 use Phenogram\Bindings\Types\ReactionCount;
 use Phenogram\Bindings\Types\ReactionTypeCustomEmoji;
@@ -4430,6 +4433,58 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeGift(array $data): Gift
+    {
+        $requiredFields = [
+            'id',
+            'sticker',
+            'star_count',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Gift missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new Gift(
+            id: $data['id'],
+            sticker: $this->denormalizeSticker($data['sticker']),
+            starCount: $data['star_count'],
+            totalCount: $data['total_count'] ?? null,
+            remainingCount: $data['remaining_count'] ?? null,
+        );
+    }
+
+    public function denormalizeGifts(array $data): Gifts
+    {
+        $requiredFields = [
+            'gifts',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Gifts missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new Gifts(
+            gifts: array_map(fn (array $item) => $this->denormalizeGift($item), $data['gifts']),
+        );
+    }
+
     public function denormalizeInlineQuery(array $data): InlineQuery
     {
         $requiredFields = [
@@ -5511,6 +5566,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessage
+    {
+        $requiredFields = [
+            'id',
+            'expiration_date',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PreparedInlineMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return new PreparedInlineMessage(
+            id: $data['id'],
+            expirationDate: $data['expiration_date'],
+        );
+    }
+
     public function denormalizeLabeledPrice(array $data): LabeledPrice
     {
         $requiredFields = [
@@ -5667,6 +5747,9 @@ class Serializer implements SerializerInterface
             invoicePayload: $data['invoice_payload'],
             telegramPaymentChargeId: $data['telegram_payment_charge_id'],
             providerPaymentChargeId: $data['provider_payment_charge_id'],
+            subscriptionExpirationDate: $data['subscription_expiration_date'] ?? null,
+            isRecurring: $data['is_recurring'] ?? null,
+            isFirstRecurring: $data['is_first_recurring'] ?? null,
             shippingOptionId: $data['shipping_option_id'] ?? null,
             orderInfo: ($data['order_info'] ?? null) !== null
                 ? $this->denormalizeOrderInfo($data['order_info'])
@@ -5899,10 +5982,12 @@ class Serializer implements SerializerInterface
             type: $data['type'],
             user: $this->denormalizeUser($data['user']),
             invoicePayload: $data['invoice_payload'] ?? null,
+            subscriptionPeriod: $data['subscription_period'] ?? null,
             paidMedia: ($data['paid_media'] ?? null) !== null
                 ? array_map(fn (array $item) => $this->denormalizePaidMedia($item), $data['paid_media'])
                 : null,
             paidMediaPayload: $data['paid_media_payload'] ?? null,
+            gift: $data['gift'] ?? null,
         );
     }
 
@@ -6680,6 +6765,8 @@ class Serializer implements SerializerInterface
             StickerSet::class => $this->denormalizeStickerSet($data),
             MaskPosition::class => $this->denormalizeMaskPosition($data),
             InputSticker::class => $this->denormalizeInputSticker($data),
+            Gift::class => $this->denormalizeGift($data),
+            Gifts::class => $this->denormalizeGifts($data),
             InlineQuery::class => $this->denormalizeInlineQuery($data),
             InlineQueryResultsButton::class => $this->denormalizeInlineQueryResultsButton($data),
             InlineQueryResultArticle::class => $this->denormalizeInlineQueryResultArticle($data),
@@ -6709,6 +6796,7 @@ class Serializer implements SerializerInterface
             InputInvoiceMessageContent::class => $this->denormalizeInputInvoiceMessageContent($data),
             ChosenInlineResult::class => $this->denormalizeChosenInlineResult($data),
             SentWebAppMessage::class => $this->denormalizeSentWebAppMessage($data),
+            PreparedInlineMessage::class => $this->denormalizePreparedInlineMessage($data),
             LabeledPrice::class => $this->denormalizeLabeledPrice($data),
             Invoice::class => $this->denormalizeInvoice($data),
             ShippingAddress::class => $this->denormalizeShippingAddress($data),
