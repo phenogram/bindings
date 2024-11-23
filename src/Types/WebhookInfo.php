@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes the current status of a webhook.
  */
-class WebhookInfo implements TypeInterface
+class WebhookInfo implements Interfaces\WebhookInfoInterface
 {
     /**
      * @param string             $url                          Webhook URL, may be empty if webhook is not set up

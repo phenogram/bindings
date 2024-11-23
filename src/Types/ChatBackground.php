@@ -2,16 +2,18 @@
 
 namespace Phenogram\Bindings\Types;
 
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypeInterface;
+
 /**
  * This object represents a chat background.
  */
-class ChatBackground implements TypeInterface
+class ChatBackground implements Interfaces\ChatBackgroundInterface
 {
     /**
-     * @param BackgroundType $type Type of the background
+     * @param BackgroundTypeInterface $type Type of the background
      */
     public function __construct(
-        public BackgroundType $type,
+        public BackgroundTypeInterface $type,
     ) {
     }
 }

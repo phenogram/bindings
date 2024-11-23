@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
  */
-class InputLocationMessageContent extends InputMessageContent
+class InputLocationMessageContent extends InputMessageContent implements Interfaces\InputLocationMessageContentInterface
 {
     /**
      * @param float      $latitude             Latitude of the location in degrees

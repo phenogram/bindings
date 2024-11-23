@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a forum topic.
  */
-class ForumTopic implements TypeInterface
+class ForumTopic implements Interfaces\ForumTopicInterface
 {
     /**
      * @param int         $messageThreadId   Unique identifier of the forum topic

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a service message about an edited forum topic.
  */
-class ForumTopicEdited implements TypeInterface
+class ForumTopicEdited implements Interfaces\ForumTopicEditedInterface
 {
     /**
      * @param string|null $name              Optional. New name of the topic, if it was edited

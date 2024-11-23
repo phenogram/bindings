@@ -10,7 +10,7 @@ namespace Phenogram\Bindings\Types;
  * @see BackgroundTypePattern
  * @see BackgroundTypeChatTheme
  */
-abstract class BackgroundType implements TypeInterface
+abstract class BackgroundType implements Interfaces\BackgroundTypeInterface
 {
     public function __construct()
     {

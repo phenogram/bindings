@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes a transaction with payment for paid broadcasting.
  */
-class TransactionPartnerTelegramApi extends TransactionPartner
+class TransactionPartnerTelegramApi extends TransactionPartner implements Interfaces\TransactionPartnerTelegramApiInterface
 {
     /**
      * @param string $type         Type of the transaction partner, always “telegram_api”

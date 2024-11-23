@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
  */
-class ChatPermissions implements TypeInterface
+class ChatPermissions implements Interfaces\ChatPermissionsInterface
 {
     /**
      * @param bool|null $canSendMessages       Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues

@@ -26,7 +26,7 @@ namespace Phenogram\Bindings\Types;
  * @see InlineQueryResultVideo
  * @see InlineQueryResultVoice
  */
-abstract class InlineQueryResult implements TypeInterface
+abstract class InlineQueryResult implements Interfaces\InlineQueryResultInterface
 {
     public function __construct()
     {

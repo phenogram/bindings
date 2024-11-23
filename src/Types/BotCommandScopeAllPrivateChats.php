@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the scope of bot commands, covering all private chats.
  */
-class BotCommandScopeAllPrivateChats extends BotCommandScope
+class BotCommandScopeAllPrivateChats extends BotCommandScope implements Interfaces\BotCommandScopeAllPrivateChatsInterface
 {
     /**
      * @param string $type Scope type, must be all_private_chats

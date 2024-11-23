@@ -8,7 +8,7 @@ namespace Phenogram\Bindings\Types;
  * @see Message
  * @see InaccessibleMessage
  */
-abstract class MaybeInaccessibleMessage implements TypeInterface
+abstract class MaybeInaccessibleMessage implements Interfaces\MaybeInaccessibleMessageInterface
 {
     public function __construct()
     {

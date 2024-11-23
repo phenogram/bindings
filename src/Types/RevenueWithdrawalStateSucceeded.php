@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The withdrawal succeeded.
  */
-class RevenueWithdrawalStateSucceeded extends RevenueWithdrawalState
+class RevenueWithdrawalStateSucceeded extends RevenueWithdrawalState implements Interfaces\RevenueWithdrawalStateSucceededInterface
 {
     /**
      * @param string $type Type of the state, always “succeeded”

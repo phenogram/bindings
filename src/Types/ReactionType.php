@@ -9,7 +9,7 @@ namespace Phenogram\Bindings\Types;
  * @see ReactionTypeCustomEmoji
  * @see ReactionTypePaid
  */
-abstract class ReactionType implements TypeInterface
+abstract class ReactionType implements Interfaces\ReactionTypeInterface
 {
     public function __construct()
     {

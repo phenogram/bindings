@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * A placeholder, currently holds no information. Use BotFather to set up your game.
  */
-class CallbackGame implements TypeInterface
+class CallbackGame implements Interfaces\CallbackGameInterface
 {
     public function __construct()
     {

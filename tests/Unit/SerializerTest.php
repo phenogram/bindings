@@ -52,9 +52,11 @@ class SerializerTest extends TestCase
             ],
         ];
 
-        $data = $serializer->serialize([
-            'reply_markup' => $inlineKeyboardMarkup,
-        ]);
+        $data = $serializer->serialize(
+            [
+                'reply_markup' => $inlineKeyboardMarkup,
+            ]
+        );
 
         self::assertEquals($arrayKeyboard, $data);
     }

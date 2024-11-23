@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes that no specific value for the menu button was set.
  */
-class MenuButtonDefault extends MenuButton
+class MenuButtonDefault extends MenuButton implements Interfaces\MenuButtonDefaultInterface
 {
     /**
      * @param string $type Type of the button, must be default

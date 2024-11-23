@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents an issue in an unspecified place. The error is considered resolved when new data is added.
  */
-class PassportElementErrorUnspecified extends PassportElementError
+class PassportElementErrorUnspecified extends PassportElementError implements Interfaces\PassportElementErrorUnspecifiedInterface
 {
     /**
      * @param string $type        Type of element of the user's Telegram Passport which has the issue

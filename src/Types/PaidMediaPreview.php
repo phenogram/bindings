@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The paid media isn't available before the payment.
  */
-class PaidMediaPreview extends PaidMedia
+class PaidMediaPreview extends PaidMedia implements Interfaces\PaidMediaPreviewInterface
 {
     /**
      * @param string   $type     Type of the paid media, always “preview”

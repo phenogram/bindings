@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The background is a gradient fill.
  */
-class BackgroundFillGradient extends BackgroundFill
+class BackgroundFillGradient extends BackgroundFill implements Interfaces\BackgroundFillGradientInterface
 {
     /**
      * @param string $type          Type of the background fill, always “gradient”

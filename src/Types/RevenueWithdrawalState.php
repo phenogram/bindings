@@ -9,7 +9,7 @@ namespace Phenogram\Bindings\Types;
  * @see RevenueWithdrawalStateSucceeded
  * @see RevenueWithdrawalStateFailed
  */
-abstract class RevenueWithdrawalState implements TypeInterface
+abstract class RevenueWithdrawalState implements Interfaces\RevenueWithdrawalStateInterface
 {
     public function __construct()
     {

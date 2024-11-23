@@ -15,7 +15,7 @@ namespace Phenogram\Bindings\Types;
  * @see PassportElementErrorTranslationFiles
  * @see PassportElementErrorUnspecified
  */
-abstract class PassportElementError implements TypeInterface
+abstract class PassportElementError implements Interfaces\PassportElementErrorInterface
 {
     public function __construct()
     {

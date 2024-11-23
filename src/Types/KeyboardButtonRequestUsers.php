@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users ».
  */
-class KeyboardButtonRequestUsers implements TypeInterface
+class KeyboardButtonRequestUsers implements Interfaces\KeyboardButtonRequestUsersInterface
 {
     /**
      * @param int       $requestId       Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must be unique within the message

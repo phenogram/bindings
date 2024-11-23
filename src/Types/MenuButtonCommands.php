@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents a menu button, which opens the bot's list of commands.
  */
-class MenuButtonCommands extends MenuButton
+class MenuButtonCommands extends MenuButton implements Interfaces\MenuButtonCommandsInterface
 {
     /**
      * @param string $type Type of the button, must be commands

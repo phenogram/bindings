@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a point on the map.
  */
-class Location implements TypeInterface
+class Location implements Interfaces\LocationInterface
 {
     /**
      * @param float      $latitude             Latitude as defined by the sender

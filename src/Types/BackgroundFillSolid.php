@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The background is filled using the selected color.
  */
-class BackgroundFillSolid extends BackgroundFill
+class BackgroundFillSolid extends BackgroundFill implements Interfaces\BackgroundFillSolidInterface
 {
     /**
      * @param string $type  Type of the background fill, always “solid”

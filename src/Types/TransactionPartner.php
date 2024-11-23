@@ -11,7 +11,7 @@ namespace Phenogram\Bindings\Types;
  * @see TransactionPartnerTelegramApi
  * @see TransactionPartnerOther
  */
-abstract class TransactionPartner implements TypeInterface
+abstract class TransactionPartner implements Interfaces\TransactionPartnerInterface
 {
     public function __construct()
     {

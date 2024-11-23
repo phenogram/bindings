@@ -120,6 +120,7 @@ use Phenogram\Bindings\Types\InputPollOption;
 use Phenogram\Bindings\Types\InputSticker;
 use Phenogram\Bindings\Types\InputTextMessageContent;
 use Phenogram\Bindings\Types\InputVenueMessageContent;
+use Phenogram\Bindings\Types\Interfaces\TypeInterface;
 use Phenogram\Bindings\Types\Invoice;
 use Phenogram\Bindings\Types\KeyboardButton;
 use Phenogram\Bindings\Types\KeyboardButtonPollType;
@@ -197,7 +198,6 @@ use Phenogram\Bindings\Types\TransactionPartnerOther;
 use Phenogram\Bindings\Types\TransactionPartnerTelegramAds;
 use Phenogram\Bindings\Types\TransactionPartnerTelegramApi;
 use Phenogram\Bindings\Types\TransactionPartnerUser;
-use Phenogram\Bindings\Types\TypeInterface;
 use Phenogram\Bindings\Types\Update;
 use Phenogram\Bindings\Types\User;
 use Phenogram\Bindings\Types\UserChatBoosts;
@@ -218,7 +218,12 @@ use Phenogram\Bindings\Types\WriteAccessAllowed;
 
 class Serializer implements SerializerInterface
 {
-    public function denormalizeUpdate(array $data): Update
+    public function __construct(
+        private readonly FactoryInterface $factory = new Factory(),
+    ) {
+    }
+
+    public function denormalizeUpdate(array $data): Types\Interfaces\UpdateInterface
     {
         $requiredFields = [
             'update_id',
@@ -236,81 +241,81 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Update missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Update(
+        return $this->factory->makeUpdate(
             updateId: $data['update_id'],
-            message: ($data['message'] ?? null) !== null
+            message: isset($data['message'])
                 ? $this->denormalizeMessage($data['message'])
                 : null,
-            editedMessage: ($data['edited_message'] ?? null) !== null
+            editedMessage: isset($data['edited_message'])
                 ? $this->denormalizeMessage($data['edited_message'])
                 : null,
-            channelPost: ($data['channel_post'] ?? null) !== null
+            channelPost: isset($data['channel_post'])
                 ? $this->denormalizeMessage($data['channel_post'])
                 : null,
-            editedChannelPost: ($data['edited_channel_post'] ?? null) !== null
+            editedChannelPost: isset($data['edited_channel_post'])
                 ? $this->denormalizeMessage($data['edited_channel_post'])
                 : null,
-            businessConnection: ($data['business_connection'] ?? null) !== null
+            businessConnection: isset($data['business_connection'])
                 ? $this->denormalizeBusinessConnection($data['business_connection'])
                 : null,
-            businessMessage: ($data['business_message'] ?? null) !== null
+            businessMessage: isset($data['business_message'])
                 ? $this->denormalizeMessage($data['business_message'])
                 : null,
-            editedBusinessMessage: ($data['edited_business_message'] ?? null) !== null
+            editedBusinessMessage: isset($data['edited_business_message'])
                 ? $this->denormalizeMessage($data['edited_business_message'])
                 : null,
-            deletedBusinessMessages: ($data['deleted_business_messages'] ?? null) !== null
+            deletedBusinessMessages: isset($data['deleted_business_messages'])
                 ? $this->denormalizeBusinessMessagesDeleted($data['deleted_business_messages'])
                 : null,
-            messageReaction: ($data['message_reaction'] ?? null) !== null
+            messageReaction: isset($data['message_reaction'])
                 ? $this->denormalizeMessageReactionUpdated($data['message_reaction'])
                 : null,
-            messageReactionCount: ($data['message_reaction_count'] ?? null) !== null
+            messageReactionCount: isset($data['message_reaction_count'])
                 ? $this->denormalizeMessageReactionCountUpdated($data['message_reaction_count'])
                 : null,
-            inlineQuery: ($data['inline_query'] ?? null) !== null
+            inlineQuery: isset($data['inline_query'])
                 ? $this->denormalizeInlineQuery($data['inline_query'])
                 : null,
-            chosenInlineResult: ($data['chosen_inline_result'] ?? null) !== null
+            chosenInlineResult: isset($data['chosen_inline_result'])
                 ? $this->denormalizeChosenInlineResult($data['chosen_inline_result'])
                 : null,
-            callbackQuery: ($data['callback_query'] ?? null) !== null
+            callbackQuery: isset($data['callback_query'])
                 ? $this->denormalizeCallbackQuery($data['callback_query'])
                 : null,
-            shippingQuery: ($data['shipping_query'] ?? null) !== null
+            shippingQuery: isset($data['shipping_query'])
                 ? $this->denormalizeShippingQuery($data['shipping_query'])
                 : null,
-            preCheckoutQuery: ($data['pre_checkout_query'] ?? null) !== null
+            preCheckoutQuery: isset($data['pre_checkout_query'])
                 ? $this->denormalizePreCheckoutQuery($data['pre_checkout_query'])
                 : null,
-            purchasedPaidMedia: ($data['purchased_paid_media'] ?? null) !== null
+            purchasedPaidMedia: isset($data['purchased_paid_media'])
                 ? $this->denormalizePaidMediaPurchased($data['purchased_paid_media'])
                 : null,
-            poll: ($data['poll'] ?? null) !== null
+            poll: isset($data['poll'])
                 ? $this->denormalizePoll($data['poll'])
                 : null,
-            pollAnswer: ($data['poll_answer'] ?? null) !== null
+            pollAnswer: isset($data['poll_answer'])
                 ? $this->denormalizePollAnswer($data['poll_answer'])
                 : null,
-            myChatMember: ($data['my_chat_member'] ?? null) !== null
+            myChatMember: isset($data['my_chat_member'])
                 ? $this->denormalizeChatMemberUpdated($data['my_chat_member'])
                 : null,
-            chatMember: ($data['chat_member'] ?? null) !== null
+            chatMember: isset($data['chat_member'])
                 ? $this->denormalizeChatMemberUpdated($data['chat_member'])
                 : null,
-            chatJoinRequest: ($data['chat_join_request'] ?? null) !== null
+            chatJoinRequest: isset($data['chat_join_request'])
                 ? $this->denormalizeChatJoinRequest($data['chat_join_request'])
                 : null,
-            chatBoost: ($data['chat_boost'] ?? null) !== null
+            chatBoost: isset($data['chat_boost'])
                 ? $this->denormalizeChatBoostUpdated($data['chat_boost'])
                 : null,
-            removedChatBoost: ($data['removed_chat_boost'] ?? null) !== null
+            removedChatBoost: isset($data['removed_chat_boost'])
                 ? $this->denormalizeChatBoostRemoved($data['removed_chat_boost'])
                 : null,
         );
     }
 
-    public function denormalizeWebhookInfo(array $data): WebhookInfo
+    public function denormalizeWebhookInfo(array $data): Types\Interfaces\WebhookInfoInterface
     {
         $requiredFields = [
             'url',
@@ -330,7 +335,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class WebhookInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new WebhookInfo(
+        return $this->factory->makeWebhookInfo(
             url: $data['url'],
             hasCustomCertificate: $data['has_custom_certificate'],
             pendingUpdateCount: $data['pending_update_count'],
@@ -343,7 +348,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUser(array $data): User
+    public function denormalizeUser(array $data): Types\Interfaces\UserInterface
     {
         $requiredFields = [
             'id',
@@ -363,7 +368,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class User missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new User(
+        return $this->factory->makeUser(
             id: $data['id'],
             isBot: $data['is_bot'],
             firstName: $data['first_name'],
@@ -380,7 +385,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChat(array $data): Chat
+    public function denormalizeChat(array $data): Types\Interfaces\ChatInterface
     {
         $requiredFields = [
             'id',
@@ -399,7 +404,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Chat missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Chat(
+        return $this->factory->makeChat(
             id: $data['id'],
             type: $data['type'],
             title: $data['title'] ?? null,
@@ -410,7 +415,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatFullInfo(array $data): ChatFullInfo
+    public function denormalizeChatFullInfo(array $data): Types\Interfaces\ChatFullInfoInterface
     {
         $requiredFields = [
             'id',
@@ -431,7 +436,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatFullInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatFullInfo(
+        return $this->factory->makeChatFullInfo(
             id: $data['id'],
             type: $data['type'],
             accentColorId: $data['accent_color_id'],
@@ -441,26 +446,26 @@ class Serializer implements SerializerInterface
             firstName: $data['first_name'] ?? null,
             lastName: $data['last_name'] ?? null,
             isForum: $data['is_forum'] ?? null,
-            photo: ($data['photo'] ?? null) !== null
+            photo: isset($data['photo'])
                 ? $this->denormalizeChatPhoto($data['photo'])
                 : null,
             activeUsernames: $data['active_usernames'] ?? null,
-            birthdate: ($data['birthdate'] ?? null) !== null
+            birthdate: isset($data['birthdate'])
                 ? $this->denormalizeBirthdate($data['birthdate'])
                 : null,
-            businessIntro: ($data['business_intro'] ?? null) !== null
+            businessIntro: isset($data['business_intro'])
                 ? $this->denormalizeBusinessIntro($data['business_intro'])
                 : null,
-            businessLocation: ($data['business_location'] ?? null) !== null
+            businessLocation: isset($data['business_location'])
                 ? $this->denormalizeBusinessLocation($data['business_location'])
                 : null,
-            businessOpeningHours: ($data['business_opening_hours'] ?? null) !== null
+            businessOpeningHours: isset($data['business_opening_hours'])
                 ? $this->denormalizeBusinessOpeningHours($data['business_opening_hours'])
                 : null,
-            personalChat: ($data['personal_chat'] ?? null) !== null
+            personalChat: isset($data['personal_chat'])
                 ? $this->denormalizeChat($data['personal_chat'])
                 : null,
-            availableReactions: ($data['available_reactions'] ?? null) !== null
+            availableReactions: isset($data['available_reactions'])
                 ? array_map(fn (array $item) => $this->denormalizeReactionType($item), $data['available_reactions'])
                 : null,
             backgroundCustomEmojiId: $data['background_custom_emoji_id'] ?? null,
@@ -475,10 +480,10 @@ class Serializer implements SerializerInterface
             joinByRequest: $data['join_by_request'] ?? null,
             description: $data['description'] ?? null,
             inviteLink: $data['invite_link'] ?? null,
-            pinnedMessage: ($data['pinned_message'] ?? null) !== null
+            pinnedMessage: isset($data['pinned_message'])
                 ? $this->denormalizeMessage($data['pinned_message'])
                 : null,
-            permissions: ($data['permissions'] ?? null) !== null
+            permissions: isset($data['permissions'])
                 ? $this->denormalizeChatPermissions($data['permissions'])
                 : null,
             canSendPaidMedia: $data['can_send_paid_media'] ?? null,
@@ -493,13 +498,13 @@ class Serializer implements SerializerInterface
             canSetStickerSet: $data['can_set_sticker_set'] ?? null,
             customEmojiStickerSetName: $data['custom_emoji_sticker_set_name'] ?? null,
             linkedChatId: $data['linked_chat_id'] ?? null,
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeChatLocation($data['location'])
                 : null,
         );
     }
 
-    public function denormalizeMessage(array $data): Message
+    public function denormalizeMessage(array $data): Types\Interfaces\MessageInterface
     {
         $requiredFields = [
             'message_id',
@@ -519,40 +524,40 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Message missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Message(
+        return $this->factory->makeMessage(
             messageId: $data['message_id'],
             date: $data['date'],
             chat: $this->denormalizeChat($data['chat']),
             messageThreadId: $data['message_thread_id'] ?? null,
-            from: ($data['from'] ?? null) !== null
+            from: isset($data['from'])
                 ? $this->denormalizeUser($data['from'])
                 : null,
-            senderChat: ($data['sender_chat'] ?? null) !== null
+            senderChat: isset($data['sender_chat'])
                 ? $this->denormalizeChat($data['sender_chat'])
                 : null,
             senderBoostCount: $data['sender_boost_count'] ?? null,
-            senderBusinessBot: ($data['sender_business_bot'] ?? null) !== null
+            senderBusinessBot: isset($data['sender_business_bot'])
                 ? $this->denormalizeUser($data['sender_business_bot'])
                 : null,
             businessConnectionId: $data['business_connection_id'] ?? null,
-            forwardOrigin: ($data['forward_origin'] ?? null) !== null
+            forwardOrigin: isset($data['forward_origin'])
                 ? $this->denormalizeMessageOrigin($data['forward_origin'])
                 : null,
             isTopicMessage: $data['is_topic_message'] ?? null,
             isAutomaticForward: $data['is_automatic_forward'] ?? null,
-            replyToMessage: ($data['reply_to_message'] ?? null) !== null
+            replyToMessage: isset($data['reply_to_message'])
                 ? $this->denormalizeMessage($data['reply_to_message'])
                 : null,
-            externalReply: ($data['external_reply'] ?? null) !== null
+            externalReply: isset($data['external_reply'])
                 ? $this->denormalizeExternalReplyInfo($data['external_reply'])
                 : null,
-            quote: ($data['quote'] ?? null) !== null
+            quote: isset($data['quote'])
                 ? $this->denormalizeTextQuote($data['quote'])
                 : null,
-            replyToStory: ($data['reply_to_story'] ?? null) !== null
+            replyToStory: isset($data['reply_to_story'])
                 ? $this->denormalizeStory($data['reply_to_story'])
                 : null,
-            viaBot: ($data['via_bot'] ?? null) !== null
+            viaBot: isset($data['via_bot'])
                 ? $this->denormalizeUser($data['via_bot'])
                 : null,
             editDate: $data['edit_date'] ?? null,
@@ -561,172 +566,172 @@ class Serializer implements SerializerInterface
             mediaGroupId: $data['media_group_id'] ?? null,
             authorSignature: $data['author_signature'] ?? null,
             text: $data['text'] ?? null,
-            entities: ($data['entities'] ?? null) !== null
+            entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
                 : null,
-            linkPreviewOptions: ($data['link_preview_options'] ?? null) !== null
+            linkPreviewOptions: isset($data['link_preview_options'])
                 ? $this->denormalizeLinkPreviewOptions($data['link_preview_options'])
                 : null,
             effectId: $data['effect_id'] ?? null,
-            animation: ($data['animation'] ?? null) !== null
+            animation: isset($data['animation'])
                 ? $this->denormalizeAnimation($data['animation'])
                 : null,
-            audio: ($data['audio'] ?? null) !== null
+            audio: isset($data['audio'])
                 ? $this->denormalizeAudio($data['audio'])
                 : null,
-            document: ($data['document'] ?? null) !== null
+            document: isset($data['document'])
                 ? $this->denormalizeDocument($data['document'])
                 : null,
-            paidMedia: ($data['paid_media'] ?? null) !== null
+            paidMedia: isset($data['paid_media'])
                 ? $this->denormalizePaidMediaInfo($data['paid_media'])
                 : null,
-            photo: ($data['photo'] ?? null) !== null
+            photo: isset($data['photo'])
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
                 : null,
-            sticker: ($data['sticker'] ?? null) !== null
+            sticker: isset($data['sticker'])
                 ? $this->denormalizeSticker($data['sticker'])
                 : null,
-            story: ($data['story'] ?? null) !== null
+            story: isset($data['story'])
                 ? $this->denormalizeStory($data['story'])
                 : null,
-            video: ($data['video'] ?? null) !== null
+            video: isset($data['video'])
                 ? $this->denormalizeVideo($data['video'])
                 : null,
-            videoNote: ($data['video_note'] ?? null) !== null
+            videoNote: isset($data['video_note'])
                 ? $this->denormalizeVideoNote($data['video_note'])
                 : null,
-            voice: ($data['voice'] ?? null) !== null
+            voice: isset($data['voice'])
                 ? $this->denormalizeVoice($data['voice'])
                 : null,
             caption: $data['caption'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
             hasMediaSpoiler: $data['has_media_spoiler'] ?? null,
-            contact: ($data['contact'] ?? null) !== null
+            contact: isset($data['contact'])
                 ? $this->denormalizeContact($data['contact'])
                 : null,
-            dice: ($data['dice'] ?? null) !== null
+            dice: isset($data['dice'])
                 ? $this->denormalizeDice($data['dice'])
                 : null,
-            game: ($data['game'] ?? null) !== null
+            game: isset($data['game'])
                 ? $this->denormalizeGame($data['game'])
                 : null,
-            poll: ($data['poll'] ?? null) !== null
+            poll: isset($data['poll'])
                 ? $this->denormalizePoll($data['poll'])
                 : null,
-            venue: ($data['venue'] ?? null) !== null
+            venue: isset($data['venue'])
                 ? $this->denormalizeVenue($data['venue'])
                 : null,
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeLocation($data['location'])
                 : null,
-            newChatMembers: ($data['new_chat_members'] ?? null) !== null
+            newChatMembers: isset($data['new_chat_members'])
                 ? array_map(fn (array $item) => $this->denormalizeUser($item), $data['new_chat_members'])
                 : null,
-            leftChatMember: ($data['left_chat_member'] ?? null) !== null
+            leftChatMember: isset($data['left_chat_member'])
                 ? $this->denormalizeUser($data['left_chat_member'])
                 : null,
             newChatTitle: $data['new_chat_title'] ?? null,
-            newChatPhoto: ($data['new_chat_photo'] ?? null) !== null
+            newChatPhoto: isset($data['new_chat_photo'])
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['new_chat_photo'])
                 : null,
             deleteChatPhoto: $data['delete_chat_photo'] ?? null,
             groupChatCreated: $data['group_chat_created'] ?? null,
             supergroupChatCreated: $data['supergroup_chat_created'] ?? null,
             channelChatCreated: $data['channel_chat_created'] ?? null,
-            messageAutoDeleteTimerChanged: ($data['message_auto_delete_timer_changed'] ?? null) !== null
+            messageAutoDeleteTimerChanged: isset($data['message_auto_delete_timer_changed'])
                 ? $this->denormalizeMessageAutoDeleteTimerChanged($data['message_auto_delete_timer_changed'])
                 : null,
             migrateToChatId: $data['migrate_to_chat_id'] ?? null,
             migrateFromChatId: $data['migrate_from_chat_id'] ?? null,
-            pinnedMessage: ($data['pinned_message'] ?? null) !== null
+            pinnedMessage: isset($data['pinned_message'])
                 ? $this->denormalizeMaybeInaccessibleMessage($data['pinned_message'])
                 : null,
-            invoice: ($data['invoice'] ?? null) !== null
+            invoice: isset($data['invoice'])
                 ? $this->denormalizeInvoice($data['invoice'])
                 : null,
-            successfulPayment: ($data['successful_payment'] ?? null) !== null
+            successfulPayment: isset($data['successful_payment'])
                 ? $this->denormalizeSuccessfulPayment($data['successful_payment'])
                 : null,
-            refundedPayment: ($data['refunded_payment'] ?? null) !== null
+            refundedPayment: isset($data['refunded_payment'])
                 ? $this->denormalizeRefundedPayment($data['refunded_payment'])
                 : null,
-            usersShared: ($data['users_shared'] ?? null) !== null
+            usersShared: isset($data['users_shared'])
                 ? $this->denormalizeUsersShared($data['users_shared'])
                 : null,
-            chatShared: ($data['chat_shared'] ?? null) !== null
+            chatShared: isset($data['chat_shared'])
                 ? $this->denormalizeChatShared($data['chat_shared'])
                 : null,
             connectedWebsite: $data['connected_website'] ?? null,
-            writeAccessAllowed: ($data['write_access_allowed'] ?? null) !== null
+            writeAccessAllowed: isset($data['write_access_allowed'])
                 ? $this->denormalizeWriteAccessAllowed($data['write_access_allowed'])
                 : null,
-            passportData: ($data['passport_data'] ?? null) !== null
+            passportData: isset($data['passport_data'])
                 ? $this->denormalizePassportData($data['passport_data'])
                 : null,
-            proximityAlertTriggered: ($data['proximity_alert_triggered'] ?? null) !== null
+            proximityAlertTriggered: isset($data['proximity_alert_triggered'])
                 ? $this->denormalizeProximityAlertTriggered($data['proximity_alert_triggered'])
                 : null,
-            boostAdded: ($data['boost_added'] ?? null) !== null
+            boostAdded: isset($data['boost_added'])
                 ? $this->denormalizeChatBoostAdded($data['boost_added'])
                 : null,
-            chatBackgroundSet: ($data['chat_background_set'] ?? null) !== null
+            chatBackgroundSet: isset($data['chat_background_set'])
                 ? $this->denormalizeChatBackground($data['chat_background_set'])
                 : null,
-            forumTopicCreated: ($data['forum_topic_created'] ?? null) !== null
+            forumTopicCreated: isset($data['forum_topic_created'])
                 ? $this->denormalizeForumTopicCreated($data['forum_topic_created'])
                 : null,
-            forumTopicEdited: ($data['forum_topic_edited'] ?? null) !== null
+            forumTopicEdited: isset($data['forum_topic_edited'])
                 ? $this->denormalizeForumTopicEdited($data['forum_topic_edited'])
                 : null,
-            forumTopicClosed: ($data['forum_topic_closed'] ?? null) !== null
+            forumTopicClosed: isset($data['forum_topic_closed'])
                 ? $this->denormalizeForumTopicClosed($data['forum_topic_closed'])
                 : null,
-            forumTopicReopened: ($data['forum_topic_reopened'] ?? null) !== null
+            forumTopicReopened: isset($data['forum_topic_reopened'])
                 ? $this->denormalizeForumTopicReopened($data['forum_topic_reopened'])
                 : null,
-            generalForumTopicHidden: ($data['general_forum_topic_hidden'] ?? null) !== null
+            generalForumTopicHidden: isset($data['general_forum_topic_hidden'])
                 ? $this->denormalizeGeneralForumTopicHidden($data['general_forum_topic_hidden'])
                 : null,
-            generalForumTopicUnhidden: ($data['general_forum_topic_unhidden'] ?? null) !== null
+            generalForumTopicUnhidden: isset($data['general_forum_topic_unhidden'])
                 ? $this->denormalizeGeneralForumTopicUnhidden($data['general_forum_topic_unhidden'])
                 : null,
-            giveawayCreated: ($data['giveaway_created'] ?? null) !== null
+            giveawayCreated: isset($data['giveaway_created'])
                 ? $this->denormalizeGiveawayCreated($data['giveaway_created'])
                 : null,
-            giveaway: ($data['giveaway'] ?? null) !== null
+            giveaway: isset($data['giveaway'])
                 ? $this->denormalizeGiveaway($data['giveaway'])
                 : null,
-            giveawayWinners: ($data['giveaway_winners'] ?? null) !== null
+            giveawayWinners: isset($data['giveaway_winners'])
                 ? $this->denormalizeGiveawayWinners($data['giveaway_winners'])
                 : null,
-            giveawayCompleted: ($data['giveaway_completed'] ?? null) !== null
+            giveawayCompleted: isset($data['giveaway_completed'])
                 ? $this->denormalizeGiveawayCompleted($data['giveaway_completed'])
                 : null,
-            videoChatScheduled: ($data['video_chat_scheduled'] ?? null) !== null
+            videoChatScheduled: isset($data['video_chat_scheduled'])
                 ? $this->denormalizeVideoChatScheduled($data['video_chat_scheduled'])
                 : null,
-            videoChatStarted: ($data['video_chat_started'] ?? null) !== null
+            videoChatStarted: isset($data['video_chat_started'])
                 ? $this->denormalizeVideoChatStarted($data['video_chat_started'])
                 : null,
-            videoChatEnded: ($data['video_chat_ended'] ?? null) !== null
+            videoChatEnded: isset($data['video_chat_ended'])
                 ? $this->denormalizeVideoChatEnded($data['video_chat_ended'])
                 : null,
-            videoChatParticipantsInvited: ($data['video_chat_participants_invited'] ?? null) !== null
+            videoChatParticipantsInvited: isset($data['video_chat_participants_invited'])
                 ? $this->denormalizeVideoChatParticipantsInvited($data['video_chat_participants_invited'])
                 : null,
-            webAppData: ($data['web_app_data'] ?? null) !== null
+            webAppData: isset($data['web_app_data'])
                 ? $this->denormalizeWebAppData($data['web_app_data'])
                 : null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
         );
     }
 
-    public function denormalizeMessageId(array $data): MessageId
+    public function denormalizeMessageId(array $data): Types\Interfaces\MessageIdInterface
     {
         $requiredFields = [
             'message_id',
@@ -744,12 +749,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageId missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageId(
+        return $this->factory->makeMessageId(
             messageId: $data['message_id'],
         );
     }
 
-    public function denormalizeInaccessibleMessage(array $data): InaccessibleMessage
+    public function denormalizeInaccessibleMessage(array $data): Types\Interfaces\InaccessibleMessageInterface
     {
         $requiredFields = [
             'chat',
@@ -769,14 +774,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InaccessibleMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InaccessibleMessage(
+        return $this->factory->makeInaccessibleMessage(
             chat: $this->denormalizeChat($data['chat']),
             messageId: $data['message_id'],
             date: $data['date'],
         );
     }
 
-    public function denormalizeMaybeInaccessibleMessage(array $data): Types\MaybeInaccessibleMessage
+    public function denormalizeMaybeInaccessibleMessage(array $data): Types\Interfaces\MaybeInaccessibleMessageInterface
     {
         if ($data['date'] === 0) {
             return $this->denormalizeInaccessibleMessage($data);
@@ -785,7 +790,7 @@ class Serializer implements SerializerInterface
         }
     }
 
-    public function denormalizeMessageEntity(array $data): MessageEntity
+    public function denormalizeMessageEntity(array $data): Types\Interfaces\MessageEntityInterface
     {
         $requiredFields = [
             'type',
@@ -805,12 +810,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageEntity missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageEntity(
+        return $this->factory->makeMessageEntity(
             type: $data['type'],
             offset: $data['offset'],
             length: $data['length'],
             url: $data['url'] ?? null,
-            user: ($data['user'] ?? null) !== null
+            user: isset($data['user'])
                 ? $this->denormalizeUser($data['user'])
                 : null,
             language: $data['language'] ?? null,
@@ -818,7 +823,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTextQuote(array $data): TextQuote
+    public function denormalizeTextQuote(array $data): Types\Interfaces\TextQuoteInterface
     {
         $requiredFields = [
             'text',
@@ -837,17 +842,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TextQuote missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TextQuote(
+        return $this->factory->makeTextQuote(
             text: $data['text'],
             position: $data['position'],
-            entities: ($data['entities'] ?? null) !== null
+            entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
                 : null,
             isManual: $data['is_manual'] ?? null,
         );
     }
 
-    public function denormalizeExternalReplyInfo(array $data): ExternalReplyInfo
+    public function denormalizeExternalReplyInfo(array $data): Types\Interfaces\ExternalReplyInfoInterface
     {
         $requiredFields = [
             'origin',
@@ -865,77 +870,77 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ExternalReplyInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ExternalReplyInfo(
+        return $this->factory->makeExternalReplyInfo(
             origin: $this->denormalizeMessageOrigin($data['origin']),
-            chat: ($data['chat'] ?? null) !== null
+            chat: isset($data['chat'])
                 ? $this->denormalizeChat($data['chat'])
                 : null,
             messageId: $data['message_id'] ?? null,
-            linkPreviewOptions: ($data['link_preview_options'] ?? null) !== null
+            linkPreviewOptions: isset($data['link_preview_options'])
                 ? $this->denormalizeLinkPreviewOptions($data['link_preview_options'])
                 : null,
-            animation: ($data['animation'] ?? null) !== null
+            animation: isset($data['animation'])
                 ? $this->denormalizeAnimation($data['animation'])
                 : null,
-            audio: ($data['audio'] ?? null) !== null
+            audio: isset($data['audio'])
                 ? $this->denormalizeAudio($data['audio'])
                 : null,
-            document: ($data['document'] ?? null) !== null
+            document: isset($data['document'])
                 ? $this->denormalizeDocument($data['document'])
                 : null,
-            paidMedia: ($data['paid_media'] ?? null) !== null
+            paidMedia: isset($data['paid_media'])
                 ? $this->denormalizePaidMediaInfo($data['paid_media'])
                 : null,
-            photo: ($data['photo'] ?? null) !== null
+            photo: isset($data['photo'])
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
                 : null,
-            sticker: ($data['sticker'] ?? null) !== null
+            sticker: isset($data['sticker'])
                 ? $this->denormalizeSticker($data['sticker'])
                 : null,
-            story: ($data['story'] ?? null) !== null
+            story: isset($data['story'])
                 ? $this->denormalizeStory($data['story'])
                 : null,
-            video: ($data['video'] ?? null) !== null
+            video: isset($data['video'])
                 ? $this->denormalizeVideo($data['video'])
                 : null,
-            videoNote: ($data['video_note'] ?? null) !== null
+            videoNote: isset($data['video_note'])
                 ? $this->denormalizeVideoNote($data['video_note'])
                 : null,
-            voice: ($data['voice'] ?? null) !== null
+            voice: isset($data['voice'])
                 ? $this->denormalizeVoice($data['voice'])
                 : null,
             hasMediaSpoiler: $data['has_media_spoiler'] ?? null,
-            contact: ($data['contact'] ?? null) !== null
+            contact: isset($data['contact'])
                 ? $this->denormalizeContact($data['contact'])
                 : null,
-            dice: ($data['dice'] ?? null) !== null
+            dice: isset($data['dice'])
                 ? $this->denormalizeDice($data['dice'])
                 : null,
-            game: ($data['game'] ?? null) !== null
+            game: isset($data['game'])
                 ? $this->denormalizeGame($data['game'])
                 : null,
-            giveaway: ($data['giveaway'] ?? null) !== null
+            giveaway: isset($data['giveaway'])
                 ? $this->denormalizeGiveaway($data['giveaway'])
                 : null,
-            giveawayWinners: ($data['giveaway_winners'] ?? null) !== null
+            giveawayWinners: isset($data['giveaway_winners'])
                 ? $this->denormalizeGiveawayWinners($data['giveaway_winners'])
                 : null,
-            invoice: ($data['invoice'] ?? null) !== null
+            invoice: isset($data['invoice'])
                 ? $this->denormalizeInvoice($data['invoice'])
                 : null,
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeLocation($data['location'])
                 : null,
-            poll: ($data['poll'] ?? null) !== null
+            poll: isset($data['poll'])
                 ? $this->denormalizePoll($data['poll'])
                 : null,
-            venue: ($data['venue'] ?? null) !== null
+            venue: isset($data['venue'])
                 ? $this->denormalizeVenue($data['venue'])
                 : null,
         );
     }
 
-    public function denormalizeReplyParameters(array $data): ReplyParameters
+    public function denormalizeReplyParameters(array $data): Types\Interfaces\ReplyParametersInterface
     {
         $requiredFields = [
             'message_id',
@@ -953,20 +958,20 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReplyParameters missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReplyParameters(
+        return $this->factory->makeReplyParameters(
             messageId: $data['message_id'],
             chatId: $data['chat_id'] ?? null,
             allowSendingWithoutReply: $data['allow_sending_without_reply'] ?? null,
             quote: $data['quote'] ?? null,
             quoteParseMode: $data['quote_parse_mode'] ?? null,
-            quoteEntities: ($data['quote_entities'] ?? null) !== null
+            quoteEntities: isset($data['quote_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['quote_entities'])
                 : null,
             quotePosition: $data['quote_position'] ?? null,
         );
     }
 
-    public function denormalizeMessageOrigin(array $data): Types\MessageOrigin
+    public function denormalizeMessageOrigin(array $data): Types\Interfaces\MessageOriginInterface
     {
         return match ($data['type']) {
             'user' => $this->denormalizeMessageOriginUser($data),
@@ -977,7 +982,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeMessageOriginUser(array $data): MessageOriginUser
+    public function denormalizeMessageOriginUser(array $data): Types\Interfaces\MessageOriginUserInterface
     {
         $requiredFields = [
             'type',
@@ -997,14 +1002,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageOriginUser missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageOriginUser(
+        return $this->factory->makeMessageOriginUser(
             type: $data['type'],
             date: $data['date'],
             senderUser: $this->denormalizeUser($data['sender_user']),
         );
     }
 
-    public function denormalizeMessageOriginHiddenUser(array $data): MessageOriginHiddenUser
+    public function denormalizeMessageOriginHiddenUser(array $data): Types\Interfaces\MessageOriginHiddenUserInterface
     {
         $requiredFields = [
             'type',
@@ -1024,14 +1029,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageOriginHiddenUser missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageOriginHiddenUser(
+        return $this->factory->makeMessageOriginHiddenUser(
             type: $data['type'],
             date: $data['date'],
             senderUserName: $data['sender_user_name'],
         );
     }
 
-    public function denormalizeMessageOriginChat(array $data): MessageOriginChat
+    public function denormalizeMessageOriginChat(array $data): Types\Interfaces\MessageOriginChatInterface
     {
         $requiredFields = [
             'type',
@@ -1051,7 +1056,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageOriginChat missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageOriginChat(
+        return $this->factory->makeMessageOriginChat(
             type: $data['type'],
             date: $data['date'],
             senderChat: $this->denormalizeChat($data['sender_chat']),
@@ -1059,7 +1064,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageOriginChannel(array $data): MessageOriginChannel
+    public function denormalizeMessageOriginChannel(array $data): Types\Interfaces\MessageOriginChannelInterface
     {
         $requiredFields = [
             'type',
@@ -1080,7 +1085,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageOriginChannel missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageOriginChannel(
+        return $this->factory->makeMessageOriginChannel(
             type: $data['type'],
             date: $data['date'],
             chat: $this->denormalizeChat($data['chat']),
@@ -1089,7 +1094,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePhotoSize(array $data): PhotoSize
+    public function denormalizePhotoSize(array $data): Types\Interfaces\PhotoSizeInterface
     {
         $requiredFields = [
             'file_id',
@@ -1110,7 +1115,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PhotoSize missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PhotoSize(
+        return $this->factory->makePhotoSize(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             width: $data['width'],
@@ -1119,7 +1124,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeAnimation(array $data): Animation
+    public function denormalizeAnimation(array $data): Types\Interfaces\AnimationInterface
     {
         $requiredFields = [
             'file_id',
@@ -1141,13 +1146,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Animation missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Animation(
+        return $this->factory->makeAnimation(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             width: $data['width'],
             height: $data['height'],
             duration: $data['duration'],
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
             fileName: $data['file_name'] ?? null,
@@ -1156,7 +1161,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeAudio(array $data): Audio
+    public function denormalizeAudio(array $data): Types\Interfaces\AudioInterface
     {
         $requiredFields = [
             'file_id',
@@ -1176,7 +1181,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Audio missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Audio(
+        return $this->factory->makeAudio(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             duration: $data['duration'],
@@ -1185,13 +1190,13 @@ class Serializer implements SerializerInterface
             fileName: $data['file_name'] ?? null,
             mimeType: $data['mime_type'] ?? null,
             fileSize: $data['file_size'] ?? null,
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
         );
     }
 
-    public function denormalizeDocument(array $data): Document
+    public function denormalizeDocument(array $data): Types\Interfaces\DocumentInterface
     {
         $requiredFields = [
             'file_id',
@@ -1210,10 +1215,10 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Document missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Document(
+        return $this->factory->makeDocument(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
             fileName: $data['file_name'] ?? null,
@@ -1222,7 +1227,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStory(array $data): Story
+    public function denormalizeStory(array $data): Types\Interfaces\StoryInterface
     {
         $requiredFields = [
             'chat',
@@ -1241,13 +1246,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Story missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Story(
+        return $this->factory->makeStory(
             chat: $this->denormalizeChat($data['chat']),
             id: $data['id'],
         );
     }
 
-    public function denormalizeVideo(array $data): Video
+    public function denormalizeVideo(array $data): Types\Interfaces\VideoInterface
     {
         $requiredFields = [
             'file_id',
@@ -1269,13 +1274,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Video missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Video(
+        return $this->factory->makeVideo(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             width: $data['width'],
             height: $data['height'],
             duration: $data['duration'],
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
             fileName: $data['file_name'] ?? null,
@@ -1284,7 +1289,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideoNote(array $data): VideoNote
+    public function denormalizeVideoNote(array $data): Types\Interfaces\VideoNoteInterface
     {
         $requiredFields = [
             'file_id',
@@ -1305,19 +1310,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class VideoNote missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new VideoNote(
+        return $this->factory->makeVideoNote(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             length: $data['length'],
             duration: $data['duration'],
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
             fileSize: $data['file_size'] ?? null,
         );
     }
 
-    public function denormalizeVoice(array $data): Voice
+    public function denormalizeVoice(array $data): Types\Interfaces\VoiceInterface
     {
         $requiredFields = [
             'file_id',
@@ -1337,7 +1342,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Voice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Voice(
+        return $this->factory->makeVoice(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             duration: $data['duration'],
@@ -1346,7 +1351,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaInfo(array $data): PaidMediaInfo
+    public function denormalizePaidMediaInfo(array $data): Types\Interfaces\PaidMediaInfoInterface
     {
         $requiredFields = [
             'star_count',
@@ -1365,18 +1370,18 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PaidMediaInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PaidMediaInfo(
+        return $this->factory->makePaidMediaInfo(
             starCount: $data['star_count'],
             paidMedia: array_map(fn (array $item) => $this->denormalizePaidMedia($item), $data['paid_media']),
         );
     }
 
-    public function denormalizePaidMedia(array $data): Types\PaidMedia
+    public function denormalizePaidMedia(array $data): Types\Interfaces\PaidMediaInterface
     {
         throw new \RuntimeException('class PaidMedia is abstract and not yet implemented');
     }
 
-    public function denormalizePaidMediaPreview(array $data): PaidMediaPreview
+    public function denormalizePaidMediaPreview(array $data): Types\Interfaces\PaidMediaPreviewInterface
     {
         $requiredFields = [
             'type',
@@ -1394,7 +1399,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PaidMediaPreview missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PaidMediaPreview(
+        return $this->factory->makePaidMediaPreview(
             type: $data['type'],
             width: $data['width'] ?? null,
             height: $data['height'] ?? null,
@@ -1402,7 +1407,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaPhoto(array $data): PaidMediaPhoto
+    public function denormalizePaidMediaPhoto(array $data): Types\Interfaces\PaidMediaPhotoInterface
     {
         $requiredFields = [
             'type',
@@ -1421,13 +1426,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PaidMediaPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PaidMediaPhoto(
+        return $this->factory->makePaidMediaPhoto(
             type: $data['type'],
             photo: array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo']),
         );
     }
 
-    public function denormalizePaidMediaVideo(array $data): PaidMediaVideo
+    public function denormalizePaidMediaVideo(array $data): Types\Interfaces\PaidMediaVideoInterface
     {
         $requiredFields = [
             'type',
@@ -1446,13 +1451,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PaidMediaVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PaidMediaVideo(
+        return $this->factory->makePaidMediaVideo(
             type: $data['type'],
             video: $this->denormalizeVideo($data['video']),
         );
     }
 
-    public function denormalizeContact(array $data): Contact
+    public function denormalizeContact(array $data): Types\Interfaces\ContactInterface
     {
         $requiredFields = [
             'phone_number',
@@ -1471,7 +1476,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Contact missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Contact(
+        return $this->factory->makeContact(
             phoneNumber: $data['phone_number'],
             firstName: $data['first_name'],
             lastName: $data['last_name'] ?? null,
@@ -1480,7 +1485,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeDice(array $data): Dice
+    public function denormalizeDice(array $data): Types\Interfaces\DiceInterface
     {
         $requiredFields = [
             'emoji',
@@ -1499,13 +1504,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Dice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Dice(
+        return $this->factory->makeDice(
             emoji: $data['emoji'],
             value: $data['value'],
         );
     }
 
-    public function denormalizePollOption(array $data): PollOption
+    public function denormalizePollOption(array $data): Types\Interfaces\PollOptionInterface
     {
         $requiredFields = [
             'text',
@@ -1524,16 +1529,16 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PollOption missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PollOption(
+        return $this->factory->makePollOption(
             text: $data['text'],
             voterCount: $data['voter_count'],
-            textEntities: ($data['text_entities'] ?? null) !== null
+            textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
                 : null,
         );
     }
 
-    public function denormalizeInputPollOption(array $data): InputPollOption
+    public function denormalizeInputPollOption(array $data): Types\Interfaces\InputPollOptionInterface
     {
         $requiredFields = [
             'text',
@@ -1551,16 +1556,16 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputPollOption missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputPollOption(
+        return $this->factory->makeInputPollOption(
             text: $data['text'],
             textParseMode: $data['text_parse_mode'] ?? null,
-            textEntities: ($data['text_entities'] ?? null) !== null
+            textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
                 : null,
         );
     }
 
-    public function denormalizePollAnswer(array $data): PollAnswer
+    public function denormalizePollAnswer(array $data): Types\Interfaces\PollAnswerInterface
     {
         $requiredFields = [
             'poll_id',
@@ -1579,19 +1584,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PollAnswer missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PollAnswer(
+        return $this->factory->makePollAnswer(
             pollId: $data['poll_id'],
             optionIds: $data['option_ids'],
-            voterChat: ($data['voter_chat'] ?? null) !== null
+            voterChat: isset($data['voter_chat'])
                 ? $this->denormalizeChat($data['voter_chat'])
                 : null,
-            user: ($data['user'] ?? null) !== null
+            user: isset($data['user'])
                 ? $this->denormalizeUser($data['user'])
                 : null,
         );
     }
 
-    public function denormalizePoll(array $data): Poll
+    public function denormalizePoll(array $data): Types\Interfaces\PollInterface
     {
         $requiredFields = [
             'id',
@@ -1616,7 +1621,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Poll missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Poll(
+        return $this->factory->makePoll(
             id: $data['id'],
             question: $data['question'],
             options: array_map(fn (array $item) => $this->denormalizePollOption($item), $data['options']),
@@ -1625,12 +1630,12 @@ class Serializer implements SerializerInterface
             isAnonymous: $data['is_anonymous'],
             type: $data['type'],
             allowsMultipleAnswers: $data['allows_multiple_answers'],
-            questionEntities: ($data['question_entities'] ?? null) !== null
+            questionEntities: isset($data['question_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['question_entities'])
                 : null,
             correctOptionId: $data['correct_option_id'] ?? null,
             explanation: $data['explanation'] ?? null,
-            explanationEntities: ($data['explanation_entities'] ?? null) !== null
+            explanationEntities: isset($data['explanation_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['explanation_entities'])
                 : null,
             openPeriod: $data['open_period'] ?? null,
@@ -1638,7 +1643,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeLocation(array $data): Location
+    public function denormalizeLocation(array $data): Types\Interfaces\LocationInterface
     {
         $requiredFields = [
             'latitude',
@@ -1657,7 +1662,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Location missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Location(
+        return $this->factory->makeLocation(
             latitude: $data['latitude'],
             longitude: $data['longitude'],
             horizontalAccuracy: $data['horizontal_accuracy'] ?? null,
@@ -1667,7 +1672,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVenue(array $data): Venue
+    public function denormalizeVenue(array $data): Types\Interfaces\VenueInterface
     {
         $requiredFields = [
             'location',
@@ -1687,7 +1692,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Venue missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Venue(
+        return $this->factory->makeVenue(
             location: $this->denormalizeLocation($data['location']),
             title: $data['title'],
             address: $data['address'],
@@ -1698,7 +1703,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWebAppData(array $data): WebAppData
+    public function denormalizeWebAppData(array $data): Types\Interfaces\WebAppDataInterface
     {
         $requiredFields = [
             'data',
@@ -1717,13 +1722,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class WebAppData missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new WebAppData(
+        return $this->factory->makeWebAppData(
             data: $data['data'],
             buttonText: $data['button_text'],
         );
     }
 
-    public function denormalizeProximityAlertTriggered(array $data): ProximityAlertTriggered
+    public function denormalizeProximityAlertTriggered(array $data): Types\Interfaces\ProximityAlertTriggeredInterface
     {
         $requiredFields = [
             'traveler',
@@ -1743,15 +1748,16 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ProximityAlertTriggered missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ProximityAlertTriggered(
+        return $this->factory->makeProximityAlertTriggered(
             traveler: $this->denormalizeUser($data['traveler']),
             watcher: $this->denormalizeUser($data['watcher']),
             distance: $data['distance'],
         );
     }
 
-    public function denormalizeMessageAutoDeleteTimerChanged(array $data): MessageAutoDeleteTimerChanged
-    {
+    public function denormalizeMessageAutoDeleteTimerChanged(
+        array $data,
+    ): Types\Interfaces\MessageAutoDeleteTimerChangedInterface {
         $requiredFields = [
             'message_auto_delete_time',
         ];
@@ -1768,12 +1774,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageAutoDeleteTimerChanged missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageAutoDeleteTimerChanged(
+        return $this->factory->makeMessageAutoDeleteTimerChanged(
             messageAutoDeleteTime: $data['message_auto_delete_time'],
         );
     }
 
-    public function denormalizeChatBoostAdded(array $data): ChatBoostAdded
+    public function denormalizeChatBoostAdded(array $data): Types\Interfaces\ChatBoostAddedInterface
     {
         $requiredFields = [
             'boost_count',
@@ -1791,17 +1797,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostAdded(
+        return $this->factory->makeChatBoostAdded(
             boostCount: $data['boost_count'],
         );
     }
 
-    public function denormalizeBackgroundFill(array $data): Types\BackgroundFill
+    public function denormalizeBackgroundFill(array $data): Types\Interfaces\BackgroundFillInterface
     {
         throw new \RuntimeException('class BackgroundFill is abstract and not yet implemented');
     }
 
-    public function denormalizeBackgroundFillSolid(array $data): BackgroundFillSolid
+    public function denormalizeBackgroundFillSolid(array $data): Types\Interfaces\BackgroundFillSolidInterface
     {
         $requiredFields = [
             'type',
@@ -1820,13 +1826,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundFillSolid missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundFillSolid(
+        return $this->factory->makeBackgroundFillSolid(
             type: $data['type'],
             color: $data['color'],
         );
     }
 
-    public function denormalizeBackgroundFillGradient(array $data): BackgroundFillGradient
+    public function denormalizeBackgroundFillGradient(array $data): Types\Interfaces\BackgroundFillGradientInterface
     {
         $requiredFields = [
             'type',
@@ -1847,7 +1853,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundFillGradient missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundFillGradient(
+        return $this->factory->makeBackgroundFillGradient(
             type: $data['type'],
             topColor: $data['top_color'],
             bottomColor: $data['bottom_color'],
@@ -1855,8 +1861,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundFillFreeformGradient(array $data): BackgroundFillFreeformGradient
-    {
+    public function denormalizeBackgroundFillFreeformGradient(
+        array $data,
+    ): Types\Interfaces\BackgroundFillFreeformGradientInterface {
         $requiredFields = [
             'type',
             'colors',
@@ -1874,18 +1881,18 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundFillFreeformGradient missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundFillFreeformGradient(
+        return $this->factory->makeBackgroundFillFreeformGradient(
             type: $data['type'],
             colors: $data['colors'],
         );
     }
 
-    public function denormalizeBackgroundType(array $data): Types\BackgroundType
+    public function denormalizeBackgroundType(array $data): Types\Interfaces\BackgroundTypeInterface
     {
         throw new \RuntimeException('class BackgroundType is abstract and not yet implemented');
     }
 
-    public function denormalizeBackgroundTypeFill(array $data): BackgroundTypeFill
+    public function denormalizeBackgroundTypeFill(array $data): Types\Interfaces\BackgroundTypeFillInterface
     {
         $requiredFields = [
             'type',
@@ -1905,14 +1912,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundTypeFill missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundTypeFill(
+        return $this->factory->makeBackgroundTypeFill(
             type: $data['type'],
             fill: $this->denormalizeBackgroundFill($data['fill']),
             darkThemeDimming: $data['dark_theme_dimming'],
         );
     }
 
-    public function denormalizeBackgroundTypeWallpaper(array $data): BackgroundTypeWallpaper
+    public function denormalizeBackgroundTypeWallpaper(array $data): Types\Interfaces\BackgroundTypeWallpaperInterface
     {
         $requiredFields = [
             'type',
@@ -1932,7 +1939,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundTypeWallpaper missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundTypeWallpaper(
+        return $this->factory->makeBackgroundTypeWallpaper(
             type: $data['type'],
             document: $this->denormalizeDocument($data['document']),
             darkThemeDimming: $data['dark_theme_dimming'],
@@ -1941,7 +1948,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundTypePattern(array $data): BackgroundTypePattern
+    public function denormalizeBackgroundTypePattern(array $data): Types\Interfaces\BackgroundTypePatternInterface
     {
         $requiredFields = [
             'type',
@@ -1962,7 +1969,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundTypePattern missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundTypePattern(
+        return $this->factory->makeBackgroundTypePattern(
             type: $data['type'],
             document: $this->denormalizeDocument($data['document']),
             fill: $this->denormalizeBackgroundFill($data['fill']),
@@ -1972,7 +1979,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundTypeChatTheme(array $data): BackgroundTypeChatTheme
+    public function denormalizeBackgroundTypeChatTheme(array $data): Types\Interfaces\BackgroundTypeChatThemeInterface
     {
         $requiredFields = [
             'type',
@@ -1991,13 +1998,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BackgroundTypeChatTheme missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BackgroundTypeChatTheme(
+        return $this->factory->makeBackgroundTypeChatTheme(
             type: $data['type'],
             themeName: $data['theme_name'],
         );
     }
 
-    public function denormalizeChatBackground(array $data): ChatBackground
+    public function denormalizeChatBackground(array $data): Types\Interfaces\ChatBackgroundInterface
     {
         $requiredFields = [
             'type',
@@ -2015,12 +2022,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBackground missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBackground(
+        return $this->factory->makeChatBackground(
             type: $this->denormalizeBackgroundType($data['type']),
         );
     }
 
-    public function denormalizeForumTopicCreated(array $data): ForumTopicCreated
+    public function denormalizeForumTopicCreated(array $data): Types\Interfaces\ForumTopicCreatedInterface
     {
         $requiredFields = [
             'name',
@@ -2039,42 +2046,43 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ForumTopicCreated missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ForumTopicCreated(
+        return $this->factory->makeForumTopicCreated(
             name: $data['name'],
             iconColor: $data['icon_color'],
             iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
         );
     }
 
-    public function denormalizeForumTopicClosed(array $data): ForumTopicClosed
+    public function denormalizeForumTopicClosed(array $data): Types\Interfaces\ForumTopicClosedInterface
     {
-        return new ForumTopicClosed();
+        return $this->factory->makeForumTopicClosed();
     }
 
-    public function denormalizeForumTopicEdited(array $data): ForumTopicEdited
+    public function denormalizeForumTopicEdited(array $data): Types\Interfaces\ForumTopicEditedInterface
     {
-        return new ForumTopicEdited(
+        return $this->factory->makeForumTopicEdited(
             name: $data['name'] ?? null,
             iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
         );
     }
 
-    public function denormalizeForumTopicReopened(array $data): ForumTopicReopened
+    public function denormalizeForumTopicReopened(array $data): Types\Interfaces\ForumTopicReopenedInterface
     {
-        return new ForumTopicReopened();
+        return $this->factory->makeForumTopicReopened();
     }
 
-    public function denormalizeGeneralForumTopicHidden(array $data): GeneralForumTopicHidden
+    public function denormalizeGeneralForumTopicHidden(array $data): Types\Interfaces\GeneralForumTopicHiddenInterface
     {
-        return new GeneralForumTopicHidden();
+        return $this->factory->makeGeneralForumTopicHidden();
     }
 
-    public function denormalizeGeneralForumTopicUnhidden(array $data): GeneralForumTopicUnhidden
-    {
-        return new GeneralForumTopicUnhidden();
+    public function denormalizeGeneralForumTopicUnhidden(
+        array $data,
+    ): Types\Interfaces\GeneralForumTopicUnhiddenInterface {
+        return $this->factory->makeGeneralForumTopicUnhidden();
     }
 
-    public function denormalizeSharedUser(array $data): SharedUser
+    public function denormalizeSharedUser(array $data): Types\Interfaces\SharedUserInterface
     {
         $requiredFields = [
             'user_id',
@@ -2092,18 +2100,18 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class SharedUser missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new SharedUser(
+        return $this->factory->makeSharedUser(
             userId: $data['user_id'],
             firstName: $data['first_name'] ?? null,
             lastName: $data['last_name'] ?? null,
             username: $data['username'] ?? null,
-            photo: ($data['photo'] ?? null) !== null
+            photo: isset($data['photo'])
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
                 : null,
         );
     }
 
-    public function denormalizeUsersShared(array $data): UsersShared
+    public function denormalizeUsersShared(array $data): Types\Interfaces\UsersSharedInterface
     {
         $requiredFields = [
             'request_id',
@@ -2122,13 +2130,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class UsersShared missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new UsersShared(
+        return $this->factory->makeUsersShared(
             requestId: $data['request_id'],
             users: array_map(fn (array $item) => $this->denormalizeSharedUser($item), $data['users']),
         );
     }
 
-    public function denormalizeChatShared(array $data): ChatShared
+    public function denormalizeChatShared(array $data): Types\Interfaces\ChatSharedInterface
     {
         $requiredFields = [
             'request_id',
@@ -2147,27 +2155,27 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatShared missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatShared(
+        return $this->factory->makeChatShared(
             requestId: $data['request_id'],
             chatId: $data['chat_id'],
             title: $data['title'] ?? null,
             username: $data['username'] ?? null,
-            photo: ($data['photo'] ?? null) !== null
+            photo: isset($data['photo'])
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
                 : null,
         );
     }
 
-    public function denormalizeWriteAccessAllowed(array $data): WriteAccessAllowed
+    public function denormalizeWriteAccessAllowed(array $data): Types\Interfaces\WriteAccessAllowedInterface
     {
-        return new WriteAccessAllowed(
+        return $this->factory->makeWriteAccessAllowed(
             fromRequest: $data['from_request'] ?? null,
             webAppName: $data['web_app_name'] ?? null,
             fromAttachmentMenu: $data['from_attachment_menu'] ?? null,
         );
     }
 
-    public function denormalizeVideoChatScheduled(array $data): VideoChatScheduled
+    public function denormalizeVideoChatScheduled(array $data): Types\Interfaces\VideoChatScheduledInterface
     {
         $requiredFields = [
             'start_date',
@@ -2185,17 +2193,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class VideoChatScheduled missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new VideoChatScheduled(
+        return $this->factory->makeVideoChatScheduled(
             startDate: $data['start_date'],
         );
     }
 
-    public function denormalizeVideoChatStarted(array $data): VideoChatStarted
+    public function denormalizeVideoChatStarted(array $data): Types\Interfaces\VideoChatStartedInterface
     {
-        return new VideoChatStarted();
+        return $this->factory->makeVideoChatStarted();
     }
 
-    public function denormalizeVideoChatEnded(array $data): VideoChatEnded
+    public function denormalizeVideoChatEnded(array $data): Types\Interfaces\VideoChatEndedInterface
     {
         $requiredFields = [
             'duration',
@@ -2213,13 +2221,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class VideoChatEnded missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new VideoChatEnded(
+        return $this->factory->makeVideoChatEnded(
             duration: $data['duration'],
         );
     }
 
-    public function denormalizeVideoChatParticipantsInvited(array $data): VideoChatParticipantsInvited
-    {
+    public function denormalizeVideoChatParticipantsInvited(
+        array $data,
+    ): Types\Interfaces\VideoChatParticipantsInvitedInterface {
         $requiredFields = [
             'users',
         ];
@@ -2236,19 +2245,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class VideoChatParticipantsInvited missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new VideoChatParticipantsInvited(
+        return $this->factory->makeVideoChatParticipantsInvited(
             users: array_map(fn (array $item) => $this->denormalizeUser($item), $data['users']),
         );
     }
 
-    public function denormalizeGiveawayCreated(array $data): GiveawayCreated
+    public function denormalizeGiveawayCreated(array $data): Types\Interfaces\GiveawayCreatedInterface
     {
-        return new GiveawayCreated(
+        return $this->factory->makeGiveawayCreated(
             prizeStarCount: $data['prize_star_count'] ?? null,
         );
     }
 
-    public function denormalizeGiveaway(array $data): Giveaway
+    public function denormalizeGiveaway(array $data): Types\Interfaces\GiveawayInterface
     {
         $requiredFields = [
             'chats',
@@ -2268,7 +2277,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Giveaway missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Giveaway(
+        return $this->factory->makeGiveaway(
             chats: array_map(fn (array $item) => $this->denormalizeChat($item), $data['chats']),
             winnersSelectionDate: $data['winners_selection_date'],
             winnerCount: $data['winner_count'],
@@ -2281,7 +2290,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGiveawayWinners(array $data): GiveawayWinners
+    public function denormalizeGiveawayWinners(array $data): Types\Interfaces\GiveawayWinnersInterface
     {
         $requiredFields = [
             'chat',
@@ -2303,7 +2312,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class GiveawayWinners missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new GiveawayWinners(
+        return $this->factory->makeGiveawayWinners(
             chat: $this->denormalizeChat($data['chat']),
             giveawayMessageId: $data['giveaway_message_id'],
             winnersSelectionDate: $data['winners_selection_date'],
@@ -2319,7 +2328,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGiveawayCompleted(array $data): GiveawayCompleted
+    public function denormalizeGiveawayCompleted(array $data): Types\Interfaces\GiveawayCompletedInterface
     {
         $requiredFields = [
             'winner_count',
@@ -2337,19 +2346,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class GiveawayCompleted missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new GiveawayCompleted(
+        return $this->factory->makeGiveawayCompleted(
             winnerCount: $data['winner_count'],
             unclaimedPrizeCount: $data['unclaimed_prize_count'] ?? null,
-            giveawayMessage: ($data['giveaway_message'] ?? null) !== null
+            giveawayMessage: isset($data['giveaway_message'])
                 ? $this->denormalizeMessage($data['giveaway_message'])
                 : null,
             isStarGiveaway: $data['is_star_giveaway'] ?? null,
         );
     }
 
-    public function denormalizeLinkPreviewOptions(array $data): LinkPreviewOptions
+    public function denormalizeLinkPreviewOptions(array $data): Types\Interfaces\LinkPreviewOptionsInterface
     {
-        return new LinkPreviewOptions(
+        return $this->factory->makeLinkPreviewOptions(
             isDisabled: $data['is_disabled'] ?? null,
             url: $data['url'] ?? null,
             preferSmallMedia: $data['prefer_small_media'] ?? null,
@@ -2358,7 +2367,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUserProfilePhotos(array $data): UserProfilePhotos
+    public function denormalizeUserProfilePhotos(array $data): Types\Interfaces\UserProfilePhotosInterface
     {
         $requiredFields = [
             'total_count',
@@ -2377,7 +2386,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class UserProfilePhotos missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new UserProfilePhotos(
+        return $this->factory->makeUserProfilePhotos(
             totalCount: $data['total_count'],
             photos: array_map(
                 fn (array $item0) => array_map(
@@ -2389,7 +2398,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeFile(array $data): File
+    public function denormalizeFile(array $data): Types\Interfaces\FileInterface
     {
         $requiredFields = [
             'file_id',
@@ -2408,7 +2417,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class File missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new File(
+        return $this->factory->makeFile(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             fileSize: $data['file_size'] ?? null,
@@ -2416,7 +2425,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWebAppInfo(array $data): WebAppInfo
+    public function denormalizeWebAppInfo(array $data): Types\Interfaces\WebAppInfoInterface
     {
         $requiredFields = [
             'url',
@@ -2434,12 +2443,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class WebAppInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new WebAppInfo(
+        return $this->factory->makeWebAppInfo(
             url: $data['url'],
         );
     }
 
-    public function denormalizeReplyKeyboardMarkup(array $data): ReplyKeyboardMarkup
+    public function denormalizeReplyKeyboardMarkup(array $data): Types\Interfaces\ReplyKeyboardMarkupInterface
     {
         $requiredFields = [
             'keyboard',
@@ -2457,7 +2466,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReplyKeyboardMarkup missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReplyKeyboardMarkup(
+        return $this->factory->makeReplyKeyboardMarkup(
             keyboard: array_map(
                 fn (array $item0) => array_map(
                     fn (array $item1) => $this->denormalizeKeyboardButton($item1),
@@ -2473,7 +2482,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButton(array $data): KeyboardButton
+    public function denormalizeKeyboardButton(array $data): Types\Interfaces\KeyboardButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2491,27 +2500,28 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class KeyboardButton missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new KeyboardButton(
+        return $this->factory->makeKeyboardButton(
             text: $data['text'],
-            requestUsers: ($data['request_users'] ?? null) !== null
+            requestUsers: isset($data['request_users'])
                 ? $this->denormalizeKeyboardButtonRequestUsers($data['request_users'])
                 : null,
-            requestChat: ($data['request_chat'] ?? null) !== null
+            requestChat: isset($data['request_chat'])
                 ? $this->denormalizeKeyboardButtonRequestChat($data['request_chat'])
                 : null,
             requestContact: $data['request_contact'] ?? null,
             requestLocation: $data['request_location'] ?? null,
-            requestPoll: ($data['request_poll'] ?? null) !== null
+            requestPoll: isset($data['request_poll'])
                 ? $this->denormalizeKeyboardButtonPollType($data['request_poll'])
                 : null,
-            webApp: ($data['web_app'] ?? null) !== null
+            webApp: isset($data['web_app'])
                 ? $this->denormalizeWebAppInfo($data['web_app'])
                 : null,
         );
     }
 
-    public function denormalizeKeyboardButtonRequestUsers(array $data): KeyboardButtonRequestUsers
-    {
+    public function denormalizeKeyboardButtonRequestUsers(
+        array $data,
+    ): Types\Interfaces\KeyboardButtonRequestUsersInterface {
         $requiredFields = [
             'request_id',
         ];
@@ -2528,7 +2538,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class KeyboardButtonRequestUsers missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new KeyboardButtonRequestUsers(
+        return $this->factory->makeKeyboardButtonRequestUsers(
             requestId: $data['request_id'],
             userIsBot: $data['user_is_bot'] ?? null,
             userIsPremium: $data['user_is_premium'] ?? null,
@@ -2539,8 +2549,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButtonRequestChat(array $data): KeyboardButtonRequestChat
-    {
+    public function denormalizeKeyboardButtonRequestChat(
+        array $data,
+    ): Types\Interfaces\KeyboardButtonRequestChatInterface {
         $requiredFields = [
             'request_id',
             'chat_is_channel',
@@ -2558,16 +2569,16 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class KeyboardButtonRequestChat missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new KeyboardButtonRequestChat(
+        return $this->factory->makeKeyboardButtonRequestChat(
             requestId: $data['request_id'],
             chatIsChannel: $data['chat_is_channel'],
             chatIsForum: $data['chat_is_forum'] ?? null,
             chatHasUsername: $data['chat_has_username'] ?? null,
             chatIsCreated: $data['chat_is_created'] ?? null,
-            userAdministratorRights: ($data['user_administrator_rights'] ?? null) !== null
+            userAdministratorRights: isset($data['user_administrator_rights'])
                 ? $this->denormalizeChatAdministratorRights($data['user_administrator_rights'])
                 : null,
-            botAdministratorRights: ($data['bot_administrator_rights'] ?? null) !== null
+            botAdministratorRights: isset($data['bot_administrator_rights'])
                 ? $this->denormalizeChatAdministratorRights($data['bot_administrator_rights'])
                 : null,
             botIsMember: $data['bot_is_member'] ?? null,
@@ -2577,22 +2588,22 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButtonPollType(array $data): KeyboardButtonPollType
+    public function denormalizeKeyboardButtonPollType(array $data): Types\Interfaces\KeyboardButtonPollTypeInterface
     {
-        return new KeyboardButtonPollType(
+        return $this->factory->makeKeyboardButtonPollType(
             type: $data['type'] ?? null,
         );
     }
 
-    public function denormalizeReplyKeyboardRemove(array $data): ReplyKeyboardRemove
+    public function denormalizeReplyKeyboardRemove(array $data): Types\Interfaces\ReplyKeyboardRemoveInterface
     {
-        return new ReplyKeyboardRemove(
+        return $this->factory->makeReplyKeyboardRemove(
             removeKeyboard: $data['remove_keyboard'] ?? true,
             selective: $data['selective'] ?? null,
         );
     }
 
-    public function denormalizeInlineKeyboardMarkup(array $data): InlineKeyboardMarkup
+    public function denormalizeInlineKeyboardMarkup(array $data): Types\Interfaces\InlineKeyboardMarkupInterface
     {
         $requiredFields = [
             'inline_keyboard',
@@ -2610,7 +2621,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineKeyboardMarkup missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineKeyboardMarkup(
+        return $this->factory->makeInlineKeyboardMarkup(
             inlineKeyboard: array_map(
                 fn (array $item0) => array_map(
                     fn (array $item1) => $this->denormalizeInlineKeyboardButton($item1),
@@ -2621,7 +2632,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineKeyboardButton(array $data): InlineKeyboardButton
+    public function denormalizeInlineKeyboardButton(array $data): Types\Interfaces\InlineKeyboardButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2639,32 +2650,32 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineKeyboardButton missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineKeyboardButton(
+        return $this->factory->makeInlineKeyboardButton(
             text: $data['text'],
             url: $data['url'] ?? null,
             callbackData: $data['callback_data'] ?? null,
-            webApp: ($data['web_app'] ?? null) !== null
+            webApp: isset($data['web_app'])
                 ? $this->denormalizeWebAppInfo($data['web_app'])
                 : null,
-            loginUrl: ($data['login_url'] ?? null) !== null
+            loginUrl: isset($data['login_url'])
                 ? $this->denormalizeLoginUrl($data['login_url'])
                 : null,
             switchInlineQuery: $data['switch_inline_query'] ?? null,
             switchInlineQueryCurrentChat: $data['switch_inline_query_current_chat'] ?? null,
-            switchInlineQueryChosenChat: ($data['switch_inline_query_chosen_chat'] ?? null) !== null
+            switchInlineQueryChosenChat: isset($data['switch_inline_query_chosen_chat'])
                 ? $this->denormalizeSwitchInlineQueryChosenChat($data['switch_inline_query_chosen_chat'])
                 : null,
-            copyText: ($data['copy_text'] ?? null) !== null
+            copyText: isset($data['copy_text'])
                 ? $this->denormalizeCopyTextButton($data['copy_text'])
                 : null,
-            callbackGame: ($data['callback_game'] ?? null) !== null
+            callbackGame: isset($data['callback_game'])
                 ? $this->denormalizeCallbackGame($data['callback_game'])
                 : null,
             pay: $data['pay'] ?? null,
         );
     }
 
-    public function denormalizeLoginUrl(array $data): LoginUrl
+    public function denormalizeLoginUrl(array $data): Types\Interfaces\LoginUrlInterface
     {
         $requiredFields = [
             'url',
@@ -2682,7 +2693,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class LoginUrl missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new LoginUrl(
+        return $this->factory->makeLoginUrl(
             url: $data['url'],
             forwardText: $data['forward_text'] ?? null,
             botUsername: $data['bot_username'] ?? null,
@@ -2690,9 +2701,10 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSwitchInlineQueryChosenChat(array $data): SwitchInlineQueryChosenChat
-    {
-        return new SwitchInlineQueryChosenChat(
+    public function denormalizeSwitchInlineQueryChosenChat(
+        array $data,
+    ): Types\Interfaces\SwitchInlineQueryChosenChatInterface {
+        return $this->factory->makeSwitchInlineQueryChosenChat(
             query: $data['query'] ?? null,
             allowUserChats: $data['allow_user_chats'] ?? null,
             allowBotChats: $data['allow_bot_chats'] ?? null,
@@ -2701,7 +2713,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeCopyTextButton(array $data): CopyTextButton
+    public function denormalizeCopyTextButton(array $data): Types\Interfaces\CopyTextButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2719,12 +2731,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class CopyTextButton missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new CopyTextButton(
+        return $this->factory->makeCopyTextButton(
             text: $data['text'],
         );
     }
 
-    public function denormalizeCallbackQuery(array $data): CallbackQuery
+    public function denormalizeCallbackQuery(array $data): Types\Interfaces\CallbackQueryInterface
     {
         $requiredFields = [
             'id',
@@ -2744,11 +2756,11 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class CallbackQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new CallbackQuery(
+        return $this->factory->makeCallbackQuery(
             id: $data['id'],
             from: $this->denormalizeUser($data['from']),
             chatInstance: $data['chat_instance'],
-            message: ($data['message'] ?? null) !== null
+            message: isset($data['message'])
                 ? $this->denormalizeMaybeInaccessibleMessage($data['message'])
                 : null,
             inlineMessageId: $data['inline_message_id'] ?? null,
@@ -2757,16 +2769,16 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForceReply(array $data): ForceReply
+    public function denormalizeForceReply(array $data): Types\Interfaces\ForceReplyInterface
     {
-        return new ForceReply(
+        return $this->factory->makeForceReply(
             forceReply: $data['force_reply'] ?? true,
             inputFieldPlaceholder: $data['input_field_placeholder'] ?? null,
             selective: $data['selective'] ?? null,
         );
     }
 
-    public function denormalizeChatPhoto(array $data): ChatPhoto
+    public function denormalizeChatPhoto(array $data): Types\Interfaces\ChatPhotoInterface
     {
         $requiredFields = [
             'small_file_id',
@@ -2787,7 +2799,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatPhoto(
+        return $this->factory->makeChatPhoto(
             smallFileId: $data['small_file_id'],
             smallFileUniqueId: $data['small_file_unique_id'],
             bigFileId: $data['big_file_id'],
@@ -2795,7 +2807,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatInviteLink(array $data): ChatInviteLink
+    public function denormalizeChatInviteLink(array $data): Types\Interfaces\ChatInviteLinkInterface
     {
         $requiredFields = [
             'invite_link',
@@ -2817,7 +2829,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatInviteLink missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatInviteLink(
+        return $this->factory->makeChatInviteLink(
             inviteLink: $data['invite_link'],
             creator: $this->denormalizeUser($data['creator']),
             createsJoinRequest: $data['creates_join_request'],
@@ -2832,7 +2844,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatAdministratorRights(array $data): ChatAdministratorRights
+    public function denormalizeChatAdministratorRights(array $data): Types\Interfaces\ChatAdministratorRightsInterface
     {
         $requiredFields = [
             'is_anonymous',
@@ -2860,7 +2872,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatAdministratorRights missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatAdministratorRights(
+        return $this->factory->makeChatAdministratorRights(
             isAnonymous: $data['is_anonymous'],
             canManageChat: $data['can_manage_chat'],
             canDeleteMessages: $data['can_delete_messages'],
@@ -2879,7 +2891,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberUpdated(array $data): ChatMemberUpdated
+    public function denormalizeChatMemberUpdated(array $data): Types\Interfaces\ChatMemberUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -2901,13 +2913,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberUpdated(
+        return $this->factory->makeChatMemberUpdated(
             chat: $this->denormalizeChat($data['chat']),
             from: $this->denormalizeUser($data['from']),
             date: $data['date'],
             oldChatMember: $this->denormalizeChatMember($data['old_chat_member']),
             newChatMember: $this->denormalizeChatMember($data['new_chat_member']),
-            inviteLink: ($data['invite_link'] ?? null) !== null
+            inviteLink: isset($data['invite_link'])
                 ? $this->denormalizeChatInviteLink($data['invite_link'])
                 : null,
             viaJoinRequest: $data['via_join_request'] ?? null,
@@ -2915,7 +2927,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMember(array $data): Types\ChatMember
+    public function denormalizeChatMember(array $data): Types\Interfaces\ChatMemberInterface
     {
         return match ($data['status']) {
             'creator' => $this->denormalizeChatMemberOwner($data),
@@ -2928,7 +2940,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeChatMemberOwner(array $data): ChatMemberOwner
+    public function denormalizeChatMemberOwner(array $data): Types\Interfaces\ChatMemberOwnerInterface
     {
         $requiredFields = [
             'status',
@@ -2948,7 +2960,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberOwner missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberOwner(
+        return $this->factory->makeChatMemberOwner(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
             isAnonymous: $data['is_anonymous'],
@@ -2956,7 +2968,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberAdministrator(array $data): ChatMemberAdministrator
+    public function denormalizeChatMemberAdministrator(array $data): Types\Interfaces\ChatMemberAdministratorInterface
     {
         $requiredFields = [
             'status',
@@ -2987,7 +2999,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberAdministrator missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberAdministrator(
+        return $this->factory->makeChatMemberAdministrator(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
             canBeEdited: $data['can_be_edited'],
@@ -3010,7 +3022,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberMember(array $data): ChatMemberMember
+    public function denormalizeChatMemberMember(array $data): Types\Interfaces\ChatMemberMemberInterface
     {
         $requiredFields = [
             'status',
@@ -3029,14 +3041,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberMember missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberMember(
+        return $this->factory->makeChatMemberMember(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
             untilDate: $data['until_date'] ?? null,
         );
     }
 
-    public function denormalizeChatMemberRestricted(array $data): ChatMemberRestricted
+    public function denormalizeChatMemberRestricted(array $data): Types\Interfaces\ChatMemberRestrictedInterface
     {
         $requiredFields = [
             'status',
@@ -3071,7 +3083,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberRestricted missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberRestricted(
+        return $this->factory->makeChatMemberRestricted(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
             isMember: $data['is_member'],
@@ -3093,7 +3105,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberLeft(array $data): ChatMemberLeft
+    public function denormalizeChatMemberLeft(array $data): Types\Interfaces\ChatMemberLeftInterface
     {
         $requiredFields = [
             'status',
@@ -3112,13 +3124,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberLeft missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberLeft(
+        return $this->factory->makeChatMemberLeft(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
         );
     }
 
-    public function denormalizeChatMemberBanned(array $data): ChatMemberBanned
+    public function denormalizeChatMemberBanned(array $data): Types\Interfaces\ChatMemberBannedInterface
     {
         $requiredFields = [
             'status',
@@ -3138,14 +3150,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatMemberBanned missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatMemberBanned(
+        return $this->factory->makeChatMemberBanned(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
             untilDate: $data['until_date'],
         );
     }
 
-    public function denormalizeChatJoinRequest(array $data): ChatJoinRequest
+    public function denormalizeChatJoinRequest(array $data): Types\Interfaces\ChatJoinRequestInterface
     {
         $requiredFields = [
             'chat',
@@ -3166,21 +3178,21 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatJoinRequest missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatJoinRequest(
+        return $this->factory->makeChatJoinRequest(
             chat: $this->denormalizeChat($data['chat']),
             from: $this->denormalizeUser($data['from']),
             userChatId: $data['user_chat_id'],
             date: $data['date'],
             bio: $data['bio'] ?? null,
-            inviteLink: ($data['invite_link'] ?? null) !== null
+            inviteLink: isset($data['invite_link'])
                 ? $this->denormalizeChatInviteLink($data['invite_link'])
                 : null,
         );
     }
 
-    public function denormalizeChatPermissions(array $data): ChatPermissions
+    public function denormalizeChatPermissions(array $data): Types\Interfaces\ChatPermissionsInterface
     {
-        return new ChatPermissions(
+        return $this->factory->makeChatPermissions(
             canSendMessages: $data['can_send_messages'] ?? null,
             canSendAudios: $data['can_send_audios'] ?? null,
             canSendDocuments: $data['can_send_documents'] ?? null,
@@ -3198,7 +3210,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBirthdate(array $data): Birthdate
+    public function denormalizeBirthdate(array $data): Types\Interfaces\BirthdateInterface
     {
         $requiredFields = [
             'day',
@@ -3217,25 +3229,25 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Birthdate missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Birthdate(
+        return $this->factory->makeBirthdate(
             day: $data['day'],
             month: $data['month'],
             year: $data['year'] ?? null,
         );
     }
 
-    public function denormalizeBusinessIntro(array $data): BusinessIntro
+    public function denormalizeBusinessIntro(array $data): Types\Interfaces\BusinessIntroInterface
     {
-        return new BusinessIntro(
+        return $this->factory->makeBusinessIntro(
             title: $data['title'] ?? null,
             message: $data['message'] ?? null,
-            sticker: ($data['sticker'] ?? null) !== null
+            sticker: isset($data['sticker'])
                 ? $this->denormalizeSticker($data['sticker'])
                 : null,
         );
     }
 
-    public function denormalizeBusinessLocation(array $data): BusinessLocation
+    public function denormalizeBusinessLocation(array $data): Types\Interfaces\BusinessLocationInterface
     {
         $requiredFields = [
             'address',
@@ -3253,16 +3265,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BusinessLocation missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BusinessLocation(
+        return $this->factory->makeBusinessLocation(
             address: $data['address'],
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeLocation($data['location'])
                 : null,
         );
     }
 
-    public function denormalizeBusinessOpeningHoursInterval(array $data): BusinessOpeningHoursInterval
-    {
+    public function denormalizeBusinessOpeningHoursInterval(
+        array $data,
+    ): Types\Interfaces\BusinessOpeningHoursIntervalInterface {
         $requiredFields = [
             'opening_minute',
             'closing_minute',
@@ -3280,13 +3293,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BusinessOpeningHoursInterval missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BusinessOpeningHoursInterval(
+        return $this->factory->makeBusinessOpeningHoursInterval(
             openingMinute: $data['opening_minute'],
             closingMinute: $data['closing_minute'],
         );
     }
 
-    public function denormalizeBusinessOpeningHours(array $data): BusinessOpeningHours
+    public function denormalizeBusinessOpeningHours(array $data): Types\Interfaces\BusinessOpeningHoursInterface
     {
         $requiredFields = [
             'time_zone_name',
@@ -3305,13 +3318,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BusinessOpeningHours missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BusinessOpeningHours(
+        return $this->factory->makeBusinessOpeningHours(
             timeZoneName: $data['time_zone_name'],
             openingHours: array_map(fn (array $item) => $this->denormalizeBusinessOpeningHoursInterval($item), $data['opening_hours']),
         );
     }
 
-    public function denormalizeChatLocation(array $data): ChatLocation
+    public function denormalizeChatLocation(array $data): Types\Interfaces\ChatLocationInterface
     {
         $requiredFields = [
             'location',
@@ -3330,13 +3343,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatLocation missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatLocation(
+        return $this->factory->makeChatLocation(
             location: $this->denormalizeLocation($data['location']),
             address: $data['address'],
         );
     }
 
-    public function denormalizeReactionType(array $data): Types\ReactionType
+    public function denormalizeReactionType(array $data): Types\Interfaces\ReactionTypeInterface
     {
         return match ($data['type']) {
             'emoji' => $this->denormalizeReactionTypeEmoji($data),
@@ -3346,7 +3359,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeReactionTypeEmoji(array $data): ReactionTypeEmoji
+    public function denormalizeReactionTypeEmoji(array $data): Types\Interfaces\ReactionTypeEmojiInterface
     {
         $requiredFields = [
             'type',
@@ -3365,13 +3378,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReactionTypeEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReactionTypeEmoji(
+        return $this->factory->makeReactionTypeEmoji(
             type: $data['type'],
             emoji: $data['emoji'],
         );
     }
 
-    public function denormalizeReactionTypeCustomEmoji(array $data): ReactionTypeCustomEmoji
+    public function denormalizeReactionTypeCustomEmoji(array $data): Types\Interfaces\ReactionTypeCustomEmojiInterface
     {
         $requiredFields = [
             'type',
@@ -3390,13 +3403,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReactionTypeCustomEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReactionTypeCustomEmoji(
+        return $this->factory->makeReactionTypeCustomEmoji(
             type: $data['type'],
             customEmojiId: $data['custom_emoji_id'],
         );
     }
 
-    public function denormalizeReactionTypePaid(array $data): ReactionTypePaid
+    public function denormalizeReactionTypePaid(array $data): Types\Interfaces\ReactionTypePaidInterface
     {
         $requiredFields = [
             'type',
@@ -3414,12 +3427,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReactionTypePaid missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReactionTypePaid(
+        return $this->factory->makeReactionTypePaid(
             type: $data['type'],
         );
     }
 
-    public function denormalizeReactionCount(array $data): ReactionCount
+    public function denormalizeReactionCount(array $data): Types\Interfaces\ReactionCountInterface
     {
         $requiredFields = [
             'type',
@@ -3438,13 +3451,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ReactionCount missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ReactionCount(
+        return $this->factory->makeReactionCount(
             type: $this->denormalizeReactionType($data['type']),
             totalCount: $data['total_count'],
         );
     }
 
-    public function denormalizeMessageReactionUpdated(array $data): MessageReactionUpdated
+    public function denormalizeMessageReactionUpdated(array $data): Types\Interfaces\MessageReactionUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -3466,23 +3479,24 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageReactionUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageReactionUpdated(
+        return $this->factory->makeMessageReactionUpdated(
             chat: $this->denormalizeChat($data['chat']),
             messageId: $data['message_id'],
             date: $data['date'],
             oldReaction: array_map(fn (array $item) => $this->denormalizeReactionType($item), $data['old_reaction']),
             newReaction: array_map(fn (array $item) => $this->denormalizeReactionType($item), $data['new_reaction']),
-            user: ($data['user'] ?? null) !== null
+            user: isset($data['user'])
                 ? $this->denormalizeUser($data['user'])
                 : null,
-            actorChat: ($data['actor_chat'] ?? null) !== null
+            actorChat: isset($data['actor_chat'])
                 ? $this->denormalizeChat($data['actor_chat'])
                 : null,
         );
     }
 
-    public function denormalizeMessageReactionCountUpdated(array $data): MessageReactionCountUpdated
-    {
+    public function denormalizeMessageReactionCountUpdated(
+        array $data,
+    ): Types\Interfaces\MessageReactionCountUpdatedInterface {
         $requiredFields = [
             'chat',
             'message_id',
@@ -3502,7 +3516,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MessageReactionCountUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MessageReactionCountUpdated(
+        return $this->factory->makeMessageReactionCountUpdated(
             chat: $this->denormalizeChat($data['chat']),
             messageId: $data['message_id'],
             date: $data['date'],
@@ -3510,7 +3524,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForumTopic(array $data): ForumTopic
+    public function denormalizeForumTopic(array $data): Types\Interfaces\ForumTopicInterface
     {
         $requiredFields = [
             'message_thread_id',
@@ -3530,7 +3544,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ForumTopic missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ForumTopic(
+        return $this->factory->makeForumTopic(
             messageThreadId: $data['message_thread_id'],
             name: $data['name'],
             iconColor: $data['icon_color'],
@@ -3538,7 +3552,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotCommand(array $data): BotCommand
+    public function denormalizeBotCommand(array $data): Types\Interfaces\BotCommandInterface
     {
         $requiredFields = [
             'command',
@@ -3557,46 +3571,49 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotCommand missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotCommand(
+        return $this->factory->makeBotCommand(
             command: $data['command'],
             description: $data['description'],
         );
     }
 
-    public function denormalizeBotCommandScope(array $data): Types\BotCommandScope
+    public function denormalizeBotCommandScope(array $data): Types\Interfaces\BotCommandScopeInterface
     {
         throw new \RuntimeException('class BotCommandScope is abstract and not yet implemented');
     }
 
-    public function denormalizeBotCommandScopeDefault(array $data): BotCommandScopeDefault
+    public function denormalizeBotCommandScopeDefault(array $data): Types\Interfaces\BotCommandScopeDefaultInterface
     {
-        return new BotCommandScopeDefault(
+        return $this->factory->makeBotCommandScopeDefault(
             type: $data['type'] ?? 'default',
         );
     }
 
-    public function denormalizeBotCommandScopeAllPrivateChats(array $data): BotCommandScopeAllPrivateChats
-    {
-        return new BotCommandScopeAllPrivateChats(
+    public function denormalizeBotCommandScopeAllPrivateChats(
+        array $data,
+    ): Types\Interfaces\BotCommandScopeAllPrivateChatsInterface {
+        return $this->factory->makeBotCommandScopeAllPrivateChats(
             type: $data['type'] ?? 'all_private_chats',
         );
     }
 
-    public function denormalizeBotCommandScopeAllGroupChats(array $data): BotCommandScopeAllGroupChats
-    {
-        return new BotCommandScopeAllGroupChats(
+    public function denormalizeBotCommandScopeAllGroupChats(
+        array $data,
+    ): Types\Interfaces\BotCommandScopeAllGroupChatsInterface {
+        return $this->factory->makeBotCommandScopeAllGroupChats(
             type: $data['type'] ?? 'all_group_chats',
         );
     }
 
-    public function denormalizeBotCommandScopeAllChatAdministrators(array $data): BotCommandScopeAllChatAdministrators
-    {
-        return new BotCommandScopeAllChatAdministrators(
+    public function denormalizeBotCommandScopeAllChatAdministrators(
+        array $data,
+    ): Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface {
+        return $this->factory->makeBotCommandScopeAllChatAdministrators(
             type: $data['type'] ?? 'all_chat_administrators',
         );
     }
 
-    public function denormalizeBotCommandScopeChat(array $data): BotCommandScopeChat
+    public function denormalizeBotCommandScopeChat(array $data): Types\Interfaces\BotCommandScopeChatInterface
     {
         $requiredFields = [
             'chat_id',
@@ -3614,14 +3631,15 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotCommandScopeChat missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotCommandScopeChat(
+        return $this->factory->makeBotCommandScopeChat(
             chatId: $data['chat_id'],
             type: $data['type'] ?? 'chat',
         );
     }
 
-    public function denormalizeBotCommandScopeChatAdministrators(array $data): BotCommandScopeChatAdministrators
-    {
+    public function denormalizeBotCommandScopeChatAdministrators(
+        array $data,
+    ): Types\Interfaces\BotCommandScopeChatAdministratorsInterface {
         $requiredFields = [
             'chat_id',
         ];
@@ -3638,14 +3656,15 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotCommandScopeChatAdministrators missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotCommandScopeChatAdministrators(
+        return $this->factory->makeBotCommandScopeChatAdministrators(
             chatId: $data['chat_id'],
             type: $data['type'] ?? 'chat_administrators',
         );
     }
 
-    public function denormalizeBotCommandScopeChatMember(array $data): BotCommandScopeChatMember
-    {
+    public function denormalizeBotCommandScopeChatMember(
+        array $data,
+    ): Types\Interfaces\BotCommandScopeChatMemberInterface {
         $requiredFields = [
             'chat_id',
             'user_id',
@@ -3663,14 +3682,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotCommandScopeChatMember missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotCommandScopeChatMember(
+        return $this->factory->makeBotCommandScopeChatMember(
             chatId: $data['chat_id'],
             userId: $data['user_id'],
             type: $data['type'] ?? 'chat_member',
         );
     }
 
-    public function denormalizeBotName(array $data): BotName
+    public function denormalizeBotName(array $data): Types\Interfaces\BotNameInterface
     {
         $requiredFields = [
             'name',
@@ -3688,12 +3707,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotName missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotName(
+        return $this->factory->makeBotName(
             name: $data['name'],
         );
     }
 
-    public function denormalizeBotDescription(array $data): BotDescription
+    public function denormalizeBotDescription(array $data): Types\Interfaces\BotDescriptionInterface
     {
         $requiredFields = [
             'description',
@@ -3711,12 +3730,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotDescription missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotDescription(
+        return $this->factory->makeBotDescription(
             description: $data['description'],
         );
     }
 
-    public function denormalizeBotShortDescription(array $data): BotShortDescription
+    public function denormalizeBotShortDescription(array $data): Types\Interfaces\BotShortDescriptionInterface
     {
         $requiredFields = [
             'short_description',
@@ -3734,24 +3753,24 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BotShortDescription missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BotShortDescription(
+        return $this->factory->makeBotShortDescription(
             shortDescription: $data['short_description'],
         );
     }
 
-    public function denormalizeMenuButton(array $data): Types\MenuButton
+    public function denormalizeMenuButton(array $data): Types\Interfaces\MenuButtonInterface
     {
         throw new \RuntimeException('class MenuButton is abstract and not yet implemented');
     }
 
-    public function denormalizeMenuButtonCommands(array $data): MenuButtonCommands
+    public function denormalizeMenuButtonCommands(array $data): Types\Interfaces\MenuButtonCommandsInterface
     {
-        return new MenuButtonCommands(
+        return $this->factory->makeMenuButtonCommands(
             type: $data['type'] ?? 'commands',
         );
     }
 
-    public function denormalizeMenuButtonWebApp(array $data): MenuButtonWebApp
+    public function denormalizeMenuButtonWebApp(array $data): Types\Interfaces\MenuButtonWebAppInterface
     {
         $requiredFields = [
             'text',
@@ -3770,21 +3789,21 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MenuButtonWebApp missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MenuButtonWebApp(
+        return $this->factory->makeMenuButtonWebApp(
             text: $data['text'],
             webApp: $this->denormalizeWebAppInfo($data['web_app']),
             type: $data['type'] ?? 'web_app',
         );
     }
 
-    public function denormalizeMenuButtonDefault(array $data): MenuButtonDefault
+    public function denormalizeMenuButtonDefault(array $data): Types\Interfaces\MenuButtonDefaultInterface
     {
-        return new MenuButtonDefault(
+        return $this->factory->makeMenuButtonDefault(
             type: $data['type'] ?? 'default',
         );
     }
 
-    public function denormalizeChatBoostSource(array $data): Types\ChatBoostSource
+    public function denormalizeChatBoostSource(array $data): Types\Interfaces\ChatBoostSourceInterface
     {
         return match ($data['source']) {
             'premium' => $this->denormalizeChatBoostSourcePremium($data),
@@ -3794,7 +3813,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeChatBoostSourcePremium(array $data): ChatBoostSourcePremium
+    public function denormalizeChatBoostSourcePremium(array $data): Types\Interfaces\ChatBoostSourcePremiumInterface
     {
         $requiredFields = [
             'source',
@@ -3813,13 +3832,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostSourcePremium missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostSourcePremium(
+        return $this->factory->makeChatBoostSourcePremium(
             source: $data['source'],
             user: $this->denormalizeUser($data['user']),
         );
     }
 
-    public function denormalizeChatBoostSourceGiftCode(array $data): ChatBoostSourceGiftCode
+    public function denormalizeChatBoostSourceGiftCode(array $data): Types\Interfaces\ChatBoostSourceGiftCodeInterface
     {
         $requiredFields = [
             'source',
@@ -3838,13 +3857,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostSourceGiftCode missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostSourceGiftCode(
+        return $this->factory->makeChatBoostSourceGiftCode(
             source: $data['source'],
             user: $this->denormalizeUser($data['user']),
         );
     }
 
-    public function denormalizeChatBoostSourceGiveaway(array $data): ChatBoostSourceGiveaway
+    public function denormalizeChatBoostSourceGiveaway(array $data): Types\Interfaces\ChatBoostSourceGiveawayInterface
     {
         $requiredFields = [
             'source',
@@ -3863,10 +3882,10 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostSourceGiveaway missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostSourceGiveaway(
+        return $this->factory->makeChatBoostSourceGiveaway(
             source: $data['source'],
             giveawayMessageId: $data['giveaway_message_id'],
-            user: ($data['user'] ?? null) !== null
+            user: isset($data['user'])
                 ? $this->denormalizeUser($data['user'])
                 : null,
             prizeStarCount: $data['prize_star_count'] ?? null,
@@ -3874,7 +3893,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoost(array $data): ChatBoost
+    public function denormalizeChatBoost(array $data): Types\Interfaces\ChatBoostInterface
     {
         $requiredFields = [
             'boost_id',
@@ -3895,7 +3914,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoost missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoost(
+        return $this->factory->makeChatBoost(
             boostId: $data['boost_id'],
             addDate: $data['add_date'],
             expirationDate: $data['expiration_date'],
@@ -3903,7 +3922,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostUpdated(array $data): ChatBoostUpdated
+    public function denormalizeChatBoostUpdated(array $data): Types\Interfaces\ChatBoostUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -3922,13 +3941,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostUpdated(
+        return $this->factory->makeChatBoostUpdated(
             chat: $this->denormalizeChat($data['chat']),
             boost: $this->denormalizeChatBoost($data['boost']),
         );
     }
 
-    public function denormalizeChatBoostRemoved(array $data): ChatBoostRemoved
+    public function denormalizeChatBoostRemoved(array $data): Types\Interfaces\ChatBoostRemovedInterface
     {
         $requiredFields = [
             'chat',
@@ -3949,7 +3968,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChatBoostRemoved missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChatBoostRemoved(
+        return $this->factory->makeChatBoostRemoved(
             chat: $this->denormalizeChat($data['chat']),
             boostId: $data['boost_id'],
             removeDate: $data['remove_date'],
@@ -3957,7 +3976,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUserChatBoosts(array $data): UserChatBoosts
+    public function denormalizeUserChatBoosts(array $data): Types\Interfaces\UserChatBoostsInterface
     {
         $requiredFields = [
             'boosts',
@@ -3975,12 +3994,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class UserChatBoosts missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new UserChatBoosts(
+        return $this->factory->makeUserChatBoosts(
             boosts: array_map(fn (array $item) => $this->denormalizeChatBoost($item), $data['boosts']),
         );
     }
 
-    public function denormalizeBusinessConnection(array $data): BusinessConnection
+    public function denormalizeBusinessConnection(array $data): Types\Interfaces\BusinessConnectionInterface
     {
         $requiredFields = [
             'id',
@@ -4003,7 +4022,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BusinessConnection missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BusinessConnection(
+        return $this->factory->makeBusinessConnection(
             id: $data['id'],
             user: $this->denormalizeUser($data['user']),
             userChatId: $data['user_chat_id'],
@@ -4013,7 +4032,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessMessagesDeleted(array $data): BusinessMessagesDeleted
+    public function denormalizeBusinessMessagesDeleted(array $data): Types\Interfaces\BusinessMessagesDeletedInterface
     {
         $requiredFields = [
             'business_connection_id',
@@ -4033,27 +4052,27 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class BusinessMessagesDeleted missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new BusinessMessagesDeleted(
+        return $this->factory->makeBusinessMessagesDeleted(
             businessConnectionId: $data['business_connection_id'],
             chat: $this->denormalizeChat($data['chat']),
             messageIds: $data['message_ids'],
         );
     }
 
-    public function denormalizeResponseParameters(array $data): ResponseParameters
+    public function denormalizeResponseParameters(array $data): Types\Interfaces\ResponseParametersInterface
     {
-        return new ResponseParameters(
+        return $this->factory->makeResponseParameters(
             migrateToChatId: $data['migrate_to_chat_id'] ?? null,
             retryAfter: $data['retry_after'] ?? null,
         );
     }
 
-    public function denormalizeInputMedia(array $data): Types\InputMedia
+    public function denormalizeInputMedia(array $data): Types\Interfaces\InputMediaInterface
     {
         throw new \RuntimeException('class InputMedia is abstract and not yet implemented');
     }
 
-    public function denormalizeInputMediaPhoto(array $data): InputMediaPhoto
+    public function denormalizeInputMediaPhoto(array $data): Types\Interfaces\InputMediaPhotoInterface
     {
         $requiredFields = [
             'media',
@@ -4071,12 +4090,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputMediaPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputMediaPhoto(
+        return $this->factory->makeInputMediaPhoto(
             media: $data['media'],
             type: $data['type'] ?? 'photo',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
@@ -4084,7 +4103,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaVideo(array $data): InputMediaVideo
+    public function denormalizeInputMediaVideo(array $data): Types\Interfaces\InputMediaVideoInterface
     {
         $requiredFields = [
             'media',
@@ -4102,15 +4121,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputMediaVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputMediaVideo(
+        return $this->factory->makeInputMediaVideo(
             media: $data['media'],
             type: $data['type'] ?? 'video',
-            thumbnail: ($data['thumbnail'] ?? null) !== null
-                ? $this->denormalizeInputFile($data['thumbnail'])
-                : null,
+            thumbnail: $data['thumbnail'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
@@ -4122,7 +4139,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaAnimation(array $data): InputMediaAnimation
+    public function denormalizeInputMediaAnimation(array $data): Types\Interfaces\InputMediaAnimationInterface
     {
         $requiredFields = [
             'media',
@@ -4140,15 +4157,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputMediaAnimation missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputMediaAnimation(
+        return $this->factory->makeInputMediaAnimation(
             media: $data['media'],
             type: $data['type'] ?? 'animation',
-            thumbnail: ($data['thumbnail'] ?? null) !== null
-                ? $this->denormalizeInputFile($data['thumbnail'])
-                : null,
+            thumbnail: $data['thumbnail'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
@@ -4159,7 +4174,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaAudio(array $data): InputMediaAudio
+    public function denormalizeInputMediaAudio(array $data): Types\Interfaces\InputMediaAudioInterface
     {
         $requiredFields = [
             'media',
@@ -4177,15 +4192,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputMediaAudio missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputMediaAudio(
+        return $this->factory->makeInputMediaAudio(
             media: $data['media'],
             type: $data['type'] ?? 'audio',
-            thumbnail: ($data['thumbnail'] ?? null) !== null
-                ? $this->denormalizeInputFile($data['thumbnail'])
-                : null,
+            thumbnail: $data['thumbnail'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             duration: $data['duration'] ?? null,
@@ -4194,7 +4207,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaDocument(array $data): InputMediaDocument
+    public function denormalizeInputMediaDocument(array $data): Types\Interfaces\InputMediaDocumentInterface
     {
         $requiredFields = [
             'media',
@@ -4212,32 +4225,48 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputMediaDocument missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputMediaDocument(
+        return $this->factory->makeInputMediaDocument(
             media: $data['media'],
             type: $data['type'] ?? 'document',
-            thumbnail: ($data['thumbnail'] ?? null) !== null
-                ? $this->denormalizeInputFile($data['thumbnail'])
-                : null,
+            thumbnail: $data['thumbnail'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             disableContentTypeDetection: $data['disable_content_type_detection'] ?? null,
         );
     }
 
-    public function denormalizeInputFile(array $data): InputFile
+    public function denormalizeInputFile(array $data): Types\Interfaces\InputFileInterface
     {
-        return new InputFile();
+        $requiredFields = [
+            'file_path',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputFile missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputFile(
+            filePath: $data['file_path'],
+        );
     }
 
-    public function denormalizeInputPaidMedia(array $data): Types\InputPaidMedia
+    public function denormalizeInputPaidMedia(array $data): Types\Interfaces\InputPaidMediaInterface
     {
         throw new \RuntimeException('class InputPaidMedia is abstract and not yet implemented');
     }
 
-    public function denormalizeInputPaidMediaPhoto(array $data): InputPaidMediaPhoto
+    public function denormalizeInputPaidMediaPhoto(array $data): Types\Interfaces\InputPaidMediaPhotoInterface
     {
         $requiredFields = [
             'media',
@@ -4255,13 +4284,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputPaidMediaPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputPaidMediaPhoto(
+        return $this->factory->makeInputPaidMediaPhoto(
             media: $data['media'],
             type: $data['type'] ?? 'photo',
         );
     }
 
-    public function denormalizeInputPaidMediaVideo(array $data): InputPaidMediaVideo
+    public function denormalizeInputPaidMediaVideo(array $data): Types\Interfaces\InputPaidMediaVideoInterface
     {
         $requiredFields = [
             'media',
@@ -4279,12 +4308,10 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputPaidMediaVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputPaidMediaVideo(
+        return $this->factory->makeInputPaidMediaVideo(
             media: $data['media'],
             type: $data['type'] ?? 'video',
-            thumbnail: ($data['thumbnail'] ?? null) !== null
-                ? $this->denormalizeInputFile($data['thumbnail'])
-                : null,
+            thumbnail: $data['thumbnail'] ?? null,
             width: $data['width'] ?? null,
             height: $data['height'] ?? null,
             duration: $data['duration'] ?? null,
@@ -4292,7 +4319,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSticker(array $data): Sticker
+    public function denormalizeSticker(array $data): Types\Interfaces\StickerInterface
     {
         $requiredFields = [
             'file_id',
@@ -4316,7 +4343,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Sticker missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Sticker(
+        return $this->factory->makeSticker(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             type: $data['type'],
@@ -4324,15 +4351,15 @@ class Serializer implements SerializerInterface
             height: $data['height'],
             isAnimated: $data['is_animated'],
             isVideo: $data['is_video'],
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
             emoji: $data['emoji'] ?? null,
             setName: $data['set_name'] ?? null,
-            premiumAnimation: ($data['premium_animation'] ?? null) !== null
+            premiumAnimation: isset($data['premium_animation'])
                 ? $this->denormalizeFile($data['premium_animation'])
                 : null,
-            maskPosition: ($data['mask_position'] ?? null) !== null
+            maskPosition: isset($data['mask_position'])
                 ? $this->denormalizeMaskPosition($data['mask_position'])
                 : null,
             customEmojiId: $data['custom_emoji_id'] ?? null,
@@ -4341,7 +4368,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStickerSet(array $data): StickerSet
+    public function denormalizeStickerSet(array $data): Types\Interfaces\StickerSetInterface
     {
         $requiredFields = [
             'name',
@@ -4362,18 +4389,18 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class StickerSet missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new StickerSet(
+        return $this->factory->makeStickerSet(
             name: $data['name'],
             title: $data['title'],
             stickerType: $data['sticker_type'],
             stickers: array_map(fn (array $item) => $this->denormalizeSticker($item), $data['stickers']),
-            thumbnail: ($data['thumbnail'] ?? null) !== null
+            thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
         );
     }
 
-    public function denormalizeMaskPosition(array $data): MaskPosition
+    public function denormalizeMaskPosition(array $data): Types\Interfaces\MaskPositionInterface
     {
         $requiredFields = [
             'point',
@@ -4394,7 +4421,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class MaskPosition missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new MaskPosition(
+        return $this->factory->makeMaskPosition(
             point: $data['point'],
             xShift: $data['x_shift'],
             yShift: $data['y_shift'],
@@ -4402,7 +4429,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputSticker(array $data): InputSticker
+    public function denormalizeInputSticker(array $data): Types\Interfaces\InputStickerInterface
     {
         $requiredFields = [
             'sticker',
@@ -4422,18 +4449,18 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputSticker missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputSticker(
-            sticker: $this->denormalizeInputFile($data['sticker']),
+        return $this->factory->makeInputSticker(
+            sticker: $data['sticker'],
             format: $data['format'],
             emojiList: $data['emoji_list'],
-            maskPosition: ($data['mask_position'] ?? null) !== null
+            maskPosition: isset($data['mask_position'])
                 ? $this->denormalizeMaskPosition($data['mask_position'])
                 : null,
             keywords: $data['keywords'] ?? null,
         );
     }
 
-    public function denormalizeGift(array $data): Gift
+    public function denormalizeGift(array $data): Types\Interfaces\GiftInterface
     {
         $requiredFields = [
             'id',
@@ -4453,7 +4480,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Gift missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Gift(
+        return $this->factory->makeGift(
             id: $data['id'],
             sticker: $this->denormalizeSticker($data['sticker']),
             starCount: $data['star_count'],
@@ -4462,7 +4489,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGifts(array $data): Gifts
+    public function denormalizeGifts(array $data): Types\Interfaces\GiftsInterface
     {
         $requiredFields = [
             'gifts',
@@ -4480,12 +4507,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Gifts missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Gifts(
+        return $this->factory->makeGifts(
             gifts: array_map(fn (array $item) => $this->denormalizeGift($item), $data['gifts']),
         );
     }
 
-    public function denormalizeInlineQuery(array $data): InlineQuery
+    public function denormalizeInlineQuery(array $data): Types\Interfaces\InlineQueryInterface
     {
         $requiredFields = [
             'id',
@@ -4506,19 +4533,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQuery(
+        return $this->factory->makeInlineQuery(
             id: $data['id'],
             from: $this->denormalizeUser($data['from']),
             query: $data['query'],
             offset: $data['offset'],
             chatType: $data['chat_type'] ?? null,
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeLocation($data['location'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultsButton(array $data): InlineQueryResultsButton
+    public function denormalizeInlineQueryResultsButton(array $data): Types\Interfaces\InlineQueryResultsButtonInterface
     {
         $requiredFields = [
             'text',
@@ -4536,21 +4563,21 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultsButton missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultsButton(
+        return $this->factory->makeInlineQueryResultsButton(
             text: $data['text'],
-            webApp: ($data['web_app'] ?? null) !== null
+            webApp: isset($data['web_app'])
                 ? $this->denormalizeWebAppInfo($data['web_app'])
                 : null,
             startParameter: $data['start_parameter'] ?? null,
         );
     }
 
-    public function denormalizeInlineQueryResult(array $data): Types\InlineQueryResult
+    public function denormalizeInlineQueryResult(array $data): Types\Interfaces\InlineQueryResultInterface
     {
         throw new \RuntimeException('class InlineQueryResult is abstract and not yet implemented');
     }
 
-    public function denormalizeInlineQueryResultArticle(array $data): InlineQueryResultArticle
+    public function denormalizeInlineQueryResultArticle(array $data): Types\Interfaces\InlineQueryResultArticleInterface
     {
         $requiredFields = [
             'id',
@@ -4570,12 +4597,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultArticle missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultArticle(
+        return $this->factory->makeInlineQueryResultArticle(
             id: $data['id'],
             title: $data['title'],
             inputMessageContent: $this->denormalizeInputMessageContent($data['input_message_content']),
             type: $data['type'] ?? 'article',
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
             url: $data['url'] ?? null,
@@ -4587,7 +4614,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultPhoto(array $data): InlineQueryResultPhoto
+    public function denormalizeInlineQueryResultPhoto(array $data): Types\Interfaces\InlineQueryResultPhotoInterface
     {
         $requiredFields = [
             'id',
@@ -4607,7 +4634,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultPhoto(
+        return $this->factory->makeInlineQueryResultPhoto(
             id: $data['id'],
             photoUrl: $data['photo_url'],
             thumbnailUrl: $data['thumbnail_url'],
@@ -4618,20 +4645,20 @@ class Serializer implements SerializerInterface
             description: $data['description'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultGif(array $data): InlineQueryResultGif
+    public function denormalizeInlineQueryResultGif(array $data): Types\Interfaces\InlineQueryResultGifInterface
     {
         $requiredFields = [
             'id',
@@ -4651,7 +4678,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultGif missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultGif(
+        return $this->factory->makeInlineQueryResultGif(
             id: $data['id'],
             gifUrl: $data['gif_url'],
             thumbnailUrl: $data['thumbnail_url'],
@@ -4663,21 +4690,22 @@ class Serializer implements SerializerInterface
             title: $data['title'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultMpeg4Gif(array $data): InlineQueryResultMpeg4Gif
-    {
+    public function denormalizeInlineQueryResultMpeg4Gif(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultMpeg4GifInterface {
         $requiredFields = [
             'id',
             'mpeg4_url',
@@ -4696,7 +4724,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultMpeg4Gif missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultMpeg4Gif(
+        return $this->factory->makeInlineQueryResultMpeg4Gif(
             id: $data['id'],
             mpeg4Url: $data['mpeg4_url'],
             thumbnailUrl: $data['thumbnail_url'],
@@ -4708,20 +4736,20 @@ class Serializer implements SerializerInterface
             title: $data['title'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultVideo(array $data): InlineQueryResultVideo
+    public function denormalizeInlineQueryResultVideo(array $data): Types\Interfaces\InlineQueryResultVideoInterface
     {
         $requiredFields = [
             'id',
@@ -4743,7 +4771,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultVideo(
+        return $this->factory->makeInlineQueryResultVideo(
             id: $data['id'],
             videoUrl: $data['video_url'],
             mimeType: $data['mime_type'],
@@ -4752,7 +4780,7 @@ class Serializer implements SerializerInterface
             type: $data['type'] ?? 'video',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
@@ -4760,16 +4788,16 @@ class Serializer implements SerializerInterface
             videoHeight: $data['video_height'] ?? null,
             videoDuration: $data['video_duration'] ?? null,
             description: $data['description'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultAudio(array $data): InlineQueryResultAudio
+    public function denormalizeInlineQueryResultAudio(array $data): Types\Interfaces\InlineQueryResultAudioInterface
     {
         $requiredFields = [
             'id',
@@ -4789,28 +4817,28 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultAudio missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultAudio(
+        return $this->factory->makeInlineQueryResultAudio(
             id: $data['id'],
             audioUrl: $data['audio_url'],
             title: $data['title'],
             type: $data['type'] ?? 'audio',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             performer: $data['performer'] ?? null,
             audioDuration: $data['audio_duration'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultVoice(array $data): InlineQueryResultVoice
+    public function denormalizeInlineQueryResultVoice(array $data): Types\Interfaces\InlineQueryResultVoiceInterface
     {
         $requiredFields = [
             'id',
@@ -4830,28 +4858,29 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultVoice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultVoice(
+        return $this->factory->makeInlineQueryResultVoice(
             id: $data['id'],
             voiceUrl: $data['voice_url'],
             title: $data['title'],
             type: $data['type'] ?? 'voice',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             voiceDuration: $data['voice_duration'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultDocument(array $data): InlineQueryResultDocument
-    {
+    public function denormalizeInlineQueryResultDocument(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultDocumentInterface {
         $requiredFields = [
             'id',
             'title',
@@ -4871,7 +4900,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultDocument missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultDocument(
+        return $this->factory->makeInlineQueryResultDocument(
             id: $data['id'],
             title: $data['title'],
             documentUrl: $data['document_url'],
@@ -4879,14 +4908,14 @@ class Serializer implements SerializerInterface
             type: $data['type'] ?? 'document',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             description: $data['description'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
             thumbnailUrl: $data['thumbnail_url'] ?? null,
@@ -4895,8 +4924,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultLocation(array $data): InlineQueryResultLocation
-    {
+    public function denormalizeInlineQueryResultLocation(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultLocationInterface {
         $requiredFields = [
             'id',
             'latitude',
@@ -4916,7 +4946,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultLocation missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultLocation(
+        return $this->factory->makeInlineQueryResultLocation(
             id: $data['id'],
             latitude: $data['latitude'],
             longitude: $data['longitude'],
@@ -4926,10 +4956,10 @@ class Serializer implements SerializerInterface
             livePeriod: $data['live_period'] ?? null,
             heading: $data['heading'] ?? null,
             proximityAlertRadius: $data['proximity_alert_radius'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
             thumbnailUrl: $data['thumbnail_url'] ?? null,
@@ -4938,7 +4968,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultVenue(array $data): InlineQueryResultVenue
+    public function denormalizeInlineQueryResultVenue(array $data): Types\Interfaces\InlineQueryResultVenueInterface
     {
         $requiredFields = [
             'id',
@@ -4960,7 +4990,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultVenue missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultVenue(
+        return $this->factory->makeInlineQueryResultVenue(
             id: $data['id'],
             latitude: $data['latitude'],
             longitude: $data['longitude'],
@@ -4971,10 +5001,10 @@ class Serializer implements SerializerInterface
             foursquareType: $data['foursquare_type'] ?? null,
             googlePlaceId: $data['google_place_id'] ?? null,
             googlePlaceType: $data['google_place_type'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
             thumbnailUrl: $data['thumbnail_url'] ?? null,
@@ -4983,7 +5013,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultContact(array $data): InlineQueryResultContact
+    public function denormalizeInlineQueryResultContact(array $data): Types\Interfaces\InlineQueryResultContactInterface
     {
         $requiredFields = [
             'id',
@@ -5003,17 +5033,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultContact missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultContact(
+        return $this->factory->makeInlineQueryResultContact(
             id: $data['id'],
             phoneNumber: $data['phone_number'],
             firstName: $data['first_name'],
             type: $data['type'] ?? 'contact',
             lastName: $data['last_name'] ?? null,
             vcard: $data['vcard'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
             thumbnailUrl: $data['thumbnail_url'] ?? null,
@@ -5022,7 +5052,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultGame(array $data): InlineQueryResultGame
+    public function denormalizeInlineQueryResultGame(array $data): Types\Interfaces\InlineQueryResultGameInterface
     {
         $requiredFields = [
             'id',
@@ -5041,18 +5071,19 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultGame missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultGame(
+        return $this->factory->makeInlineQueryResultGame(
             id: $data['id'],
             gameShortName: $data['game_short_name'],
             type: $data['type'] ?? 'game',
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedPhoto(array $data): InlineQueryResultCachedPhoto
-    {
+    public function denormalizeInlineQueryResultCachedPhoto(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedPhotoInterface {
         $requiredFields = [
             'id',
             'photo_file_id',
@@ -5070,7 +5101,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedPhoto(
+        return $this->factory->makeInlineQueryResultCachedPhoto(
             id: $data['id'],
             photoFileId: $data['photo_file_id'],
             type: $data['type'] ?? 'photo',
@@ -5078,21 +5109,22 @@ class Serializer implements SerializerInterface
             description: $data['description'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedGif(array $data): InlineQueryResultCachedGif
-    {
+    public function denormalizeInlineQueryResultCachedGif(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedGifInterface {
         $requiredFields = [
             'id',
             'gif_file_id',
@@ -5110,28 +5142,29 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedGif missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedGif(
+        return $this->factory->makeInlineQueryResultCachedGif(
             id: $data['id'],
             gifFileId: $data['gif_file_id'],
             type: $data['type'] ?? 'gif',
             title: $data['title'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedMpeg4Gif(array $data): InlineQueryResultCachedMpeg4Gif
-    {
+    public function denormalizeInlineQueryResultCachedMpeg4Gif(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedMpeg4GifInterface {
         $requiredFields = [
             'id',
             'mpeg4_file_id',
@@ -5149,28 +5182,29 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedMpeg4Gif missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedMpeg4Gif(
+        return $this->factory->makeInlineQueryResultCachedMpeg4Gif(
             id: $data['id'],
             mpeg4FileId: $data['mpeg4_file_id'],
             type: $data['type'] ?? 'mpeg4_gif',
             title: $data['title'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedSticker(array $data): InlineQueryResultCachedSticker
-    {
+    public function denormalizeInlineQueryResultCachedSticker(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedStickerInterface {
         $requiredFields = [
             'id',
             'sticker_file_id',
@@ -5188,21 +5222,22 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedSticker missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedSticker(
+        return $this->factory->makeInlineQueryResultCachedSticker(
             id: $data['id'],
             stickerFileId: $data['sticker_file_id'],
             type: $data['type'] ?? 'sticker',
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedDocument(array $data): InlineQueryResultCachedDocument
-    {
+    public function denormalizeInlineQueryResultCachedDocument(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedDocumentInterface {
         $requiredFields = [
             'id',
             'title',
@@ -5221,7 +5256,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedDocument missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedDocument(
+        return $this->factory->makeInlineQueryResultCachedDocument(
             id: $data['id'],
             title: $data['title'],
             documentFileId: $data['document_file_id'],
@@ -5229,20 +5264,21 @@ class Serializer implements SerializerInterface
             description: $data['description'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedVideo(array $data): InlineQueryResultCachedVideo
-    {
+    public function denormalizeInlineQueryResultCachedVideo(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedVideoInterface {
         $requiredFields = [
             'id',
             'video_file_id',
@@ -5261,7 +5297,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedVideo(
+        return $this->factory->makeInlineQueryResultCachedVideo(
             id: $data['id'],
             videoFileId: $data['video_file_id'],
             title: $data['title'],
@@ -5269,21 +5305,22 @@ class Serializer implements SerializerInterface
             description: $data['description'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedVoice(array $data): InlineQueryResultCachedVoice
-    {
+    public function denormalizeInlineQueryResultCachedVoice(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedVoiceInterface {
         $requiredFields = [
             'id',
             'voice_file_id',
@@ -5302,27 +5339,28 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedVoice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedVoice(
+        return $this->factory->makeInlineQueryResultCachedVoice(
             id: $data['id'],
             voiceFileId: $data['voice_file_id'],
             title: $data['title'],
             type: $data['type'] ?? 'voice',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInlineQueryResultCachedAudio(array $data): InlineQueryResultCachedAudio
-    {
+    public function denormalizeInlineQueryResultCachedAudio(
+        array $data,
+    ): Types\Interfaces\InlineQueryResultCachedAudioInterface {
         $requiredFields = [
             'id',
             'audio_file_id',
@@ -5340,30 +5378,30 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InlineQueryResultCachedAudio missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InlineQueryResultCachedAudio(
+        return $this->factory->makeInlineQueryResultCachedAudio(
             id: $data['id'],
             audioFileId: $data['audio_file_id'],
             type: $data['type'] ?? 'audio',
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
-            captionEntities: ($data['caption_entities'] ?? null) !== null
+            captionEntities: isset($data['caption_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
                 : null,
-            replyMarkup: ($data['reply_markup'] ?? null) !== null
+            replyMarkup: isset($data['reply_markup'])
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
-            inputMessageContent: ($data['input_message_content'] ?? null) !== null
+            inputMessageContent: isset($data['input_message_content'])
                 ? $this->denormalizeInputMessageContent($data['input_message_content'])
                 : null,
         );
     }
 
-    public function denormalizeInputMessageContent(array $data): Types\InputMessageContent
+    public function denormalizeInputMessageContent(array $data): Types\Interfaces\InputMessageContentInterface
     {
         throw new \RuntimeException('class InputMessageContent is abstract and not yet implemented');
     }
 
-    public function denormalizeInputTextMessageContent(array $data): InputTextMessageContent
+    public function denormalizeInputTextMessageContent(array $data): Types\Interfaces\InputTextMessageContentInterface
     {
         $requiredFields = [
             'message_text',
@@ -5381,20 +5419,21 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputTextMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputTextMessageContent(
+        return $this->factory->makeInputTextMessageContent(
             messageText: $data['message_text'],
             parseMode: $data['parse_mode'] ?? null,
-            entities: ($data['entities'] ?? null) !== null
+            entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
                 : null,
-            linkPreviewOptions: ($data['link_preview_options'] ?? null) !== null
+            linkPreviewOptions: isset($data['link_preview_options'])
                 ? $this->denormalizeLinkPreviewOptions($data['link_preview_options'])
                 : null,
         );
     }
 
-    public function denormalizeInputLocationMessageContent(array $data): InputLocationMessageContent
-    {
+    public function denormalizeInputLocationMessageContent(
+        array $data,
+    ): Types\Interfaces\InputLocationMessageContentInterface {
         $requiredFields = [
             'latitude',
             'longitude',
@@ -5412,7 +5451,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputLocationMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputLocationMessageContent(
+        return $this->factory->makeInputLocationMessageContent(
             latitude: $data['latitude'],
             longitude: $data['longitude'],
             horizontalAccuracy: $data['horizontal_accuracy'] ?? null,
@@ -5422,7 +5461,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputVenueMessageContent(array $data): InputVenueMessageContent
+    public function denormalizeInputVenueMessageContent(array $data): Types\Interfaces\InputVenueMessageContentInterface
     {
         $requiredFields = [
             'latitude',
@@ -5443,7 +5482,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputVenueMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputVenueMessageContent(
+        return $this->factory->makeInputVenueMessageContent(
             latitude: $data['latitude'],
             longitude: $data['longitude'],
             title: $data['title'],
@@ -5455,8 +5494,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputContactMessageContent(array $data): InputContactMessageContent
-    {
+    public function denormalizeInputContactMessageContent(
+        array $data,
+    ): Types\Interfaces\InputContactMessageContentInterface {
         $requiredFields = [
             'phone_number',
             'first_name',
@@ -5474,7 +5514,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputContactMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputContactMessageContent(
+        return $this->factory->makeInputContactMessageContent(
             phoneNumber: $data['phone_number'],
             firstName: $data['first_name'],
             lastName: $data['last_name'] ?? null,
@@ -5482,8 +5522,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputInvoiceMessageContent(array $data): InputInvoiceMessageContent
-    {
+    public function denormalizeInputInvoiceMessageContent(
+        array $data,
+    ): Types\Interfaces\InputInvoiceMessageContentInterface {
         $requiredFields = [
             'title',
             'description',
@@ -5504,7 +5545,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class InputInvoiceMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new InputInvoiceMessageContent(
+        return $this->factory->makeInputInvoiceMessageContent(
             title: $data['title'],
             description: $data['description'],
             payload: $data['payload'],
@@ -5528,7 +5569,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChosenInlineResult(array $data): ChosenInlineResult
+    public function denormalizeChosenInlineResult(array $data): Types\Interfaces\ChosenInlineResultInterface
     {
         $requiredFields = [
             'result_id',
@@ -5548,25 +5589,25 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ChosenInlineResult missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ChosenInlineResult(
+        return $this->factory->makeChosenInlineResult(
             resultId: $data['result_id'],
             from: $this->denormalizeUser($data['from']),
             query: $data['query'],
-            location: ($data['location'] ?? null) !== null
+            location: isset($data['location'])
                 ? $this->denormalizeLocation($data['location'])
                 : null,
             inlineMessageId: $data['inline_message_id'] ?? null,
         );
     }
 
-    public function denormalizeSentWebAppMessage(array $data): SentWebAppMessage
+    public function denormalizeSentWebAppMessage(array $data): Types\Interfaces\SentWebAppMessageInterface
     {
-        return new SentWebAppMessage(
+        return $this->factory->makeSentWebAppMessage(
             inlineMessageId: $data['inline_message_id'] ?? null,
         );
     }
 
-    public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessage
+    public function denormalizePreparedInlineMessage(array $data): Types\Interfaces\PreparedInlineMessageInterface
     {
         $requiredFields = [
             'id',
@@ -5585,13 +5626,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PreparedInlineMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PreparedInlineMessage(
+        return $this->factory->makePreparedInlineMessage(
             id: $data['id'],
             expirationDate: $data['expiration_date'],
         );
     }
 
-    public function denormalizeLabeledPrice(array $data): LabeledPrice
+    public function denormalizeLabeledPrice(array $data): Types\Interfaces\LabeledPriceInterface
     {
         $requiredFields = [
             'label',
@@ -5610,13 +5651,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class LabeledPrice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new LabeledPrice(
+        return $this->factory->makeLabeledPrice(
             label: $data['label'],
             amount: $data['amount'],
         );
     }
 
-    public function denormalizeInvoice(array $data): Invoice
+    public function denormalizeInvoice(array $data): Types\Interfaces\InvoiceInterface
     {
         $requiredFields = [
             'title',
@@ -5638,7 +5679,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Invoice missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Invoice(
+        return $this->factory->makeInvoice(
             title: $data['title'],
             description: $data['description'],
             startParameter: $data['start_parameter'],
@@ -5647,7 +5688,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeShippingAddress(array $data): ShippingAddress
+    public function denormalizeShippingAddress(array $data): Types\Interfaces\ShippingAddressInterface
     {
         $requiredFields = [
             'country_code',
@@ -5670,7 +5711,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ShippingAddress missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ShippingAddress(
+        return $this->factory->makeShippingAddress(
             countryCode: $data['country_code'],
             state: $data['state'],
             city: $data['city'],
@@ -5680,19 +5721,19 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeOrderInfo(array $data): OrderInfo
+    public function denormalizeOrderInfo(array $data): Types\Interfaces\OrderInfoInterface
     {
-        return new OrderInfo(
+        return $this->factory->makeOrderInfo(
             name: $data['name'] ?? null,
             phoneNumber: $data['phone_number'] ?? null,
             email: $data['email'] ?? null,
-            shippingAddress: ($data['shipping_address'] ?? null) !== null
+            shippingAddress: isset($data['shipping_address'])
                 ? $this->denormalizeShippingAddress($data['shipping_address'])
                 : null,
         );
     }
 
-    public function denormalizeShippingOption(array $data): ShippingOption
+    public function denormalizeShippingOption(array $data): Types\Interfaces\ShippingOptionInterface
     {
         $requiredFields = [
             'id',
@@ -5712,14 +5753,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ShippingOption missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ShippingOption(
+        return $this->factory->makeShippingOption(
             id: $data['id'],
             title: $data['title'],
             prices: array_map(fn (array $item) => $this->denormalizeLabeledPrice($item), $data['prices']),
         );
     }
 
-    public function denormalizeSuccessfulPayment(array $data): SuccessfulPayment
+    public function denormalizeSuccessfulPayment(array $data): Types\Interfaces\SuccessfulPaymentInterface
     {
         $requiredFields = [
             'currency',
@@ -5741,7 +5782,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class SuccessfulPayment missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new SuccessfulPayment(
+        return $this->factory->makeSuccessfulPayment(
             currency: $data['currency'],
             totalAmount: $data['total_amount'],
             invoicePayload: $data['invoice_payload'],
@@ -5751,13 +5792,13 @@ class Serializer implements SerializerInterface
             isRecurring: $data['is_recurring'] ?? null,
             isFirstRecurring: $data['is_first_recurring'] ?? null,
             shippingOptionId: $data['shipping_option_id'] ?? null,
-            orderInfo: ($data['order_info'] ?? null) !== null
+            orderInfo: isset($data['order_info'])
                 ? $this->denormalizeOrderInfo($data['order_info'])
                 : null,
         );
     }
 
-    public function denormalizeRefundedPayment(array $data): RefundedPayment
+    public function denormalizeRefundedPayment(array $data): Types\Interfaces\RefundedPaymentInterface
     {
         $requiredFields = [
             'currency',
@@ -5778,7 +5819,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class RefundedPayment missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new RefundedPayment(
+        return $this->factory->makeRefundedPayment(
             currency: $data['currency'],
             totalAmount: $data['total_amount'],
             invoicePayload: $data['invoice_payload'],
@@ -5787,7 +5828,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeShippingQuery(array $data): ShippingQuery
+    public function denormalizeShippingQuery(array $data): Types\Interfaces\ShippingQueryInterface
     {
         $requiredFields = [
             'id',
@@ -5808,7 +5849,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class ShippingQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new ShippingQuery(
+        return $this->factory->makeShippingQuery(
             id: $data['id'],
             from: $this->denormalizeUser($data['from']),
             invoicePayload: $data['invoice_payload'],
@@ -5816,7 +5857,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePreCheckoutQuery(array $data): PreCheckoutQuery
+    public function denormalizePreCheckoutQuery(array $data): Types\Interfaces\PreCheckoutQueryInterface
     {
         $requiredFields = [
             'id',
@@ -5838,20 +5879,20 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PreCheckoutQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PreCheckoutQuery(
+        return $this->factory->makePreCheckoutQuery(
             id: $data['id'],
             from: $this->denormalizeUser($data['from']),
             currency: $data['currency'],
             totalAmount: $data['total_amount'],
             invoicePayload: $data['invoice_payload'],
             shippingOptionId: $data['shipping_option_id'] ?? null,
-            orderInfo: ($data['order_info'] ?? null) !== null
+            orderInfo: isset($data['order_info'])
                 ? $this->denormalizeOrderInfo($data['order_info'])
                 : null,
         );
     }
 
-    public function denormalizePaidMediaPurchased(array $data): PaidMediaPurchased
+    public function denormalizePaidMediaPurchased(array $data): Types\Interfaces\PaidMediaPurchasedInterface
     {
         $requiredFields = [
             'from',
@@ -5870,19 +5911,20 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PaidMediaPurchased missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PaidMediaPurchased(
+        return $this->factory->makePaidMediaPurchased(
             from: $this->denormalizeUser($data['from']),
             paidMediaPayload: $data['paid_media_payload'],
         );
     }
 
-    public function denormalizeRevenueWithdrawalState(array $data): Types\RevenueWithdrawalState
+    public function denormalizeRevenueWithdrawalState(array $data): Types\Interfaces\RevenueWithdrawalStateInterface
     {
         throw new \RuntimeException('class RevenueWithdrawalState is abstract and not yet implemented');
     }
 
-    public function denormalizeRevenueWithdrawalStatePending(array $data): RevenueWithdrawalStatePending
-    {
+    public function denormalizeRevenueWithdrawalStatePending(
+        array $data,
+    ): Types\Interfaces\RevenueWithdrawalStatePendingInterface {
         $requiredFields = [
             'type',
         ];
@@ -5899,13 +5941,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class RevenueWithdrawalStatePending missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new RevenueWithdrawalStatePending(
+        return $this->factory->makeRevenueWithdrawalStatePending(
             type: $data['type'],
         );
     }
 
-    public function denormalizeRevenueWithdrawalStateSucceeded(array $data): RevenueWithdrawalStateSucceeded
-    {
+    public function denormalizeRevenueWithdrawalStateSucceeded(
+        array $data,
+    ): Types\Interfaces\RevenueWithdrawalStateSucceededInterface {
         $requiredFields = [
             'type',
             'date',
@@ -5924,15 +5967,16 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class RevenueWithdrawalStateSucceeded missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new RevenueWithdrawalStateSucceeded(
+        return $this->factory->makeRevenueWithdrawalStateSucceeded(
             type: $data['type'],
             date: $data['date'],
             url: $data['url'],
         );
     }
 
-    public function denormalizeRevenueWithdrawalStateFailed(array $data): RevenueWithdrawalStateFailed
-    {
+    public function denormalizeRevenueWithdrawalStateFailed(
+        array $data,
+    ): Types\Interfaces\RevenueWithdrawalStateFailedInterface {
         $requiredFields = [
             'type',
         ];
@@ -5949,17 +5993,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class RevenueWithdrawalStateFailed missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new RevenueWithdrawalStateFailed(
+        return $this->factory->makeRevenueWithdrawalStateFailed(
             type: $data['type'],
         );
     }
 
-    public function denormalizeTransactionPartner(array $data): Types\TransactionPartner
+    public function denormalizeTransactionPartner(array $data): Types\Interfaces\TransactionPartnerInterface
     {
         throw new \RuntimeException('class TransactionPartner is abstract and not yet implemented');
     }
 
-    public function denormalizeTransactionPartnerUser(array $data): TransactionPartnerUser
+    public function denormalizeTransactionPartnerUser(array $data): Types\Interfaces\TransactionPartnerUserInterface
     {
         $requiredFields = [
             'type',
@@ -5978,12 +6022,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TransactionPartnerUser missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TransactionPartnerUser(
+        return $this->factory->makeTransactionPartnerUser(
             type: $data['type'],
             user: $this->denormalizeUser($data['user']),
             invoicePayload: $data['invoice_payload'] ?? null,
             subscriptionPeriod: $data['subscription_period'] ?? null,
-            paidMedia: ($data['paid_media'] ?? null) !== null
+            paidMedia: isset($data['paid_media'])
                 ? array_map(fn (array $item) => $this->denormalizePaidMedia($item), $data['paid_media'])
                 : null,
             paidMediaPayload: $data['paid_media_payload'] ?? null,
@@ -5991,8 +6035,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartnerFragment(array $data): TransactionPartnerFragment
-    {
+    public function denormalizeTransactionPartnerFragment(
+        array $data,
+    ): Types\Interfaces\TransactionPartnerFragmentInterface {
         $requiredFields = [
             'type',
         ];
@@ -6009,16 +6054,17 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TransactionPartnerFragment missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TransactionPartnerFragment(
+        return $this->factory->makeTransactionPartnerFragment(
             type: $data['type'],
-            withdrawalState: ($data['withdrawal_state'] ?? null) !== null
+            withdrawalState: isset($data['withdrawal_state'])
                 ? $this->denormalizeRevenueWithdrawalState($data['withdrawal_state'])
                 : null,
         );
     }
 
-    public function denormalizeTransactionPartnerTelegramAds(array $data): TransactionPartnerTelegramAds
-    {
+    public function denormalizeTransactionPartnerTelegramAds(
+        array $data,
+    ): Types\Interfaces\TransactionPartnerTelegramAdsInterface {
         $requiredFields = [
             'type',
         ];
@@ -6035,13 +6081,14 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TransactionPartnerTelegramAds missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TransactionPartnerTelegramAds(
+        return $this->factory->makeTransactionPartnerTelegramAds(
             type: $data['type'],
         );
     }
 
-    public function denormalizeTransactionPartnerTelegramApi(array $data): TransactionPartnerTelegramApi
-    {
+    public function denormalizeTransactionPartnerTelegramApi(
+        array $data,
+    ): Types\Interfaces\TransactionPartnerTelegramApiInterface {
         $requiredFields = [
             'type',
             'request_count',
@@ -6059,13 +6106,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TransactionPartnerTelegramApi missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TransactionPartnerTelegramApi(
+        return $this->factory->makeTransactionPartnerTelegramApi(
             type: $data['type'],
             requestCount: $data['request_count'],
         );
     }
 
-    public function denormalizeTransactionPartnerOther(array $data): TransactionPartnerOther
+    public function denormalizeTransactionPartnerOther(array $data): Types\Interfaces\TransactionPartnerOtherInterface
     {
         $requiredFields = [
             'type',
@@ -6083,12 +6130,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class TransactionPartnerOther missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new TransactionPartnerOther(
+        return $this->factory->makeTransactionPartnerOther(
             type: $data['type'],
         );
     }
 
-    public function denormalizeStarTransaction(array $data): StarTransaction
+    public function denormalizeStarTransaction(array $data): Types\Interfaces\StarTransactionInterface
     {
         $requiredFields = [
             'id',
@@ -6108,20 +6155,20 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class StarTransaction missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new StarTransaction(
+        return $this->factory->makeStarTransaction(
             id: $data['id'],
             amount: $data['amount'],
             date: $data['date'],
-            source: ($data['source'] ?? null) !== null
+            source: isset($data['source'])
                 ? $this->denormalizeTransactionPartner($data['source'])
                 : null,
-            receiver: ($data['receiver'] ?? null) !== null
+            receiver: isset($data['receiver'])
                 ? $this->denormalizeTransactionPartner($data['receiver'])
                 : null,
         );
     }
 
-    public function denormalizeStarTransactions(array $data): StarTransactions
+    public function denormalizeStarTransactions(array $data): Types\Interfaces\StarTransactionsInterface
     {
         $requiredFields = [
             'transactions',
@@ -6139,12 +6186,12 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class StarTransactions missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new StarTransactions(
+        return $this->factory->makeStarTransactions(
             transactions: array_map(fn (array $item) => $this->denormalizeStarTransaction($item), $data['transactions']),
         );
     }
 
-    public function denormalizePassportData(array $data): PassportData
+    public function denormalizePassportData(array $data): Types\Interfaces\PassportDataInterface
     {
         $requiredFields = [
             'data',
@@ -6163,13 +6210,13 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportData missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportData(
+        return $this->factory->makePassportData(
             data: array_map(fn (array $item) => $this->denormalizeEncryptedPassportElement($item), $data['data']),
             credentials: $this->denormalizeEncryptedCredentials($data['credentials']),
         );
     }
 
-    public function denormalizePassportFile(array $data): PassportFile
+    public function denormalizePassportFile(array $data): Types\Interfaces\PassportFileInterface
     {
         $requiredFields = [
             'file_id',
@@ -6190,7 +6237,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportFile missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportFile(
+        return $this->factory->makePassportFile(
             fileId: $data['file_id'],
             fileUniqueId: $data['file_unique_id'],
             fileSize: $data['file_size'],
@@ -6198,7 +6245,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeEncryptedPassportElement(array $data): EncryptedPassportElement
+    public function denormalizeEncryptedPassportElement(array $data): Types\Interfaces\EncryptedPassportElementInterface
     {
         $requiredFields = [
             'type',
@@ -6217,31 +6264,31 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class EncryptedPassportElement missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new EncryptedPassportElement(
+        return $this->factory->makeEncryptedPassportElement(
             type: $data['type'],
             hash: $data['hash'],
             data: $data['data'] ?? null,
             phoneNumber: $data['phone_number'] ?? null,
             email: $data['email'] ?? null,
-            files: ($data['files'] ?? null) !== null
+            files: isset($data['files'])
                 ? array_map(fn (array $item) => $this->denormalizePassportFile($item), $data['files'])
                 : null,
-            frontSide: ($data['front_side'] ?? null) !== null
+            frontSide: isset($data['front_side'])
                 ? $this->denormalizePassportFile($data['front_side'])
                 : null,
-            reverseSide: ($data['reverse_side'] ?? null) !== null
+            reverseSide: isset($data['reverse_side'])
                 ? $this->denormalizePassportFile($data['reverse_side'])
                 : null,
-            selfie: ($data['selfie'] ?? null) !== null
+            selfie: isset($data['selfie'])
                 ? $this->denormalizePassportFile($data['selfie'])
                 : null,
-            translation: ($data['translation'] ?? null) !== null
+            translation: isset($data['translation'])
                 ? array_map(fn (array $item) => $this->denormalizePassportFile($item), $data['translation'])
                 : null,
         );
     }
 
-    public function denormalizeEncryptedCredentials(array $data): EncryptedCredentials
+    public function denormalizeEncryptedCredentials(array $data): Types\Interfaces\EncryptedCredentialsInterface
     {
         $requiredFields = [
             'data',
@@ -6261,20 +6308,21 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class EncryptedCredentials missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new EncryptedCredentials(
+        return $this->factory->makeEncryptedCredentials(
             data: $data['data'],
             hash: $data['hash'],
             secret: $data['secret'],
         );
     }
 
-    public function denormalizePassportElementError(array $data): Types\PassportElementError
+    public function denormalizePassportElementError(array $data): Types\Interfaces\PassportElementErrorInterface
     {
         throw new \RuntimeException('class PassportElementError is abstract and not yet implemented');
     }
 
-    public function denormalizePassportElementErrorDataField(array $data): PassportElementErrorDataField
-    {
+    public function denormalizePassportElementErrorDataField(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorDataFieldInterface {
         $requiredFields = [
             'type',
             'field_name',
@@ -6294,7 +6342,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorDataField missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorDataField(
+        return $this->factory->makePassportElementErrorDataField(
             type: $data['type'],
             fieldName: $data['field_name'],
             dataHash: $data['data_hash'],
@@ -6303,8 +6351,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFrontSide(array $data): PassportElementErrorFrontSide
-    {
+    public function denormalizePassportElementErrorFrontSide(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorFrontSideInterface {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6323,7 +6372,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorFrontSide missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorFrontSide(
+        return $this->factory->makePassportElementErrorFrontSide(
             type: $data['type'],
             fileHash: $data['file_hash'],
             message: $data['message'],
@@ -6331,8 +6380,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorReverseSide(array $data): PassportElementErrorReverseSide
-    {
+    public function denormalizePassportElementErrorReverseSide(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorReverseSideInterface {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6351,7 +6401,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorReverseSide missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorReverseSide(
+        return $this->factory->makePassportElementErrorReverseSide(
             type: $data['type'],
             fileHash: $data['file_hash'],
             message: $data['message'],
@@ -6359,8 +6409,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorSelfie(array $data): PassportElementErrorSelfie
-    {
+    public function denormalizePassportElementErrorSelfie(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorSelfieInterface {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6379,7 +6430,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorSelfie missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorSelfie(
+        return $this->factory->makePassportElementErrorSelfie(
             type: $data['type'],
             fileHash: $data['file_hash'],
             message: $data['message'],
@@ -6387,7 +6438,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFile(array $data): PassportElementErrorFile
+    public function denormalizePassportElementErrorFile(array $data): Types\Interfaces\PassportElementErrorFileInterface
     {
         $requiredFields = [
             'type',
@@ -6407,7 +6458,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorFile missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorFile(
+        return $this->factory->makePassportElementErrorFile(
             type: $data['type'],
             fileHash: $data['file_hash'],
             message: $data['message'],
@@ -6415,8 +6466,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFiles(array $data): PassportElementErrorFiles
-    {
+    public function denormalizePassportElementErrorFiles(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorFilesInterface {
         $requiredFields = [
             'type',
             'file_hashes',
@@ -6435,7 +6487,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorFiles missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorFiles(
+        return $this->factory->makePassportElementErrorFiles(
             type: $data['type'],
             fileHashes: $data['file_hashes'],
             message: $data['message'],
@@ -6443,8 +6495,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorTranslationFile(array $data): PassportElementErrorTranslationFile
-    {
+    public function denormalizePassportElementErrorTranslationFile(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorTranslationFileInterface {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6463,7 +6516,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorTranslationFile missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorTranslationFile(
+        return $this->factory->makePassportElementErrorTranslationFile(
             type: $data['type'],
             fileHash: $data['file_hash'],
             message: $data['message'],
@@ -6471,8 +6524,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorTranslationFiles(array $data): PassportElementErrorTranslationFiles
-    {
+    public function denormalizePassportElementErrorTranslationFiles(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorTranslationFilesInterface {
         $requiredFields = [
             'type',
             'file_hashes',
@@ -6491,7 +6545,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorTranslationFiles missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorTranslationFiles(
+        return $this->factory->makePassportElementErrorTranslationFiles(
             type: $data['type'],
             fileHashes: $data['file_hashes'],
             message: $data['message'],
@@ -6499,8 +6553,9 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorUnspecified(array $data): PassportElementErrorUnspecified
-    {
+    public function denormalizePassportElementErrorUnspecified(
+        array $data,
+    ): Types\Interfaces\PassportElementErrorUnspecifiedInterface {
         $requiredFields = [
             'type',
             'element_hash',
@@ -6519,7 +6574,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class PassportElementErrorUnspecified missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new PassportElementErrorUnspecified(
+        return $this->factory->makePassportElementErrorUnspecified(
             type: $data['type'],
             elementHash: $data['element_hash'],
             message: $data['message'],
@@ -6527,7 +6582,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGame(array $data): Game
+    public function denormalizeGame(array $data): Types\Interfaces\GameInterface
     {
         $requiredFields = [
             'title',
@@ -6547,26 +6602,26 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class Game missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new Game(
+        return $this->factory->makeGame(
             title: $data['title'],
             description: $data['description'],
             photo: array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo']),
             text: $data['text'] ?? null,
-            textEntities: ($data['text_entities'] ?? null) !== null
+            textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
                 : null,
-            animation: ($data['animation'] ?? null) !== null
+            animation: isset($data['animation'])
                 ? $this->denormalizeAnimation($data['animation'])
                 : null,
         );
     }
 
-    public function denormalizeCallbackGame(array $data): CallbackGame
+    public function denormalizeCallbackGame(array $data): Types\Interfaces\CallbackGameInterface
     {
-        return new CallbackGame();
+        return $this->factory->makeCallbackGame();
     }
 
-    public function denormalizeGameHighScore(array $data): GameHighScore
+    public function denormalizeGameHighScore(array $data): Types\Interfaces\GameHighScoreInterface
     {
         $requiredFields = [
             'position',
@@ -6586,7 +6641,7 @@ class Serializer implements SerializerInterface
             throw new \InvalidArgumentException(sprintf('Class GameHighScore missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return new GameHighScore(
+        return $this->factory->makeGameHighScore(
             position: $data['position'],
             user: $this->denormalizeUser($data['user']),
             score: $data['score'],

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a voice note.
  */
-class Voice implements TypeInterface
+class Voice implements Interfaces\VoiceInterface
 {
     /**
      * @param string      $fileId       Identifier for this file, which can be used to download or reuse the file

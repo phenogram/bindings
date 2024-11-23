@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a service message about a new forum topic created in the chat.
  */
-class ForumTopicCreated implements TypeInterface
+class ForumTopicCreated implements Interfaces\ForumTopicCreatedInterface
 {
     /**
      * @param string      $name              Name of the topic

@@ -9,7 +9,7 @@ namespace Phenogram\Bindings\Types;
  * @see ChatBoostSourceGiftCode
  * @see ChatBoostSourceGiveaway
  */
-abstract class ChatBoostSource implements TypeInterface
+abstract class ChatBoostSource implements Interfaces\ChatBoostSourceInterface
 {
     public function __construct()
     {

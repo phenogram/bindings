@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the scope of bot commands, covering all group and supergroup chat administrators.
  */
-class BotCommandScopeAllChatAdministrators extends BotCommandScope
+class BotCommandScopeAllChatAdministrators extends BotCommandScope implements Interfaces\BotCommandScopeAllChatAdministratorsInterface
 {
     /**
      * @param string $type Scope type, must be all_chat_administrators

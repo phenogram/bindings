@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a shipping address.
  */
-class ShippingAddress implements TypeInterface
+class ShippingAddress implements Interfaces\ShippingAddressInterface
 {
     /**
      * @param string $countryCode Two-letter ISO 3166-1 alpha-2 country code

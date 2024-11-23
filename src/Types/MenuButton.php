@@ -9,7 +9,7 @@ namespace Phenogram\Bindings\Types;
  * @see MenuButtonWebApp
  * @see MenuButtonDefault
  */
-abstract class MenuButton implements TypeInterface
+abstract class MenuButton implements Interfaces\MenuButtonInterface
 {
     public function __construct()
     {

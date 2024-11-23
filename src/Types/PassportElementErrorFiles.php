@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
  */
-class PassportElementErrorFiles extends PassportElementError
+class PassportElementErrorFiles extends PassportElementError implements Interfaces\PassportElementErrorFilesInterface
 {
     /**
      * @param string        $type       The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
  */
-class PassportElementErrorReverseSide extends PassportElementError
+class PassportElementErrorReverseSide extends PassportElementError implements Interfaces\PassportElementErrorReverseSideInterface
 {
     /**
      * @param string $type     The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
