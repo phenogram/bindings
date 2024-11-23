@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class ChatBoostSource implements Interfaces\ChatBoostSourceInterface
 {
-    public function __construct()
-    {
-    }
 }

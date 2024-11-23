@@ -12,7 +12,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class MessageOrigin implements Interfaces\MessageOriginInterface
 {
-    public function __construct()
-    {
-    }
 }

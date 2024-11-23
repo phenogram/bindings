@@ -17,7 +17,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class PassportElementError implements Interfaces\PassportElementErrorInterface
 {
-    public function __construct()
-    {
-    }
 }

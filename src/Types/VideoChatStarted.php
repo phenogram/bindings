@@ -7,7 +7,4 @@ namespace Phenogram\Bindings\Types;
  */
 class VideoChatStarted implements Interfaces\VideoChatStartedInterface
 {
-    public function __construct()
-    {
-    }
 }

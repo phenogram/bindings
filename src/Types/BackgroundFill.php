@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class BackgroundFill implements Interfaces\BackgroundFillInterface
 {
-    public function __construct()
-    {
-    }
 }

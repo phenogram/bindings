@@ -13,7 +13,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class InputMedia implements Interfaces\InputMediaInterface
 {
-    public function __construct()
-    {
-    }
 }

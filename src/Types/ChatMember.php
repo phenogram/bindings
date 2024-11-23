@@ -14,7 +14,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class ChatMember implements Interfaces\ChatMemberInterface
 {
-    public function __construct()
-    {
-    }
 }

@@ -13,7 +13,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class TransactionPartner implements Interfaces\TransactionPartnerInterface
 {
-    public function __construct()
-    {
-    }
 }

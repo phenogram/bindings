@@ -12,7 +12,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class BackgroundType implements Interfaces\BackgroundTypeInterface
 {
-    public function __construct()
-    {
-    }
 }

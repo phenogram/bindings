@@ -28,7 +28,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class InlineQueryResult implements Interfaces\InlineQueryResultInterface
 {
-    public function __construct()
-    {
-    }
 }

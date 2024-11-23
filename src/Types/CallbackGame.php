@@ -7,7 +7,4 @@ namespace Phenogram\Bindings\Types;
  */
 class CallbackGame implements Interfaces\CallbackGameInterface
 {
-    public function __construct()
-    {
-    }
 }

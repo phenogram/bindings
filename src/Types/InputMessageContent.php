@@ -13,7 +13,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class InputMessageContent implements Interfaces\InputMessageContentInterface
 {
-    public function __construct()
-    {
-    }
 }

@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class PaidMedia implements Interfaces\PaidMediaInterface
 {
-    public function __construct()
-    {
-    }
 }

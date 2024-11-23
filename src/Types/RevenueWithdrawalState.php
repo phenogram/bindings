@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class RevenueWithdrawalState implements Interfaces\RevenueWithdrawalStateInterface
 {
-    public function __construct()
-    {
-    }
 }

@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class ReactionType implements Interfaces\ReactionTypeInterface
 {
-    public function __construct()
-    {
-    }
 }

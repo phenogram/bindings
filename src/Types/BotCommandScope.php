@@ -15,7 +15,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class BotCommandScope implements Interfaces\BotCommandScopeInterface
 {
-    public function __construct()
-    {
-    }
 }

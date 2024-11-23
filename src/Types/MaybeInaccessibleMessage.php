@@ -10,7 +10,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class MaybeInaccessibleMessage implements Interfaces\MaybeInaccessibleMessageInterface
 {
-    public function __construct()
-    {
-    }
 }

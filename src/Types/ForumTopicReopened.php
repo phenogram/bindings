@@ -7,7 +7,4 @@ namespace Phenogram\Bindings\Types;
  */
 class ForumTopicReopened implements Interfaces\ForumTopicReopenedInterface
 {
-    public function __construct()
-    {
-    }
 }

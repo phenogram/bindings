@@ -7,7 +7,4 @@ namespace Phenogram\Bindings\Types;
  */
 class GeneralForumTopicUnhidden implements Interfaces\GeneralForumTopicUnhiddenInterface
 {
-    public function __construct()
-    {
-    }
 }

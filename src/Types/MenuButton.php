@@ -11,7 +11,4 @@ namespace Phenogram\Bindings\Types;
  */
 abstract class MenuButton implements Interfaces\MenuButtonInterface
 {
-    public function __construct()
-    {
-    }
 }
