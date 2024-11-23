@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Phenogram\Bindings\Tests\Feature;
+namespace Phenogram\Bindings\Tests\Readme;
 
 use Phenogram\Bindings\Api;
 use Phenogram\Bindings\Tests\TestCase;
