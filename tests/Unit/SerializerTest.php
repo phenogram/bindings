@@ -8,6 +8,7 @@ use Phenogram\Bindings\Types\Chat;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
+use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Message;
 use Phenogram\Bindings\Types\MessageOriginUser;
 use Phenogram\Bindings\Types\Update;
@@ -106,7 +107,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 
@@ -130,7 +131,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 
@@ -187,7 +188,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 
@@ -244,7 +245,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 

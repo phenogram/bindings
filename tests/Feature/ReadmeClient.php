@@ -15,17 +15,17 @@ final readonly class ReadmeClient implements ClientInterface
     ) {
     }
 
-    public function sendRequest(string $method, array $data): Types\Response
+    public function sendRequest(string $method, array $data): Types\Interfaces\ResponseInterface
     {
         $ch = curl_init("{$this->apiUrl}/bot{$this->token}/{$method}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         foreach ($data as $key => $value) {
-            if ($value instanceof Types\InputFile) {
-                if (file_exists($value->filePath)) {
-                    $data[$key] = new \CURLFile($value->filePath);
+            if (is_array($value) && isset($value['file_path'])) {
+                if (file_exists($value['file_path'])) {
+                    $data[$key] = new \CURLFile($value['file_path']);
                 } else {
-                    throw new \RuntimeException("File not found: {$value->filePath}");
+                    throw new \RuntimeException("File not found: {$value['file_path']}");
                 }
             }
         }
@@ -45,7 +45,6 @@ final readonly class ReadmeClient implements ClientInterface
         if (!isset($responseData['ok']) || !isset($responseData['result'])) {
             return new Types\Response(
                 ok: false,
-                result: null,
                 errorCode: $responseData['error_code'] ?? null,
                 description: $responseData['description'] ?? null,
                 parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(

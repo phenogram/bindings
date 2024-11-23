@@ -10,16 +10,15 @@ use Phenogram\Bindings\Types\InputFile;
 
 class ReadmeClientTest extends TestCase
 {
+    private Api $api;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->token = $_ENV['TELEGRAM_BOT_TOKEN'];
         $this->testChatId = $_ENV['TEST_CHAT_ID'];
-    }
 
-    public function testGetMe(): void
-    {
         if ($this->token === null) {
             $this->markTestSkipped('TELEGRAM_BOT_TOKEN not set');
         }
@@ -28,19 +27,25 @@ class ReadmeClientTest extends TestCase
             $this->markTestSkipped('TEST_CHAT_ID not set');
         }
 
-        $api = new Api(
+        $this->api = new Api(
             client: new ReadmeClient(
                 token: $this->token
             )
         );
+    }
 
-        $user = $api->getMe();
+    public function testGetMe(): void
+    {
+        $user = $this->api->getMe();
 
         self::assertTrue($user->isBot);
+    }
 
+    public function testSendDocument(): void
+    {
         $path = realpath(__DIR__ . '/../../README.md');
 
-        $message = $api->sendDocument(
+        $message = $this->api->sendDocument(
             chatId: $this->testChatId,
             document: new InputFile($path),
         );
