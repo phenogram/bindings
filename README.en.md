@@ -1,17 +1,24 @@
 🇬🇧 ENGLISH | [🇷🇺 РУССКИЙ](README.md)
 
-# Telegram Bot API PHP bindings
+# PHP SDK for Telegram Bot API
 
 Strictly typed PHP classes for Telegram Bot API based on the [official documentation](https://core.telegram.org/bots/api)
 to use in the [Phenogram Framework](https://github.com/phenogram/framework)
+
+This package is perfect for those who only need to send API requests without handling updates.
 
 Mostly generated using [scrapper](https://github.com/phenogram/scraper)
 
 This is still a work in progress and not every class is tested or used.
 If you find some inconsistency with the documentation, feel free to file an issue.
-Everything that is not covered in the documentation is out of the scope of this project.
+Everything that is not covered in the official Telegram Bot API documentation is out of the scope of this project.
 
 Current supported Telegram bot API version is **v8.0**
+
+This is just an SDK for your Telegram bot, not a full framework.
+You can use it as is or use only the parts you need.
+
+If you need a framework, check out [Phenogram](https://github.com/phenogram/framework)
 
 # Installation
 
@@ -20,6 +27,19 @@ composer require phenogram/bindings
 ```
 
 # Usage
+This package consists of 3 main parts: api, serializer, and factory.
+
+You'll use [Api](src/Api.php) to send requests to the bot API.
+
+The [Serializer](src/Serializer.php) is responsible for converting objects to arrays for client sending and
+converting API responses back into strictly typed objects.
+
+All types are implemented as interfaces with properties
+(thanks to [new PHP 8.4 feature](https://www.php.net/manual/en/migration84.new-features.php#migration84.new-features.core.property-hooks)),
+which allows you to easily override them if needed.
+
+The [Factory](src/Factory.php) exists precisely to make type overriding easier,
+it's used in the serializer and is responsible for creating specific objects.
 
 ## Serializer
 You can see the example usage in the [Api](src/Api.php) class.
@@ -47,7 +67,6 @@ $arrayKeyboard = [
     ],
 ];
 
-
 assert($arrayKeyboard === $data);
 ```
 
@@ -64,9 +83,9 @@ use Phenogram\Bindings\Types\Chat;
 $updatesData = [[
     'update_id' => 1,
     'message' => [
-        'message_id' => 54321,
+        'message_id' => 2,
         'chat' => [
-            'id' => 11223344,
+            'id' => 3,
             'type' => 'private',
         ],
         'date' => 1600000000,
@@ -75,32 +94,36 @@ $updatesData = [[
 
 $serializer = new Serializer();
 $updates = $serializer->deserialize(
-    data: json_encode($updatesData),
-    type: Update::class,
+    data: $updatesData,
+    type: UpdateInterface::class,
     isArray: true,
 );
 
-assert($updates[0] instanceof Update::class);
-assert($updates[0]->message instanceof Message::class);
-assert($updates[0]->message->chat instanceof Chat::class);
+assert($updates[0] instanceof UpdateInterface);
+assert($updates[0]->message instanceof MessageInterface);
+assert($updates[0]->message->chat instanceof ChatInterface);
 ```
 
-## API usage
+## API Usage
 
 ### Client
-To actually use the API you first need to implement the ClientInterface, which is a simple interface with a single method `sendRequest`.
-Then you can use the `Api` class to send requests to the Telegram API.
+To use the API, you first need to implement the ClientInterface, which has only one method - `sendRequest`.
 
-> Note the InputFile handling. You could skip this part and just json_encode the request if there is no need to send files
-> but this will crash with some horrible exception if you actually try to send a file.
+> Pay special attention to InputFile handling.
+> You could skip this part and just json_encode the request if there is no need to send files,
+> but this will crash with a horrible exception if you actually try to send a file.
 
+The implementation of the client is out of scope for this project,
+but here's an example implementation using ext-curl:
 
-The implementation of the client is out of the scope of this project, but you can check
-the example amphp/http-client implementation in the [Phenogram Framework](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
-
-The most basic implementation with ext-curl might look like this:
-> You can see it in action in [tests](tests/Feature/ReadmeClientTest.php)
+> You can see it in action in [tests](tests/Readme/ReadmeClientTest.php)
 ```php
+<?php
+
+declare(strict_types=1);
+
+namespace Phenogram\Bindings\Tests\Readme;
+
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
 
@@ -112,19 +135,17 @@ final readonly class ReadmeClient implements ClientInterface
     ) {
     }
 
-    public function sendRequest(string $method, array $data): Types\Response
+    public function sendRequest(string $method, array $data): Types\Interfaces\ResponseInterface
     {
         $ch = curl_init("{$this->apiUrl}/bot{$this->token}/{$method}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        // Check if any InputFile objects are present in $data and convert them to CURLFile
         foreach ($data as $key => $value) {
-            if ($value instanceof Types\InputFile) {
-                dump($value);
-                if (file_exists($value->filePath)) {
-                    $data[$key] = new \CURLFile($value->filePath);
+            if (is_array($value) && isset($value['file_path'])) {
+                if (file_exists($value['file_path'])) {
+                    $data[$key] = new \CURLFile($value['file_path']);
                 } else {
-                    throw new \RuntimeException("File not found: {$value->filePath}");
+                    throw new \RuntimeException("File not found: {$value['file_path']}");
                 }
             }
         }
@@ -144,7 +165,6 @@ final readonly class ReadmeClient implements ClientInterface
         if (!isset($responseData['ok']) || !isset($responseData['result'])) {
             return new Types\Response(
                 ok: false,
-                result: null,
                 errorCode: $responseData['error_code'] ?? null,
                 description: $responseData['description'] ?? null,
                 parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(
@@ -169,8 +189,9 @@ final readonly class ReadmeClient implements ClientInterface
 ```
 
 But I would of course recommend using some library like Guzzle or amphp/http-client.
+You can find an example implementation with amphp/http-client in the [Phenogram Framework](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
 
-### Making requests
+### Making Requests
 
 ```php
 $api = new Api(
@@ -183,11 +204,64 @@ $me = $api->getMe();
 assert($me instanceof User::class);
 ```
 
-# Work in progress
-Need to make Api::doRequest method type safe with generics, not sure how to do it yet, phpstan keeps winning.
+### Overriding Types
+Let's say you want to use your own implementation of ChatLocationInterface instead of the standard one,
+to make the address always uppercase.
+
+First, you need a new class that implements ChatLocationInterface.
+For simplicity, we'll inherit from our ChatLocation class.
+
+```php
+class MyChatLocation extends \Phenogram\Bindings\Types\ChatLocation
+{
+    public string $address {
+        get => $this->normalizeAddress($this->address);
+    }
+
+    private function normalizeAddress(string $address): string
+    {
+        return mb_strtoupper($address);
+    }
+}
+```
+
+Next, we need to override the factory to make it create our new class instead of the standard one.
+
+```php
+use Phenogram\Bindings\Factory;
+use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\LocationInterface;
+
+class MyFactory extends Factory
+{
+    public function makeChatLocation(
+        LocationInterface $location,
+        string $address
+    ): ChatLocationInterface
+    {
+        return new MyChatLocation(
+            location: $location,
+            address: $address,
+        );
+    }
+}
+```
+
+And finally - create and use an Api object with a serializer that uses our factory:
+```php
+$api = new Api(
+    client: new TelegramBotApiClient($token),
+    serializer: new Serializer(
+        factory: new MyFactory()
+    ),
+);
+```
+
+> You can see this in action in [test](tests/Readme/ReadmeFactoryTest.php)
 
 # Conclusion
-This is just an SDK, a building block for your Telegram bot, not the full framework,
-you can use it as is or extend it to fit your needs.
+Although I'm already using both these classes and the [framework](https://github.com/phenogram/framework) in production in my projects
+[sistent](https://t.me/sistent_bot), [mystaro](https://t.me/mystaro_bot), and [genera4](https://t.me/genera4_bot),
+this project is still under active development and is provided as-is.
 
-If you need a framework, check out the [Phenogram Framework](https://github.com/phenogram/framework)
+Test it yourself!

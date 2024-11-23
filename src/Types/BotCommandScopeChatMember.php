@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
  */
-class BotCommandScopeChatMember extends BotCommandScope
+class BotCommandScopeChatMember extends BotCommandScope implements Interfaces\BotCommandScopeChatMemberInterface
 {
     /**
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)

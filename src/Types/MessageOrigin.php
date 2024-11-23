@@ -10,9 +10,6 @@ namespace Phenogram\Bindings\Types;
  * @see MessageOriginChat
  * @see MessageOriginChannel
  */
-abstract class MessageOrigin implements TypeInterface
+abstract class MessageOrigin implements Interfaces\MessageOriginInterface
 {
-    public function __construct()
-    {
-    }
 }

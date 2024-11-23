@@ -12,9 +12,6 @@ namespace Phenogram\Bindings\Types;
  * @see ChatMemberLeft
  * @see ChatMemberBanned
  */
-abstract class ChatMember implements TypeInterface
+abstract class ChatMember implements Interfaces\ChatMemberInterface
 {
-    public function __construct()
-    {
-    }
 }

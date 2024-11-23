@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object contains basic information about a refunded payment.
  */
-class RefundedPayment implements TypeInterface
+class RefundedPayment implements Interfaces\RefundedPaymentInterface
 {
     /**
      * @param string      $currency                Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”

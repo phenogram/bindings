@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The background is taken directly from a built-in chat theme.
  */
-class BackgroundTypeChatTheme extends BackgroundType
+class BackgroundTypeChatTheme extends BackgroundType implements Interfaces\BackgroundTypeChatThemeInterface
 {
     /**
      * @param string $type      Type of the background, always “chat_theme”

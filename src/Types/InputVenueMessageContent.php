@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the content of a venue message to be sent as the result of an inline query.
  */
-class InputVenueMessageContent extends InputMessageContent
+class InputVenueMessageContent extends InputMessageContent implements Interfaces\InputVenueMessageContentInterface
 {
     /**
      * @param float       $latitude        Latitude of the venue in degrees

@@ -13,9 +13,6 @@ namespace Phenogram\Bindings\Types;
  * @see BotCommandScopeChatAdministrators
  * @see BotCommandScopeChatMember
  */
-abstract class BotCommandScope implements TypeInterface
+abstract class BotCommandScope implements Interfaces\BotCommandScopeInterface
 {
-    public function __construct()
-    {
-    }
 }

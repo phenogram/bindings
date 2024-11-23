@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes the birthdate of a user.
  */
-class Birthdate implements TypeInterface
+class Birthdate implements Interfaces\BirthdateInterface
 {
     /**
      * @param int      $day   Day of the user's birth; 1-31

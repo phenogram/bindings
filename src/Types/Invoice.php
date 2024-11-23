@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object contains basic information about an invoice.
  */
-class Invoice implements TypeInterface
+class Invoice implements Interfaces\InvoiceInterface
 {
     /**
      * @param string $title          Product name

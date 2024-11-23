@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a chat photo.
  */
-class ChatPhoto implements TypeInterface
+class ChatPhoto implements Interfaces\ChatPhotoInterface
 {
     /**
      * @param string $smallFileId       File identifier of small (160x160) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a phone contact.
  */
-class Contact implements TypeInterface
+class Contact implements Interfaces\ContactInterface
 {
     /**
      * @param string      $phoneNumber Contact's phone number

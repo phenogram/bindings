@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes the options used for link preview generation.
  */
-class LinkPreviewOptions implements TypeInterface
+class LinkPreviewOptions implements Interfaces\LinkPreviewOptionsInterface
 {
     /**
      * @param bool|null   $isDisabled       Optional. True, if the link preview is disabled

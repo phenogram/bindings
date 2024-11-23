@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents an animated emoji that displays a random value.
  */
-class Dice implements TypeInterface
+class Dice implements Interfaces\DiceInterface
 {
     /**
      * @param string $emoji Emoji on which the dice throw animation is based

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the content of a contact message to be sent as the result of an inline query.
  */
-class InputContactMessageContent extends InputMessageContent
+class InputContactMessageContent extends InputMessageContent implements Interfaces\InputContactMessageContentInterface
 {
     /**
      * @param string      $phoneNumber Contact's phone number

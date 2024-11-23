@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
  */
-class PassportElementErrorSelfie extends PassportElementError
+class PassportElementErrorSelfie extends PassportElementError implements Interfaces\PassportElementErrorSelfieInterface
 {
     /**
      * @param string $type     The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents the bot's description.
  */
-class BotDescription implements TypeInterface
+class BotDescription implements Interfaces\BotDescriptionInterface
 {
     /**
      * @param string $description The bot's description

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The message was originally sent by an unknown user.
  */
-class MessageOriginHiddenUser extends MessageOrigin
+class MessageOriginHiddenUser extends MessageOrigin implements Interfaces\MessageOriginHiddenUserInterface
 {
     /**
      * @param string $type           Type of the message origin, always “hidden_user”

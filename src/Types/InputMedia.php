@@ -11,9 +11,6 @@ namespace Phenogram\Bindings\Types;
  * @see InputMediaPhoto
  * @see InputMediaVideo
  */
-abstract class InputMedia implements TypeInterface
+abstract class InputMedia implements Interfaces\InputMediaInterface
 {
-    public function __construct()
-    {
-    }
 }

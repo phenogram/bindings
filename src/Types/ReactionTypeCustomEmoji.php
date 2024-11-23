@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The reaction is based on a custom emoji.
  */
-class ReactionTypeCustomEmoji extends ReactionType
+class ReactionTypeCustomEmoji extends ReactionType implements Interfaces\ReactionTypeCustomEmojiInterface
 {
     /**
      * @param string $type          Type of the reaction, always “custom_emoji”

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents one size of a photo or a file / sticker thumbnail.
  */
-class PhotoSize implements TypeInterface
+class PhotoSize implements Interfaces\PhotoSizeInterface
 {
     /**
      * @param string   $fileId       Identifier for this file, which can be used to download or reuse the file

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a portion of the price for goods or services.
  */
-class LabeledPrice implements TypeInterface
+class LabeledPrice implements Interfaces\LabeledPriceInterface
 {
     /**
      * @param string $label  Portion label

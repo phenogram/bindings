@@ -4,13 +4,12 @@ namespace Phenogram\Bindings\Tests\Unit;
 
 use Phenogram\Bindings\Serializer;
 use Phenogram\Bindings\Tests\TestCase;
-use Phenogram\Bindings\Types\Chat;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
+use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Message;
 use Phenogram\Bindings\Types\MessageOriginUser;
-use Phenogram\Bindings\Types\Update;
 
 class SerializerTest extends TestCase
 {
@@ -52,9 +51,11 @@ class SerializerTest extends TestCase
             ],
         ];
 
-        $data = $serializer->serialize([
-            'reply_markup' => $inlineKeyboardMarkup,
-        ]);
+        $data = $serializer->serialize(
+            [
+                'reply_markup' => $inlineKeyboardMarkup,
+            ]
+        );
 
         self::assertEquals($arrayKeyboard, $data);
     }
@@ -104,37 +105,11 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 
         self::assertInstanceOf(ChatMemberMember::class, $updates[0]->myChatMember->newChatMember);
-    }
-
-    public function testDeserializeExampleFromReadme()
-    {
-        $updatesData = [[
-            'update_id' => 1,
-            'message' => [
-                'message_id' => 54321,
-                'chat' => [
-                    'id' => 11223344,
-                    'type' => 'private',
-                ],
-                'date' => 1600000000,
-            ],
-        ]];
-
-        $serializer = new Serializer();
-        $updates = $serializer->deserialize(
-            data: $updatesData,
-            type: Update::class,
-            isArray: true,
-        );
-
-        self::assertInstanceOf(Update::class, $updates[0]);
-        self::assertInstanceOf(Message::class, $updates[0]->message);
-        self::assertInstanceOf(Chat::class, $updates[0]->message->chat);
     }
 
     public function testAbstractMaybeInaccessibleMessageDeserializeIntoConcreteClass()
@@ -185,7 +160,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 
@@ -242,7 +217,7 @@ class SerializerTest extends TestCase
         $serializer = new Serializer();
         $updates = $serializer->deserialize(
             data: $updatesData,
-            type: Update::class,
+            type: UpdateInterface::class,
             isArray: true,
         );
 

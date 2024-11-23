@@ -8,9 +8,6 @@ namespace Phenogram\Bindings\Types;
  * @see InputPaidMediaPhoto
  * @see InputPaidMediaVideo
  */
-abstract class InputPaidMedia implements TypeInterface
+abstract class InputPaidMedia implements Interfaces\InputPaidMediaInterface
 {
-    public function __construct()
-    {
-    }
 }

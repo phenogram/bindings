@@ -15,7 +15,7 @@ namespace Phenogram\Bindings\Types;
  * Some errors may also have an optional field 'parameters' of the type ResponseParameters,
  * which can help to automatically handle the error.
  */
-class Response implements TypeInterface
+class Response implements Interfaces\ResponseInterface
 {
     public function __construct(
         public bool $ok,
@@ -23,7 +23,7 @@ class Response implements TypeInterface
         public mixed $result = null,
         public ?int $errorCode = null,
         public ?string $description = null,
-        public ?ResponseParameters $parameters = null,
+        public ?Interfaces\ResponseParametersInterface $parameters = null,
     ) {
     }
 }

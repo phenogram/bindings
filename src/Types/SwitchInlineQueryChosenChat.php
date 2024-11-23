@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
  */
-class SwitchInlineQueryChosenChat implements TypeInterface
+class SwitchInlineQueryChosenChat implements Interfaces\SwitchInlineQueryChosenChatInterface
 {
     /**
      * @param string|null $query             Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted

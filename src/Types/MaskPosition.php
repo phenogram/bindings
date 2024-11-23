@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object describes the position on faces where a mask should be placed by default.
  */
-class MaskPosition implements TypeInterface
+class MaskPosition implements Interfaces\MaskPositionInterface
 {
     /**
      * @param string $point  The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.

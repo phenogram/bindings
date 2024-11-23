@@ -9,9 +9,6 @@ namespace Phenogram\Bindings\Types;
  * @see BackgroundFillGradient
  * @see BackgroundFillFreeformGradient
  */
-abstract class BackgroundFill implements TypeInterface
+abstract class BackgroundFill implements Interfaces\BackgroundFillInterface
 {
-    public function __construct()
-    {
-    }
 }

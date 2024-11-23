@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Describes an inline message to be sent by a user of a Mini App.
  */
-class PreparedInlineMessage implements TypeInterface
+class PreparedInlineMessage implements Interfaces\PreparedInlineMessageInterface
 {
     /**
      * @param string $id             Unique identifier of the prepared message

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * This object represents a file uploaded to Telegram Passport. Currently all Telegram Passport files are in JPEG format when decrypted and don't exceed 10MB.
  */
-class PassportFile implements TypeInterface
+class PassportFile implements Interfaces\PassportFileInterface
 {
     /**
      * @param string $fileId       Identifier for this file, which can be used to download or reuse the file

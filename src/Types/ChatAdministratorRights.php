@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the rights of an administrator in a chat.
  */
-class ChatAdministratorRights implements TypeInterface
+class ChatAdministratorRights implements Interfaces\ChatAdministratorRightsInterface
 {
     /**
      * @param bool      $isAnonymous         True, if the user's presence in the chat is hidden

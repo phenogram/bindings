@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
  */
-class BotCommandScopeDefault extends BotCommandScope
+class BotCommandScopeDefault extends BotCommandScope implements Interfaces\BotCommandScopeDefaultInterface
 {
     /**
      * @param string $type Scope type, must be default

@@ -9,9 +9,6 @@ namespace Phenogram\Bindings\Types;
  * @see PaidMediaPhoto
  * @see PaidMediaVideo
  */
-abstract class PaidMedia implements TypeInterface
+abstract class PaidMedia implements Interfaces\PaidMediaInterface
 {
-    public function __construct()
-    {
-    }
 }

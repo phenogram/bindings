@@ -11,9 +11,6 @@ namespace Phenogram\Bindings\Types;
  * @see InputContactMessageContent
  * @see InputInvoiceMessageContent
  */
-abstract class InputMessageContent implements TypeInterface
+abstract class InputMessageContent implements Interfaces\InputMessageContentInterface
 {
-    public function __construct()
-    {
-    }
 }

@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 /**
  * The background is a freeform gradient that rotates after every message in the chat.
  */
-class BackgroundFillFreeformGradient extends BackgroundFill
+class BackgroundFillFreeformGradient extends BackgroundFill implements Interfaces\BackgroundFillFreeformGradientInterface
 {
     /**
      * @param string     $type   Type of the background fill, always “freeform_gradient”
