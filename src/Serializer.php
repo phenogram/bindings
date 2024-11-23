@@ -1378,7 +1378,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizePaidMedia(array $data): Types\Interfaces\PaidMediaInterface
     {
-        throw new \RuntimeException('class PaidMedia is abstract and not yet implemented');
+        return match ($data['type']) {
+            'preview' => $this->denormalizePaidMediaPreview($data),
+            'photo' => $this->denormalizePaidMediaPhoto($data),
+            'video' => $this->denormalizePaidMediaVideo($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for PaidMedia: %s', $data['type'])),
+        };
     }
 
     public function denormalizePaidMediaPreview(array $data): Types\Interfaces\PaidMediaPreviewInterface
@@ -1804,7 +1809,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizeBackgroundFill(array $data): Types\Interfaces\BackgroundFillInterface
     {
-        throw new \RuntimeException('class BackgroundFill is abstract and not yet implemented');
+        return match ($data['type']) {
+            'solid' => $this->denormalizeBackgroundFillSolid($data),
+            'gradient' => $this->denormalizeBackgroundFillGradient($data),
+            'freeform_gradient' => $this->denormalizeBackgroundFillFreeformGradient($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for BackgroundFill: %s', $data['type'])),
+        };
     }
 
     public function denormalizeBackgroundFillSolid(array $data): Types\Interfaces\BackgroundFillSolidInterface
@@ -1889,7 +1899,13 @@ class Serializer implements SerializerInterface
 
     public function denormalizeBackgroundType(array $data): Types\Interfaces\BackgroundTypeInterface
     {
-        throw new \RuntimeException('class BackgroundType is abstract and not yet implemented');
+        return match ($data['type']) {
+            'fill' => $this->denormalizeBackgroundTypeFill($data),
+            'wallpaper' => $this->denormalizeBackgroundTypeWallpaper($data),
+            'pattern' => $this->denormalizeBackgroundTypePattern($data),
+            'chat_theme' => $this->denormalizeBackgroundTypeChatTheme($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for BackgroundType: %s', $data['type'])),
+        };
     }
 
     public function denormalizeBackgroundTypeFill(array $data): Types\Interfaces\BackgroundTypeFillInterface
@@ -3579,7 +3595,16 @@ class Serializer implements SerializerInterface
 
     public function denormalizeBotCommandScope(array $data): Types\Interfaces\BotCommandScopeInterface
     {
-        throw new \RuntimeException('class BotCommandScope is abstract and not yet implemented');
+        return match ($data['type']) {
+            'default' => $this->denormalizeBotCommandScopeDefault($data),
+            'all_private_chats' => $this->denormalizeBotCommandScopeAllPrivateChats($data),
+            'all_group_chats' => $this->denormalizeBotCommandScopeAllGroupChats($data),
+            'all_chat_administrators' => $this->denormalizeBotCommandScopeAllChatAdministrators($data),
+            'chat' => $this->denormalizeBotCommandScopeChat($data),
+            'chat_administrators' => $this->denormalizeBotCommandScopeChatAdministrators($data),
+            'chat_member' => $this->denormalizeBotCommandScopeChatMember($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for BotCommandScope: %s', $data['type'])),
+        };
     }
 
     public function denormalizeBotCommandScopeDefault(array $data): Types\Interfaces\BotCommandScopeDefaultInterface
@@ -3760,7 +3785,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizeMenuButton(array $data): Types\Interfaces\MenuButtonInterface
     {
-        throw new \RuntimeException('class MenuButton is abstract and not yet implemented');
+        return match ($data['type']) {
+            'commands' => $this->denormalizeMenuButtonCommands($data),
+            'web_app' => $this->denormalizeMenuButtonWebApp($data),
+            'default' => $this->denormalizeMenuButtonDefault($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for MenuButton: %s', $data['type'])),
+        };
     }
 
     public function denormalizeMenuButtonCommands(array $data): Types\Interfaces\MenuButtonCommandsInterface
@@ -4069,7 +4099,14 @@ class Serializer implements SerializerInterface
 
     public function denormalizeInputMedia(array $data): Types\Interfaces\InputMediaInterface
     {
-        throw new \RuntimeException('class InputMedia is abstract and not yet implemented');
+        return match ($data['type']) {
+            'photo' => $this->denormalizeInputMediaPhoto($data),
+            'video' => $this->denormalizeInputMediaVideo($data),
+            'animation' => $this->denormalizeInputMediaAnimation($data),
+            'audio' => $this->denormalizeInputMediaAudio($data),
+            'document' => $this->denormalizeInputMediaDocument($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for InputMedia: %s', $data['type'])),
+        };
     }
 
     public function denormalizeInputMediaPhoto(array $data): Types\Interfaces\InputMediaPhotoInterface
@@ -4263,7 +4300,11 @@ class Serializer implements SerializerInterface
 
     public function denormalizeInputPaidMedia(array $data): Types\Interfaces\InputPaidMediaInterface
     {
-        throw new \RuntimeException('class InputPaidMedia is abstract and not yet implemented');
+        return match ($data['type']) {
+            'photo' => $this->denormalizeInputPaidMediaPhoto($data),
+            'video' => $this->denormalizeInputPaidMediaVideo($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for InputPaidMedia: %s', $data['type'])),
+        };
     }
 
     public function denormalizeInputPaidMediaPhoto(array $data): Types\Interfaces\InputPaidMediaPhotoInterface
@@ -4574,7 +4615,29 @@ class Serializer implements SerializerInterface
 
     public function denormalizeInlineQueryResult(array $data): Types\Interfaces\InlineQueryResultInterface
     {
-        throw new \RuntimeException('class InlineQueryResult is abstract and not yet implemented');
+        return match ($data['type']) {
+            'article' => $this->denormalizeInlineQueryResultArticle($data),
+            'photo' => $this->denormalizeInlineQueryResultPhoto($data),
+            'gif' => $this->denormalizeInlineQueryResultGif($data),
+            'mpeg4_gif' => $this->denormalizeInlineQueryResultMpeg4Gif($data),
+            'video' => $this->denormalizeInlineQueryResultVideo($data),
+            'audio' => $this->denormalizeInlineQueryResultAudio($data),
+            'voice' => $this->denormalizeInlineQueryResultVoice($data),
+            'document' => $this->denormalizeInlineQueryResultDocument($data),
+            'location' => $this->denormalizeInlineQueryResultLocation($data),
+            'venue' => $this->denormalizeInlineQueryResultVenue($data),
+            'contact' => $this->denormalizeInlineQueryResultContact($data),
+            'game' => $this->denormalizeInlineQueryResultGame($data),
+            'cached_photo' => $this->denormalizeInlineQueryResultCachedPhoto($data),
+            'cached_gif' => $this->denormalizeInlineQueryResultCachedGif($data),
+            'cached_mpeg4_gif' => $this->denormalizeInlineQueryResultCachedMpeg4Gif($data),
+            'cached_sticker' => $this->denormalizeInlineQueryResultCachedSticker($data),
+            'cached_document' => $this->denormalizeInlineQueryResultCachedDocument($data),
+            'cached_video' => $this->denormalizeInlineQueryResultCachedVideo($data),
+            'cached_voice' => $this->denormalizeInlineQueryResultCachedVoice($data),
+            'cached_audio' => $this->denormalizeInlineQueryResultCachedAudio($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for InlineQueryResult: %s', $data['type'])),
+        };
     }
 
     public function denormalizeInlineQueryResultArticle(array $data): Types\Interfaces\InlineQueryResultArticleInterface
@@ -5919,7 +5982,12 @@ class Serializer implements SerializerInterface
 
     public function denormalizeRevenueWithdrawalState(array $data): Types\Interfaces\RevenueWithdrawalStateInterface
     {
-        throw new \RuntimeException('class RevenueWithdrawalState is abstract and not yet implemented');
+        return match ($data['type']) {
+            'pending' => $this->denormalizeRevenueWithdrawalStatePending($data),
+            'succeeded' => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
+            'failed' => $this->denormalizeRevenueWithdrawalStateFailed($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for RevenueWithdrawalState: %s', $data['type'])),
+        };
     }
 
     public function denormalizeRevenueWithdrawalStatePending(
@@ -6000,7 +6068,14 @@ class Serializer implements SerializerInterface
 
     public function denormalizeTransactionPartner(array $data): Types\Interfaces\TransactionPartnerInterface
     {
-        throw new \RuntimeException('class TransactionPartner is abstract and not yet implemented');
+        return match ($data['type']) {
+            'user' => $this->denormalizeTransactionPartnerUser($data),
+            'fragment' => $this->denormalizeTransactionPartnerFragment($data),
+            'telegram_ads' => $this->denormalizeTransactionPartnerTelegramAds($data),
+            'telegram_api' => $this->denormalizeTransactionPartnerTelegramApi($data),
+            'other' => $this->denormalizeTransactionPartnerOther($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid type value for TransactionPartner: %s', $data['type'])),
+        };
     }
 
     public function denormalizeTransactionPartnerUser(array $data): Types\Interfaces\TransactionPartnerUserInterface
@@ -6317,7 +6392,18 @@ class Serializer implements SerializerInterface
 
     public function denormalizePassportElementError(array $data): Types\Interfaces\PassportElementErrorInterface
     {
-        throw new \RuntimeException('class PassportElementError is abstract and not yet implemented');
+        return match ($data['source']) {
+            'data' => $this->denormalizePassportElementErrorDataField($data),
+            'front_side' => $this->denormalizePassportElementErrorFrontSide($data),
+            'reverse_side' => $this->denormalizePassportElementErrorReverseSide($data),
+            'selfie' => $this->denormalizePassportElementErrorSelfie($data),
+            'file' => $this->denormalizePassportElementErrorFile($data),
+            'files' => $this->denormalizePassportElementErrorFiles($data),
+            'translation_file' => $this->denormalizePassportElementErrorTranslationFile($data),
+            'translation_files' => $this->denormalizePassportElementErrorTranslationFiles($data),
+            'unspecified' => $this->denormalizePassportElementErrorUnspecified($data),
+            default => throw new \InvalidArgumentException(sprintf('Invalid source value for PassportElementError: %s', $data['source'])),
+        };
     }
 
     public function denormalizePassportElementErrorDataField(
