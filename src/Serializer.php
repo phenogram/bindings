@@ -2,219 +2,219 @@
 
 namespace Phenogram\Bindings;
 
-use Phenogram\Bindings\Types\Animation;
-use Phenogram\Bindings\Types\Audio;
-use Phenogram\Bindings\Types\BackgroundFillFreeformGradient;
-use Phenogram\Bindings\Types\BackgroundFillGradient;
-use Phenogram\Bindings\Types\BackgroundFillSolid;
-use Phenogram\Bindings\Types\BackgroundTypeChatTheme;
-use Phenogram\Bindings\Types\BackgroundTypeFill;
-use Phenogram\Bindings\Types\BackgroundTypePattern;
-use Phenogram\Bindings\Types\BackgroundTypeWallpaper;
-use Phenogram\Bindings\Types\Birthdate;
-use Phenogram\Bindings\Types\BotCommand;
-use Phenogram\Bindings\Types\BotCommandScopeAllChatAdministrators;
-use Phenogram\Bindings\Types\BotCommandScopeAllGroupChats;
-use Phenogram\Bindings\Types\BotCommandScopeAllPrivateChats;
-use Phenogram\Bindings\Types\BotCommandScopeChat;
-use Phenogram\Bindings\Types\BotCommandScopeChatAdministrators;
-use Phenogram\Bindings\Types\BotCommandScopeChatMember;
-use Phenogram\Bindings\Types\BotCommandScopeDefault;
-use Phenogram\Bindings\Types\BotDescription;
-use Phenogram\Bindings\Types\BotName;
-use Phenogram\Bindings\Types\BotShortDescription;
-use Phenogram\Bindings\Types\BusinessConnection;
-use Phenogram\Bindings\Types\BusinessIntro;
-use Phenogram\Bindings\Types\BusinessLocation;
-use Phenogram\Bindings\Types\BusinessMessagesDeleted;
-use Phenogram\Bindings\Types\BusinessOpeningHours;
-use Phenogram\Bindings\Types\BusinessOpeningHoursInterval;
-use Phenogram\Bindings\Types\CallbackGame;
-use Phenogram\Bindings\Types\CallbackQuery;
-use Phenogram\Bindings\Types\Chat;
-use Phenogram\Bindings\Types\ChatAdministratorRights;
-use Phenogram\Bindings\Types\ChatBackground;
-use Phenogram\Bindings\Types\ChatBoost;
-use Phenogram\Bindings\Types\ChatBoostAdded;
-use Phenogram\Bindings\Types\ChatBoostRemoved;
-use Phenogram\Bindings\Types\ChatBoostSourceGiftCode;
-use Phenogram\Bindings\Types\ChatBoostSourceGiveaway;
-use Phenogram\Bindings\Types\ChatBoostSourcePremium;
-use Phenogram\Bindings\Types\ChatBoostUpdated;
-use Phenogram\Bindings\Types\ChatFullInfo;
-use Phenogram\Bindings\Types\ChatInviteLink;
-use Phenogram\Bindings\Types\ChatJoinRequest;
-use Phenogram\Bindings\Types\ChatLocation;
-use Phenogram\Bindings\Types\ChatMemberAdministrator;
-use Phenogram\Bindings\Types\ChatMemberBanned;
-use Phenogram\Bindings\Types\ChatMemberLeft;
-use Phenogram\Bindings\Types\ChatMemberMember;
-use Phenogram\Bindings\Types\ChatMemberOwner;
-use Phenogram\Bindings\Types\ChatMemberRestricted;
-use Phenogram\Bindings\Types\ChatMemberUpdated;
-use Phenogram\Bindings\Types\ChatPermissions;
-use Phenogram\Bindings\Types\ChatPhoto;
-use Phenogram\Bindings\Types\ChatShared;
-use Phenogram\Bindings\Types\ChosenInlineResult;
-use Phenogram\Bindings\Types\Contact;
-use Phenogram\Bindings\Types\CopyTextButton;
-use Phenogram\Bindings\Types\Dice;
-use Phenogram\Bindings\Types\Document;
-use Phenogram\Bindings\Types\EncryptedCredentials;
-use Phenogram\Bindings\Types\EncryptedPassportElement;
-use Phenogram\Bindings\Types\ExternalReplyInfo;
-use Phenogram\Bindings\Types\File;
-use Phenogram\Bindings\Types\ForceReply;
-use Phenogram\Bindings\Types\ForumTopic;
-use Phenogram\Bindings\Types\ForumTopicClosed;
-use Phenogram\Bindings\Types\ForumTopicCreated;
-use Phenogram\Bindings\Types\ForumTopicEdited;
-use Phenogram\Bindings\Types\ForumTopicReopened;
-use Phenogram\Bindings\Types\Game;
-use Phenogram\Bindings\Types\GameHighScore;
-use Phenogram\Bindings\Types\GeneralForumTopicHidden;
-use Phenogram\Bindings\Types\GeneralForumTopicUnhidden;
-use Phenogram\Bindings\Types\Gift;
-use Phenogram\Bindings\Types\Gifts;
-use Phenogram\Bindings\Types\Giveaway;
-use Phenogram\Bindings\Types\GiveawayCompleted;
-use Phenogram\Bindings\Types\GiveawayCreated;
-use Phenogram\Bindings\Types\GiveawayWinners;
-use Phenogram\Bindings\Types\InaccessibleMessage;
-use Phenogram\Bindings\Types\InlineKeyboardButton;
-use Phenogram\Bindings\Types\InlineKeyboardMarkup;
-use Phenogram\Bindings\Types\InlineQuery;
-use Phenogram\Bindings\Types\InlineQueryResultArticle;
-use Phenogram\Bindings\Types\InlineQueryResultAudio;
-use Phenogram\Bindings\Types\InlineQueryResultCachedAudio;
-use Phenogram\Bindings\Types\InlineQueryResultCachedDocument;
-use Phenogram\Bindings\Types\InlineQueryResultCachedGif;
-use Phenogram\Bindings\Types\InlineQueryResultCachedMpeg4Gif;
-use Phenogram\Bindings\Types\InlineQueryResultCachedPhoto;
-use Phenogram\Bindings\Types\InlineQueryResultCachedSticker;
-use Phenogram\Bindings\Types\InlineQueryResultCachedVideo;
-use Phenogram\Bindings\Types\InlineQueryResultCachedVoice;
-use Phenogram\Bindings\Types\InlineQueryResultContact;
-use Phenogram\Bindings\Types\InlineQueryResultDocument;
-use Phenogram\Bindings\Types\InlineQueryResultGame;
-use Phenogram\Bindings\Types\InlineQueryResultGif;
-use Phenogram\Bindings\Types\InlineQueryResultLocation;
-use Phenogram\Bindings\Types\InlineQueryResultMpeg4Gif;
-use Phenogram\Bindings\Types\InlineQueryResultPhoto;
-use Phenogram\Bindings\Types\InlineQueryResultsButton;
-use Phenogram\Bindings\Types\InlineQueryResultVenue;
-use Phenogram\Bindings\Types\InlineQueryResultVideo;
-use Phenogram\Bindings\Types\InlineQueryResultVoice;
-use Phenogram\Bindings\Types\InputContactMessageContent;
-use Phenogram\Bindings\Types\InputFile;
-use Phenogram\Bindings\Types\InputInvoiceMessageContent;
-use Phenogram\Bindings\Types\InputLocationMessageContent;
-use Phenogram\Bindings\Types\InputMediaAnimation;
-use Phenogram\Bindings\Types\InputMediaAudio;
-use Phenogram\Bindings\Types\InputMediaDocument;
-use Phenogram\Bindings\Types\InputMediaPhoto;
-use Phenogram\Bindings\Types\InputMediaVideo;
-use Phenogram\Bindings\Types\InputPaidMediaPhoto;
-use Phenogram\Bindings\Types\InputPaidMediaVideo;
-use Phenogram\Bindings\Types\InputPollOption;
-use Phenogram\Bindings\Types\InputSticker;
-use Phenogram\Bindings\Types\InputTextMessageContent;
-use Phenogram\Bindings\Types\InputVenueMessageContent;
+use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\AudioInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundFillGradientInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundFillSolidInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypeChatThemeInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypeFillInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypePatternInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypeWallpaperInterface;
+use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllGroupChatsInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllPrivateChatsInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatAdministratorsInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatMemberInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
+use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
+use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessMessagesDeletedInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessOpeningHoursInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessOpeningHoursIntervalInterface;
+use Phenogram\Bindings\Types\Interfaces\CallbackGameInterface;
+use Phenogram\Bindings\Types\Interfaces\CallbackQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatAdministratorRightsInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostRemovedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostSourceGiftCodeInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostSourceGiveawayInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostSourcePremiumInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatFullInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatInviteLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatJoinRequestInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberAdministratorInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberBannedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberLeftInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberMemberInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberOwnerInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberRestrictedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
+use Phenogram\Bindings\Types\Interfaces\ContactInterface;
+use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
+use Phenogram\Bindings\Types\Interfaces\DiceInterface;
+use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
+use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
+use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\FileInterface;
+use Phenogram\Bindings\Types\Interfaces\ForceReplyInterface;
+use Phenogram\Bindings\Types\Interfaces\ForumTopicClosedInterface;
+use Phenogram\Bindings\Types\Interfaces\ForumTopicCreatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ForumTopicEditedInterface;
+use Phenogram\Bindings\Types\Interfaces\ForumTopicInterface;
+use Phenogram\Bindings\Types\Interfaces\ForumTopicReopenedInterface;
+use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
+use Phenogram\Bindings\Types\Interfaces\GameInterface;
+use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
+use Phenogram\Bindings\Types\Interfaces\GiveawayCompletedInterface;
+use Phenogram\Bindings\Types\Interfaces\GiveawayCreatedInterface;
+use Phenogram\Bindings\Types\Interfaces\GiveawayInterface;
+use Phenogram\Bindings\Types\Interfaces\GiveawayWinnersInterface;
+use Phenogram\Bindings\Types\Interfaces\InaccessibleMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineKeyboardButtonInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultArticleInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedGifInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedMpeg4GifInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultCachedVoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultContactInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultGameInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultGifInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultMpeg4GifInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultsButtonInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVenueInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\InputContactMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
+use Phenogram\Bindings\Types\Interfaces\InputInvoiceMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
+use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LocationInterface;
+use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
+use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
+use Phenogram\Bindings\Types\Interfaces\MenuButtonCommandsInterface;
+use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
+use Phenogram\Bindings\Types\Interfaces\MenuButtonWebAppInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageIdInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageOriginChannelInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageOriginChatInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageOriginHiddenUserInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageOriginUserInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageReactionCountUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageReactionUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\OrderInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFilesInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFrontSideInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorReverseSideInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorSelfieInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorTranslationFileInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorTranslationFilesInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorUnspecifiedInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
+use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
+use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
+use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
+use Phenogram\Bindings\Types\Interfaces\ReactionCountInterface;
+use Phenogram\Bindings\Types\Interfaces\ReactionTypeCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ReactionTypeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ReactionTypePaidInterface;
+use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardMarkupInterface;
+use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardRemoveInterface;
+use Phenogram\Bindings\Types\Interfaces\ReplyParametersInterface;
+use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
+use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
+use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
+use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
+use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\StarTransactionInterface;
+use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
+use Phenogram\Bindings\Types\Interfaces\StickerInterface;
+use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryInterface;
+use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
+use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
 use Phenogram\Bindings\Types\Interfaces\TypeInterface;
-use Phenogram\Bindings\Types\Invoice;
-use Phenogram\Bindings\Types\KeyboardButton;
-use Phenogram\Bindings\Types\KeyboardButtonPollType;
-use Phenogram\Bindings\Types\KeyboardButtonRequestChat;
-use Phenogram\Bindings\Types\KeyboardButtonRequestUsers;
-use Phenogram\Bindings\Types\LabeledPrice;
-use Phenogram\Bindings\Types\LinkPreviewOptions;
-use Phenogram\Bindings\Types\Location;
-use Phenogram\Bindings\Types\LoginUrl;
-use Phenogram\Bindings\Types\MaskPosition;
-use Phenogram\Bindings\Types\MenuButtonCommands;
-use Phenogram\Bindings\Types\MenuButtonDefault;
-use Phenogram\Bindings\Types\MenuButtonWebApp;
-use Phenogram\Bindings\Types\Message;
-use Phenogram\Bindings\Types\MessageAutoDeleteTimerChanged;
-use Phenogram\Bindings\Types\MessageEntity;
-use Phenogram\Bindings\Types\MessageId;
-use Phenogram\Bindings\Types\MessageOriginChannel;
-use Phenogram\Bindings\Types\MessageOriginChat;
-use Phenogram\Bindings\Types\MessageOriginHiddenUser;
-use Phenogram\Bindings\Types\MessageOriginUser;
-use Phenogram\Bindings\Types\MessageReactionCountUpdated;
-use Phenogram\Bindings\Types\MessageReactionUpdated;
-use Phenogram\Bindings\Types\OrderInfo;
-use Phenogram\Bindings\Types\PaidMediaInfo;
-use Phenogram\Bindings\Types\PaidMediaPhoto;
-use Phenogram\Bindings\Types\PaidMediaPreview;
-use Phenogram\Bindings\Types\PaidMediaPurchased;
-use Phenogram\Bindings\Types\PaidMediaVideo;
-use Phenogram\Bindings\Types\PassportData;
-use Phenogram\Bindings\Types\PassportElementErrorDataField;
-use Phenogram\Bindings\Types\PassportElementErrorFile;
-use Phenogram\Bindings\Types\PassportElementErrorFiles;
-use Phenogram\Bindings\Types\PassportElementErrorFrontSide;
-use Phenogram\Bindings\Types\PassportElementErrorReverseSide;
-use Phenogram\Bindings\Types\PassportElementErrorSelfie;
-use Phenogram\Bindings\Types\PassportElementErrorTranslationFile;
-use Phenogram\Bindings\Types\PassportElementErrorTranslationFiles;
-use Phenogram\Bindings\Types\PassportElementErrorUnspecified;
-use Phenogram\Bindings\Types\PassportFile;
-use Phenogram\Bindings\Types\PhotoSize;
-use Phenogram\Bindings\Types\Poll;
-use Phenogram\Bindings\Types\PollAnswer;
-use Phenogram\Bindings\Types\PollOption;
-use Phenogram\Bindings\Types\PreCheckoutQuery;
-use Phenogram\Bindings\Types\PreparedInlineMessage;
-use Phenogram\Bindings\Types\ProximityAlertTriggered;
-use Phenogram\Bindings\Types\ReactionCount;
-use Phenogram\Bindings\Types\ReactionTypeCustomEmoji;
-use Phenogram\Bindings\Types\ReactionTypeEmoji;
-use Phenogram\Bindings\Types\ReactionTypePaid;
-use Phenogram\Bindings\Types\RefundedPayment;
-use Phenogram\Bindings\Types\ReplyKeyboardMarkup;
-use Phenogram\Bindings\Types\ReplyKeyboardRemove;
-use Phenogram\Bindings\Types\ReplyParameters;
-use Phenogram\Bindings\Types\ResponseParameters;
-use Phenogram\Bindings\Types\RevenueWithdrawalStateFailed;
-use Phenogram\Bindings\Types\RevenueWithdrawalStatePending;
-use Phenogram\Bindings\Types\RevenueWithdrawalStateSucceeded;
-use Phenogram\Bindings\Types\SentWebAppMessage;
-use Phenogram\Bindings\Types\SharedUser;
-use Phenogram\Bindings\Types\ShippingAddress;
-use Phenogram\Bindings\Types\ShippingOption;
-use Phenogram\Bindings\Types\ShippingQuery;
-use Phenogram\Bindings\Types\StarTransaction;
-use Phenogram\Bindings\Types\StarTransactions;
-use Phenogram\Bindings\Types\Sticker;
-use Phenogram\Bindings\Types\StickerSet;
-use Phenogram\Bindings\Types\Story;
-use Phenogram\Bindings\Types\SuccessfulPayment;
-use Phenogram\Bindings\Types\SwitchInlineQueryChosenChat;
-use Phenogram\Bindings\Types\TextQuote;
-use Phenogram\Bindings\Types\TransactionPartnerFragment;
-use Phenogram\Bindings\Types\TransactionPartnerOther;
-use Phenogram\Bindings\Types\TransactionPartnerTelegramAds;
-use Phenogram\Bindings\Types\TransactionPartnerTelegramApi;
-use Phenogram\Bindings\Types\TransactionPartnerUser;
-use Phenogram\Bindings\Types\Update;
-use Phenogram\Bindings\Types\User;
-use Phenogram\Bindings\Types\UserChatBoosts;
-use Phenogram\Bindings\Types\UserProfilePhotos;
-use Phenogram\Bindings\Types\UsersShared;
-use Phenogram\Bindings\Types\Venue;
-use Phenogram\Bindings\Types\Video;
-use Phenogram\Bindings\Types\VideoChatEnded;
-use Phenogram\Bindings\Types\VideoChatParticipantsInvited;
-use Phenogram\Bindings\Types\VideoChatScheduled;
-use Phenogram\Bindings\Types\VideoChatStarted;
-use Phenogram\Bindings\Types\VideoNote;
-use Phenogram\Bindings\Types\Voice;
-use Phenogram\Bindings\Types\WebAppData;
-use Phenogram\Bindings\Types\WebAppInfo;
-use Phenogram\Bindings\Types\WebhookInfo;
-use Phenogram\Bindings\Types\WriteAccessAllowed;
+use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
+use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
+use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
+use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\VenueInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoChatEndedInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoChatParticipantsInvitedInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoChatScheduledInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoChatStartedInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\WebhookInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 
 class Serializer implements SerializerInterface
 {
@@ -223,7 +223,7 @@ class Serializer implements SerializerInterface
     ) {
     }
 
-    public function denormalizeUpdate(array $data): Types\Interfaces\UpdateInterface
+    public function denormalizeUpdate(array $data): UpdateInterface
     {
         $requiredFields = [
             'update_id',
@@ -315,7 +315,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWebhookInfo(array $data): Types\Interfaces\WebhookInfoInterface
+    public function denormalizeWebhookInfo(array $data): WebhookInfoInterface
     {
         $requiredFields = [
             'url',
@@ -348,7 +348,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUser(array $data): Types\Interfaces\UserInterface
+    public function denormalizeUser(array $data): UserInterface
     {
         $requiredFields = [
             'id',
@@ -385,7 +385,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChat(array $data): Types\Interfaces\ChatInterface
+    public function denormalizeChat(array $data): ChatInterface
     {
         $requiredFields = [
             'id',
@@ -415,7 +415,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatFullInfo(array $data): Types\Interfaces\ChatFullInfoInterface
+    public function denormalizeChatFullInfo(array $data): ChatFullInfoInterface
     {
         $requiredFields = [
             'id',
@@ -504,7 +504,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessage(array $data): Types\Interfaces\MessageInterface
+    public function denormalizeMessage(array $data): MessageInterface
     {
         $requiredFields = [
             'message_id',
@@ -731,7 +731,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageId(array $data): Types\Interfaces\MessageIdInterface
+    public function denormalizeMessageId(array $data): MessageIdInterface
     {
         $requiredFields = [
             'message_id',
@@ -754,7 +754,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInaccessibleMessage(array $data): Types\Interfaces\InaccessibleMessageInterface
+    public function denormalizeInaccessibleMessage(array $data): InaccessibleMessageInterface
     {
         $requiredFields = [
             'chat',
@@ -790,7 +790,7 @@ class Serializer implements SerializerInterface
         }
     }
 
-    public function denormalizeMessageEntity(array $data): Types\Interfaces\MessageEntityInterface
+    public function denormalizeMessageEntity(array $data): MessageEntityInterface
     {
         $requiredFields = [
             'type',
@@ -823,7 +823,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTextQuote(array $data): Types\Interfaces\TextQuoteInterface
+    public function denormalizeTextQuote(array $data): TextQuoteInterface
     {
         $requiredFields = [
             'text',
@@ -852,7 +852,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeExternalReplyInfo(array $data): Types\Interfaces\ExternalReplyInfoInterface
+    public function denormalizeExternalReplyInfo(array $data): ExternalReplyInfoInterface
     {
         $requiredFields = [
             'origin',
@@ -940,7 +940,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReplyParameters(array $data): Types\Interfaces\ReplyParametersInterface
+    public function denormalizeReplyParameters(array $data): ReplyParametersInterface
     {
         $requiredFields = [
             'message_id',
@@ -982,7 +982,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeMessageOriginUser(array $data): Types\Interfaces\MessageOriginUserInterface
+    public function denormalizeMessageOriginUser(array $data): MessageOriginUserInterface
     {
         $requiredFields = [
             'type',
@@ -1009,7 +1009,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageOriginHiddenUser(array $data): Types\Interfaces\MessageOriginHiddenUserInterface
+    public function denormalizeMessageOriginHiddenUser(array $data): MessageOriginHiddenUserInterface
     {
         $requiredFields = [
             'type',
@@ -1036,7 +1036,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageOriginChat(array $data): Types\Interfaces\MessageOriginChatInterface
+    public function denormalizeMessageOriginChat(array $data): MessageOriginChatInterface
     {
         $requiredFields = [
             'type',
@@ -1064,7 +1064,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageOriginChannel(array $data): Types\Interfaces\MessageOriginChannelInterface
+    public function denormalizeMessageOriginChannel(array $data): MessageOriginChannelInterface
     {
         $requiredFields = [
             'type',
@@ -1094,7 +1094,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePhotoSize(array $data): Types\Interfaces\PhotoSizeInterface
+    public function denormalizePhotoSize(array $data): PhotoSizeInterface
     {
         $requiredFields = [
             'file_id',
@@ -1124,7 +1124,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeAnimation(array $data): Types\Interfaces\AnimationInterface
+    public function denormalizeAnimation(array $data): AnimationInterface
     {
         $requiredFields = [
             'file_id',
@@ -1161,7 +1161,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeAudio(array $data): Types\Interfaces\AudioInterface
+    public function denormalizeAudio(array $data): AudioInterface
     {
         $requiredFields = [
             'file_id',
@@ -1196,7 +1196,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeDocument(array $data): Types\Interfaces\DocumentInterface
+    public function denormalizeDocument(array $data): DocumentInterface
     {
         $requiredFields = [
             'file_id',
@@ -1227,7 +1227,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStory(array $data): Types\Interfaces\StoryInterface
+    public function denormalizeStory(array $data): StoryInterface
     {
         $requiredFields = [
             'chat',
@@ -1252,7 +1252,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideo(array $data): Types\Interfaces\VideoInterface
+    public function denormalizeVideo(array $data): VideoInterface
     {
         $requiredFields = [
             'file_id',
@@ -1289,7 +1289,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideoNote(array $data): Types\Interfaces\VideoNoteInterface
+    public function denormalizeVideoNote(array $data): VideoNoteInterface
     {
         $requiredFields = [
             'file_id',
@@ -1322,7 +1322,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVoice(array $data): Types\Interfaces\VoiceInterface
+    public function denormalizeVoice(array $data): VoiceInterface
     {
         $requiredFields = [
             'file_id',
@@ -1351,7 +1351,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaInfo(array $data): Types\Interfaces\PaidMediaInfoInterface
+    public function denormalizePaidMediaInfo(array $data): PaidMediaInfoInterface
     {
         $requiredFields = [
             'star_count',
@@ -1386,7 +1386,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizePaidMediaPreview(array $data): Types\Interfaces\PaidMediaPreviewInterface
+    public function denormalizePaidMediaPreview(array $data): PaidMediaPreviewInterface
     {
         $requiredFields = [
             'type',
@@ -1412,7 +1412,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaPhoto(array $data): Types\Interfaces\PaidMediaPhotoInterface
+    public function denormalizePaidMediaPhoto(array $data): PaidMediaPhotoInterface
     {
         $requiredFields = [
             'type',
@@ -1437,7 +1437,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaVideo(array $data): Types\Interfaces\PaidMediaVideoInterface
+    public function denormalizePaidMediaVideo(array $data): PaidMediaVideoInterface
     {
         $requiredFields = [
             'type',
@@ -1462,7 +1462,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeContact(array $data): Types\Interfaces\ContactInterface
+    public function denormalizeContact(array $data): ContactInterface
     {
         $requiredFields = [
             'phone_number',
@@ -1490,7 +1490,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeDice(array $data): Types\Interfaces\DiceInterface
+    public function denormalizeDice(array $data): DiceInterface
     {
         $requiredFields = [
             'emoji',
@@ -1515,7 +1515,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePollOption(array $data): Types\Interfaces\PollOptionInterface
+    public function denormalizePollOption(array $data): PollOptionInterface
     {
         $requiredFields = [
             'text',
@@ -1543,7 +1543,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputPollOption(array $data): Types\Interfaces\InputPollOptionInterface
+    public function denormalizeInputPollOption(array $data): InputPollOptionInterface
     {
         $requiredFields = [
             'text',
@@ -1570,7 +1570,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePollAnswer(array $data): Types\Interfaces\PollAnswerInterface
+    public function denormalizePollAnswer(array $data): PollAnswerInterface
     {
         $requiredFields = [
             'poll_id',
@@ -1601,7 +1601,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePoll(array $data): Types\Interfaces\PollInterface
+    public function denormalizePoll(array $data): PollInterface
     {
         $requiredFields = [
             'id',
@@ -1648,7 +1648,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeLocation(array $data): Types\Interfaces\LocationInterface
+    public function denormalizeLocation(array $data): LocationInterface
     {
         $requiredFields = [
             'latitude',
@@ -1677,7 +1677,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVenue(array $data): Types\Interfaces\VenueInterface
+    public function denormalizeVenue(array $data): VenueInterface
     {
         $requiredFields = [
             'location',
@@ -1708,7 +1708,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWebAppData(array $data): Types\Interfaces\WebAppDataInterface
+    public function denormalizeWebAppData(array $data): WebAppDataInterface
     {
         $requiredFields = [
             'data',
@@ -1733,7 +1733,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeProximityAlertTriggered(array $data): Types\Interfaces\ProximityAlertTriggeredInterface
+    public function denormalizeProximityAlertTriggered(array $data): ProximityAlertTriggeredInterface
     {
         $requiredFields = [
             'traveler',
@@ -1760,9 +1760,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageAutoDeleteTimerChanged(
-        array $data,
-    ): Types\Interfaces\MessageAutoDeleteTimerChangedInterface {
+    public function denormalizeMessageAutoDeleteTimerChanged(array $data): MessageAutoDeleteTimerChangedInterface
+    {
         $requiredFields = [
             'message_auto_delete_time',
         ];
@@ -1784,7 +1783,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostAdded(array $data): Types\Interfaces\ChatBoostAddedInterface
+    public function denormalizeChatBoostAdded(array $data): ChatBoostAddedInterface
     {
         $requiredFields = [
             'boost_count',
@@ -1817,7 +1816,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeBackgroundFillSolid(array $data): Types\Interfaces\BackgroundFillSolidInterface
+    public function denormalizeBackgroundFillSolid(array $data): BackgroundFillSolidInterface
     {
         $requiredFields = [
             'type',
@@ -1842,7 +1841,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundFillGradient(array $data): Types\Interfaces\BackgroundFillGradientInterface
+    public function denormalizeBackgroundFillGradient(array $data): BackgroundFillGradientInterface
     {
         $requiredFields = [
             'type',
@@ -1871,9 +1870,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundFillFreeformGradient(
-        array $data,
-    ): Types\Interfaces\BackgroundFillFreeformGradientInterface {
+    public function denormalizeBackgroundFillFreeformGradient(array $data): BackgroundFillFreeformGradientInterface
+    {
         $requiredFields = [
             'type',
             'colors',
@@ -1908,7 +1906,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeBackgroundTypeFill(array $data): Types\Interfaces\BackgroundTypeFillInterface
+    public function denormalizeBackgroundTypeFill(array $data): BackgroundTypeFillInterface
     {
         $requiredFields = [
             'type',
@@ -1935,7 +1933,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundTypeWallpaper(array $data): Types\Interfaces\BackgroundTypeWallpaperInterface
+    public function denormalizeBackgroundTypeWallpaper(array $data): BackgroundTypeWallpaperInterface
     {
         $requiredFields = [
             'type',
@@ -1964,7 +1962,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundTypePattern(array $data): Types\Interfaces\BackgroundTypePatternInterface
+    public function denormalizeBackgroundTypePattern(array $data): BackgroundTypePatternInterface
     {
         $requiredFields = [
             'type',
@@ -1995,7 +1993,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundTypeChatTheme(array $data): Types\Interfaces\BackgroundTypeChatThemeInterface
+    public function denormalizeBackgroundTypeChatTheme(array $data): BackgroundTypeChatThemeInterface
     {
         $requiredFields = [
             'type',
@@ -2020,7 +2018,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBackground(array $data): Types\Interfaces\ChatBackgroundInterface
+    public function denormalizeChatBackground(array $data): ChatBackgroundInterface
     {
         $requiredFields = [
             'type',
@@ -2043,7 +2041,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForumTopicCreated(array $data): Types\Interfaces\ForumTopicCreatedInterface
+    public function denormalizeForumTopicCreated(array $data): ForumTopicCreatedInterface
     {
         $requiredFields = [
             'name',
@@ -2069,12 +2067,12 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForumTopicClosed(array $data): Types\Interfaces\ForumTopicClosedInterface
+    public function denormalizeForumTopicClosed(array $data): ForumTopicClosedInterface
     {
         return $this->factory->makeForumTopicClosed();
     }
 
-    public function denormalizeForumTopicEdited(array $data): Types\Interfaces\ForumTopicEditedInterface
+    public function denormalizeForumTopicEdited(array $data): ForumTopicEditedInterface
     {
         return $this->factory->makeForumTopicEdited(
             name: $data['name'] ?? null,
@@ -2082,23 +2080,22 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForumTopicReopened(array $data): Types\Interfaces\ForumTopicReopenedInterface
+    public function denormalizeForumTopicReopened(array $data): ForumTopicReopenedInterface
     {
         return $this->factory->makeForumTopicReopened();
     }
 
-    public function denormalizeGeneralForumTopicHidden(array $data): Types\Interfaces\GeneralForumTopicHiddenInterface
+    public function denormalizeGeneralForumTopicHidden(array $data): GeneralForumTopicHiddenInterface
     {
         return $this->factory->makeGeneralForumTopicHidden();
     }
 
-    public function denormalizeGeneralForumTopicUnhidden(
-        array $data,
-    ): Types\Interfaces\GeneralForumTopicUnhiddenInterface {
+    public function denormalizeGeneralForumTopicUnhidden(array $data): GeneralForumTopicUnhiddenInterface
+    {
         return $this->factory->makeGeneralForumTopicUnhidden();
     }
 
-    public function denormalizeSharedUser(array $data): Types\Interfaces\SharedUserInterface
+    public function denormalizeSharedUser(array $data): SharedUserInterface
     {
         $requiredFields = [
             'user_id',
@@ -2127,7 +2124,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUsersShared(array $data): Types\Interfaces\UsersSharedInterface
+    public function denormalizeUsersShared(array $data): UsersSharedInterface
     {
         $requiredFields = [
             'request_id',
@@ -2152,7 +2149,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatShared(array $data): Types\Interfaces\ChatSharedInterface
+    public function denormalizeChatShared(array $data): ChatSharedInterface
     {
         $requiredFields = [
             'request_id',
@@ -2182,7 +2179,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWriteAccessAllowed(array $data): Types\Interfaces\WriteAccessAllowedInterface
+    public function denormalizeWriteAccessAllowed(array $data): WriteAccessAllowedInterface
     {
         return $this->factory->makeWriteAccessAllowed(
             fromRequest: $data['from_request'] ?? null,
@@ -2191,7 +2188,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideoChatScheduled(array $data): Types\Interfaces\VideoChatScheduledInterface
+    public function denormalizeVideoChatScheduled(array $data): VideoChatScheduledInterface
     {
         $requiredFields = [
             'start_date',
@@ -2214,12 +2211,12 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideoChatStarted(array $data): Types\Interfaces\VideoChatStartedInterface
+    public function denormalizeVideoChatStarted(array $data): VideoChatStartedInterface
     {
         return $this->factory->makeVideoChatStarted();
     }
 
-    public function denormalizeVideoChatEnded(array $data): Types\Interfaces\VideoChatEndedInterface
+    public function denormalizeVideoChatEnded(array $data): VideoChatEndedInterface
     {
         $requiredFields = [
             'duration',
@@ -2242,9 +2239,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeVideoChatParticipantsInvited(
-        array $data,
-    ): Types\Interfaces\VideoChatParticipantsInvitedInterface {
+    public function denormalizeVideoChatParticipantsInvited(array $data): VideoChatParticipantsInvitedInterface
+    {
         $requiredFields = [
             'users',
         ];
@@ -2266,14 +2262,14 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGiveawayCreated(array $data): Types\Interfaces\GiveawayCreatedInterface
+    public function denormalizeGiveawayCreated(array $data): GiveawayCreatedInterface
     {
         return $this->factory->makeGiveawayCreated(
             prizeStarCount: $data['prize_star_count'] ?? null,
         );
     }
 
-    public function denormalizeGiveaway(array $data): Types\Interfaces\GiveawayInterface
+    public function denormalizeGiveaway(array $data): GiveawayInterface
     {
         $requiredFields = [
             'chats',
@@ -2306,7 +2302,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGiveawayWinners(array $data): Types\Interfaces\GiveawayWinnersInterface
+    public function denormalizeGiveawayWinners(array $data): GiveawayWinnersInterface
     {
         $requiredFields = [
             'chat',
@@ -2344,7 +2340,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGiveawayCompleted(array $data): Types\Interfaces\GiveawayCompletedInterface
+    public function denormalizeGiveawayCompleted(array $data): GiveawayCompletedInterface
     {
         $requiredFields = [
             'winner_count',
@@ -2372,7 +2368,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeLinkPreviewOptions(array $data): Types\Interfaces\LinkPreviewOptionsInterface
+    public function denormalizeLinkPreviewOptions(array $data): LinkPreviewOptionsInterface
     {
         return $this->factory->makeLinkPreviewOptions(
             isDisabled: $data['is_disabled'] ?? null,
@@ -2383,7 +2379,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUserProfilePhotos(array $data): Types\Interfaces\UserProfilePhotosInterface
+    public function denormalizeUserProfilePhotos(array $data): UserProfilePhotosInterface
     {
         $requiredFields = [
             'total_count',
@@ -2414,7 +2410,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeFile(array $data): Types\Interfaces\FileInterface
+    public function denormalizeFile(array $data): FileInterface
     {
         $requiredFields = [
             'file_id',
@@ -2441,7 +2437,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeWebAppInfo(array $data): Types\Interfaces\WebAppInfoInterface
+    public function denormalizeWebAppInfo(array $data): WebAppInfoInterface
     {
         $requiredFields = [
             'url',
@@ -2464,7 +2460,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReplyKeyboardMarkup(array $data): Types\Interfaces\ReplyKeyboardMarkupInterface
+    public function denormalizeReplyKeyboardMarkup(array $data): ReplyKeyboardMarkupInterface
     {
         $requiredFields = [
             'keyboard',
@@ -2498,7 +2494,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButton(array $data): Types\Interfaces\KeyboardButtonInterface
+    public function denormalizeKeyboardButton(array $data): KeyboardButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2535,9 +2531,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButtonRequestUsers(
-        array $data,
-    ): Types\Interfaces\KeyboardButtonRequestUsersInterface {
+    public function denormalizeKeyboardButtonRequestUsers(array $data): KeyboardButtonRequestUsersInterface
+    {
         $requiredFields = [
             'request_id',
         ];
@@ -2565,9 +2560,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButtonRequestChat(
-        array $data,
-    ): Types\Interfaces\KeyboardButtonRequestChatInterface {
+    public function denormalizeKeyboardButtonRequestChat(array $data): KeyboardButtonRequestChatInterface
+    {
         $requiredFields = [
             'request_id',
             'chat_is_channel',
@@ -2604,14 +2598,14 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeKeyboardButtonPollType(array $data): Types\Interfaces\KeyboardButtonPollTypeInterface
+    public function denormalizeKeyboardButtonPollType(array $data): KeyboardButtonPollTypeInterface
     {
         return $this->factory->makeKeyboardButtonPollType(
             type: $data['type'] ?? null,
         );
     }
 
-    public function denormalizeReplyKeyboardRemove(array $data): Types\Interfaces\ReplyKeyboardRemoveInterface
+    public function denormalizeReplyKeyboardRemove(array $data): ReplyKeyboardRemoveInterface
     {
         return $this->factory->makeReplyKeyboardRemove(
             removeKeyboard: $data['remove_keyboard'] ?? true,
@@ -2619,7 +2613,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineKeyboardMarkup(array $data): Types\Interfaces\InlineKeyboardMarkupInterface
+    public function denormalizeInlineKeyboardMarkup(array $data): InlineKeyboardMarkupInterface
     {
         $requiredFields = [
             'inline_keyboard',
@@ -2648,7 +2642,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineKeyboardButton(array $data): Types\Interfaces\InlineKeyboardButtonInterface
+    public function denormalizeInlineKeyboardButton(array $data): InlineKeyboardButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2691,7 +2685,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeLoginUrl(array $data): Types\Interfaces\LoginUrlInterface
+    public function denormalizeLoginUrl(array $data): LoginUrlInterface
     {
         $requiredFields = [
             'url',
@@ -2717,9 +2711,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSwitchInlineQueryChosenChat(
-        array $data,
-    ): Types\Interfaces\SwitchInlineQueryChosenChatInterface {
+    public function denormalizeSwitchInlineQueryChosenChat(array $data): SwitchInlineQueryChosenChatInterface
+    {
         return $this->factory->makeSwitchInlineQueryChosenChat(
             query: $data['query'] ?? null,
             allowUserChats: $data['allow_user_chats'] ?? null,
@@ -2729,7 +2722,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeCopyTextButton(array $data): Types\Interfaces\CopyTextButtonInterface
+    public function denormalizeCopyTextButton(array $data): CopyTextButtonInterface
     {
         $requiredFields = [
             'text',
@@ -2752,7 +2745,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeCallbackQuery(array $data): Types\Interfaces\CallbackQueryInterface
+    public function denormalizeCallbackQuery(array $data): CallbackQueryInterface
     {
         $requiredFields = [
             'id',
@@ -2785,7 +2778,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForceReply(array $data): Types\Interfaces\ForceReplyInterface
+    public function denormalizeForceReply(array $data): ForceReplyInterface
     {
         return $this->factory->makeForceReply(
             forceReply: $data['force_reply'] ?? true,
@@ -2794,7 +2787,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatPhoto(array $data): Types\Interfaces\ChatPhotoInterface
+    public function denormalizeChatPhoto(array $data): ChatPhotoInterface
     {
         $requiredFields = [
             'small_file_id',
@@ -2823,7 +2816,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatInviteLink(array $data): Types\Interfaces\ChatInviteLinkInterface
+    public function denormalizeChatInviteLink(array $data): ChatInviteLinkInterface
     {
         $requiredFields = [
             'invite_link',
@@ -2860,7 +2853,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatAdministratorRights(array $data): Types\Interfaces\ChatAdministratorRightsInterface
+    public function denormalizeChatAdministratorRights(array $data): ChatAdministratorRightsInterface
     {
         $requiredFields = [
             'is_anonymous',
@@ -2907,7 +2900,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberUpdated(array $data): Types\Interfaces\ChatMemberUpdatedInterface
+    public function denormalizeChatMemberUpdated(array $data): ChatMemberUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -2956,7 +2949,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeChatMemberOwner(array $data): Types\Interfaces\ChatMemberOwnerInterface
+    public function denormalizeChatMemberOwner(array $data): ChatMemberOwnerInterface
     {
         $requiredFields = [
             'status',
@@ -2984,7 +2977,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberAdministrator(array $data): Types\Interfaces\ChatMemberAdministratorInterface
+    public function denormalizeChatMemberAdministrator(array $data): ChatMemberAdministratorInterface
     {
         $requiredFields = [
             'status',
@@ -3038,7 +3031,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberMember(array $data): Types\Interfaces\ChatMemberMemberInterface
+    public function denormalizeChatMemberMember(array $data): ChatMemberMemberInterface
     {
         $requiredFields = [
             'status',
@@ -3064,7 +3057,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberRestricted(array $data): Types\Interfaces\ChatMemberRestrictedInterface
+    public function denormalizeChatMemberRestricted(array $data): ChatMemberRestrictedInterface
     {
         $requiredFields = [
             'status',
@@ -3121,7 +3114,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberLeft(array $data): Types\Interfaces\ChatMemberLeftInterface
+    public function denormalizeChatMemberLeft(array $data): ChatMemberLeftInterface
     {
         $requiredFields = [
             'status',
@@ -3146,7 +3139,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMemberBanned(array $data): Types\Interfaces\ChatMemberBannedInterface
+    public function denormalizeChatMemberBanned(array $data): ChatMemberBannedInterface
     {
         $requiredFields = [
             'status',
@@ -3173,7 +3166,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatJoinRequest(array $data): Types\Interfaces\ChatJoinRequestInterface
+    public function denormalizeChatJoinRequest(array $data): ChatJoinRequestInterface
     {
         $requiredFields = [
             'chat',
@@ -3206,7 +3199,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatPermissions(array $data): Types\Interfaces\ChatPermissionsInterface
+    public function denormalizeChatPermissions(array $data): ChatPermissionsInterface
     {
         return $this->factory->makeChatPermissions(
             canSendMessages: $data['can_send_messages'] ?? null,
@@ -3226,7 +3219,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBirthdate(array $data): Types\Interfaces\BirthdateInterface
+    public function denormalizeBirthdate(array $data): BirthdateInterface
     {
         $requiredFields = [
             'day',
@@ -3252,7 +3245,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessIntro(array $data): Types\Interfaces\BusinessIntroInterface
+    public function denormalizeBusinessIntro(array $data): BusinessIntroInterface
     {
         return $this->factory->makeBusinessIntro(
             title: $data['title'] ?? null,
@@ -3263,7 +3256,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessLocation(array $data): Types\Interfaces\BusinessLocationInterface
+    public function denormalizeBusinessLocation(array $data): BusinessLocationInterface
     {
         $requiredFields = [
             'address',
@@ -3289,9 +3282,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessOpeningHoursInterval(
-        array $data,
-    ): Types\Interfaces\BusinessOpeningHoursIntervalInterface {
+    public function denormalizeBusinessOpeningHoursInterval(array $data): BusinessOpeningHoursIntervalInterface
+    {
         $requiredFields = [
             'opening_minute',
             'closing_minute',
@@ -3315,7 +3307,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessOpeningHours(array $data): Types\Interfaces\BusinessOpeningHoursInterface
+    public function denormalizeBusinessOpeningHours(array $data): BusinessOpeningHoursInterface
     {
         $requiredFields = [
             'time_zone_name',
@@ -3340,7 +3332,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatLocation(array $data): Types\Interfaces\ChatLocationInterface
+    public function denormalizeChatLocation(array $data): ChatLocationInterface
     {
         $requiredFields = [
             'location',
@@ -3375,7 +3367,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeReactionTypeEmoji(array $data): Types\Interfaces\ReactionTypeEmojiInterface
+    public function denormalizeReactionTypeEmoji(array $data): ReactionTypeEmojiInterface
     {
         $requiredFields = [
             'type',
@@ -3400,7 +3392,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReactionTypeCustomEmoji(array $data): Types\Interfaces\ReactionTypeCustomEmojiInterface
+    public function denormalizeReactionTypeCustomEmoji(array $data): ReactionTypeCustomEmojiInterface
     {
         $requiredFields = [
             'type',
@@ -3425,7 +3417,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReactionTypePaid(array $data): Types\Interfaces\ReactionTypePaidInterface
+    public function denormalizeReactionTypePaid(array $data): ReactionTypePaidInterface
     {
         $requiredFields = [
             'type',
@@ -3448,7 +3440,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReactionCount(array $data): Types\Interfaces\ReactionCountInterface
+    public function denormalizeReactionCount(array $data): ReactionCountInterface
     {
         $requiredFields = [
             'type',
@@ -3473,7 +3465,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageReactionUpdated(array $data): Types\Interfaces\MessageReactionUpdatedInterface
+    public function denormalizeMessageReactionUpdated(array $data): MessageReactionUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -3510,9 +3502,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageReactionCountUpdated(
-        array $data,
-    ): Types\Interfaces\MessageReactionCountUpdatedInterface {
+    public function denormalizeMessageReactionCountUpdated(array $data): MessageReactionCountUpdatedInterface
+    {
         $requiredFields = [
             'chat',
             'message_id',
@@ -3540,7 +3531,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeForumTopic(array $data): Types\Interfaces\ForumTopicInterface
+    public function denormalizeForumTopic(array $data): ForumTopicInterface
     {
         $requiredFields = [
             'message_thread_id',
@@ -3568,7 +3559,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotCommand(array $data): Types\Interfaces\BotCommandInterface
+    public function denormalizeBotCommand(array $data): BotCommandInterface
     {
         $requiredFields = [
             'command',
@@ -3607,24 +3598,22 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeBotCommandScopeDefault(array $data): Types\Interfaces\BotCommandScopeDefaultInterface
+    public function denormalizeBotCommandScopeDefault(array $data): BotCommandScopeDefaultInterface
     {
         return $this->factory->makeBotCommandScopeDefault(
             type: $data['type'] ?? 'default',
         );
     }
 
-    public function denormalizeBotCommandScopeAllPrivateChats(
-        array $data,
-    ): Types\Interfaces\BotCommandScopeAllPrivateChatsInterface {
+    public function denormalizeBotCommandScopeAllPrivateChats(array $data): BotCommandScopeAllPrivateChatsInterface
+    {
         return $this->factory->makeBotCommandScopeAllPrivateChats(
             type: $data['type'] ?? 'all_private_chats',
         );
     }
 
-    public function denormalizeBotCommandScopeAllGroupChats(
-        array $data,
-    ): Types\Interfaces\BotCommandScopeAllGroupChatsInterface {
+    public function denormalizeBotCommandScopeAllGroupChats(array $data): BotCommandScopeAllGroupChatsInterface
+    {
         return $this->factory->makeBotCommandScopeAllGroupChats(
             type: $data['type'] ?? 'all_group_chats',
         );
@@ -3632,13 +3621,13 @@ class Serializer implements SerializerInterface
 
     public function denormalizeBotCommandScopeAllChatAdministrators(
         array $data,
-    ): Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface {
+    ): BotCommandScopeAllChatAdministratorsInterface {
         return $this->factory->makeBotCommandScopeAllChatAdministrators(
             type: $data['type'] ?? 'all_chat_administrators',
         );
     }
 
-    public function denormalizeBotCommandScopeChat(array $data): Types\Interfaces\BotCommandScopeChatInterface
+    public function denormalizeBotCommandScopeChat(array $data): BotCommandScopeChatInterface
     {
         $requiredFields = [
             'chat_id',
@@ -3662,9 +3651,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotCommandScopeChatAdministrators(
-        array $data,
-    ): Types\Interfaces\BotCommandScopeChatAdministratorsInterface {
+    public function denormalizeBotCommandScopeChatAdministrators(array $data): BotCommandScopeChatAdministratorsInterface
+    {
         $requiredFields = [
             'chat_id',
         ];
@@ -3687,9 +3675,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotCommandScopeChatMember(
-        array $data,
-    ): Types\Interfaces\BotCommandScopeChatMemberInterface {
+    public function denormalizeBotCommandScopeChatMember(array $data): BotCommandScopeChatMemberInterface
+    {
         $requiredFields = [
             'chat_id',
             'user_id',
@@ -3714,7 +3701,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotName(array $data): Types\Interfaces\BotNameInterface
+    public function denormalizeBotName(array $data): BotNameInterface
     {
         $requiredFields = [
             'name',
@@ -3737,7 +3724,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotDescription(array $data): Types\Interfaces\BotDescriptionInterface
+    public function denormalizeBotDescription(array $data): BotDescriptionInterface
     {
         $requiredFields = [
             'description',
@@ -3760,7 +3747,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotShortDescription(array $data): Types\Interfaces\BotShortDescriptionInterface
+    public function denormalizeBotShortDescription(array $data): BotShortDescriptionInterface
     {
         $requiredFields = [
             'short_description',
@@ -3793,14 +3780,14 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeMenuButtonCommands(array $data): Types\Interfaces\MenuButtonCommandsInterface
+    public function denormalizeMenuButtonCommands(array $data): MenuButtonCommandsInterface
     {
         return $this->factory->makeMenuButtonCommands(
             type: $data['type'] ?? 'commands',
         );
     }
 
-    public function denormalizeMenuButtonWebApp(array $data): Types\Interfaces\MenuButtonWebAppInterface
+    public function denormalizeMenuButtonWebApp(array $data): MenuButtonWebAppInterface
     {
         $requiredFields = [
             'text',
@@ -3826,7 +3813,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMenuButtonDefault(array $data): Types\Interfaces\MenuButtonDefaultInterface
+    public function denormalizeMenuButtonDefault(array $data): MenuButtonDefaultInterface
     {
         return $this->factory->makeMenuButtonDefault(
             type: $data['type'] ?? 'default',
@@ -3843,7 +3830,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeChatBoostSourcePremium(array $data): Types\Interfaces\ChatBoostSourcePremiumInterface
+    public function denormalizeChatBoostSourcePremium(array $data): ChatBoostSourcePremiumInterface
     {
         $requiredFields = [
             'source',
@@ -3868,7 +3855,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostSourceGiftCode(array $data): Types\Interfaces\ChatBoostSourceGiftCodeInterface
+    public function denormalizeChatBoostSourceGiftCode(array $data): ChatBoostSourceGiftCodeInterface
     {
         $requiredFields = [
             'source',
@@ -3893,7 +3880,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostSourceGiveaway(array $data): Types\Interfaces\ChatBoostSourceGiveawayInterface
+    public function denormalizeChatBoostSourceGiveaway(array $data): ChatBoostSourceGiveawayInterface
     {
         $requiredFields = [
             'source',
@@ -3923,7 +3910,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoost(array $data): Types\Interfaces\ChatBoostInterface
+    public function denormalizeChatBoost(array $data): ChatBoostInterface
     {
         $requiredFields = [
             'boost_id',
@@ -3952,7 +3939,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostUpdated(array $data): Types\Interfaces\ChatBoostUpdatedInterface
+    public function denormalizeChatBoostUpdated(array $data): ChatBoostUpdatedInterface
     {
         $requiredFields = [
             'chat',
@@ -3977,7 +3964,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostRemoved(array $data): Types\Interfaces\ChatBoostRemovedInterface
+    public function denormalizeChatBoostRemoved(array $data): ChatBoostRemovedInterface
     {
         $requiredFields = [
             'chat',
@@ -4006,7 +3993,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeUserChatBoosts(array $data): Types\Interfaces\UserChatBoostsInterface
+    public function denormalizeUserChatBoosts(array $data): UserChatBoostsInterface
     {
         $requiredFields = [
             'boosts',
@@ -4029,7 +4016,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessConnection(array $data): Types\Interfaces\BusinessConnectionInterface
+    public function denormalizeBusinessConnection(array $data): BusinessConnectionInterface
     {
         $requiredFields = [
             'id',
@@ -4062,7 +4049,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBusinessMessagesDeleted(array $data): Types\Interfaces\BusinessMessagesDeletedInterface
+    public function denormalizeBusinessMessagesDeleted(array $data): BusinessMessagesDeletedInterface
     {
         $requiredFields = [
             'business_connection_id',
@@ -4089,7 +4076,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeResponseParameters(array $data): Types\Interfaces\ResponseParametersInterface
+    public function denormalizeResponseParameters(array $data): ResponseParametersInterface
     {
         return $this->factory->makeResponseParameters(
             migrateToChatId: $data['migrate_to_chat_id'] ?? null,
@@ -4109,7 +4096,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeInputMediaPhoto(array $data): Types\Interfaces\InputMediaPhotoInterface
+    public function denormalizeInputMediaPhoto(array $data): InputMediaPhotoInterface
     {
         $requiredFields = [
             'media',
@@ -4140,7 +4127,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaVideo(array $data): Types\Interfaces\InputMediaVideoInterface
+    public function denormalizeInputMediaVideo(array $data): InputMediaVideoInterface
     {
         $requiredFields = [
             'media',
@@ -4176,7 +4163,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaAnimation(array $data): Types\Interfaces\InputMediaAnimationInterface
+    public function denormalizeInputMediaAnimation(array $data): InputMediaAnimationInterface
     {
         $requiredFields = [
             'media',
@@ -4211,7 +4198,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaAudio(array $data): Types\Interfaces\InputMediaAudioInterface
+    public function denormalizeInputMediaAudio(array $data): InputMediaAudioInterface
     {
         $requiredFields = [
             'media',
@@ -4244,7 +4231,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMediaDocument(array $data): Types\Interfaces\InputMediaDocumentInterface
+    public function denormalizeInputMediaDocument(array $data): InputMediaDocumentInterface
     {
         $requiredFields = [
             'media',
@@ -4275,7 +4262,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputFile(array $data): Types\Interfaces\InputFileInterface
+    public function denormalizeInputFile(array $data): InputFileInterface
     {
         $requiredFields = [
             'file_path',
@@ -4307,7 +4294,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeInputPaidMediaPhoto(array $data): Types\Interfaces\InputPaidMediaPhotoInterface
+    public function denormalizeInputPaidMediaPhoto(array $data): InputPaidMediaPhotoInterface
     {
         $requiredFields = [
             'media',
@@ -4331,7 +4318,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputPaidMediaVideo(array $data): Types\Interfaces\InputPaidMediaVideoInterface
+    public function denormalizeInputPaidMediaVideo(array $data): InputPaidMediaVideoInterface
     {
         $requiredFields = [
             'media',
@@ -4360,7 +4347,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSticker(array $data): Types\Interfaces\StickerInterface
+    public function denormalizeSticker(array $data): StickerInterface
     {
         $requiredFields = [
             'file_id',
@@ -4409,7 +4396,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStickerSet(array $data): Types\Interfaces\StickerSetInterface
+    public function denormalizeStickerSet(array $data): StickerSetInterface
     {
         $requiredFields = [
             'name',
@@ -4441,7 +4428,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMaskPosition(array $data): Types\Interfaces\MaskPositionInterface
+    public function denormalizeMaskPosition(array $data): MaskPositionInterface
     {
         $requiredFields = [
             'point',
@@ -4470,7 +4457,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputSticker(array $data): Types\Interfaces\InputStickerInterface
+    public function denormalizeInputSticker(array $data): InputStickerInterface
     {
         $requiredFields = [
             'sticker',
@@ -4501,7 +4488,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGift(array $data): Types\Interfaces\GiftInterface
+    public function denormalizeGift(array $data): GiftInterface
     {
         $requiredFields = [
             'id',
@@ -4530,7 +4517,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGifts(array $data): Types\Interfaces\GiftsInterface
+    public function denormalizeGifts(array $data): GiftsInterface
     {
         $requiredFields = [
             'gifts',
@@ -4553,7 +4540,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQuery(array $data): Types\Interfaces\InlineQueryInterface
+    public function denormalizeInlineQuery(array $data): InlineQueryInterface
     {
         $requiredFields = [
             'id',
@@ -4586,7 +4573,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultsButton(array $data): Types\Interfaces\InlineQueryResultsButtonInterface
+    public function denormalizeInlineQueryResultsButton(array $data): InlineQueryResultsButtonInterface
     {
         $requiredFields = [
             'text',
@@ -4640,7 +4627,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeInlineQueryResultArticle(array $data): Types\Interfaces\InlineQueryResultArticleInterface
+    public function denormalizeInlineQueryResultArticle(array $data): InlineQueryResultArticleInterface
     {
         $requiredFields = [
             'id',
@@ -4677,7 +4664,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultPhoto(array $data): Types\Interfaces\InlineQueryResultPhotoInterface
+    public function denormalizeInlineQueryResultPhoto(array $data): InlineQueryResultPhotoInterface
     {
         $requiredFields = [
             'id',
@@ -4721,7 +4708,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultGif(array $data): Types\Interfaces\InlineQueryResultGifInterface
+    public function denormalizeInlineQueryResultGif(array $data): InlineQueryResultGifInterface
     {
         $requiredFields = [
             'id',
@@ -4766,9 +4753,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultMpeg4Gif(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultMpeg4GifInterface {
+    public function denormalizeInlineQueryResultMpeg4Gif(array $data): InlineQueryResultMpeg4GifInterface
+    {
         $requiredFields = [
             'id',
             'mpeg4_url',
@@ -4812,7 +4798,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultVideo(array $data): Types\Interfaces\InlineQueryResultVideoInterface
+    public function denormalizeInlineQueryResultVideo(array $data): InlineQueryResultVideoInterface
     {
         $requiredFields = [
             'id',
@@ -4860,7 +4846,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultAudio(array $data): Types\Interfaces\InlineQueryResultAudioInterface
+    public function denormalizeInlineQueryResultAudio(array $data): InlineQueryResultAudioInterface
     {
         $requiredFields = [
             'id',
@@ -4901,7 +4887,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultVoice(array $data): Types\Interfaces\InlineQueryResultVoiceInterface
+    public function denormalizeInlineQueryResultVoice(array $data): InlineQueryResultVoiceInterface
     {
         $requiredFields = [
             'id',
@@ -4941,9 +4927,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultDocument(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultDocumentInterface {
+    public function denormalizeInlineQueryResultDocument(array $data): InlineQueryResultDocumentInterface
+    {
         $requiredFields = [
             'id',
             'title',
@@ -4987,9 +4972,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultLocation(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultLocationInterface {
+    public function denormalizeInlineQueryResultLocation(array $data): InlineQueryResultLocationInterface
+    {
         $requiredFields = [
             'id',
             'latitude',
@@ -5031,7 +5015,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultVenue(array $data): Types\Interfaces\InlineQueryResultVenueInterface
+    public function denormalizeInlineQueryResultVenue(array $data): InlineQueryResultVenueInterface
     {
         $requiredFields = [
             'id',
@@ -5076,7 +5060,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultContact(array $data): Types\Interfaces\InlineQueryResultContactInterface
+    public function denormalizeInlineQueryResultContact(array $data): InlineQueryResultContactInterface
     {
         $requiredFields = [
             'id',
@@ -5115,7 +5099,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultGame(array $data): Types\Interfaces\InlineQueryResultGameInterface
+    public function denormalizeInlineQueryResultGame(array $data): InlineQueryResultGameInterface
     {
         $requiredFields = [
             'id',
@@ -5144,9 +5128,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedPhoto(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedPhotoInterface {
+    public function denormalizeInlineQueryResultCachedPhoto(array $data): InlineQueryResultCachedPhotoInterface
+    {
         $requiredFields = [
             'id',
             'photo_file_id',
@@ -5185,9 +5168,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedGif(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedGifInterface {
+    public function denormalizeInlineQueryResultCachedGif(array $data): InlineQueryResultCachedGifInterface
+    {
         $requiredFields = [
             'id',
             'gif_file_id',
@@ -5225,9 +5207,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedMpeg4Gif(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedMpeg4GifInterface {
+    public function denormalizeInlineQueryResultCachedMpeg4Gif(array $data): InlineQueryResultCachedMpeg4GifInterface
+    {
         $requiredFields = [
             'id',
             'mpeg4_file_id',
@@ -5265,9 +5246,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedSticker(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedStickerInterface {
+    public function denormalizeInlineQueryResultCachedSticker(array $data): InlineQueryResultCachedStickerInterface
+    {
         $requiredFields = [
             'id',
             'sticker_file_id',
@@ -5298,9 +5278,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedDocument(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedDocumentInterface {
+    public function denormalizeInlineQueryResultCachedDocument(array $data): InlineQueryResultCachedDocumentInterface
+    {
         $requiredFields = [
             'id',
             'title',
@@ -5339,9 +5318,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedVideo(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedVideoInterface {
+    public function denormalizeInlineQueryResultCachedVideo(array $data): InlineQueryResultCachedVideoInterface
+    {
         $requiredFields = [
             'id',
             'video_file_id',
@@ -5381,9 +5359,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedVoice(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedVoiceInterface {
+    public function denormalizeInlineQueryResultCachedVoice(array $data): InlineQueryResultCachedVoiceInterface
+    {
         $requiredFields = [
             'id',
             'voice_file_id',
@@ -5421,9 +5398,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResultCachedAudio(
-        array $data,
-    ): Types\Interfaces\InlineQueryResultCachedAudioInterface {
+    public function denormalizeInlineQueryResultCachedAudio(array $data): InlineQueryResultCachedAudioInterface
+    {
         $requiredFields = [
             'id',
             'audio_file_id',
@@ -5464,7 +5440,7 @@ class Serializer implements SerializerInterface
         throw new \RuntimeException('class InputMessageContent is abstract and not yet implemented');
     }
 
-    public function denormalizeInputTextMessageContent(array $data): Types\Interfaces\InputTextMessageContentInterface
+    public function denormalizeInputTextMessageContent(array $data): InputTextMessageContentInterface
     {
         $requiredFields = [
             'message_text',
@@ -5494,9 +5470,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputLocationMessageContent(
-        array $data,
-    ): Types\Interfaces\InputLocationMessageContentInterface {
+    public function denormalizeInputLocationMessageContent(array $data): InputLocationMessageContentInterface
+    {
         $requiredFields = [
             'latitude',
             'longitude',
@@ -5524,7 +5499,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputVenueMessageContent(array $data): Types\Interfaces\InputVenueMessageContentInterface
+    public function denormalizeInputVenueMessageContent(array $data): InputVenueMessageContentInterface
     {
         $requiredFields = [
             'latitude',
@@ -5557,9 +5532,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputContactMessageContent(
-        array $data,
-    ): Types\Interfaces\InputContactMessageContentInterface {
+    public function denormalizeInputContactMessageContent(array $data): InputContactMessageContentInterface
+    {
         $requiredFields = [
             'phone_number',
             'first_name',
@@ -5585,9 +5559,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputInvoiceMessageContent(
-        array $data,
-    ): Types\Interfaces\InputInvoiceMessageContentInterface {
+    public function denormalizeInputInvoiceMessageContent(array $data): InputInvoiceMessageContentInterface
+    {
         $requiredFields = [
             'title',
             'description',
@@ -5632,7 +5605,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChosenInlineResult(array $data): Types\Interfaces\ChosenInlineResultInterface
+    public function denormalizeChosenInlineResult(array $data): ChosenInlineResultInterface
     {
         $requiredFields = [
             'result_id',
@@ -5663,14 +5636,14 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSentWebAppMessage(array $data): Types\Interfaces\SentWebAppMessageInterface
+    public function denormalizeSentWebAppMessage(array $data): SentWebAppMessageInterface
     {
         return $this->factory->makeSentWebAppMessage(
             inlineMessageId: $data['inline_message_id'] ?? null,
         );
     }
 
-    public function denormalizePreparedInlineMessage(array $data): Types\Interfaces\PreparedInlineMessageInterface
+    public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessageInterface
     {
         $requiredFields = [
             'id',
@@ -5695,7 +5668,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeLabeledPrice(array $data): Types\Interfaces\LabeledPriceInterface
+    public function denormalizeLabeledPrice(array $data): LabeledPriceInterface
     {
         $requiredFields = [
             'label',
@@ -5720,7 +5693,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInvoice(array $data): Types\Interfaces\InvoiceInterface
+    public function denormalizeInvoice(array $data): InvoiceInterface
     {
         $requiredFields = [
             'title',
@@ -5751,7 +5724,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeShippingAddress(array $data): Types\Interfaces\ShippingAddressInterface
+    public function denormalizeShippingAddress(array $data): ShippingAddressInterface
     {
         $requiredFields = [
             'country_code',
@@ -5784,7 +5757,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeOrderInfo(array $data): Types\Interfaces\OrderInfoInterface
+    public function denormalizeOrderInfo(array $data): OrderInfoInterface
     {
         return $this->factory->makeOrderInfo(
             name: $data['name'] ?? null,
@@ -5796,7 +5769,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeShippingOption(array $data): Types\Interfaces\ShippingOptionInterface
+    public function denormalizeShippingOption(array $data): ShippingOptionInterface
     {
         $requiredFields = [
             'id',
@@ -5823,7 +5796,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSuccessfulPayment(array $data): Types\Interfaces\SuccessfulPaymentInterface
+    public function denormalizeSuccessfulPayment(array $data): SuccessfulPaymentInterface
     {
         $requiredFields = [
             'currency',
@@ -5861,7 +5834,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeRefundedPayment(array $data): Types\Interfaces\RefundedPaymentInterface
+    public function denormalizeRefundedPayment(array $data): RefundedPaymentInterface
     {
         $requiredFields = [
             'currency',
@@ -5891,7 +5864,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeShippingQuery(array $data): Types\Interfaces\ShippingQueryInterface
+    public function denormalizeShippingQuery(array $data): ShippingQueryInterface
     {
         $requiredFields = [
             'id',
@@ -5920,7 +5893,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePreCheckoutQuery(array $data): Types\Interfaces\PreCheckoutQueryInterface
+    public function denormalizePreCheckoutQuery(array $data): PreCheckoutQueryInterface
     {
         $requiredFields = [
             'id',
@@ -5955,7 +5928,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMediaPurchased(array $data): Types\Interfaces\PaidMediaPurchasedInterface
+    public function denormalizePaidMediaPurchased(array $data): PaidMediaPurchasedInterface
     {
         $requiredFields = [
             'from',
@@ -5990,9 +5963,8 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeRevenueWithdrawalStatePending(
-        array $data,
-    ): Types\Interfaces\RevenueWithdrawalStatePendingInterface {
+    public function denormalizeRevenueWithdrawalStatePending(array $data): RevenueWithdrawalStatePendingInterface
+    {
         $requiredFields = [
             'type',
         ];
@@ -6014,9 +5986,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeRevenueWithdrawalStateSucceeded(
-        array $data,
-    ): Types\Interfaces\RevenueWithdrawalStateSucceededInterface {
+    public function denormalizeRevenueWithdrawalStateSucceeded(array $data): RevenueWithdrawalStateSucceededInterface
+    {
         $requiredFields = [
             'type',
             'date',
@@ -6042,9 +6013,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeRevenueWithdrawalStateFailed(
-        array $data,
-    ): Types\Interfaces\RevenueWithdrawalStateFailedInterface {
+    public function denormalizeRevenueWithdrawalStateFailed(array $data): RevenueWithdrawalStateFailedInterface
+    {
         $requiredFields = [
             'type',
         ];
@@ -6078,7 +6048,7 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizeTransactionPartnerUser(array $data): Types\Interfaces\TransactionPartnerUserInterface
+    public function denormalizeTransactionPartnerUser(array $data): TransactionPartnerUserInterface
     {
         $requiredFields = [
             'type',
@@ -6110,9 +6080,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartnerFragment(
-        array $data,
-    ): Types\Interfaces\TransactionPartnerFragmentInterface {
+    public function denormalizeTransactionPartnerFragment(array $data): TransactionPartnerFragmentInterface
+    {
         $requiredFields = [
             'type',
         ];
@@ -6137,9 +6106,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartnerTelegramAds(
-        array $data,
-    ): Types\Interfaces\TransactionPartnerTelegramAdsInterface {
+    public function denormalizeTransactionPartnerTelegramAds(array $data): TransactionPartnerTelegramAdsInterface
+    {
         $requiredFields = [
             'type',
         ];
@@ -6161,9 +6129,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartnerTelegramApi(
-        array $data,
-    ): Types\Interfaces\TransactionPartnerTelegramApiInterface {
+    public function denormalizeTransactionPartnerTelegramApi(array $data): TransactionPartnerTelegramApiInterface
+    {
         $requiredFields = [
             'type',
             'request_count',
@@ -6187,7 +6154,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartnerOther(array $data): Types\Interfaces\TransactionPartnerOtherInterface
+    public function denormalizeTransactionPartnerOther(array $data): TransactionPartnerOtherInterface
     {
         $requiredFields = [
             'type',
@@ -6210,7 +6177,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStarTransaction(array $data): Types\Interfaces\StarTransactionInterface
+    public function denormalizeStarTransaction(array $data): StarTransactionInterface
     {
         $requiredFields = [
             'id',
@@ -6243,7 +6210,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStarTransactions(array $data): Types\Interfaces\StarTransactionsInterface
+    public function denormalizeStarTransactions(array $data): StarTransactionsInterface
     {
         $requiredFields = [
             'transactions',
@@ -6266,7 +6233,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportData(array $data): Types\Interfaces\PassportDataInterface
+    public function denormalizePassportData(array $data): PassportDataInterface
     {
         $requiredFields = [
             'data',
@@ -6291,7 +6258,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportFile(array $data): Types\Interfaces\PassportFileInterface
+    public function denormalizePassportFile(array $data): PassportFileInterface
     {
         $requiredFields = [
             'file_id',
@@ -6320,7 +6287,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeEncryptedPassportElement(array $data): Types\Interfaces\EncryptedPassportElementInterface
+    public function denormalizeEncryptedPassportElement(array $data): EncryptedPassportElementInterface
     {
         $requiredFields = [
             'type',
@@ -6363,7 +6330,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeEncryptedCredentials(array $data): Types\Interfaces\EncryptedCredentialsInterface
+    public function denormalizeEncryptedCredentials(array $data): EncryptedCredentialsInterface
     {
         $requiredFields = [
             'data',
@@ -6406,9 +6373,8 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizePassportElementErrorDataField(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorDataFieldInterface {
+    public function denormalizePassportElementErrorDataField(array $data): PassportElementErrorDataFieldInterface
+    {
         $requiredFields = [
             'type',
             'field_name',
@@ -6437,9 +6403,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFrontSide(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorFrontSideInterface {
+    public function denormalizePassportElementErrorFrontSide(array $data): PassportElementErrorFrontSideInterface
+    {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6466,9 +6431,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorReverseSide(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorReverseSideInterface {
+    public function denormalizePassportElementErrorReverseSide(array $data): PassportElementErrorReverseSideInterface
+    {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6495,9 +6459,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorSelfie(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorSelfieInterface {
+    public function denormalizePassportElementErrorSelfie(array $data): PassportElementErrorSelfieInterface
+    {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6524,7 +6487,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFile(array $data): Types\Interfaces\PassportElementErrorFileInterface
+    public function denormalizePassportElementErrorFile(array $data): PassportElementErrorFileInterface
     {
         $requiredFields = [
             'type',
@@ -6552,9 +6515,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorFiles(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorFilesInterface {
+    public function denormalizePassportElementErrorFiles(array $data): PassportElementErrorFilesInterface
+    {
         $requiredFields = [
             'type',
             'file_hashes',
@@ -6583,7 +6545,7 @@ class Serializer implements SerializerInterface
 
     public function denormalizePassportElementErrorTranslationFile(
         array $data,
-    ): Types\Interfaces\PassportElementErrorTranslationFileInterface {
+    ): PassportElementErrorTranslationFileInterface {
         $requiredFields = [
             'type',
             'file_hash',
@@ -6612,7 +6574,7 @@ class Serializer implements SerializerInterface
 
     public function denormalizePassportElementErrorTranslationFiles(
         array $data,
-    ): Types\Interfaces\PassportElementErrorTranslationFilesInterface {
+    ): PassportElementErrorTranslationFilesInterface {
         $requiredFields = [
             'type',
             'file_hashes',
@@ -6639,9 +6601,8 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementErrorUnspecified(
-        array $data,
-    ): Types\Interfaces\PassportElementErrorUnspecifiedInterface {
+    public function denormalizePassportElementErrorUnspecified(array $data): PassportElementErrorUnspecifiedInterface
+    {
         $requiredFields = [
             'type',
             'element_hash',
@@ -6668,7 +6629,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeGame(array $data): Types\Interfaces\GameInterface
+    public function denormalizeGame(array $data): GameInterface
     {
         $requiredFields = [
             'title',
@@ -6702,12 +6663,12 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeCallbackGame(array $data): Types\Interfaces\CallbackGameInterface
+    public function denormalizeCallbackGame(array $data): CallbackGameInterface
     {
         return $this->factory->makeCallbackGame();
     }
 
-    public function denormalizeGameHighScore(array $data): Types\Interfaces\GameHighScoreInterface
+    public function denormalizeGameHighScore(array $data): GameHighScoreInterface
     {
         $requiredFields = [
             'position',
@@ -6748,7 +6709,7 @@ class Serializer implements SerializerInterface
 
     public function denormalize(array $data, string $type, bool $isArray = false): mixed
     {
-        if (!class_exists($type) || !is_subclass_of($type, TypeInterface::class)) {
+        if (!interface_exists($type) || !is_subclass_of($type, TypeInterface::class)) {
             throw new \UnexpectedValueException(sprintf('Failed to decode response to the expected type: %s', $type));
         }
 
@@ -6762,218 +6723,218 @@ class Serializer implements SerializerInterface
     private function denormalizeType(array $data, string $type): TypeInterface
     {
         return match ($type) {
-            Update::class => $this->denormalizeUpdate($data),
-            WebhookInfo::class => $this->denormalizeWebhookInfo($data),
-            User::class => $this->denormalizeUser($data),
-            Chat::class => $this->denormalizeChat($data),
-            ChatFullInfo::class => $this->denormalizeChatFullInfo($data),
-            Message::class => $this->denormalizeMessage($data),
-            MessageId::class => $this->denormalizeMessageId($data),
-            InaccessibleMessage::class => $this->denormalizeInaccessibleMessage($data),
-            MessageEntity::class => $this->denormalizeMessageEntity($data),
-            TextQuote::class => $this->denormalizeTextQuote($data),
-            ExternalReplyInfo::class => $this->denormalizeExternalReplyInfo($data),
-            ReplyParameters::class => $this->denormalizeReplyParameters($data),
-            MessageOriginUser::class => $this->denormalizeMessageOriginUser($data),
-            MessageOriginHiddenUser::class => $this->denormalizeMessageOriginHiddenUser($data),
-            MessageOriginChat::class => $this->denormalizeMessageOriginChat($data),
-            MessageOriginChannel::class => $this->denormalizeMessageOriginChannel($data),
-            PhotoSize::class => $this->denormalizePhotoSize($data),
-            Animation::class => $this->denormalizeAnimation($data),
-            Audio::class => $this->denormalizeAudio($data),
-            Document::class => $this->denormalizeDocument($data),
-            Story::class => $this->denormalizeStory($data),
-            Video::class => $this->denormalizeVideo($data),
-            VideoNote::class => $this->denormalizeVideoNote($data),
-            Voice::class => $this->denormalizeVoice($data),
-            PaidMediaInfo::class => $this->denormalizePaidMediaInfo($data),
-            PaidMediaPreview::class => $this->denormalizePaidMediaPreview($data),
-            PaidMediaPhoto::class => $this->denormalizePaidMediaPhoto($data),
-            PaidMediaVideo::class => $this->denormalizePaidMediaVideo($data),
-            Contact::class => $this->denormalizeContact($data),
-            Dice::class => $this->denormalizeDice($data),
-            PollOption::class => $this->denormalizePollOption($data),
-            InputPollOption::class => $this->denormalizeInputPollOption($data),
-            PollAnswer::class => $this->denormalizePollAnswer($data),
-            Poll::class => $this->denormalizePoll($data),
-            Location::class => $this->denormalizeLocation($data),
-            Venue::class => $this->denormalizeVenue($data),
-            WebAppData::class => $this->denormalizeWebAppData($data),
-            ProximityAlertTriggered::class => $this->denormalizeProximityAlertTriggered($data),
-            MessageAutoDeleteTimerChanged::class => $this->denormalizeMessageAutoDeleteTimerChanged($data),
-            ChatBoostAdded::class => $this->denormalizeChatBoostAdded($data),
-            BackgroundFillSolid::class => $this->denormalizeBackgroundFillSolid($data),
-            BackgroundFillGradient::class => $this->denormalizeBackgroundFillGradient($data),
-            BackgroundFillFreeformGradient::class => $this->denormalizeBackgroundFillFreeformGradient($data),
-            BackgroundTypeFill::class => $this->denormalizeBackgroundTypeFill($data),
-            BackgroundTypeWallpaper::class => $this->denormalizeBackgroundTypeWallpaper($data),
-            BackgroundTypePattern::class => $this->denormalizeBackgroundTypePattern($data),
-            BackgroundTypeChatTheme::class => $this->denormalizeBackgroundTypeChatTheme($data),
-            ChatBackground::class => $this->denormalizeChatBackground($data),
-            ForumTopicCreated::class => $this->denormalizeForumTopicCreated($data),
-            ForumTopicClosed::class => $this->denormalizeForumTopicClosed($data),
-            ForumTopicEdited::class => $this->denormalizeForumTopicEdited($data),
-            ForumTopicReopened::class => $this->denormalizeForumTopicReopened($data),
-            GeneralForumTopicHidden::class => $this->denormalizeGeneralForumTopicHidden($data),
-            GeneralForumTopicUnhidden::class => $this->denormalizeGeneralForumTopicUnhidden($data),
-            SharedUser::class => $this->denormalizeSharedUser($data),
-            UsersShared::class => $this->denormalizeUsersShared($data),
-            ChatShared::class => $this->denormalizeChatShared($data),
-            WriteAccessAllowed::class => $this->denormalizeWriteAccessAllowed($data),
-            VideoChatScheduled::class => $this->denormalizeVideoChatScheduled($data),
-            VideoChatStarted::class => $this->denormalizeVideoChatStarted($data),
-            VideoChatEnded::class => $this->denormalizeVideoChatEnded($data),
-            VideoChatParticipantsInvited::class => $this->denormalizeVideoChatParticipantsInvited($data),
-            GiveawayCreated::class => $this->denormalizeGiveawayCreated($data),
-            Giveaway::class => $this->denormalizeGiveaway($data),
-            GiveawayWinners::class => $this->denormalizeGiveawayWinners($data),
-            GiveawayCompleted::class => $this->denormalizeGiveawayCompleted($data),
-            LinkPreviewOptions::class => $this->denormalizeLinkPreviewOptions($data),
-            UserProfilePhotos::class => $this->denormalizeUserProfilePhotos($data),
-            File::class => $this->denormalizeFile($data),
-            WebAppInfo::class => $this->denormalizeWebAppInfo($data),
-            ReplyKeyboardMarkup::class => $this->denormalizeReplyKeyboardMarkup($data),
-            KeyboardButton::class => $this->denormalizeKeyboardButton($data),
-            KeyboardButtonRequestUsers::class => $this->denormalizeKeyboardButtonRequestUsers($data),
-            KeyboardButtonRequestChat::class => $this->denormalizeKeyboardButtonRequestChat($data),
-            KeyboardButtonPollType::class => $this->denormalizeKeyboardButtonPollType($data),
-            ReplyKeyboardRemove::class => $this->denormalizeReplyKeyboardRemove($data),
-            InlineKeyboardMarkup::class => $this->denormalizeInlineKeyboardMarkup($data),
-            InlineKeyboardButton::class => $this->denormalizeInlineKeyboardButton($data),
-            LoginUrl::class => $this->denormalizeLoginUrl($data),
-            SwitchInlineQueryChosenChat::class => $this->denormalizeSwitchInlineQueryChosenChat($data),
-            CopyTextButton::class => $this->denormalizeCopyTextButton($data),
-            CallbackQuery::class => $this->denormalizeCallbackQuery($data),
-            ForceReply::class => $this->denormalizeForceReply($data),
-            ChatPhoto::class => $this->denormalizeChatPhoto($data),
-            ChatInviteLink::class => $this->denormalizeChatInviteLink($data),
-            ChatAdministratorRights::class => $this->denormalizeChatAdministratorRights($data),
-            ChatMemberUpdated::class => $this->denormalizeChatMemberUpdated($data),
-            ChatMemberOwner::class => $this->denormalizeChatMemberOwner($data),
-            ChatMemberAdministrator::class => $this->denormalizeChatMemberAdministrator($data),
-            ChatMemberMember::class => $this->denormalizeChatMemberMember($data),
-            ChatMemberRestricted::class => $this->denormalizeChatMemberRestricted($data),
-            ChatMemberLeft::class => $this->denormalizeChatMemberLeft($data),
-            ChatMemberBanned::class => $this->denormalizeChatMemberBanned($data),
-            ChatJoinRequest::class => $this->denormalizeChatJoinRequest($data),
-            ChatPermissions::class => $this->denormalizeChatPermissions($data),
-            Birthdate::class => $this->denormalizeBirthdate($data),
-            BusinessIntro::class => $this->denormalizeBusinessIntro($data),
-            BusinessLocation::class => $this->denormalizeBusinessLocation($data),
-            BusinessOpeningHoursInterval::class => $this->denormalizeBusinessOpeningHoursInterval($data),
-            BusinessOpeningHours::class => $this->denormalizeBusinessOpeningHours($data),
-            ChatLocation::class => $this->denormalizeChatLocation($data),
-            ReactionTypeEmoji::class => $this->denormalizeReactionTypeEmoji($data),
-            ReactionTypeCustomEmoji::class => $this->denormalizeReactionTypeCustomEmoji($data),
-            ReactionTypePaid::class => $this->denormalizeReactionTypePaid($data),
-            ReactionCount::class => $this->denormalizeReactionCount($data),
-            MessageReactionUpdated::class => $this->denormalizeMessageReactionUpdated($data),
-            MessageReactionCountUpdated::class => $this->denormalizeMessageReactionCountUpdated($data),
-            ForumTopic::class => $this->denormalizeForumTopic($data),
-            BotCommand::class => $this->denormalizeBotCommand($data),
-            BotCommandScopeDefault::class => $this->denormalizeBotCommandScopeDefault($data),
-            BotCommandScopeAllPrivateChats::class => $this->denormalizeBotCommandScopeAllPrivateChats($data),
-            BotCommandScopeAllGroupChats::class => $this->denormalizeBotCommandScopeAllGroupChats($data),
-            BotCommandScopeAllChatAdministrators::class => $this->denormalizeBotCommandScopeAllChatAdministrators($data),
-            BotCommandScopeChat::class => $this->denormalizeBotCommandScopeChat($data),
-            BotCommandScopeChatAdministrators::class => $this->denormalizeBotCommandScopeChatAdministrators($data),
-            BotCommandScopeChatMember::class => $this->denormalizeBotCommandScopeChatMember($data),
-            BotName::class => $this->denormalizeBotName($data),
-            BotDescription::class => $this->denormalizeBotDescription($data),
-            BotShortDescription::class => $this->denormalizeBotShortDescription($data),
-            MenuButtonCommands::class => $this->denormalizeMenuButtonCommands($data),
-            MenuButtonWebApp::class => $this->denormalizeMenuButtonWebApp($data),
-            MenuButtonDefault::class => $this->denormalizeMenuButtonDefault($data),
-            ChatBoostSourcePremium::class => $this->denormalizeChatBoostSourcePremium($data),
-            ChatBoostSourceGiftCode::class => $this->denormalizeChatBoostSourceGiftCode($data),
-            ChatBoostSourceGiveaway::class => $this->denormalizeChatBoostSourceGiveaway($data),
-            ChatBoost::class => $this->denormalizeChatBoost($data),
-            ChatBoostUpdated::class => $this->denormalizeChatBoostUpdated($data),
-            ChatBoostRemoved::class => $this->denormalizeChatBoostRemoved($data),
-            UserChatBoosts::class => $this->denormalizeUserChatBoosts($data),
-            BusinessConnection::class => $this->denormalizeBusinessConnection($data),
-            BusinessMessagesDeleted::class => $this->denormalizeBusinessMessagesDeleted($data),
-            ResponseParameters::class => $this->denormalizeResponseParameters($data),
-            InputMediaPhoto::class => $this->denormalizeInputMediaPhoto($data),
-            InputMediaVideo::class => $this->denormalizeInputMediaVideo($data),
-            InputMediaAnimation::class => $this->denormalizeInputMediaAnimation($data),
-            InputMediaAudio::class => $this->denormalizeInputMediaAudio($data),
-            InputMediaDocument::class => $this->denormalizeInputMediaDocument($data),
-            InputFile::class => $this->denormalizeInputFile($data),
-            InputPaidMediaPhoto::class => $this->denormalizeInputPaidMediaPhoto($data),
-            InputPaidMediaVideo::class => $this->denormalizeInputPaidMediaVideo($data),
-            Sticker::class => $this->denormalizeSticker($data),
-            StickerSet::class => $this->denormalizeStickerSet($data),
-            MaskPosition::class => $this->denormalizeMaskPosition($data),
-            InputSticker::class => $this->denormalizeInputSticker($data),
-            Gift::class => $this->denormalizeGift($data),
-            Gifts::class => $this->denormalizeGifts($data),
-            InlineQuery::class => $this->denormalizeInlineQuery($data),
-            InlineQueryResultsButton::class => $this->denormalizeInlineQueryResultsButton($data),
-            InlineQueryResultArticle::class => $this->denormalizeInlineQueryResultArticle($data),
-            InlineQueryResultPhoto::class => $this->denormalizeInlineQueryResultPhoto($data),
-            InlineQueryResultGif::class => $this->denormalizeInlineQueryResultGif($data),
-            InlineQueryResultMpeg4Gif::class => $this->denormalizeInlineQueryResultMpeg4Gif($data),
-            InlineQueryResultVideo::class => $this->denormalizeInlineQueryResultVideo($data),
-            InlineQueryResultAudio::class => $this->denormalizeInlineQueryResultAudio($data),
-            InlineQueryResultVoice::class => $this->denormalizeInlineQueryResultVoice($data),
-            InlineQueryResultDocument::class => $this->denormalizeInlineQueryResultDocument($data),
-            InlineQueryResultLocation::class => $this->denormalizeInlineQueryResultLocation($data),
-            InlineQueryResultVenue::class => $this->denormalizeInlineQueryResultVenue($data),
-            InlineQueryResultContact::class => $this->denormalizeInlineQueryResultContact($data),
-            InlineQueryResultGame::class => $this->denormalizeInlineQueryResultGame($data),
-            InlineQueryResultCachedPhoto::class => $this->denormalizeInlineQueryResultCachedPhoto($data),
-            InlineQueryResultCachedGif::class => $this->denormalizeInlineQueryResultCachedGif($data),
-            InlineQueryResultCachedMpeg4Gif::class => $this->denormalizeInlineQueryResultCachedMpeg4Gif($data),
-            InlineQueryResultCachedSticker::class => $this->denormalizeInlineQueryResultCachedSticker($data),
-            InlineQueryResultCachedDocument::class => $this->denormalizeInlineQueryResultCachedDocument($data),
-            InlineQueryResultCachedVideo::class => $this->denormalizeInlineQueryResultCachedVideo($data),
-            InlineQueryResultCachedVoice::class => $this->denormalizeInlineQueryResultCachedVoice($data),
-            InlineQueryResultCachedAudio::class => $this->denormalizeInlineQueryResultCachedAudio($data),
-            InputTextMessageContent::class => $this->denormalizeInputTextMessageContent($data),
-            InputLocationMessageContent::class => $this->denormalizeInputLocationMessageContent($data),
-            InputVenueMessageContent::class => $this->denormalizeInputVenueMessageContent($data),
-            InputContactMessageContent::class => $this->denormalizeInputContactMessageContent($data),
-            InputInvoiceMessageContent::class => $this->denormalizeInputInvoiceMessageContent($data),
-            ChosenInlineResult::class => $this->denormalizeChosenInlineResult($data),
-            SentWebAppMessage::class => $this->denormalizeSentWebAppMessage($data),
-            PreparedInlineMessage::class => $this->denormalizePreparedInlineMessage($data),
-            LabeledPrice::class => $this->denormalizeLabeledPrice($data),
-            Invoice::class => $this->denormalizeInvoice($data),
-            ShippingAddress::class => $this->denormalizeShippingAddress($data),
-            OrderInfo::class => $this->denormalizeOrderInfo($data),
-            ShippingOption::class => $this->denormalizeShippingOption($data),
-            SuccessfulPayment::class => $this->denormalizeSuccessfulPayment($data),
-            RefundedPayment::class => $this->denormalizeRefundedPayment($data),
-            ShippingQuery::class => $this->denormalizeShippingQuery($data),
-            PreCheckoutQuery::class => $this->denormalizePreCheckoutQuery($data),
-            PaidMediaPurchased::class => $this->denormalizePaidMediaPurchased($data),
-            RevenueWithdrawalStatePending::class => $this->denormalizeRevenueWithdrawalStatePending($data),
-            RevenueWithdrawalStateSucceeded::class => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
-            RevenueWithdrawalStateFailed::class => $this->denormalizeRevenueWithdrawalStateFailed($data),
-            TransactionPartnerUser::class => $this->denormalizeTransactionPartnerUser($data),
-            TransactionPartnerFragment::class => $this->denormalizeTransactionPartnerFragment($data),
-            TransactionPartnerTelegramAds::class => $this->denormalizeTransactionPartnerTelegramAds($data),
-            TransactionPartnerTelegramApi::class => $this->denormalizeTransactionPartnerTelegramApi($data),
-            TransactionPartnerOther::class => $this->denormalizeTransactionPartnerOther($data),
-            StarTransaction::class => $this->denormalizeStarTransaction($data),
-            StarTransactions::class => $this->denormalizeStarTransactions($data),
-            PassportData::class => $this->denormalizePassportData($data),
-            PassportFile::class => $this->denormalizePassportFile($data),
-            EncryptedPassportElement::class => $this->denormalizeEncryptedPassportElement($data),
-            EncryptedCredentials::class => $this->denormalizeEncryptedCredentials($data),
-            PassportElementErrorDataField::class => $this->denormalizePassportElementErrorDataField($data),
-            PassportElementErrorFrontSide::class => $this->denormalizePassportElementErrorFrontSide($data),
-            PassportElementErrorReverseSide::class => $this->denormalizePassportElementErrorReverseSide($data),
-            PassportElementErrorSelfie::class => $this->denormalizePassportElementErrorSelfie($data),
-            PassportElementErrorFile::class => $this->denormalizePassportElementErrorFile($data),
-            PassportElementErrorFiles::class => $this->denormalizePassportElementErrorFiles($data),
-            PassportElementErrorTranslationFile::class => $this->denormalizePassportElementErrorTranslationFile($data),
-            PassportElementErrorTranslationFiles::class => $this->denormalizePassportElementErrorTranslationFiles($data),
-            PassportElementErrorUnspecified::class => $this->denormalizePassportElementErrorUnspecified($data),
-            Game::class => $this->denormalizeGame($data),
-            CallbackGame::class => $this->denormalizeCallbackGame($data),
-            GameHighScore::class => $this->denormalizeGameHighScore($data),
+            UpdateInterface::class => $this->denormalizeUpdate($data),
+            WebhookInfoInterface::class => $this->denormalizeWebhookInfo($data),
+            UserInterface::class => $this->denormalizeUser($data),
+            ChatInterface::class => $this->denormalizeChat($data),
+            ChatFullInfoInterface::class => $this->denormalizeChatFullInfo($data),
+            MessageInterface::class => $this->denormalizeMessage($data),
+            MessageIdInterface::class => $this->denormalizeMessageId($data),
+            InaccessibleMessageInterface::class => $this->denormalizeInaccessibleMessage($data),
+            MessageEntityInterface::class => $this->denormalizeMessageEntity($data),
+            TextQuoteInterface::class => $this->denormalizeTextQuote($data),
+            ExternalReplyInfoInterface::class => $this->denormalizeExternalReplyInfo($data),
+            ReplyParametersInterface::class => $this->denormalizeReplyParameters($data),
+            MessageOriginUserInterface::class => $this->denormalizeMessageOriginUser($data),
+            MessageOriginHiddenUserInterface::class => $this->denormalizeMessageOriginHiddenUser($data),
+            MessageOriginChatInterface::class => $this->denormalizeMessageOriginChat($data),
+            MessageOriginChannelInterface::class => $this->denormalizeMessageOriginChannel($data),
+            PhotoSizeInterface::class => $this->denormalizePhotoSize($data),
+            AnimationInterface::class => $this->denormalizeAnimation($data),
+            AudioInterface::class => $this->denormalizeAudio($data),
+            DocumentInterface::class => $this->denormalizeDocument($data),
+            StoryInterface::class => $this->denormalizeStory($data),
+            VideoInterface::class => $this->denormalizeVideo($data),
+            VideoNoteInterface::class => $this->denormalizeVideoNote($data),
+            VoiceInterface::class => $this->denormalizeVoice($data),
+            PaidMediaInfoInterface::class => $this->denormalizePaidMediaInfo($data),
+            PaidMediaPreviewInterface::class => $this->denormalizePaidMediaPreview($data),
+            PaidMediaPhotoInterface::class => $this->denormalizePaidMediaPhoto($data),
+            PaidMediaVideoInterface::class => $this->denormalizePaidMediaVideo($data),
+            ContactInterface::class => $this->denormalizeContact($data),
+            DiceInterface::class => $this->denormalizeDice($data),
+            PollOptionInterface::class => $this->denormalizePollOption($data),
+            InputPollOptionInterface::class => $this->denormalizeInputPollOption($data),
+            PollAnswerInterface::class => $this->denormalizePollAnswer($data),
+            PollInterface::class => $this->denormalizePoll($data),
+            LocationInterface::class => $this->denormalizeLocation($data),
+            VenueInterface::class => $this->denormalizeVenue($data),
+            WebAppDataInterface::class => $this->denormalizeWebAppData($data),
+            ProximityAlertTriggeredInterface::class => $this->denormalizeProximityAlertTriggered($data),
+            MessageAutoDeleteTimerChangedInterface::class => $this->denormalizeMessageAutoDeleteTimerChanged($data),
+            ChatBoostAddedInterface::class => $this->denormalizeChatBoostAdded($data),
+            BackgroundFillSolidInterface::class => $this->denormalizeBackgroundFillSolid($data),
+            BackgroundFillGradientInterface::class => $this->denormalizeBackgroundFillGradient($data),
+            BackgroundFillFreeformGradientInterface::class => $this->denormalizeBackgroundFillFreeformGradient($data),
+            BackgroundTypeFillInterface::class => $this->denormalizeBackgroundTypeFill($data),
+            BackgroundTypeWallpaperInterface::class => $this->denormalizeBackgroundTypeWallpaper($data),
+            BackgroundTypePatternInterface::class => $this->denormalizeBackgroundTypePattern($data),
+            BackgroundTypeChatThemeInterface::class => $this->denormalizeBackgroundTypeChatTheme($data),
+            ChatBackgroundInterface::class => $this->denormalizeChatBackground($data),
+            ForumTopicCreatedInterface::class => $this->denormalizeForumTopicCreated($data),
+            ForumTopicClosedInterface::class => $this->denormalizeForumTopicClosed($data),
+            ForumTopicEditedInterface::class => $this->denormalizeForumTopicEdited($data),
+            ForumTopicReopenedInterface::class => $this->denormalizeForumTopicReopened($data),
+            GeneralForumTopicHiddenInterface::class => $this->denormalizeGeneralForumTopicHidden($data),
+            GeneralForumTopicUnhiddenInterface::class => $this->denormalizeGeneralForumTopicUnhidden($data),
+            SharedUserInterface::class => $this->denormalizeSharedUser($data),
+            UsersSharedInterface::class => $this->denormalizeUsersShared($data),
+            ChatSharedInterface::class => $this->denormalizeChatShared($data),
+            WriteAccessAllowedInterface::class => $this->denormalizeWriteAccessAllowed($data),
+            VideoChatScheduledInterface::class => $this->denormalizeVideoChatScheduled($data),
+            VideoChatStartedInterface::class => $this->denormalizeVideoChatStarted($data),
+            VideoChatEndedInterface::class => $this->denormalizeVideoChatEnded($data),
+            VideoChatParticipantsInvitedInterface::class => $this->denormalizeVideoChatParticipantsInvited($data),
+            GiveawayCreatedInterface::class => $this->denormalizeGiveawayCreated($data),
+            GiveawayInterface::class => $this->denormalizeGiveaway($data),
+            GiveawayWinnersInterface::class => $this->denormalizeGiveawayWinners($data),
+            GiveawayCompletedInterface::class => $this->denormalizeGiveawayCompleted($data),
+            LinkPreviewOptionsInterface::class => $this->denormalizeLinkPreviewOptions($data),
+            UserProfilePhotosInterface::class => $this->denormalizeUserProfilePhotos($data),
+            FileInterface::class => $this->denormalizeFile($data),
+            WebAppInfoInterface::class => $this->denormalizeWebAppInfo($data),
+            ReplyKeyboardMarkupInterface::class => $this->denormalizeReplyKeyboardMarkup($data),
+            KeyboardButtonInterface::class => $this->denormalizeKeyboardButton($data),
+            KeyboardButtonRequestUsersInterface::class => $this->denormalizeKeyboardButtonRequestUsers($data),
+            KeyboardButtonRequestChatInterface::class => $this->denormalizeKeyboardButtonRequestChat($data),
+            KeyboardButtonPollTypeInterface::class => $this->denormalizeKeyboardButtonPollType($data),
+            ReplyKeyboardRemoveInterface::class => $this->denormalizeReplyKeyboardRemove($data),
+            InlineKeyboardMarkupInterface::class => $this->denormalizeInlineKeyboardMarkup($data),
+            InlineKeyboardButtonInterface::class => $this->denormalizeInlineKeyboardButton($data),
+            LoginUrlInterface::class => $this->denormalizeLoginUrl($data),
+            SwitchInlineQueryChosenChatInterface::class => $this->denormalizeSwitchInlineQueryChosenChat($data),
+            CopyTextButtonInterface::class => $this->denormalizeCopyTextButton($data),
+            CallbackQueryInterface::class => $this->denormalizeCallbackQuery($data),
+            ForceReplyInterface::class => $this->denormalizeForceReply($data),
+            ChatPhotoInterface::class => $this->denormalizeChatPhoto($data),
+            ChatInviteLinkInterface::class => $this->denormalizeChatInviteLink($data),
+            ChatAdministratorRightsInterface::class => $this->denormalizeChatAdministratorRights($data),
+            ChatMemberUpdatedInterface::class => $this->denormalizeChatMemberUpdated($data),
+            ChatMemberOwnerInterface::class => $this->denormalizeChatMemberOwner($data),
+            ChatMemberAdministratorInterface::class => $this->denormalizeChatMemberAdministrator($data),
+            ChatMemberMemberInterface::class => $this->denormalizeChatMemberMember($data),
+            ChatMemberRestrictedInterface::class => $this->denormalizeChatMemberRestricted($data),
+            ChatMemberLeftInterface::class => $this->denormalizeChatMemberLeft($data),
+            ChatMemberBannedInterface::class => $this->denormalizeChatMemberBanned($data),
+            ChatJoinRequestInterface::class => $this->denormalizeChatJoinRequest($data),
+            ChatPermissionsInterface::class => $this->denormalizeChatPermissions($data),
+            BirthdateInterface::class => $this->denormalizeBirthdate($data),
+            BusinessIntroInterface::class => $this->denormalizeBusinessIntro($data),
+            BusinessLocationInterface::class => $this->denormalizeBusinessLocation($data),
+            BusinessOpeningHoursIntervalInterface::class => $this->denormalizeBusinessOpeningHoursInterval($data),
+            BusinessOpeningHoursInterface::class => $this->denormalizeBusinessOpeningHours($data),
+            ChatLocationInterface::class => $this->denormalizeChatLocation($data),
+            ReactionTypeEmojiInterface::class => $this->denormalizeReactionTypeEmoji($data),
+            ReactionTypeCustomEmojiInterface::class => $this->denormalizeReactionTypeCustomEmoji($data),
+            ReactionTypePaidInterface::class => $this->denormalizeReactionTypePaid($data),
+            ReactionCountInterface::class => $this->denormalizeReactionCount($data),
+            MessageReactionUpdatedInterface::class => $this->denormalizeMessageReactionUpdated($data),
+            MessageReactionCountUpdatedInterface::class => $this->denormalizeMessageReactionCountUpdated($data),
+            ForumTopicInterface::class => $this->denormalizeForumTopic($data),
+            BotCommandInterface::class => $this->denormalizeBotCommand($data),
+            BotCommandScopeDefaultInterface::class => $this->denormalizeBotCommandScopeDefault($data),
+            BotCommandScopeAllPrivateChatsInterface::class => $this->denormalizeBotCommandScopeAllPrivateChats($data),
+            BotCommandScopeAllGroupChatsInterface::class => $this->denormalizeBotCommandScopeAllGroupChats($data),
+            BotCommandScopeAllChatAdministratorsInterface::class => $this->denormalizeBotCommandScopeAllChatAdministrators($data),
+            BotCommandScopeChatInterface::class => $this->denormalizeBotCommandScopeChat($data),
+            BotCommandScopeChatAdministratorsInterface::class => $this->denormalizeBotCommandScopeChatAdministrators($data),
+            BotCommandScopeChatMemberInterface::class => $this->denormalizeBotCommandScopeChatMember($data),
+            BotNameInterface::class => $this->denormalizeBotName($data),
+            BotDescriptionInterface::class => $this->denormalizeBotDescription($data),
+            BotShortDescriptionInterface::class => $this->denormalizeBotShortDescription($data),
+            MenuButtonCommandsInterface::class => $this->denormalizeMenuButtonCommands($data),
+            MenuButtonWebAppInterface::class => $this->denormalizeMenuButtonWebApp($data),
+            MenuButtonDefaultInterface::class => $this->denormalizeMenuButtonDefault($data),
+            ChatBoostSourcePremiumInterface::class => $this->denormalizeChatBoostSourcePremium($data),
+            ChatBoostSourceGiftCodeInterface::class => $this->denormalizeChatBoostSourceGiftCode($data),
+            ChatBoostSourceGiveawayInterface::class => $this->denormalizeChatBoostSourceGiveaway($data),
+            ChatBoostInterface::class => $this->denormalizeChatBoost($data),
+            ChatBoostUpdatedInterface::class => $this->denormalizeChatBoostUpdated($data),
+            ChatBoostRemovedInterface::class => $this->denormalizeChatBoostRemoved($data),
+            UserChatBoostsInterface::class => $this->denormalizeUserChatBoosts($data),
+            BusinessConnectionInterface::class => $this->denormalizeBusinessConnection($data),
+            BusinessMessagesDeletedInterface::class => $this->denormalizeBusinessMessagesDeleted($data),
+            ResponseParametersInterface::class => $this->denormalizeResponseParameters($data),
+            InputMediaPhotoInterface::class => $this->denormalizeInputMediaPhoto($data),
+            InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
+            InputMediaAnimationInterface::class => $this->denormalizeInputMediaAnimation($data),
+            InputMediaAudioInterface::class => $this->denormalizeInputMediaAudio($data),
+            InputMediaDocumentInterface::class => $this->denormalizeInputMediaDocument($data),
+            InputFileInterface::class => $this->denormalizeInputFile($data),
+            InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
+            InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
+            StickerInterface::class => $this->denormalizeSticker($data),
+            StickerSetInterface::class => $this->denormalizeStickerSet($data),
+            MaskPositionInterface::class => $this->denormalizeMaskPosition($data),
+            InputStickerInterface::class => $this->denormalizeInputSticker($data),
+            GiftInterface::class => $this->denormalizeGift($data),
+            GiftsInterface::class => $this->denormalizeGifts($data),
+            InlineQueryInterface::class => $this->denormalizeInlineQuery($data),
+            InlineQueryResultsButtonInterface::class => $this->denormalizeInlineQueryResultsButton($data),
+            InlineQueryResultArticleInterface::class => $this->denormalizeInlineQueryResultArticle($data),
+            InlineQueryResultPhotoInterface::class => $this->denormalizeInlineQueryResultPhoto($data),
+            InlineQueryResultGifInterface::class => $this->denormalizeInlineQueryResultGif($data),
+            InlineQueryResultMpeg4GifInterface::class => $this->denormalizeInlineQueryResultMpeg4Gif($data),
+            InlineQueryResultVideoInterface::class => $this->denormalizeInlineQueryResultVideo($data),
+            InlineQueryResultAudioInterface::class => $this->denormalizeInlineQueryResultAudio($data),
+            InlineQueryResultVoiceInterface::class => $this->denormalizeInlineQueryResultVoice($data),
+            InlineQueryResultDocumentInterface::class => $this->denormalizeInlineQueryResultDocument($data),
+            InlineQueryResultLocationInterface::class => $this->denormalizeInlineQueryResultLocation($data),
+            InlineQueryResultVenueInterface::class => $this->denormalizeInlineQueryResultVenue($data),
+            InlineQueryResultContactInterface::class => $this->denormalizeInlineQueryResultContact($data),
+            InlineQueryResultGameInterface::class => $this->denormalizeInlineQueryResultGame($data),
+            InlineQueryResultCachedPhotoInterface::class => $this->denormalizeInlineQueryResultCachedPhoto($data),
+            InlineQueryResultCachedGifInterface::class => $this->denormalizeInlineQueryResultCachedGif($data),
+            InlineQueryResultCachedMpeg4GifInterface::class => $this->denormalizeInlineQueryResultCachedMpeg4Gif($data),
+            InlineQueryResultCachedStickerInterface::class => $this->denormalizeInlineQueryResultCachedSticker($data),
+            InlineQueryResultCachedDocumentInterface::class => $this->denormalizeInlineQueryResultCachedDocument($data),
+            InlineQueryResultCachedVideoInterface::class => $this->denormalizeInlineQueryResultCachedVideo($data),
+            InlineQueryResultCachedVoiceInterface::class => $this->denormalizeInlineQueryResultCachedVoice($data),
+            InlineQueryResultCachedAudioInterface::class => $this->denormalizeInlineQueryResultCachedAudio($data),
+            InputTextMessageContentInterface::class => $this->denormalizeInputTextMessageContent($data),
+            InputLocationMessageContentInterface::class => $this->denormalizeInputLocationMessageContent($data),
+            InputVenueMessageContentInterface::class => $this->denormalizeInputVenueMessageContent($data),
+            InputContactMessageContentInterface::class => $this->denormalizeInputContactMessageContent($data),
+            InputInvoiceMessageContentInterface::class => $this->denormalizeInputInvoiceMessageContent($data),
+            ChosenInlineResultInterface::class => $this->denormalizeChosenInlineResult($data),
+            SentWebAppMessageInterface::class => $this->denormalizeSentWebAppMessage($data),
+            PreparedInlineMessageInterface::class => $this->denormalizePreparedInlineMessage($data),
+            LabeledPriceInterface::class => $this->denormalizeLabeledPrice($data),
+            InvoiceInterface::class => $this->denormalizeInvoice($data),
+            ShippingAddressInterface::class => $this->denormalizeShippingAddress($data),
+            OrderInfoInterface::class => $this->denormalizeOrderInfo($data),
+            ShippingOptionInterface::class => $this->denormalizeShippingOption($data),
+            SuccessfulPaymentInterface::class => $this->denormalizeSuccessfulPayment($data),
+            RefundedPaymentInterface::class => $this->denormalizeRefundedPayment($data),
+            ShippingQueryInterface::class => $this->denormalizeShippingQuery($data),
+            PreCheckoutQueryInterface::class => $this->denormalizePreCheckoutQuery($data),
+            PaidMediaPurchasedInterface::class => $this->denormalizePaidMediaPurchased($data),
+            RevenueWithdrawalStatePendingInterface::class => $this->denormalizeRevenueWithdrawalStatePending($data),
+            RevenueWithdrawalStateSucceededInterface::class => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
+            RevenueWithdrawalStateFailedInterface::class => $this->denormalizeRevenueWithdrawalStateFailed($data),
+            TransactionPartnerUserInterface::class => $this->denormalizeTransactionPartnerUser($data),
+            TransactionPartnerFragmentInterface::class => $this->denormalizeTransactionPartnerFragment($data),
+            TransactionPartnerTelegramAdsInterface::class => $this->denormalizeTransactionPartnerTelegramAds($data),
+            TransactionPartnerTelegramApiInterface::class => $this->denormalizeTransactionPartnerTelegramApi($data),
+            TransactionPartnerOtherInterface::class => $this->denormalizeTransactionPartnerOther($data),
+            StarTransactionInterface::class => $this->denormalizeStarTransaction($data),
+            StarTransactionsInterface::class => $this->denormalizeStarTransactions($data),
+            PassportDataInterface::class => $this->denormalizePassportData($data),
+            PassportFileInterface::class => $this->denormalizePassportFile($data),
+            EncryptedPassportElementInterface::class => $this->denormalizeEncryptedPassportElement($data),
+            EncryptedCredentialsInterface::class => $this->denormalizeEncryptedCredentials($data),
+            PassportElementErrorDataFieldInterface::class => $this->denormalizePassportElementErrorDataField($data),
+            PassportElementErrorFrontSideInterface::class => $this->denormalizePassportElementErrorFrontSide($data),
+            PassportElementErrorReverseSideInterface::class => $this->denormalizePassportElementErrorReverseSide($data),
+            PassportElementErrorSelfieInterface::class => $this->denormalizePassportElementErrorSelfie($data),
+            PassportElementErrorFileInterface::class => $this->denormalizePassportElementErrorFile($data),
+            PassportElementErrorFilesInterface::class => $this->denormalizePassportElementErrorFiles($data),
+            PassportElementErrorTranslationFileInterface::class => $this->denormalizePassportElementErrorTranslationFile($data),
+            PassportElementErrorTranslationFilesInterface::class => $this->denormalizePassportElementErrorTranslationFiles($data),
+            PassportElementErrorUnspecifiedInterface::class => $this->denormalizePassportElementErrorUnspecified($data),
+            GameInterface::class => $this->denormalizeGame($data),
+            CallbackGameInterface::class => $this->denormalizeCallbackGame($data),
+            GameHighScoreInterface::class => $this->denormalizeGameHighScore($data),
             default => throw new \InvalidArgumentException(sprintf('Unknown type %s', $type)),
         };
     }
