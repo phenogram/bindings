@@ -13,6 +13,9 @@ interface TransactionPartnerUserInterface extends TypeInterface
 	/** @var UserInterface $user Information about the user */
 	public UserInterface $user { set; get; }
 
+	/** @var AffiliateInfoInterface|null $affiliate Optional. Information about the affiliate that received a commission via this transaction */
+	public ?AffiliateInfoInterface $affiliate { set; get; }
+
 	/** @var string|null $invoicePayload Optional. Bot-specified invoice payload */
 	public ?string $invoicePayload { set; get; }
 
@@ -25,6 +28,6 @@ interface TransactionPartnerUserInterface extends TypeInterface
 	/** @var string|null $paidMediaPayload Optional. Bot-specified paid media payload */
 	public ?string $paidMediaPayload { set; get; }
 
-	/** @var string|null $gift Optional. The gift sent to the user by the bot */
-	public ?string $gift { set; get; }
+	/** @var GiftInterface|null $gift Optional. The gift sent to the user by the bot */
+	public ?GiftInterface $gift { set; get; }
 }

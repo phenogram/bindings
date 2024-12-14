@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
@@ -192,6 +193,7 @@ use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -6036,6 +6038,38 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeAffiliateInfo(array $data): AffiliateInfoInterface
+    {
+        $requiredFields = [
+            'commission_per_mille',
+            'amount',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class AffiliateInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeAffiliateInfo(
+            commissionPerMille: $data['commission_per_mille'],
+            amount: $data['amount'],
+            affiliateUser: isset($data['affiliate_user'])
+                ? $this->denormalizeUser($data['affiliate_user'])
+                : null,
+            affiliateChat: isset($data['affiliate_chat'])
+                ? $this->denormalizeChat($data['affiliate_chat'])
+                : null,
+            nanostarAmount: $data['nanostar_amount'] ?? null,
+        );
+    }
+
     public function denormalizeTransactionPartner(array $data): Types\Interfaces\TransactionPartnerInterface
     {
         return match ($data['type']) {
@@ -6070,13 +6104,47 @@ class Serializer implements SerializerInterface
         return $this->factory->makeTransactionPartnerUser(
             type: $data['type'],
             user: $this->denormalizeUser($data['user']),
+            affiliate: isset($data['affiliate'])
+                ? $this->denormalizeAffiliateInfo($data['affiliate'])
+                : null,
             invoicePayload: $data['invoice_payload'] ?? null,
             subscriptionPeriod: $data['subscription_period'] ?? null,
             paidMedia: isset($data['paid_media'])
                 ? array_map(fn (array $item) => $this->denormalizePaidMedia($item), $data['paid_media'])
                 : null,
             paidMediaPayload: $data['paid_media_payload'] ?? null,
-            gift: $data['gift'] ?? null,
+            gift: isset($data['gift'])
+                ? $this->denormalizeGift($data['gift'])
+                : null,
+        );
+    }
+
+    public function denormalizeTransactionPartnerAffiliateProgram(
+        array $data,
+    ): TransactionPartnerAffiliateProgramInterface {
+        $requiredFields = [
+            'type',
+            'commission_per_mille',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TransactionPartnerAffiliateProgram missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTransactionPartnerAffiliateProgram(
+            type: $data['type'],
+            commissionPerMille: $data['commission_per_mille'],
+            sponsorUser: isset($data['sponsor_user'])
+                ? $this->denormalizeUser($data['sponsor_user'])
+                : null,
         );
     }
 
@@ -6201,6 +6269,7 @@ class Serializer implements SerializerInterface
             id: $data['id'],
             amount: $data['amount'],
             date: $data['date'],
+            nanostarAmount: $data['nanostar_amount'] ?? null,
             source: isset($data['source'])
                 ? $this->denormalizeTransactionPartner($data['source'])
                 : null,
@@ -6912,7 +6981,9 @@ class Serializer implements SerializerInterface
             RevenueWithdrawalStatePendingInterface::class => $this->denormalizeRevenueWithdrawalStatePending($data),
             RevenueWithdrawalStateSucceededInterface::class => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
             RevenueWithdrawalStateFailedInterface::class => $this->denormalizeRevenueWithdrawalStateFailed($data),
+            AffiliateInfoInterface::class => $this->denormalizeAffiliateInfo($data),
             TransactionPartnerUserInterface::class => $this->denormalizeTransactionPartnerUser($data),
+            TransactionPartnerAffiliateProgramInterface::class => $this->denormalizeTransactionPartnerAffiliateProgram($data),
             TransactionPartnerFragmentInterface::class => $this->denormalizeTransactionPartnerFragment($data),
             TransactionPartnerTelegramAdsInterface::class => $this->denormalizeTransactionPartnerTelegramAds($data),
             TransactionPartnerTelegramApiInterface::class => $this->denormalizeTransactionPartnerTelegramApi($data),
@@ -6950,7 +7021,7 @@ class Serializer implements SerializerInterface
 
             $snakeKey = $this->camelToSnake($key);
 
-            if ($value instanceof TypeInterface && !$value instanceof InputFile) {
+            if ($value instanceof TypeInterface && !$value instanceof InputFileInterface) {
                 $value = get_object_vars($value);
             }
 

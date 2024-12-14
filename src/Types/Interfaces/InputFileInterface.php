@@ -7,4 +7,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InputFileInterface extends TypeInterface
 {
+	public string $filePath { set; get; }
 }

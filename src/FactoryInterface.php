@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
@@ -192,6 +193,7 @@ use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -1725,15 +1727,30 @@ interface FactoryInterface
 
     public function makeRevenueWithdrawalStateFailed(string $type): RevenueWithdrawalStateFailedInterface;
 
+    public function makeAffiliateInfo(
+        int $commissionPerMille,
+        int $amount,
+        ?UserInterface $affiliateUser,
+        ?ChatInterface $affiliateChat,
+        ?int $nanostarAmount,
+    ): AffiliateInfoInterface;
+
     public function makeTransactionPartnerUser(
         string $type,
         UserInterface $user,
+        ?AffiliateInfoInterface $affiliate,
         ?string $invoicePayload,
         ?int $subscriptionPeriod,
         ?array $paidMedia,
         ?string $paidMediaPayload,
-        ?string $gift,
+        ?GiftInterface $gift,
     ): TransactionPartnerUserInterface;
+
+    public function makeTransactionPartnerAffiliateProgram(
+        string $type,
+        int $commissionPerMille,
+        ?UserInterface $sponsorUser,
+    ): TransactionPartnerAffiliateProgramInterface;
 
     public function makeTransactionPartnerFragment(
         string $type,
@@ -1753,6 +1770,7 @@ interface FactoryInterface
         string $id,
         int $amount,
         int $date,
+        ?int $nanostarAmount,
         ?Types\Interfaces\TransactionPartnerInterface $source,
         ?Types\Interfaces\TransactionPartnerInterface $receiver,
     ): StarTransactionInterface;

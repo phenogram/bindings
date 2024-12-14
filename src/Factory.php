@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\AffiliateInfo;
 use Phenogram\Bindings\Types\Animation;
 use Phenogram\Bindings\Types\Audio;
 use Phenogram\Bindings\Types\BackgroundFillFreeformGradient;
@@ -120,6 +121,7 @@ use Phenogram\Bindings\Types\InputPollOption;
 use Phenogram\Bindings\Types\InputSticker;
 use Phenogram\Bindings\Types\InputTextMessageContent;
 use Phenogram\Bindings\Types\InputVenueMessageContent;
+use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
@@ -310,6 +312,7 @@ use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -404,6 +407,7 @@ use Phenogram\Bindings\Types\Story;
 use Phenogram\Bindings\Types\SuccessfulPayment;
 use Phenogram\Bindings\Types\SwitchInlineQueryChosenChat;
 use Phenogram\Bindings\Types\TextQuote;
+use Phenogram\Bindings\Types\TransactionPartnerAffiliateProgram;
 use Phenogram\Bindings\Types\TransactionPartnerFragment;
 use Phenogram\Bindings\Types\TransactionPartnerOther;
 use Phenogram\Bindings\Types\TransactionPartnerTelegramAds;
@@ -3699,23 +3703,53 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeAffiliateInfo(
+        int $commissionPerMille,
+        int $amount,
+        ?UserInterface $affiliateUser,
+        ?ChatInterface $affiliateChat,
+        ?int $nanostarAmount,
+    ): AffiliateInfoInterface {
+        return new AffiliateInfo(
+            commissionPerMille: $commissionPerMille,
+            amount: $amount,
+            affiliateUser: $affiliateUser,
+            affiliateChat: $affiliateChat,
+            nanostarAmount: $nanostarAmount,
+        );
+    }
+
     public function makeTransactionPartnerUser(
         string $type,
         UserInterface $user,
+        ?AffiliateInfoInterface $affiliate,
         ?string $invoicePayload,
         ?int $subscriptionPeriod,
         ?array $paidMedia,
         ?string $paidMediaPayload,
-        ?string $gift,
+        ?GiftInterface $gift,
     ): TransactionPartnerUserInterface {
         return new TransactionPartnerUser(
             type: $type,
             user: $user,
+            affiliate: $affiliate,
             invoicePayload: $invoicePayload,
             subscriptionPeriod: $subscriptionPeriod,
             paidMedia: $paidMedia,
             paidMediaPayload: $paidMediaPayload,
             gift: $gift,
+        );
+    }
+
+    public function makeTransactionPartnerAffiliateProgram(
+        string $type,
+        int $commissionPerMille,
+        ?UserInterface $sponsorUser,
+    ): TransactionPartnerAffiliateProgramInterface {
+        return new TransactionPartnerAffiliateProgram(
+            type: $type,
+            commissionPerMille: $commissionPerMille,
+            sponsorUser: $sponsorUser,
         );
     }
 
@@ -3757,6 +3791,7 @@ class Factory implements FactoryInterface
         string $id,
         int $amount,
         int $date,
+        ?int $nanostarAmount,
         ?Types\Interfaces\TransactionPartnerInterface $source,
         ?Types\Interfaces\TransactionPartnerInterface $receiver,
     ): StarTransactionInterface {
@@ -3764,6 +3799,7 @@ class Factory implements FactoryInterface
             id: $id,
             amount: $amount,
             date: $date,
+            nanostarAmount: $nanostarAmount,
             source: $source,
             receiver: $receiver,
         );

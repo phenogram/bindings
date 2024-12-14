@@ -10,8 +10,11 @@ interface StarTransactionInterface extends TypeInterface
 	/** @var string $id Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users. */
 	public string $id { set; get; }
 
-	/** @var int $amount Number of Telegram Stars transferred by the transaction */
+	/** @var int $amount Integer amount of Telegram Stars transferred by the transaction */
 	public int $amount { set; get; }
+
+	/** @var int|null $nanostarAmount Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999 */
+	public ?int $nanostarAmount { set; get; }
 
 	/** @var int $date Date the transaction was created in Unix time */
 	public int $date { set; get; }

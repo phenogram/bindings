@@ -142,11 +142,11 @@ final readonly class ReadmeClient implements ClientInterface
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         foreach ($data as $key => $value) {
-            if (is_array($value) && isset($value['file_path'])) {
-                if (file_exists($value['file_path'])) {
-                    $data[$key] = new \CURLFile($value['file_path']);
+            if ($value instanceof Types\Interfaces\InputFileInterface) {
+                if (file_exists($value->filePath)) {
+                    $data[$key] = new \CURLFile($value->filePath);
                 } else {
-                    throw new \RuntimeException("File not found: {$value['file_path']}");
+                    throw new \RuntimeException("File not found: {$value->filePath}");
                 }
             }
         }
