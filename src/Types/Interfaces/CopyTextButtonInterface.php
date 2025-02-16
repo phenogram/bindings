@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface CopyTextButtonInterface extends TypeInterface
 {
-	/** @var string $text The text to be copied to the clipboard; 1-256 characters */
-	public string $text { set; get; }
+    /** @var string $text The text to be copied to the clipboard; 1-256 characters */
+    public string $text { set; }
 }

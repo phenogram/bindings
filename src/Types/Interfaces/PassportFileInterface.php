@@ -7,15 +7,15 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface PassportFileInterface extends TypeInterface
 {
-	/** @var string $fileId Identifier for this file, which can be used to download or reuse the file */
-	public string $fileId { set; get; }
+    /** @var string $fileId Identifier for this file, which can be used to download or reuse the file */
+    public string $fileId { set; }
 
-	/** @var string $fileUniqueId Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file. */
-	public string $fileUniqueId { set; get; }
+    /** @var string $fileUniqueId Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file. */
+    public string $fileUniqueId { set; }
 
-	/** @var int $fileSize File size in bytes */
-	public int $fileSize { set; get; }
+    /** @var int $fileSize File size in bytes */
+    public int $fileSize { set; }
 
-	/** @var int $fileDate Unix time when the file was uploaded */
-	public int $fileDate { set; get; }
+    /** @var int $fileDate Unix time when the file was uploaded */
+    public int $fileDate { set; }
 }

@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface StarTransactionsInterface extends TypeInterface
 {
-	/** @var array<StarTransactionInterface> $transactions The list of transactions */
-	public array $transactions { set; get; }
+    /** @var array<StarTransactionInterface> $transactions The list of transactions */
+    public array $transactions { set; }
 }

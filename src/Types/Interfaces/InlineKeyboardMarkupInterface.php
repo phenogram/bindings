@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InlineKeyboardMarkupInterface extends TypeInterface
 {
-	/** @var array<array<InlineKeyboardButtonInterface>> $inlineKeyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects */
-	public array $inlineKeyboard { set; get; }
+    /** @var array<array<InlineKeyboardButtonInterface>> $inlineKeyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects */
+    public array $inlineKeyboard { set; }
 }

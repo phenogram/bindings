@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatBoostUpdatedInterface extends TypeInterface
 {
-	/** @var ChatInterface $chat Chat which was boosted */
-	public ChatInterface $chat { set; get; }
+    /** @var ChatInterface $chat Chat which was boosted */
+    public ChatInterface $chat { set; }
 
-	/** @var ChatBoostInterface $boost Information about the chat boost */
-	public ChatBoostInterface $boost { set; get; }
+    /** @var ChatBoostInterface $boost Information about the chat boost */
+    public ChatBoostInterface $boost { set; }
 }

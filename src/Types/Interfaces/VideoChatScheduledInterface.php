@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface VideoChatScheduledInterface extends TypeInterface
 {
-	/** @var int $startDate Point in time (Unix timestamp) when the video chat is supposed to be started by a chat administrator */
-	public int $startDate { set; get; }
+    /** @var int $startDate Point in time (Unix timestamp) when the video chat is supposed to be started by a chat administrator */
+    public int $startDate { set; }
 }

@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface TransactionPartnerOtherInterface extends TypeInterface
 {
-	/** @var string $type Type of the transaction partner, always “other” */
-	public string $type { set; get; }
+    /** @var string $type Type of the transaction partner, always “other” */
+    public string $type { set; }
 }

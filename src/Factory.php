@@ -313,6 +313,7 @@ use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -408,6 +409,7 @@ use Phenogram\Bindings\Types\SuccessfulPayment;
 use Phenogram\Bindings\Types\SwitchInlineQueryChosenChat;
 use Phenogram\Bindings\Types\TextQuote;
 use Phenogram\Bindings\Types\TransactionPartnerAffiliateProgram;
+use Phenogram\Bindings\Types\TransactionPartnerChat;
 use Phenogram\Bindings\Types\TransactionPartnerFragment;
 use Phenogram\Bindings\Types\TransactionPartnerOther;
 use Phenogram\Bindings\Types\TransactionPartnerTelegramAds;
@@ -595,6 +597,7 @@ class Factory implements FactoryInterface
         ?string $inviteLink,
         ?MessageInterface $pinnedMessage,
         ?ChatPermissionsInterface $permissions,
+        ?bool $canSendGift,
         ?bool $canSendPaidMedia,
         ?int $slowModeDelay,
         ?int $unrestrictBoostCount,
@@ -641,6 +644,7 @@ class Factory implements FactoryInterface
             inviteLink: $inviteLink,
             pinnedMessage: $pinnedMessage,
             permissions: $permissions,
+            canSendGift: $canSendGift,
             canSendPaidMedia: $canSendPaidMedia,
             slowModeDelay: $slowModeDelay,
             unrestrictBoostCount: $unrestrictBoostCount,
@@ -1101,6 +1105,8 @@ class Factory implements FactoryInterface
         int $height,
         int $duration,
         ?PhotoSizeInterface $thumbnail,
+        ?array $cover,
+        ?int $startTimestamp,
         ?string $fileName,
         ?string $mimeType,
         ?int $fileSize,
@@ -1112,6 +1118,8 @@ class Factory implements FactoryInterface
             height: $height,
             duration: $duration,
             thumbnail: $thumbnail,
+            cover: $cover,
+            startTimestamp: $startTimestamp,
             fileName: $fileName,
             mimeType: $mimeType,
             fileSize: $fileSize,
@@ -2550,7 +2558,9 @@ class Factory implements FactoryInterface
     public function makeInputMediaVideo(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -2565,6 +2575,8 @@ class Factory implements FactoryInterface
             media: $media,
             type: $type,
             thumbnail: $thumbnail,
+            cover: $cover,
+            startTimestamp: $startTimestamp,
             caption: $caption,
             parseMode: $parseMode,
             captionEntities: $captionEntities,
@@ -2580,7 +2592,7 @@ class Factory implements FactoryInterface
     public function makeInputMediaAnimation(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -2608,7 +2620,7 @@ class Factory implements FactoryInterface
     public function makeInputMediaAudio(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -2632,7 +2644,7 @@ class Factory implements FactoryInterface
     public function makeInputMediaDocument(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -2667,7 +2679,9 @@ class Factory implements FactoryInterface
     public function makeInputPaidMediaVideo(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
         ?int $width,
         ?int $height,
         ?int $duration,
@@ -2677,6 +2691,8 @@ class Factory implements FactoryInterface
             media: $media,
             type: $type,
             thumbnail: $thumbnail,
+            cover: $cover,
+            startTimestamp: $startTimestamp,
             width: $width,
             height: $height,
             duration: $duration,
@@ -2766,6 +2782,7 @@ class Factory implements FactoryInterface
         string $id,
         StickerInterface $sticker,
         int $starCount,
+        ?int $upgradeStarCount,
         ?int $totalCount,
         ?int $remainingCount,
     ): GiftInterface {
@@ -2773,6 +2790,7 @@ class Factory implements FactoryInterface
             id: $id,
             sticker: $sticker,
             starCount: $starCount,
+            upgradeStarCount: $upgradeStarCount,
             totalCount: $totalCount,
             remainingCount: $remainingCount,
         );
@@ -2822,7 +2840,6 @@ class Factory implements FactoryInterface
         string $type,
         ?InlineKeyboardMarkupInterface $replyMarkup,
         ?string $url,
-        ?bool $hideUrl,
         ?string $description,
         ?string $thumbnailUrl,
         ?int $thumbnailWidth,
@@ -2835,7 +2852,6 @@ class Factory implements FactoryInterface
             type: $type,
             replyMarkup: $replyMarkup,
             url: $url,
-            hideUrl: $hideUrl,
             description: $description,
             thumbnailUrl: $thumbnailUrl,
             thumbnailWidth: $thumbnailWidth,
@@ -3737,6 +3753,18 @@ class Factory implements FactoryInterface
             subscriptionPeriod: $subscriptionPeriod,
             paidMedia: $paidMedia,
             paidMediaPayload: $paidMediaPayload,
+            gift: $gift,
+        );
+    }
+
+    public function makeTransactionPartnerChat(
+        string $type,
+        ChatInterface $chat,
+        ?GiftInterface $gift,
+    ): TransactionPartnerChatInterface {
+        return new TransactionPartnerChat(
+            type: $type,
+            chat: $chat,
             gift: $gift,
         );
     }

@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface TransactionPartnerTelegramAdsInterface extends TypeInterface
 {
-	/** @var string $type Type of the transaction partner, always “telegram_ads” */
-	public string $type { set; get; }
+    /** @var string $type Type of the transaction partner, always “telegram_ads” */
+    public string $type { set; }
 }

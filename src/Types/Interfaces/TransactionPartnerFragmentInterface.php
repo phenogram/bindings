@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface TransactionPartnerFragmentInterface extends TypeInterface
 {
-	/** @var string $type Type of the transaction partner, always “fragment” */
-	public string $type { set; get; }
+    /** @var string $type Type of the transaction partner, always “fragment” */
+    public string $type { set; }
 
-	/** @var RevenueWithdrawalStateInterface|null $withdrawalState Optional. State of the transaction if the transaction is outgoing */
-	public ?RevenueWithdrawalStateInterface $withdrawalState { set; get; }
+    /** @var RevenueWithdrawalStateInterface|null $withdrawalState Optional. State of the transaction if the transaction is outgoing */
+    public ?RevenueWithdrawalStateInterface $withdrawalState { set; }
 }

@@ -7,15 +7,15 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ShippingQueryInterface extends TypeInterface
 {
-	/** @var string $id Unique query identifier */
-	public string $id { set; get; }
+    /** @var string $id Unique query identifier */
+    public string $id { set; }
 
-	/** @var UserInterface $from User who sent the query */
-	public UserInterface $from { set; get; }
+    /** @var UserInterface $from User who sent the query */
+    public UserInterface $from { set; }
 
-	/** @var string $invoicePayload Bot-specified invoice payload */
-	public string $invoicePayload { set; get; }
+    /** @var string $invoicePayload Bot-specified invoice payload */
+    public string $invoicePayload { set; }
 
-	/** @var ShippingAddressInterface $shippingAddress User specified shipping address */
-	public ShippingAddressInterface $shippingAddress { set; get; }
+    /** @var ShippingAddressInterface $shippingAddress User specified shipping address */
+    public ShippingAddressInterface $shippingAddress { set; }
 }

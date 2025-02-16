@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface UsersSharedInterface extends TypeInterface
 {
-	/** @var int $requestId Identifier of the request */
-	public int $requestId { set; get; }
+    /** @var int $requestId Identifier of the request */
+    public int $requestId { set; }
 
-	/** @var array<SharedUserInterface> $users Information about users shared with the bot. */
-	public array $users { set; get; }
+    /** @var array<SharedUserInterface> $users Information about users shared with the bot. */
+    public array $users { set; }
 }

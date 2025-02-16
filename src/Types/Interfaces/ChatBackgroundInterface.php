@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatBackgroundInterface extends TypeInterface
 {
-	/** @var BackgroundTypeInterface $type Type of the background */
-	public BackgroundTypeInterface $type { set; get; }
+    /** @var BackgroundTypeInterface $type Type of the background */
+    public BackgroundTypeInterface $type { set; }
 }

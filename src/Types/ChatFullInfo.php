@@ -50,6 +50,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param string|null                        $inviteLink                         Optional. Primary invite link, for groups, supergroups and channel chats
      * @param MessageInterface|null              $pinnedMessage                      Optional. The most recent pinned message (by sending date)
      * @param ChatPermissionsInterface|null      $permissions                        Optional. Default chat member permissions, for groups and supergroups
+     * @param bool|null                          $canSendGift                        Optional. True, if gifts can be sent to the chat
      * @param bool|null                          $canSendPaidMedia                   Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
      * @param int|null                           $slowModeDelay                      Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
      * @param int|null                           $unrestrictBoostCount               Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
@@ -96,6 +97,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?string $inviteLink = null,
         public ?MessageInterface $pinnedMessage = null,
         public ?ChatPermissionsInterface $permissions = null,
+        public ?bool $canSendGift = null,
         public ?bool $canSendPaidMedia = null,
         public ?int $slowModeDelay = null,
         public ?int $unrestrictBoostCount = null,

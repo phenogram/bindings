@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface MenuButtonCommandsInterface extends TypeInterface
 {
-	/** @var string $type Type of the button, must be commands */
-	public string $type { set; get; }
+    /** @var string $type Type of the button, must be commands */
+    public string $type { set; }
 }

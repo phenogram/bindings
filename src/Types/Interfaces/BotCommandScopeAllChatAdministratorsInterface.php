@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface BotCommandScopeAllChatAdministratorsInterface extends TypeInterface
 {
-	/** @var string $type Scope type, must be all_chat_administrators */
-	public string $type { set; get; }
+    /** @var string $type Scope type, must be all_chat_administrators */
+    public string $type { set; }
 }

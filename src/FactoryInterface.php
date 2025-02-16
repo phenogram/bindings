@@ -194,6 +194,7 @@ use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -316,6 +317,7 @@ interface FactoryInterface
         ?string $inviteLink,
         ?MessageInterface $pinnedMessage,
         ?ChatPermissionsInterface $permissions,
+        ?bool $canSendGift,
         ?bool $canSendPaidMedia,
         ?int $slowModeDelay,
         ?int $unrestrictBoostCount,
@@ -545,6 +547,8 @@ interface FactoryInterface
         int $height,
         int $duration,
         ?PhotoSizeInterface $thumbnail,
+        ?array $cover,
+        ?int $startTimestamp,
         ?string $fileName,
         ?string $mimeType,
         ?int $fileSize,
@@ -1173,7 +1177,9 @@ interface FactoryInterface
     public function makeInputMediaVideo(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -1188,7 +1194,7 @@ interface FactoryInterface
     public function makeInputMediaAnimation(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -1202,7 +1208,7 @@ interface FactoryInterface
     public function makeInputMediaAudio(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -1214,7 +1220,7 @@ interface FactoryInterface
     public function makeInputMediaDocument(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
         ?string $caption,
         ?string $parseMode,
         ?array $captionEntities,
@@ -1228,7 +1234,9 @@ interface FactoryInterface
     public function makeInputPaidMediaVideo(
         string $media,
         string $type,
-        InputFileInterface|string|null $thumbnail,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
         ?int $width,
         ?int $height,
         ?int $duration,
@@ -1275,6 +1283,7 @@ interface FactoryInterface
         string $id,
         StickerInterface $sticker,
         int $starCount,
+        ?int $upgradeStarCount,
         ?int $totalCount,
         ?int $remainingCount,
     ): GiftInterface;
@@ -1303,7 +1312,6 @@ interface FactoryInterface
         string $type,
         ?InlineKeyboardMarkupInterface $replyMarkup,
         ?string $url,
-        ?bool $hideUrl,
         ?string $description,
         ?string $thumbnailUrl,
         ?int $thumbnailWidth,
@@ -1745,6 +1753,12 @@ interface FactoryInterface
         ?string $paidMediaPayload,
         ?GiftInterface $gift,
     ): TransactionPartnerUserInterface;
+
+    public function makeTransactionPartnerChat(
+        string $type,
+        ChatInterface $chat,
+        ?GiftInterface $gift,
+    ): TransactionPartnerChatInterface;
 
     public function makeTransactionPartnerAffiliateProgram(
         string $type,

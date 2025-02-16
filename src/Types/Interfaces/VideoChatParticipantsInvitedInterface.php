@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface VideoChatParticipantsInvitedInterface extends TypeInterface
 {
-	/** @var array<UserInterface> $users New members that were invited to the video chat */
-	public array $users { set; get; }
+    /** @var array<UserInterface> $users New members that were invited to the video chat */
+    public array $users { set; }
 }

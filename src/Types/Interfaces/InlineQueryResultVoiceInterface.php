@@ -7,33 +7,33 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InlineQueryResultVoiceInterface extends TypeInterface
 {
-	/** @var string $type Type of the result, must be voice */
-	public string $type { set; get; }
+    /** @var string $type Type of the result, must be voice */
+    public string $type { set; }
 
-	/** @var string $id Unique identifier for this result, 1-64 bytes */
-	public string $id { set; get; }
+    /** @var string $id Unique identifier for this result, 1-64 bytes */
+    public string $id { set; }
 
-	/** @var string $voiceUrl A valid URL for the voice recording */
-	public string $voiceUrl { set; get; }
+    /** @var string $voiceUrl A valid URL for the voice recording */
+    public string $voiceUrl { set; }
 
-	/** @var string $title Recording title */
-	public string $title { set; get; }
+    /** @var string $title Recording title */
+    public string $title { set; }
 
-	/** @var string|null $caption Optional. Caption, 0-1024 characters after entities parsing */
-	public ?string $caption { set; get; }
+    /** @var string|null $caption Optional. Caption, 0-1024 characters after entities parsing */
+    public ?string $caption { set; }
 
-	/** @var string|null $parseMode Optional. Mode for parsing entities in the voice message caption. See formatting options for more details. */
-	public ?string $parseMode { set; get; }
+    /** @var string|null $parseMode Optional. Mode for parsing entities in the voice message caption. See formatting options for more details. */
+    public ?string $parseMode { set; }
 
-	/** @var array<MessageEntityInterface>|null $captionEntities Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode */
-	public ?array $captionEntities { set; get; }
+    /** @var array<MessageEntityInterface>|null $captionEntities Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    public ?array $captionEntities { set; }
 
-	/** @var int|null $voiceDuration Optional. Recording duration in seconds */
-	public ?int $voiceDuration { set; get; }
+    /** @var int|null $voiceDuration Optional. Recording duration in seconds */
+    public ?int $voiceDuration { set; }
 
-	/** @var InlineKeyboardMarkupInterface|null $replyMarkup Optional. Inline keyboard attached to the message */
-	public ?InlineKeyboardMarkupInterface $replyMarkup { set; get; }
+    /** @var InlineKeyboardMarkupInterface|null $replyMarkup Optional. Inline keyboard attached to the message */
+    public ?InlineKeyboardMarkupInterface $replyMarkup { set; }
 
-	/** @var InputMessageContentInterface|null $inputMessageContent Optional. Content of the message to be sent instead of the voice recording */
-	public ?InputMessageContentInterface $inputMessageContent { set; get; }
+    /** @var InputMessageContentInterface|null $inputMessageContent Optional. Content of the message to be sent instead of the voice recording */
+    public ?InputMessageContentInterface $inputMessageContent { set; }
 }

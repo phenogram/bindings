@@ -7,15 +7,15 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface PassportElementErrorFrontSideInterface extends TypeInterface
 {
-	/** @var string $source Error source, must be front_side */
-	public string $source { set; get; }
+    /** @var string $source Error source, must be front_side */
+    public string $source { set; }
 
-	/** @var string $type The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport” */
-	public string $type { set; get; }
+    /** @var string $type The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport” */
+    public string $type { set; }
 
-	/** @var string $fileHash Base64-encoded hash of the file with the front side of the document */
-	public string $fileHash { set; get; }
+    /** @var string $fileHash Base64-encoded hash of the file with the front side of the document */
+    public string $fileHash { set; }
 
-	/** @var string $message Error message */
-	public string $message { set; get; }
+    /** @var string $message Error message */
+    public string $message { set; }
 }

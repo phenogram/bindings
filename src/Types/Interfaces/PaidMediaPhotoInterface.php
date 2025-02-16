@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface PaidMediaPhotoInterface extends TypeInterface
 {
-	/** @var string $type Type of the paid media, always “photo” */
-	public string $type { set; get; }
+    /** @var string $type Type of the paid media, always “photo” */
+    public string $type { set; }
 
-	/** @var array<PhotoSizeInterface> $photo The photo */
-	public array $photo { set; get; }
+    /** @var array<PhotoSizeInterface> $photo The photo */
+    public array $photo { set; }
 }

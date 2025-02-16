@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface MessageAutoDeleteTimerChangedInterface extends TypeInterface
 {
-	/** @var int $messageAutoDeleteTime New auto-delete time for messages in the chat; in seconds */
-	public int $messageAutoDeleteTime { set; get; }
+    /** @var int $messageAutoDeleteTime New auto-delete time for messages in the chat; in seconds */
+    public int $messageAutoDeleteTime { set; }
 }

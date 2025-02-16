@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface RevenueWithdrawalStatePendingInterface extends TypeInterface
 {
-	/** @var string $type Type of the state, always “pending” */
-	public string $type { set; get; }
+    /** @var string $type Type of the state, always “pending” */
+    public string $type { set; }
 }

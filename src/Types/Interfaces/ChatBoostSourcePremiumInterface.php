@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatBoostSourcePremiumInterface extends TypeInterface
 {
-	/** @var string $source Source of the boost, always “premium” */
-	public string $source { set; get; }
+    /** @var string $source Source of the boost, always “premium” */
+    public string $source { set; }
 
-	/** @var UserInterface $user User that boosted the chat */
-	public UserInterface $user { set; get; }
+    /** @var UserInterface $user User that boosted the chat */
+    public UserInterface $user { set; }
 }

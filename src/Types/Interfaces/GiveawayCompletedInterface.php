@@ -7,15 +7,15 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface GiveawayCompletedInterface extends TypeInterface
 {
-	/** @var int $winnerCount Number of winners in the giveaway */
-	public int $winnerCount { set; get; }
+    /** @var int $winnerCount Number of winners in the giveaway */
+    public int $winnerCount { set; }
 
-	/** @var int|null $unclaimedPrizeCount Optional. Number of undistributed prizes */
-	public ?int $unclaimedPrizeCount { set; get; }
+    /** @var int|null $unclaimedPrizeCount Optional. Number of undistributed prizes */
+    public ?int $unclaimedPrizeCount { set; }
 
-	/** @var MessageInterface|null $giveawayMessage Optional. Message with the giveaway that was completed, if it wasn't deleted */
-	public ?MessageInterface $giveawayMessage { set; get; }
+    /** @var MessageInterface|null $giveawayMessage Optional. Message with the giveaway that was completed, if it wasn't deleted */
+    public ?MessageInterface $giveawayMessage { set; }
 
-	/** @var bool|null $isStarGiveaway Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway. */
-	public ?bool $isStarGiveaway { set; get; }
+    /** @var bool|null $isStarGiveaway Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway. */
+    public ?bool $isStarGiveaway { set; }
 }

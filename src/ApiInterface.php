@@ -63,7 +63,7 @@ interface ApiInterface
      * @param int|null           $offset         Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
      * @param int|null           $limit          Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
      * @param int|null           $timeout        Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
-     * @param array<string>|null $allowedUpdates A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
+     * @param array<string>|null $allowedUpdates A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to getUpdates, so unwanted updates may be received for a short period of time.
      *
      * @return array<UpdateInterface>
      */
@@ -75,7 +75,7 @@ interface ApiInterface
     ): array;
 
     /**
-     * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
+     * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request (a request with response HTTP status code different from 2XY), we will repeat the request and give up after a reasonable amount of attempts. Returns True on success.
      * If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token. If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.
      *
      * @param string                  $url                HTTPS URL to send updates to. Use an empty string to remove webhook integration
@@ -163,6 +163,7 @@ interface ApiInterface
      * @param int|string $fromChatId          Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
      * @param int        $messageId           Message identifier in the chat specified in from_chat_id
      * @param int|null   $messageThreadId     Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null   $videoStartTimestamp New start timestamp for the forwarded video in the message
      * @param bool|null  $disableNotification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null  $protectContent      Protects the contents of the forwarded message from forwarding and saving
      */
@@ -171,6 +172,7 @@ interface ApiInterface
         int|string $fromChatId,
         int $messageId,
         ?int $messageThreadId = null,
+        ?int $videoStartTimestamp = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
     ): MessageInterface;
@@ -203,6 +205,7 @@ interface ApiInterface
      * @param int|string                                                                                                       $fromChatId            Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
      * @param int                                                                                                              $messageId             Message identifier in the chat specified in from_chat_id
      * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $videoStartTimestamp   New start timestamp for the copied video in the message
      * @param string|null                                                                                                      $caption               New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
      * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the new caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
@@ -218,6 +221,7 @@ interface ApiInterface
         int|string $fromChatId,
         int $messageId,
         ?int $messageThreadId = null,
+        ?int $videoStartTimestamp = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -379,6 +383,8 @@ interface ApiInterface
      * @param int|null                                                                                                         $width                 Video width
      * @param int|null                                                                                                         $height                Video height
      * @param InputFileInterface|string|null                                                                                   $thumbnail             Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param InputFileInterface|string|null                                                                                   $cover                 Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
+     * @param int|null                                                                                                         $startTimestamp        Start timestamp for the video in the message
      * @param string|null                                                                                                      $caption               Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -401,6 +407,8 @@ interface ApiInterface
         ?int $width = null,
         ?int $height = null,
         InputFileInterface|string|null $thumbnail = null,
+        InputFileInterface|string|null $cover = null,
+        ?int $startTimestamp = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -798,7 +806,7 @@ interface ApiInterface
     ): bool;
 
     /**
-     * Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
+     * Use this method to change the chosen reactions on a message. Service messages of some types can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
      *
      * @param int|string                        $chatId    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int                               $messageId Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.
@@ -1740,8 +1748,8 @@ interface ApiInterface
      *
      * @param string                         $name      Sticker set name
      * @param int                            $userId    User identifier of the sticker set owner
-     * @param string                         $format    Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a WEBM video
-     * @param InputFileInterface|string|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+     * @param string                         $format    Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a .WEBM video
+     * @param InputFileInterface|string|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
      */
     public function setStickerSetThumbnail(
         string $name,
@@ -1766,26 +1774,60 @@ interface ApiInterface
     public function deleteStickerSet(string $name): bool;
 
     /**
-     * Returns the list of gifts that can be sent by the bot to users. Requires no parameters. Returns a Gifts object.
+     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
      */
     public function getAvailableGifts(): GiftsInterface;
 
     /**
-     * Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user. Returns True on success.
+     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
      *
-     * @param int                                $userId        Unique identifier of the target user that will receive the gift
      * @param string                             $giftId        Identifier of the gift
-     * @param string|null                        $text          Text that will be shown along with the gift; 0-255 characters
+     * @param int|null                           $userId        Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
+     * @param int|string|null                    $chatId        Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+     * @param bool|null                          $payForUpgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+     * @param string|null                        $text          Text that will be shown along with the gift; 0-128 characters
      * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
      * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
      */
     public function sendGift(
-        int $userId,
         string $giftId,
+        ?int $userId = null,
+        int|string|null $chatId = null,
+        ?bool $payForUpgrade = null,
         ?string $text = null,
         ?string $textParseMode = null,
         ?array $textEntities = null,
     ): bool;
+
+    /**
+     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
+     *
+     * @param int         $userId            Unique identifier of the target user
+     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+     */
+    public function verifyUser(int $userId, ?string $customDescription = null): bool;
+
+    /**
+     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
+     *
+     * @param int|string  $chatId            Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+     */
+    public function verifyChat(int|string $chatId, ?string $customDescription = null): bool;
+
+    /**
+     * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
+     *
+     * @param int $userId Unique identifier of the target user
+     */
+    public function removeUserVerification(int $userId): bool;
+
+    /**
+     * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
+     *
+     * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    public function removeChatVerification(int|string $chatId): bool;
 
     /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
@@ -1958,7 +2000,7 @@ interface ApiInterface
      * @param string                              $shippingQueryId Unique identifier for the query to be answered
      * @param bool                                $ok              Pass True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
      * @param array<ShippingOptionInterface>|null $shippingOptions Required if ok is True. A JSON-serialized array of available shipping options.
-     * @param string|null                         $errorMessage    Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+     * @param string|null                         $errorMessage    Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.
      */
     public function answerShippingQuery(
         string $shippingQueryId,

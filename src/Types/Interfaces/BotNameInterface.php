@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface BotNameInterface extends TypeInterface
 {
-	/** @var string $name The bot's name */
-	public string $name { set; get; }
+    /** @var string $name The bot's name */
+    public string $name { set; }
 }

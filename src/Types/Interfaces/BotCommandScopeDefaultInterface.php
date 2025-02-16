@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface BotCommandScopeDefaultInterface extends TypeInterface
 {
-	/** @var string $type Scope type, must be default */
-	public string $type { set; get; }
+    /** @var string $type Scope type, must be default */
+    public string $type { set; }
 }

@@ -7,12 +7,12 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatMemberBannedInterface extends TypeInterface
 {
-	/** @var string $status The member's status in the chat, always “kicked” */
-	public string $status { set; get; }
+    /** @var string $status The member's status in the chat, always “kicked” */
+    public string $status { set; }
 
-	/** @var UserInterface $user Information about the user */
-	public UserInterface $user { set; get; }
+    /** @var UserInterface $user Information about the user */
+    public UserInterface $user { set; }
 
-	/** @var int $untilDate Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever */
-	public int $untilDate { set; get; }
+    /** @var int $untilDate Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever */
+    public int $untilDate { set; }
 }

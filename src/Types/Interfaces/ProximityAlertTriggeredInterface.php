@@ -7,12 +7,12 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ProximityAlertTriggeredInterface extends TypeInterface
 {
-	/** @var UserInterface $traveler User that triggered the alert */
-	public UserInterface $traveler { set; get; }
+    /** @var UserInterface $traveler User that triggered the alert */
+    public UserInterface $traveler { set; }
 
-	/** @var UserInterface $watcher User that set the alert */
-	public UserInterface $watcher { set; get; }
+    /** @var UserInterface $watcher User that set the alert */
+    public UserInterface $watcher { set; }
 
-	/** @var int $distance The distance between the users */
-	public int $distance { set; get; }
+    /** @var int $distance The distance between the users */
+    public int $distance { set; }
 }

@@ -17,7 +17,6 @@ class InlineQueryResultArticle extends InlineQueryResult implements Interfaces\I
      * @param string                             $type                Type of the result, must be article
      * @param InlineKeyboardMarkupInterface|null $replyMarkup         Optional. Inline keyboard attached to the message
      * @param string|null                        $url                 Optional. URL of the result
-     * @param bool|null                          $hideUrl             Optional. Pass True if you don't want the URL to be shown in the message
      * @param string|null                        $description         Optional. Short description of the result
      * @param string|null                        $thumbnailUrl        Optional. Url of the thumbnail for the result
      * @param int|null                           $thumbnailWidth      Optional. Thumbnail width
@@ -30,7 +29,6 @@ class InlineQueryResultArticle extends InlineQueryResult implements Interfaces\I
         public string $type = 'article',
         public ?InlineKeyboardMarkupInterface $replyMarkup = null,
         public ?string $url = null,
-        public ?bool $hideUrl = null,
         public ?string $description = null,
         public ?string $thumbnailUrl = null,
         public ?int $thumbnailWidth = null,

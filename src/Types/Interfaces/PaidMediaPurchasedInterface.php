@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface PaidMediaPurchasedInterface extends TypeInterface
 {
-	/** @var UserInterface $from User who purchased the media */
-	public UserInterface $from { set; get; }
+    /** @var UserInterface $from User who purchased the media */
+    public UserInterface $from { set; }
 
-	/** @var string $paidMediaPayload Bot-specified paid media payload */
-	public string $paidMediaPayload { set; get; }
+    /** @var string $paidMediaPayload Bot-specified paid media payload */
+    public string $paidMediaPayload { set; }
 }

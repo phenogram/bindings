@@ -7,12 +7,12 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface MessageOriginUserInterface extends TypeInterface
 {
-	/** @var string $type Type of the message origin, always “user” */
-	public string $type { set; get; }
+    /** @var string $type Type of the message origin, always “user” */
+    public string $type { set; }
 
-	/** @var int $date Date the message was sent originally in Unix time */
-	public int $date { set; get; }
+    /** @var int $date Date the message was sent originally in Unix time */
+    public int $date { set; }
 
-	/** @var UserInterface $senderUser User that sent the message originally */
-	public UserInterface $senderUser { set; get; }
+    /** @var UserInterface $senderUser User that sent the message originally */
+    public UserInterface $senderUser { set; }
 }

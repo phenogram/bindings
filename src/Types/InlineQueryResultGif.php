@@ -13,7 +13,7 @@ class InlineQueryResultGif extends InlineQueryResult implements Interfaces\Inlin
 {
     /**
      * @param string                             $id                    Unique identifier for this result, 1-64 bytes
-     * @param string                             $gifUrl                A valid URL for the GIF file. File size must not exceed 1MB
+     * @param string                             $gifUrl                A valid URL for the GIF file
      * @param string                             $thumbnailUrl          URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
      * @param string                             $type                  Type of the result, must be gif
      * @param int|null                           $gifWidth              Optional. Width of the GIF

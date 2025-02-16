@@ -7,18 +7,18 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatBoostSourceGiveawayInterface extends TypeInterface
 {
-	/** @var string $source Source of the boost, always “giveaway” */
-	public string $source { set; get; }
+    /** @var string $source Source of the boost, always “giveaway” */
+    public string $source { set; }
 
-	/** @var int $giveawayMessageId Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet. */
-	public int $giveawayMessageId { set; get; }
+    /** @var int $giveawayMessageId Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet. */
+    public int $giveawayMessageId { set; }
 
-	/** @var UserInterface|null $user Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only */
-	public ?UserInterface $user { set; get; }
+    /** @var UserInterface|null $user Optional. User that won the prize in the giveaway if any; for Telegram Premium giveaways only */
+    public ?UserInterface $user { set; }
 
-	/** @var int|null $prizeStarCount Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only */
-	public ?int $prizeStarCount { set; get; }
+    /** @var int|null $prizeStarCount Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only */
+    public ?int $prizeStarCount { set; }
 
-	/** @var bool|null $isUnclaimed Optional. True, if the giveaway was completed, but there was no user to win the prize */
-	public ?bool $isUnclaimed { set; get; }
+    /** @var bool|null $isUnclaimed Optional. True, if the giveaway was completed, but there was no user to win the prize */
+    public ?bool $isUnclaimed { set; }
 }

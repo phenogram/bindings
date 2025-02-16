@@ -194,6 +194,7 @@ use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
@@ -488,6 +489,7 @@ class Serializer implements SerializerInterface
             permissions: isset($data['permissions'])
                 ? $this->denormalizeChatPermissions($data['permissions'])
                 : null,
+            canSendGift: $data['can_send_gift'] ?? null,
             canSendPaidMedia: $data['can_send_paid_media'] ?? null,
             slowModeDelay: $data['slow_mode_delay'] ?? null,
             unrestrictBoostCount: $data['unrestrict_boost_count'] ?? null,
@@ -1285,6 +1287,10 @@ class Serializer implements SerializerInterface
             thumbnail: isset($data['thumbnail'])
                 ? $this->denormalizePhotoSize($data['thumbnail'])
                 : null,
+            cover: isset($data['cover'])
+                ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['cover'])
+                : null,
+            startTimestamp: $data['start_timestamp'] ?? null,
             fileName: $data['file_name'] ?? null,
             mimeType: $data['mime_type'] ?? null,
             fileSize: $data['file_size'] ?? null,
@@ -4151,6 +4157,8 @@ class Serializer implements SerializerInterface
             media: $data['media'],
             type: $data['type'] ?? 'video',
             thumbnail: $data['thumbnail'] ?? null,
+            cover: $data['cover'] ?? null,
+            startTimestamp: $data['start_timestamp'] ?? null,
             caption: $data['caption'] ?? null,
             parseMode: $data['parse_mode'] ?? null,
             captionEntities: isset($data['caption_entities'])
@@ -4342,6 +4350,8 @@ class Serializer implements SerializerInterface
             media: $data['media'],
             type: $data['type'] ?? 'video',
             thumbnail: $data['thumbnail'] ?? null,
+            cover: $data['cover'] ?? null,
+            startTimestamp: $data['start_timestamp'] ?? null,
             width: $data['width'] ?? null,
             height: $data['height'] ?? null,
             duration: $data['duration'] ?? null,
@@ -4514,6 +4524,7 @@ class Serializer implements SerializerInterface
             id: $data['id'],
             sticker: $this->denormalizeSticker($data['sticker']),
             starCount: $data['star_count'],
+            upgradeStarCount: $data['upgrade_star_count'] ?? null,
             totalCount: $data['total_count'] ?? null,
             remainingCount: $data['remaining_count'] ?? null,
         );
@@ -4658,7 +4669,6 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeInlineKeyboardMarkup($data['reply_markup'])
                 : null,
             url: $data['url'] ?? null,
-            hideUrl: $data['hide_url'] ?? null,
             description: $data['description'] ?? null,
             thumbnailUrl: $data['thumbnail_url'] ?? null,
             thumbnailWidth: $data['thumbnail_width'] ?? null,
@@ -6119,6 +6129,34 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeTransactionPartnerChat(array $data): TransactionPartnerChatInterface
+    {
+        $requiredFields = [
+            'type',
+            'chat',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TransactionPartnerChat missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTransactionPartnerChat(
+            type: $data['type'],
+            chat: $this->denormalizeChat($data['chat']),
+            gift: isset($data['gift'])
+                ? $this->denormalizeGift($data['gift'])
+                : null,
+        );
+    }
+
     public function denormalizeTransactionPartnerAffiliateProgram(
         array $data,
     ): TransactionPartnerAffiliateProgramInterface {
@@ -6983,6 +7021,7 @@ class Serializer implements SerializerInterface
             RevenueWithdrawalStateFailedInterface::class => $this->denormalizeRevenueWithdrawalStateFailed($data),
             AffiliateInfoInterface::class => $this->denormalizeAffiliateInfo($data),
             TransactionPartnerUserInterface::class => $this->denormalizeTransactionPartnerUser($data),
+            TransactionPartnerChatInterface::class => $this->denormalizeTransactionPartnerChat($data),
             TransactionPartnerAffiliateProgramInterface::class => $this->denormalizeTransactionPartnerAffiliateProgram($data),
             TransactionPartnerFragmentInterface::class => $this->denormalizeTransactionPartnerFragment($data),
             TransactionPartnerTelegramAdsInterface::class => $this->denormalizeTransactionPartnerTelegramAds($data),
