@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
@@ -29,7 +30,9 @@ use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStoryContentInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
@@ -37,6 +40,7 @@ use Phenogram\Bindings\Types\Interfaces\MenuButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageIdInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
 use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
@@ -46,9 +50,12 @@ use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardRemoveInterface;
 use Phenogram\Bindings\Types\Interfaces\ReplyParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\StarAmountInterface;
 use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -540,7 +547,7 @@ interface ApiInterface
      * Use this method to send paid media. On success, the sent Message is returned.
      *
      * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
-     * @param int                                                                                                              $starCount             The number of Telegram Stars that must be paid to buy access to the media; 1-2500
+     * @param int                                                                                                              $starCount             The number of Telegram Stars that must be paid to buy access to the media; 1-10000
      * @param array<InputPaidMediaInterface>                                                                                   $media                 A JSON-serialized array describing the media to be sent; up to 10 items
      * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
      * @param string|null                                                                                                      $payload               Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
@@ -1017,7 +1024,7 @@ interface ApiInterface
      *
      * @param int|string  $chatId             Unique identifier for the target channel chat or username of the target channel (in the format @channelusername)
      * @param int         $subscriptionPeriod The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).
-     * @param int         $subscriptionPrice  The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500
+     * @param int         $subscriptionPrice  The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-10000
      * @param string|null $name               Invite link name; 0-32 characters
      */
     public function createChatSubscriptionInviteLink(
@@ -1600,6 +1607,293 @@ interface ApiInterface
     public function deleteMessages(int|string $chatId, array $messageIds): bool;
 
     /**
+     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
+     */
+    public function getAvailableGifts(): GiftsInterface;
+
+    /**
+     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
+     *
+     * @param string                             $giftId        Identifier of the gift
+     * @param int|null                           $userId        Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
+     * @param int|string|null                    $chatId        Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+     * @param bool|null                          $payForUpgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+     * @param string|null                        $text          Text that will be shown along with the gift; 0-128 characters
+     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     */
+    public function sendGift(
+        string $giftId,
+        ?int $userId = null,
+        int|string|null $chatId = null,
+        ?bool $payForUpgrade = null,
+        ?string $text = null,
+        ?string $textParseMode = null,
+        ?array $textEntities = null,
+    ): bool;
+
+    /**
+     * Gifts a Telegram Premium subscription to the given user. Returns True on success.
+     *
+     * @param int                                $userId        Unique identifier of the target user who will receive a Telegram Premium subscription
+     * @param int                                $monthCount    Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6, or 12
+     * @param int                                $starCount     Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months, 1500 for 6 months, and 2500 for 12 months
+     * @param string|null                        $text          Text that will be shown along with the service message about the subscription; 0-128 characters
+     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     */
+    public function giftPremiumSubscription(
+        int $userId,
+        int $monthCount,
+        int $starCount,
+        ?string $text = null,
+        ?string $textParseMode = null,
+        ?array $textEntities = null,
+    ): bool;
+
+    /**
+     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
+     *
+     * @param int         $userId            Unique identifier of the target user
+     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+     */
+    public function verifyUser(int $userId, ?string $customDescription = null): bool;
+
+    /**
+     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
+     *
+     * @param int|string  $chatId            Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+     */
+    public function verifyChat(int|string $chatId, ?string $customDescription = null): bool;
+
+    /**
+     * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
+     *
+     * @param int $userId Unique identifier of the target user
+     */
+    public function removeUserVerification(int $userId): bool;
+
+    /**
+     * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
+     *
+     * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     */
+    public function removeChatVerification(int|string $chatId): bool;
+
+    /**
+     * Marks incoming message as read on behalf of a business account. Requires the can_read_messages business bot right. Returns True on success.
+     *
+     * @param string $businessConnectionId Unique identifier of the business connection on behalf of which to read the message
+     * @param int    $chatId               Unique identifier of the chat in which the message was received. The chat must have been active in the last 24 hours.
+     * @param int    $messageId            Unique identifier of the message to mark as read
+     */
+    public function readBusinessMessage(string $businessConnectionId, int $chatId, int $messageId): bool;
+
+    /**
+     * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
+     *
+     * @param string     $businessConnectionId Unique identifier of the business connection on behalf of which to delete the messages
+     * @param array<int> $messageIds           A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the same chat. See deleteMessage for limitations on which messages can be deleted
+     */
+    public function deleteBusinessMessages(string $businessConnectionId, array $messageIds): bool;
+
+    /**
+     * Changes the first and last name of a managed business account. Requires the can_change_name business bot right. Returns True on success.
+     *
+     * @param string      $businessConnectionId Unique identifier of the business connection
+     * @param string      $firstName            The new value of the first name for the business account; 1-64 characters
+     * @param string|null $lastName             The new value of the last name for the business account; 0-64 characters
+     */
+    public function setBusinessAccountName(
+        string $businessConnectionId,
+        string $firstName,
+        ?string $lastName = null,
+    ): bool;
+
+    /**
+     * Changes the username of a managed business account. Requires the can_change_username business bot right. Returns True on success.
+     *
+     * @param string      $businessConnectionId Unique identifier of the business connection
+     * @param string|null $username             The new value of the username for the business account; 0-32 characters
+     */
+    public function setBusinessAccountUsername(string $businessConnectionId, ?string $username = null): bool;
+
+    /**
+     * Changes the bio of a managed business account. Requires the can_change_bio business bot right. Returns True on success.
+     *
+     * @param string      $businessConnectionId Unique identifier of the business connection
+     * @param string|null $bio                  The new value of the bio for the business account; 0-140 characters
+     */
+    public function setBusinessAccountBio(string $businessConnectionId, ?string $bio = null): bool;
+
+    /**
+     * Changes the profile photo of a managed business account. Requires the can_edit_profile_photo business bot right. Returns True on success.
+     *
+     * @param string                     $businessConnectionId Unique identifier of the business connection
+     * @param InputProfilePhotoInterface $photo                The new profile photo to set
+     * @param bool|null                  $isPublic             Pass True to set the public photo, which will be visible even if the main photo is hidden by the business account's privacy settings. An account can have only one public photo.
+     */
+    public function setBusinessAccountProfilePhoto(
+        string $businessConnectionId,
+        InputProfilePhotoInterface $photo,
+        ?bool $isPublic = null,
+    ): bool;
+
+    /**
+     * Removes the current profile photo of a managed business account. Requires the can_edit_profile_photo business bot right. Returns True on success.
+     *
+     * @param string    $businessConnectionId Unique identifier of the business connection
+     * @param bool|null $isPublic             Pass True to remove the public photo, which is visible even if the main photo is hidden by the business account's privacy settings. After the main photo is removed, the previous profile photo (if present) becomes the main photo.
+     */
+    public function removeBusinessAccountProfilePhoto(string $businessConnectionId, ?bool $isPublic = null): bool;
+
+    /**
+     * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires the can_change_gift_settings business bot right. Returns True on success.
+     *
+     * @param string                     $businessConnectionId Unique identifier of the business connection
+     * @param bool                       $showGiftButton       Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field
+     * @param AcceptedGiftTypesInterface $acceptedGiftTypes    Types of gifts accepted by the business account
+     */
+    public function setBusinessAccountGiftSettings(
+        string $businessConnectionId,
+        bool $showGiftButton,
+        AcceptedGiftTypesInterface $acceptedGiftTypes,
+    ): bool;
+
+    /**
+     * Returns the amount of Telegram Stars owned by a managed business account. Requires the can_view_gifts_and_stars business bot right. Returns StarAmount on success.
+     *
+     * @param string $businessConnectionId Unique identifier of the business connection
+     */
+    public function getBusinessAccountStarBalance(string $businessConnectionId): StarAmountInterface;
+
+    /**
+     * Transfers Telegram Stars from the business account balance to the bot's balance. Requires the can_transfer_stars business bot right. Returns True on success.
+     *
+     * @param string $businessConnectionId Unique identifier of the business connection
+     * @param int    $starCount            Number of Telegram Stars to transfer; 1-10000
+     */
+    public function transferBusinessAccountStars(string $businessConnectionId, int $starCount): bool;
+
+    /**
+     * Returns the gifts received and owned by a managed business account. Requires the can_view_gifts_and_stars business bot right. Returns OwnedGifts on success.
+     *
+     * @param string      $businessConnectionId Unique identifier of the business connection
+     * @param bool|null   $excludeUnsaved       Pass True to exclude gifts that aren't saved to the account's profile page
+     * @param bool|null   $excludeSaved         Pass True to exclude gifts that are saved to the account's profile page
+     * @param bool|null   $excludeUnlimited     Pass True to exclude gifts that can be purchased an unlimited number of times
+     * @param bool|null   $excludeLimited       Pass True to exclude gifts that can be purchased a limited number of times
+     * @param bool|null   $excludeUnique        Pass True to exclude unique gifts
+     * @param bool|null   $sortByPrice          Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+     * @param string|null $offset               Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results
+     * @param int|null    $limit                The maximum number of gifts to be returned; 1-100. Defaults to 100
+     */
+    public function getBusinessAccountGifts(
+        string $businessConnectionId,
+        ?bool $excludeUnsaved = null,
+        ?bool $excludeSaved = null,
+        ?bool $excludeUnlimited = null,
+        ?bool $excludeLimited = null,
+        ?bool $excludeUnique = null,
+        ?bool $sortByPrice = null,
+        ?string $offset = null,
+        ?int $limit = 100,
+    ): OwnedGiftsInterface;
+
+    /**
+     * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business bot right. Returns True on success.
+     *
+     * @param string $businessConnectionId Unique identifier of the business connection
+     * @param string $ownedGiftId          Unique identifier of the regular gift that should be converted to Telegram Stars
+     */
+    public function convertGiftToStars(string $businessConnectionId, string $ownedGiftId): bool;
+
+    /**
+     * Upgrades a given regular gift to a unique gift. Requires the can_transfer_and_upgrade_gifts business bot right. Additionally requires the can_transfer_stars business bot right if the upgrade is paid. Returns True on success.
+     *
+     * @param string    $businessConnectionId Unique identifier of the business connection
+     * @param string    $ownedGiftId          Unique identifier of the regular gift that should be upgraded to a unique one
+     * @param bool|null $keepOriginalDetails  Pass True to keep the original gift text, sender and receiver in the upgraded gift
+     * @param int|null  $starCount            The amount of Telegram Stars that will be paid for the upgrade from the business account balance. If gift.prepaid_upgrade_star_count > 0, then pass 0, otherwise, the can_transfer_stars business bot right is required and gift.upgrade_star_count must be passed.
+     */
+    public function upgradeGift(
+        string $businessConnectionId,
+        string $ownedGiftId,
+        ?bool $keepOriginalDetails = null,
+        ?int $starCount = null,
+    ): bool;
+
+    /**
+     * Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business bot right. Requires can_transfer_stars business bot right if the transfer is paid. Returns True on success.
+     *
+     * @param string   $businessConnectionId Unique identifier of the business connection
+     * @param string   $ownedGiftId          Unique identifier of the regular gift that should be transferred
+     * @param int      $newOwnerChatId       Unique identifier of the chat which will own the gift. The chat must be active in the last 24 hours.
+     * @param int|null $starCount            The amount of Telegram Stars that will be paid for the transfer from the business account balance. If positive, then the can_transfer_stars business bot right is required.
+     */
+    public function transferGift(
+        string $businessConnectionId,
+        string $ownedGiftId,
+        int $newOwnerChatId,
+        ?int $starCount = null,
+    ): bool;
+
+    /**
+     * Posts a story on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns Story on success.
+     *
+     * @param string                             $businessConnectionId Unique identifier of the business connection
+     * @param InputStoryContentInterface         $content              Content of the story
+     * @param int                                $activePeriod         Period after which the story is moved to the archive, in seconds; must be one of 6 * 3600, 12 * 3600, 86400, or 2 * 86400
+     * @param string|null                        $caption              Caption of the story, 0-2048 characters after entities parsing
+     * @param string|null                        $parseMode            Mode for parsing entities in the story caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param array<StoryAreaInterface>|null     $areas                A JSON-serialized list of clickable areas to be shown on the story
+     * @param bool|null                          $postToChatPage       Pass True to keep the story accessible after it expires
+     * @param bool|null                          $protectContent       Pass True if the content of the story must be protected from forwarding and screenshotting
+     */
+    public function postStory(
+        string $businessConnectionId,
+        InputStoryContentInterface $content,
+        int $activePeriod,
+        ?string $caption = null,
+        ?string $parseMode = null,
+        ?array $captionEntities = null,
+        ?array $areas = null,
+        ?bool $postToChatPage = null,
+        ?bool $protectContent = null,
+    ): StoryInterface;
+
+    /**
+     * Edits a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns Story on success.
+     *
+     * @param string                             $businessConnectionId Unique identifier of the business connection
+     * @param int                                $storyId              Unique identifier of the story to edit
+     * @param InputStoryContentInterface         $content              Content of the story
+     * @param string|null                        $caption              Caption of the story, 0-2048 characters after entities parsing
+     * @param string|null                        $parseMode            Mode for parsing entities in the story caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param array<StoryAreaInterface>|null     $areas                A JSON-serialized list of clickable areas to be shown on the story
+     */
+    public function editStory(
+        string $businessConnectionId,
+        int $storyId,
+        InputStoryContentInterface $content,
+        ?string $caption = null,
+        ?string $parseMode = null,
+        ?array $captionEntities = null,
+        ?array $areas = null,
+    ): StoryInterface;
+
+    /**
+     * Deletes a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right. Returns True on success.
+     *
+     * @param string $businessConnectionId Unique identifier of the business connection
+     * @param int    $storyId              Unique identifier of the story to delete
+     */
+    public function deleteStory(string $businessConnectionId, int $storyId): bool;
+
+    /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
      *
      * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1774,62 +2068,6 @@ interface ApiInterface
     public function deleteStickerSet(string $name): bool;
 
     /**
-     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
-     */
-    public function getAvailableGifts(): GiftsInterface;
-
-    /**
-     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
-     *
-     * @param string                             $giftId        Identifier of the gift
-     * @param int|null                           $userId        Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
-     * @param int|string|null                    $chatId        Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
-     * @param bool|null                          $payForUpgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
-     * @param string|null                        $text          Text that will be shown along with the gift; 0-128 characters
-     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
-     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
-     */
-    public function sendGift(
-        string $giftId,
-        ?int $userId = null,
-        int|string|null $chatId = null,
-        ?bool $payForUpgrade = null,
-        ?string $text = null,
-        ?string $textParseMode = null,
-        ?array $textEntities = null,
-    ): bool;
-
-    /**
-     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
-     *
-     * @param int         $userId            Unique identifier of the target user
-     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
-     */
-    public function verifyUser(int $userId, ?string $customDescription = null): bool;
-
-    /**
-     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
-     *
-     * @param int|string  $chatId            Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
-     */
-    public function verifyChat(int|string $chatId, ?string $customDescription = null): bool;
-
-    /**
-     * Removes verification from a user who is currently verified on behalf of the organization represented by the bot. Returns True on success.
-     *
-     * @param int $userId Unique identifier of the target user
-     */
-    public function removeUserVerification(int $userId): bool;
-
-    /**
-     * Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.
-     *
-     * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     */
-    public function removeChatVerification(int|string $chatId): bool;
-
-    /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
      *
      * @param string                                 $inlineQueryId Unique identifier for the answered query
@@ -1953,7 +2191,7 @@ interface ApiInterface
      * @param array<LabeledPriceInterface> $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
      * @param string|null                  $businessConnectionId      Unique identifier of the business connection on behalf of which the link will be created. For payments in Telegram Stars only.
      * @param string|null                  $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
-     * @param int|null                     $subscriptionPeriod        The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 2500 Telegram Stars.
+     * @param int|null                     $subscriptionPeriod        The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 10000 Telegram Stars.
      * @param int|null                     $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
      * @param array<int>|null              $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
      * @param string|null                  $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.

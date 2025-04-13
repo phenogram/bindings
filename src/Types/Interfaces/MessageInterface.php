@@ -73,6 +73,9 @@ interface MessageInterface extends TypeInterface
     /** @var string|null $authorSignature Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator */
     public ?string $authorSignature { set; }
 
+    /** @var int|null $paidStarCount Optional. The number of Telegram Stars that were paid by the sender of the message to send it */
+    public ?int $paidStarCount { set; }
+
     /** @var string|null $text Optional. For text messages, the actual UTF-8 text of the message */
     public ?string $text { set; }
 
@@ -196,6 +199,12 @@ interface MessageInterface extends TypeInterface
     /** @var ChatSharedInterface|null $chatShared Optional. Service message: a chat was shared with the bot */
     public ?ChatSharedInterface $chatShared { set; }
 
+    /** @var GiftInfoInterface|null $gift Optional. Service message: a regular gift was sent or received */
+    public ?GiftInfoInterface $gift { set; }
+
+    /** @var UniqueGiftInfoInterface|null $uniqueGift Optional. Service message: a unique gift was sent or received */
+    public ?UniqueGiftInfoInterface $uniqueGift { set; }
+
     /** @var string|null $connectedWebsite Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
     public ?string $connectedWebsite { set; }
 
@@ -243,6 +252,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var GiveawayCompletedInterface|null $giveawayCompleted Optional. Service message: a giveaway without public winners was completed */
     public ?GiveawayCompletedInterface $giveawayCompleted { set; }
+
+    /** @var PaidMessagePriceChangedInterface|null $paidMessagePriceChanged Optional. Service message: the price for paid messages has changed in the chat */
+    public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged { set; }
 
     /** @var VideoChatScheduledInterface|null $videoChatScheduled Optional. Service message: video chat scheduled */
     public ?VideoChatScheduledInterface $videoChatScheduled { set; }

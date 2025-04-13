@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings\Types;
 
+use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
@@ -23,6 +24,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param string                             $type                               Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
      * @param int                                $accentColorId                      Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
      * @param int                                $maxReactionCount                   The maximum number of reactions that can be set on a message in the chat
+     * @param AcceptedGiftTypesInterface         $acceptedGiftTypes                  Information about types of gifts that are accepted by the chat or by the corresponding user for private chats
      * @param string|null                        $title                              Optional. Title, for supergroups, channels and group chats
      * @param string|null                        $username                           Optional. Username, for private chats, supergroups and channels if available
      * @param string|null                        $firstName                          Optional. First name of the other party in a private chat
@@ -50,7 +52,6 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param string|null                        $inviteLink                         Optional. Primary invite link, for groups, supergroups and channel chats
      * @param MessageInterface|null              $pinnedMessage                      Optional. The most recent pinned message (by sending date)
      * @param ChatPermissionsInterface|null      $permissions                        Optional. Default chat member permissions, for groups and supergroups
-     * @param bool|null                          $canSendGift                        Optional. True, if gifts can be sent to the chat
      * @param bool|null                          $canSendPaidMedia                   Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
      * @param int|null                           $slowModeDelay                      Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
      * @param int|null                           $unrestrictBoostCount               Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
@@ -70,6 +71,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public string $type,
         public int $accentColorId,
         public int $maxReactionCount,
+        public AcceptedGiftTypesInterface $acceptedGiftTypes,
         public ?string $title = null,
         public ?string $username = null,
         public ?string $firstName = null,
@@ -97,7 +99,6 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?string $inviteLink = null,
         public ?MessageInterface $pinnedMessage = null,
         public ?ChatPermissionsInterface $permissions = null,
-        public ?bool $canSendGift = null,
         public ?bool $canSendPaidMedia = null,
         public ?int $slowModeDelay = null,
         public ?int $unrestrictBoostCount = null,

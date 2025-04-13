@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Phenogram\Bindings\Tests\Readme;
 
-use Phenogram\Bindings\Api;
 use Phenogram\Bindings\Factory;
 use Phenogram\Bindings\Serializer;
 use Phenogram\Bindings\Tests\TestCase;
 use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
-use Phenogram\Bindings\Types\Interfaces\UserInterface;
-use Phenogram\Bindings\Types\User;
 
 class MyChatLocation extends \Phenogram\Bindings\Types\ChatLocation
 {
@@ -29,9 +26,8 @@ class MyFactory extends Factory
 {
     public function makeChatLocation(
         LocationInterface $location,
-        string $address
-    ): ChatLocationInterface
-    {
+        string $address,
+    ): ChatLocationInterface {
         return new MyChatLocation(
             location: $location,
             address: $address,

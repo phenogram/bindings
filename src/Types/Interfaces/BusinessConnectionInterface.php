@@ -19,8 +19,8 @@ interface BusinessConnectionInterface extends TypeInterface
     /** @var int $date Date the connection was established in Unix time */
     public int $date { set; }
 
-    /** @var bool $canReply True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours */
-    public bool $canReply { set; }
+    /** @var BusinessBotRightsInterface|null $rights Optional. Rights of the business bot */
+    public ?BusinessBotRightsInterface $rights { set; }
 
     /** @var bool $isEnabled True, if the connection is active */
     public bool $isEnabled { set; }

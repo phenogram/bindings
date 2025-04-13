@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
@@ -24,6 +25,7 @@ use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
 use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
 use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessBotRightsInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
@@ -75,6 +77,7 @@ use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayCompletedInterface;
@@ -118,7 +121,11 @@ use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoAnimatedInterface;
+use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoStaticInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
@@ -128,6 +135,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
@@ -145,11 +153,15 @@ use Phenogram\Bindings\Types\Interfaces\MessageOriginUserInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionCountUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\OrderInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
@@ -185,10 +197,18 @@ use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\StarAmountInterface;
 use Phenogram\Bindings\Types\Interfaces\StarTransactionInterface;
 use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeSuggestedReactionInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeUniqueGiftInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeWeatherInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
@@ -201,6 +221,12 @@ use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
 use Phenogram\Bindings\Types\Interfaces\TypeInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -425,6 +451,7 @@ class Serializer implements SerializerInterface
             'type',
             'accent_color_id',
             'max_reaction_count',
+            'accepted_gift_types',
         ];
 
         $missingFields = [];
@@ -444,6 +471,7 @@ class Serializer implements SerializerInterface
             type: $data['type'],
             accentColorId: $data['accent_color_id'],
             maxReactionCount: $data['max_reaction_count'],
+            acceptedGiftTypes: $this->denormalizeAcceptedGiftTypes($data['accepted_gift_types']),
             title: $data['title'] ?? null,
             username: $data['username'] ?? null,
             firstName: $data['first_name'] ?? null,
@@ -489,7 +517,6 @@ class Serializer implements SerializerInterface
             permissions: isset($data['permissions'])
                 ? $this->denormalizeChatPermissions($data['permissions'])
                 : null,
-            canSendGift: $data['can_send_gift'] ?? null,
             canSendPaidMedia: $data['can_send_paid_media'] ?? null,
             slowModeDelay: $data['slow_mode_delay'] ?? null,
             unrestrictBoostCount: $data['unrestrict_boost_count'] ?? null,
@@ -569,6 +596,7 @@ class Serializer implements SerializerInterface
             isFromOffline: $data['is_from_offline'] ?? null,
             mediaGroupId: $data['media_group_id'] ?? null,
             authorSignature: $data['author_signature'] ?? null,
+            paidStarCount: $data['paid_star_count'] ?? null,
             text: $data['text'] ?? null,
             entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
@@ -668,6 +696,12 @@ class Serializer implements SerializerInterface
             chatShared: isset($data['chat_shared'])
                 ? $this->denormalizeChatShared($data['chat_shared'])
                 : null,
+            gift: isset($data['gift'])
+                ? $this->denormalizeGiftInfo($data['gift'])
+                : null,
+            uniqueGift: isset($data['unique_gift'])
+                ? $this->denormalizeUniqueGiftInfo($data['unique_gift'])
+                : null,
             connectedWebsite: $data['connected_website'] ?? null,
             writeAccessAllowed: isset($data['write_access_allowed'])
                 ? $this->denormalizeWriteAccessAllowed($data['write_access_allowed'])
@@ -713,6 +747,9 @@ class Serializer implements SerializerInterface
                 : null,
             giveawayCompleted: isset($data['giveaway_completed'])
                 ? $this->denormalizeGiveawayCompleted($data['giveaway_completed'])
+                : null,
+            paidMessagePriceChanged: isset($data['paid_message_price_changed'])
+                ? $this->denormalizePaidMessagePriceChanged($data['paid_message_price_changed'])
                 : null,
             videoChatScheduled: isset($data['video_chat_scheduled'])
                 ? $this->denormalizeVideoChatScheduled($data['video_chat_scheduled'])
@@ -2270,6 +2307,29 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizePaidMessagePriceChanged(array $data): PaidMessagePriceChangedInterface
+    {
+        $requiredFields = [
+            'paid_message_star_count',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PaidMessagePriceChanged missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePaidMessagePriceChanged(
+            paidMessageStarCount: $data['paid_message_star_count'],
+        );
+    }
+
     public function denormalizeGiveawayCreated(array $data): GiveawayCreatedInterface
     {
         return $this->factory->makeGiveawayCreated(
@@ -3340,6 +3400,231 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeStoryAreaPosition(array $data): StoryAreaPositionInterface
+    {
+        $requiredFields = [
+            'x_percentage',
+            'y_percentage',
+            'width_percentage',
+            'height_percentage',
+            'rotation_angle',
+            'corner_radius_percentage',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaPosition missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaPosition(
+            xPercentage: $data['x_percentage'],
+            yPercentage: $data['y_percentage'],
+            widthPercentage: $data['width_percentage'],
+            heightPercentage: $data['height_percentage'],
+            rotationAngle: $data['rotation_angle'],
+            cornerRadiusPercentage: $data['corner_radius_percentage'],
+        );
+    }
+
+    public function denormalizeLocationAddress(array $data): LocationAddressInterface
+    {
+        $requiredFields = [
+            'country_code',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class LocationAddress missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeLocationAddress(
+            countryCode: $data['country_code'],
+            state: $data['state'] ?? null,
+            city: $data['city'] ?? null,
+            street: $data['street'] ?? null,
+        );
+    }
+
+    public function denormalizeStoryAreaType(array $data): Types\Interfaces\StoryAreaTypeInterface
+    {
+        throw new \RuntimeException('class StoryAreaType is abstract and not yet implemented');
+    }
+
+    public function denormalizeStoryAreaTypeLocation(array $data): StoryAreaTypeLocationInterface
+    {
+        $requiredFields = [
+            'type',
+            'latitude',
+            'longitude',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaTypeLocation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaTypeLocation(
+            type: $data['type'],
+            latitude: $data['latitude'],
+            longitude: $data['longitude'],
+            address: isset($data['address'])
+                ? $this->denormalizeLocationAddress($data['address'])
+                : null,
+        );
+    }
+
+    public function denormalizeStoryAreaTypeSuggestedReaction(array $data): StoryAreaTypeSuggestedReactionInterface
+    {
+        $requiredFields = [
+            'type',
+            'reaction_type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaTypeSuggestedReaction missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaTypeSuggestedReaction(
+            type: $data['type'],
+            reactionType: $this->denormalizeReactionType($data['reaction_type']),
+            isDark: $data['is_dark'] ?? null,
+            isFlipped: $data['is_flipped'] ?? null,
+        );
+    }
+
+    public function denormalizeStoryAreaTypeLink(array $data): StoryAreaTypeLinkInterface
+    {
+        $requiredFields = [
+            'type',
+            'url',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaTypeLink missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaTypeLink(
+            type: $data['type'],
+            url: $data['url'],
+        );
+    }
+
+    public function denormalizeStoryAreaTypeWeather(array $data): StoryAreaTypeWeatherInterface
+    {
+        $requiredFields = [
+            'type',
+            'temperature',
+            'emoji',
+            'background_color',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaTypeWeather missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaTypeWeather(
+            type: $data['type'],
+            temperature: $data['temperature'],
+            emoji: $data['emoji'],
+            backgroundColor: $data['background_color'],
+        );
+    }
+
+    public function denormalizeStoryAreaTypeUniqueGift(array $data): StoryAreaTypeUniqueGiftInterface
+    {
+        $requiredFields = [
+            'type',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryAreaTypeUniqueGift missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryAreaTypeUniqueGift(
+            type: $data['type'],
+            name: $data['name'],
+        );
+    }
+
+    public function denormalizeStoryArea(array $data): StoryAreaInterface
+    {
+        $requiredFields = [
+            'position',
+            'type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StoryArea missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStoryArea(
+            position: $this->denormalizeStoryAreaPosition($data['position']),
+            type: $this->denormalizeStoryAreaType($data['type']),
+        );
+    }
+
     public function denormalizeChatLocation(array $data): ChatLocationInterface
     {
         $requiredFields = [
@@ -3564,6 +3849,420 @@ class Serializer implements SerializerInterface
             name: $data['name'],
             iconColor: $data['icon_color'],
             iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
+        );
+    }
+
+    public function denormalizeGift(array $data): GiftInterface
+    {
+        $requiredFields = [
+            'id',
+            'sticker',
+            'star_count',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Gift missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeGift(
+            id: $data['id'],
+            sticker: $this->denormalizeSticker($data['sticker']),
+            starCount: $data['star_count'],
+            upgradeStarCount: $data['upgrade_star_count'] ?? null,
+            totalCount: $data['total_count'] ?? null,
+            remainingCount: $data['remaining_count'] ?? null,
+        );
+    }
+
+    public function denormalizeGifts(array $data): GiftsInterface
+    {
+        $requiredFields = [
+            'gifts',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Gifts missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeGifts(
+            gifts: array_map(fn (array $item) => $this->denormalizeGift($item), $data['gifts']),
+        );
+    }
+
+    public function denormalizeUniqueGiftModel(array $data): UniqueGiftModelInterface
+    {
+        $requiredFields = [
+            'name',
+            'sticker',
+            'rarity_per_mille',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftModel missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftModel(
+            name: $data['name'],
+            sticker: $this->denormalizeSticker($data['sticker']),
+            rarityPerMille: $data['rarity_per_mille'],
+        );
+    }
+
+    public function denormalizeUniqueGiftSymbol(array $data): UniqueGiftSymbolInterface
+    {
+        $requiredFields = [
+            'name',
+            'sticker',
+            'rarity_per_mille',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftSymbol missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftSymbol(
+            name: $data['name'],
+            sticker: $this->denormalizeSticker($data['sticker']),
+            rarityPerMille: $data['rarity_per_mille'],
+        );
+    }
+
+    public function denormalizeUniqueGiftBackdropColors(array $data): UniqueGiftBackdropColorsInterface
+    {
+        $requiredFields = [
+            'center_color',
+            'edge_color',
+            'symbol_color',
+            'text_color',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftBackdropColors missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftBackdropColors(
+            centerColor: $data['center_color'],
+            edgeColor: $data['edge_color'],
+            symbolColor: $data['symbol_color'],
+            textColor: $data['text_color'],
+        );
+    }
+
+    public function denormalizeUniqueGiftBackdrop(array $data): UniqueGiftBackdropInterface
+    {
+        $requiredFields = [
+            'name',
+            'colors',
+            'rarity_per_mille',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftBackdrop missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftBackdrop(
+            name: $data['name'],
+            colors: $this->denormalizeUniqueGiftBackdropColors($data['colors']),
+            rarityPerMille: $data['rarity_per_mille'],
+        );
+    }
+
+    public function denormalizeUniqueGift(array $data): UniqueGiftInterface
+    {
+        $requiredFields = [
+            'base_name',
+            'name',
+            'number',
+            'model',
+            'symbol',
+            'backdrop',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGift missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGift(
+            baseName: $data['base_name'],
+            name: $data['name'],
+            number: $data['number'],
+            model: $this->denormalizeUniqueGiftModel($data['model']),
+            symbol: $this->denormalizeUniqueGiftSymbol($data['symbol']),
+            backdrop: $this->denormalizeUniqueGiftBackdrop($data['backdrop']),
+        );
+    }
+
+    public function denormalizeGiftInfo(array $data): GiftInfoInterface
+    {
+        $requiredFields = [
+            'gift',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class GiftInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeGiftInfo(
+            gift: $this->denormalizeGift($data['gift']),
+            ownedGiftId: $data['owned_gift_id'] ?? null,
+            convertStarCount: $data['convert_star_count'] ?? null,
+            prepaidUpgradeStarCount: $data['prepaid_upgrade_star_count'] ?? null,
+            canBeUpgraded: $data['can_be_upgraded'] ?? null,
+            text: $data['text'] ?? null,
+            entities: isset($data['entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
+                : null,
+            isPrivate: $data['is_private'] ?? null,
+        );
+    }
+
+    public function denormalizeUniqueGiftInfo(array $data): UniqueGiftInfoInterface
+    {
+        $requiredFields = [
+            'gift',
+            'origin',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftInfo(
+            gift: $this->denormalizeUniqueGift($data['gift']),
+            origin: $data['origin'],
+            ownedGiftId: $data['owned_gift_id'] ?? null,
+            transferStarCount: $data['transfer_star_count'] ?? null,
+        );
+    }
+
+    public function denormalizeOwnedGift(array $data): Types\Interfaces\OwnedGiftInterface
+    {
+        throw new \RuntimeException('class OwnedGift is abstract and not yet implemented');
+    }
+
+    public function denormalizeOwnedGiftRegular(array $data): OwnedGiftRegularInterface
+    {
+        $requiredFields = [
+            'type',
+            'gift',
+            'send_date',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class OwnedGiftRegular missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeOwnedGiftRegular(
+            type: $data['type'],
+            gift: $this->denormalizeGift($data['gift']),
+            sendDate: $data['send_date'],
+            ownedGiftId: $data['owned_gift_id'] ?? null,
+            senderUser: isset($data['sender_user'])
+                ? $this->denormalizeUser($data['sender_user'])
+                : null,
+            text: $data['text'] ?? null,
+            entities: isset($data['entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
+                : null,
+            isPrivate: $data['is_private'] ?? null,
+            isSaved: $data['is_saved'] ?? null,
+            canBeUpgraded: $data['can_be_upgraded'] ?? null,
+            wasRefunded: $data['was_refunded'] ?? null,
+            convertStarCount: $data['convert_star_count'] ?? null,
+            prepaidUpgradeStarCount: $data['prepaid_upgrade_star_count'] ?? null,
+        );
+    }
+
+    public function denormalizeOwnedGiftUnique(array $data): OwnedGiftUniqueInterface
+    {
+        $requiredFields = [
+            'type',
+            'gift',
+            'send_date',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class OwnedGiftUnique missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeOwnedGiftUnique(
+            type: $data['type'],
+            gift: $this->denormalizeUniqueGift($data['gift']),
+            sendDate: $data['send_date'],
+            ownedGiftId: $data['owned_gift_id'] ?? null,
+            senderUser: isset($data['sender_user'])
+                ? $this->denormalizeUser($data['sender_user'])
+                : null,
+            isSaved: $data['is_saved'] ?? null,
+            canBeTransferred: $data['can_be_transferred'] ?? null,
+            transferStarCount: $data['transfer_star_count'] ?? null,
+        );
+    }
+
+    public function denormalizeOwnedGifts(array $data): OwnedGiftsInterface
+    {
+        $requiredFields = [
+            'total_count',
+            'gifts',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class OwnedGifts missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeOwnedGifts(
+            totalCount: $data['total_count'],
+            gifts: array_map(fn (array $item) => $this->denormalizeOwnedGift($item), $data['gifts']),
+            nextOffset: $data['next_offset'] ?? null,
+        );
+    }
+
+    public function denormalizeAcceptedGiftTypes(array $data): AcceptedGiftTypesInterface
+    {
+        $requiredFields = [
+            'unlimited_gifts',
+            'limited_gifts',
+            'unique_gifts',
+            'premium_subscription',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class AcceptedGiftTypes missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeAcceptedGiftTypes(
+            unlimitedGifts: $data['unlimited_gifts'],
+            limitedGifts: $data['limited_gifts'],
+            uniqueGifts: $data['unique_gifts'],
+            premiumSubscription: $data['premium_subscription'],
+        );
+    }
+
+    public function denormalizeStarAmount(array $data): StarAmountInterface
+    {
+        $requiredFields = [
+            'amount',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class StarAmount missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeStarAmount(
+            amount: $data['amount'],
+            nanostarAmount: $data['nanostar_amount'] ?? null,
         );
     }
 
@@ -4024,6 +4723,26 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeBusinessBotRights(array $data): BusinessBotRightsInterface
+    {
+        return $this->factory->makeBusinessBotRights(
+            canReply: $data['can_reply'] ?? null,
+            canReadMessages: $data['can_read_messages'] ?? null,
+            canDeleteOutgoingMessages: $data['can_delete_outgoing_messages'] ?? null,
+            canDeleteAllMessages: $data['can_delete_all_messages'] ?? null,
+            canEditName: $data['can_edit_name'] ?? null,
+            canEditBio: $data['can_edit_bio'] ?? null,
+            canEditProfilePhoto: $data['can_edit_profile_photo'] ?? null,
+            canEditUsername: $data['can_edit_username'] ?? null,
+            canChangeGiftSettings: $data['can_change_gift_settings'] ?? null,
+            canViewGiftsAndStars: $data['can_view_gifts_and_stars'] ?? null,
+            canConvertGiftsToStars: $data['can_convert_gifts_to_stars'] ?? null,
+            canTransferAndUpgradeGifts: $data['can_transfer_and_upgrade_gifts'] ?? null,
+            canTransferStars: $data['can_transfer_stars'] ?? null,
+            canManageStories: $data['can_manage_stories'] ?? null,
+        );
+    }
+
     public function denormalizeBusinessConnection(array $data): BusinessConnectionInterface
     {
         $requiredFields = [
@@ -4031,7 +4750,6 @@ class Serializer implements SerializerInterface
             'user',
             'user_chat_id',
             'date',
-            'can_reply',
             'is_enabled',
         ];
 
@@ -4052,8 +4770,10 @@ class Serializer implements SerializerInterface
             user: $this->denormalizeUser($data['user']),
             userChatId: $data['user_chat_id'],
             date: $data['date'],
-            canReply: $data['can_reply'],
             isEnabled: $data['is_enabled'],
+            rights: isset($data['rights'])
+                ? $this->denormalizeBusinessBotRights($data['rights'])
+                : null,
         );
     }
 
@@ -4359,6 +5079,116 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeInputProfilePhoto(array $data): Types\Interfaces\InputProfilePhotoInterface
+    {
+        throw new \RuntimeException('class InputProfilePhoto is abstract and not yet implemented');
+    }
+
+    public function denormalizeInputProfilePhotoStatic(array $data): InputProfilePhotoStaticInterface
+    {
+        $requiredFields = [
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputProfilePhotoStatic missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputProfilePhotoStatic(
+            photo: $data['photo'],
+            type: $data['type'] ?? 'static',
+        );
+    }
+
+    public function denormalizeInputProfilePhotoAnimated(array $data): InputProfilePhotoAnimatedInterface
+    {
+        $requiredFields = [
+            'animation',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputProfilePhotoAnimated missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputProfilePhotoAnimated(
+            animation: $data['animation'],
+            type: $data['type'] ?? 'animated',
+            mainFrameTimestamp: $data['main_frame_timestamp'] ?? null,
+        );
+    }
+
+    public function denormalizeInputStoryContent(array $data): Types\Interfaces\InputStoryContentInterface
+    {
+        throw new \RuntimeException('class InputStoryContent is abstract and not yet implemented');
+    }
+
+    public function denormalizeInputStoryContentPhoto(array $data): InputStoryContentPhotoInterface
+    {
+        $requiredFields = [
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputStoryContentPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputStoryContentPhoto(
+            photo: $data['photo'],
+            type: $data['type'] ?? 'photo',
+        );
+    }
+
+    public function denormalizeInputStoryContentVideo(array $data): InputStoryContentVideoInterface
+    {
+        $requiredFields = [
+            'video',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputStoryContentVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputStoryContentVideo(
+            video: $data['video'],
+            type: $data['type'] ?? 'video',
+            duration: $data['duration'] ?? null,
+            coverFrameTimestamp: $data['cover_frame_timestamp'] ?? null,
+            isAnimation: $data['is_animation'] ?? null,
+        );
+    }
+
     public function denormalizeSticker(array $data): StickerInterface
     {
         $requiredFields = [
@@ -4497,59 +5327,6 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeMaskPosition($data['mask_position'])
                 : null,
             keywords: $data['keywords'] ?? null,
-        );
-    }
-
-    public function denormalizeGift(array $data): GiftInterface
-    {
-        $requiredFields = [
-            'id',
-            'sticker',
-            'star_count',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class Gift missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeGift(
-            id: $data['id'],
-            sticker: $this->denormalizeSticker($data['sticker']),
-            starCount: $data['star_count'],
-            upgradeStarCount: $data['upgrade_star_count'] ?? null,
-            totalCount: $data['total_count'] ?? null,
-            remainingCount: $data['remaining_count'] ?? null,
-        );
-    }
-
-    public function denormalizeGifts(array $data): GiftsInterface
-    {
-        $requiredFields = [
-            'gifts',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class Gifts missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeGifts(
-            gifts: array_map(fn (array $item) => $this->denormalizeGift($item), $data['gifts']),
         );
     }
 
@@ -6096,6 +6873,7 @@ class Serializer implements SerializerInterface
     {
         $requiredFields = [
             'type',
+            'transaction_type',
             'user',
         ];
 
@@ -6113,6 +6891,7 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeTransactionPartnerUser(
             type: $data['type'],
+            transactionType: $data['transaction_type'],
             user: $this->denormalizeUser($data['user']),
             affiliate: isset($data['affiliate'])
                 ? $this->denormalizeAffiliateInfo($data['affiliate'])
@@ -6126,6 +6905,7 @@ class Serializer implements SerializerInterface
             gift: isset($data['gift'])
                 ? $this->denormalizeGift($data['gift'])
                 : null,
+            premiumSubscriptionDuration: $data['premium_subscription_duration'] ?? null,
         );
     }
 
@@ -6892,6 +7672,7 @@ class Serializer implements SerializerInterface
             VideoChatStartedInterface::class => $this->denormalizeVideoChatStarted($data),
             VideoChatEndedInterface::class => $this->denormalizeVideoChatEnded($data),
             VideoChatParticipantsInvitedInterface::class => $this->denormalizeVideoChatParticipantsInvited($data),
+            PaidMessagePriceChangedInterface::class => $this->denormalizePaidMessagePriceChanged($data),
             GiveawayCreatedInterface::class => $this->denormalizeGiveawayCreated($data),
             GiveawayInterface::class => $this->denormalizeGiveaway($data),
             GiveawayWinnersInterface::class => $this->denormalizeGiveawayWinners($data),
@@ -6930,6 +7711,14 @@ class Serializer implements SerializerInterface
             BusinessLocationInterface::class => $this->denormalizeBusinessLocation($data),
             BusinessOpeningHoursIntervalInterface::class => $this->denormalizeBusinessOpeningHoursInterval($data),
             BusinessOpeningHoursInterface::class => $this->denormalizeBusinessOpeningHours($data),
+            StoryAreaPositionInterface::class => $this->denormalizeStoryAreaPosition($data),
+            LocationAddressInterface::class => $this->denormalizeLocationAddress($data),
+            StoryAreaTypeLocationInterface::class => $this->denormalizeStoryAreaTypeLocation($data),
+            StoryAreaTypeSuggestedReactionInterface::class => $this->denormalizeStoryAreaTypeSuggestedReaction($data),
+            StoryAreaTypeLinkInterface::class => $this->denormalizeStoryAreaTypeLink($data),
+            StoryAreaTypeWeatherInterface::class => $this->denormalizeStoryAreaTypeWeather($data),
+            StoryAreaTypeUniqueGiftInterface::class => $this->denormalizeStoryAreaTypeUniqueGift($data),
+            StoryAreaInterface::class => $this->denormalizeStoryArea($data),
             ChatLocationInterface::class => $this->denormalizeChatLocation($data),
             ReactionTypeEmojiInterface::class => $this->denormalizeReactionTypeEmoji($data),
             ReactionTypeCustomEmojiInterface::class => $this->denormalizeReactionTypeCustomEmoji($data),
@@ -6938,6 +7727,20 @@ class Serializer implements SerializerInterface
             MessageReactionUpdatedInterface::class => $this->denormalizeMessageReactionUpdated($data),
             MessageReactionCountUpdatedInterface::class => $this->denormalizeMessageReactionCountUpdated($data),
             ForumTopicInterface::class => $this->denormalizeForumTopic($data),
+            GiftInterface::class => $this->denormalizeGift($data),
+            GiftsInterface::class => $this->denormalizeGifts($data),
+            UniqueGiftModelInterface::class => $this->denormalizeUniqueGiftModel($data),
+            UniqueGiftSymbolInterface::class => $this->denormalizeUniqueGiftSymbol($data),
+            UniqueGiftBackdropColorsInterface::class => $this->denormalizeUniqueGiftBackdropColors($data),
+            UniqueGiftBackdropInterface::class => $this->denormalizeUniqueGiftBackdrop($data),
+            UniqueGiftInterface::class => $this->denormalizeUniqueGift($data),
+            GiftInfoInterface::class => $this->denormalizeGiftInfo($data),
+            UniqueGiftInfoInterface::class => $this->denormalizeUniqueGiftInfo($data),
+            OwnedGiftRegularInterface::class => $this->denormalizeOwnedGiftRegular($data),
+            OwnedGiftUniqueInterface::class => $this->denormalizeOwnedGiftUnique($data),
+            OwnedGiftsInterface::class => $this->denormalizeOwnedGifts($data),
+            AcceptedGiftTypesInterface::class => $this->denormalizeAcceptedGiftTypes($data),
+            StarAmountInterface::class => $this->denormalizeStarAmount($data),
             BotCommandInterface::class => $this->denormalizeBotCommand($data),
             BotCommandScopeDefaultInterface::class => $this->denormalizeBotCommandScopeDefault($data),
             BotCommandScopeAllPrivateChatsInterface::class => $this->denormalizeBotCommandScopeAllPrivateChats($data),
@@ -6959,6 +7762,7 @@ class Serializer implements SerializerInterface
             ChatBoostUpdatedInterface::class => $this->denormalizeChatBoostUpdated($data),
             ChatBoostRemovedInterface::class => $this->denormalizeChatBoostRemoved($data),
             UserChatBoostsInterface::class => $this->denormalizeUserChatBoosts($data),
+            BusinessBotRightsInterface::class => $this->denormalizeBusinessBotRights($data),
             BusinessConnectionInterface::class => $this->denormalizeBusinessConnection($data),
             BusinessMessagesDeletedInterface::class => $this->denormalizeBusinessMessagesDeleted($data),
             ResponseParametersInterface::class => $this->denormalizeResponseParameters($data),
@@ -6970,12 +7774,14 @@ class Serializer implements SerializerInterface
             InputFileInterface::class => $this->denormalizeInputFile($data),
             InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
             InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
+            InputProfilePhotoStaticInterface::class => $this->denormalizeInputProfilePhotoStatic($data),
+            InputProfilePhotoAnimatedInterface::class => $this->denormalizeInputProfilePhotoAnimated($data),
+            InputStoryContentPhotoInterface::class => $this->denormalizeInputStoryContentPhoto($data),
+            InputStoryContentVideoInterface::class => $this->denormalizeInputStoryContentVideo($data),
             StickerInterface::class => $this->denormalizeSticker($data),
             StickerSetInterface::class => $this->denormalizeStickerSet($data),
             MaskPositionInterface::class => $this->denormalizeMaskPosition($data),
             InputStickerInterface::class => $this->denormalizeInputSticker($data),
-            GiftInterface::class => $this->denormalizeGift($data),
-            GiftsInterface::class => $this->denormalizeGifts($data),
             InlineQueryInterface::class => $this->denormalizeInlineQuery($data),
             InlineQueryResultsButtonInterface::class => $this->denormalizeInlineQueryResultsButton($data),
             InlineQueryResultArticleInterface::class => $this->denormalizeInlineQueryResultArticle($data),

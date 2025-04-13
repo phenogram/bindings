@@ -19,6 +19,7 @@ use Phenogram\Bindings\Types\Interfaces\ForumTopicReopenedInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayCompletedInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayInterface;
@@ -33,6 +34,7 @@ use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
@@ -42,6 +44,7 @@ use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\VenueInterface;
@@ -83,6 +86,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param bool|null                                   $isFromOffline                 Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
      * @param string|null                                 $mediaGroupId                  Optional. The unique identifier of a media message group this message belongs to
      * @param string|null                                 $authorSignature               Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
+     * @param int|null                                    $paidStarCount                 Optional. The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|null                                 $text                          Optional. For text messages, the actual UTF-8 text of the message
      * @param array<MessageEntityInterface>|null          $entities                      Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      * @param LinkPreviewOptionsInterface|null            $linkPreviewOptions            Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
@@ -124,6 +128,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param RefundedPaymentInterface|null               $refundedPayment               Optional. Message is a service message about a refunded payment, information about the payment. More about payments »
      * @param UsersSharedInterface|null                   $usersShared                   Optional. Service message: users were shared with the bot
      * @param ChatSharedInterface|null                    $chatShared                    Optional. Service message: a chat was shared with the bot
+     * @param GiftInfoInterface|null                      $gift                          Optional. Service message: a regular gift was sent or received
+     * @param UniqueGiftInfoInterface|null                $uniqueGift                    Optional. Service message: a unique gift was sent or received
      * @param string|null                                 $connectedWebsite              Optional. The domain name of the website on which the user has logged in. More about Telegram Login »
      * @param WriteAccessAllowedInterface|null            $writeAccessAllowed            Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      * @param PassportDataInterface|null                  $passportData                  Optional. Telegram Passport data
@@ -140,6 +146,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param GiveawayInterface|null                      $giveaway                      Optional. The message is a scheduled giveaway message
      * @param GiveawayWinnersInterface|null               $giveawayWinners               Optional. A giveaway with public winners was completed
      * @param GiveawayCompletedInterface|null             $giveawayCompleted             Optional. Service message: a giveaway without public winners was completed
+     * @param PaidMessagePriceChangedInterface|null       $paidMessagePriceChanged       Optional. Service message: the price for paid messages has changed in the chat
      * @param VideoChatScheduledInterface|null            $videoChatScheduled            Optional. Service message: video chat scheduled
      * @param VideoChatStartedInterface|null              $videoChatStarted              Optional. Service message: video chat started
      * @param VideoChatEndedInterface|null                $videoChatEnded                Optional. Service message: video chat ended
@@ -170,6 +177,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?bool $isFromOffline = null,
         public ?string $mediaGroupId = null,
         public ?string $authorSignature = null,
+        public ?int $paidStarCount = null,
         public ?string $text = null,
         public ?array $entities = null,
         public ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
@@ -211,6 +219,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?RefundedPaymentInterface $refundedPayment = null,
         public ?UsersSharedInterface $usersShared = null,
         public ?ChatSharedInterface $chatShared = null,
+        public ?GiftInfoInterface $gift = null,
+        public ?UniqueGiftInfoInterface $uniqueGift = null,
         public ?string $connectedWebsite = null,
         public ?WriteAccessAllowedInterface $writeAccessAllowed = null,
         public ?PassportDataInterface $passportData = null,
@@ -227,6 +237,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?GiveawayInterface $giveaway = null,
         public ?GiveawayWinnersInterface $giveawayWinners = null,
         public ?GiveawayCompletedInterface $giveawayCompleted = null,
+        public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
         public ?VideoChatScheduledInterface $videoChatScheduled = null,
         public ?VideoChatStartedInterface $videoChatStarted = null,
         public ?VideoChatEndedInterface $videoChatEnded = null,

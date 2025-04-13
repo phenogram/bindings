@@ -100,8 +100,8 @@ interface ChatFullInfoInterface extends TypeInterface
     /** @var ChatPermissionsInterface|null $permissions Optional. Default chat member permissions, for groups and supergroups */
     public ?ChatPermissionsInterface $permissions { set; }
 
-    /** @var bool|null $canSendGift Optional. True, if gifts can be sent to the chat */
-    public ?bool $canSendGift { set; }
+    /** @var AcceptedGiftTypesInterface $acceptedGiftTypes Information about types of gifts that are accepted by the chat or by the corresponding user for private chats */
+    public AcceptedGiftTypesInterface $acceptedGiftTypes { set; }
 
     /** @var bool|null $canSendPaidMedia Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats. */
     public ?bool $canSendPaidMedia { set; }

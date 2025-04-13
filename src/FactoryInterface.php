@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings;
 
+use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
@@ -24,6 +25,7 @@ use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
 use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
 use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BusinessBotRightsInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
@@ -75,6 +77,7 @@ use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayCompletedInterface;
@@ -118,7 +121,11 @@ use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoAnimatedInterface;
+use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoStaticInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
@@ -128,6 +135,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
@@ -145,11 +153,15 @@ use Phenogram\Bindings\Types\Interfaces\MessageOriginUserInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionCountUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\OrderInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
+use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
@@ -185,10 +197,18 @@ use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\StarAmountInterface;
 use Phenogram\Bindings\Types\Interfaces\StarTransactionInterface;
 use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLocationInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeSuggestedReactionInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeUniqueGiftInterface;
+use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeWeatherInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
@@ -200,6 +220,12 @@ use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -290,6 +316,7 @@ interface FactoryInterface
         string $type,
         int $accentColorId,
         int $maxReactionCount,
+        AcceptedGiftTypesInterface $acceptedGiftTypes,
         ?string $title,
         ?string $username,
         ?string $firstName,
@@ -317,7 +344,6 @@ interface FactoryInterface
         ?string $inviteLink,
         ?MessageInterface $pinnedMessage,
         ?ChatPermissionsInterface $permissions,
-        ?bool $canSendGift,
         ?bool $canSendPaidMedia,
         ?int $slowModeDelay,
         ?int $unrestrictBoostCount,
@@ -356,6 +382,7 @@ interface FactoryInterface
         ?bool $isFromOffline,
         ?string $mediaGroupId,
         ?string $authorSignature,
+        ?int $paidStarCount,
         ?string $text,
         ?array $entities,
         ?LinkPreviewOptionsInterface $linkPreviewOptions,
@@ -397,6 +424,8 @@ interface FactoryInterface
         ?RefundedPaymentInterface $refundedPayment,
         ?UsersSharedInterface $usersShared,
         ?ChatSharedInterface $chatShared,
+        ?GiftInfoInterface $gift,
+        ?UniqueGiftInfoInterface $uniqueGift,
         ?string $connectedWebsite,
         ?WriteAccessAllowedInterface $writeAccessAllowed,
         ?PassportDataInterface $passportData,
@@ -413,6 +442,7 @@ interface FactoryInterface
         ?GiveawayInterface $giveaway,
         ?GiveawayWinnersInterface $giveawayWinners,
         ?GiveawayCompletedInterface $giveawayCompleted,
+        ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
         ?VideoChatScheduledInterface $videoChatScheduled,
         ?VideoChatStartedInterface $videoChatStarted,
         ?VideoChatEndedInterface $videoChatEnded,
@@ -746,6 +776,8 @@ interface FactoryInterface
 
     public function makeVideoChatParticipantsInvited(array $users): VideoChatParticipantsInvitedInterface;
 
+    public function makePaidMessagePriceChanged(int $paidMessageStarCount): PaidMessagePriceChangedInterface;
+
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface;
 
     public function makeGiveaway(
@@ -1041,6 +1073,52 @@ interface FactoryInterface
 
     public function makeBusinessOpeningHours(string $timeZoneName, array $openingHours): BusinessOpeningHoursInterface;
 
+    public function makeStoryAreaPosition(
+        float $xPercentage,
+        float $yPercentage,
+        float $widthPercentage,
+        float $heightPercentage,
+        float $rotationAngle,
+        float $cornerRadiusPercentage,
+    ): StoryAreaPositionInterface;
+
+    public function makeLocationAddress(
+        string $countryCode,
+        ?string $state,
+        ?string $city,
+        ?string $street,
+    ): LocationAddressInterface;
+
+    public function makeStoryAreaTypeLocation(
+        string $type,
+        float $latitude,
+        float $longitude,
+        ?LocationAddressInterface $address,
+    ): StoryAreaTypeLocationInterface;
+
+    public function makeStoryAreaTypeSuggestedReaction(
+        string $type,
+        Types\Interfaces\ReactionTypeInterface $reactionType,
+        ?bool $isDark,
+        ?bool $isFlipped,
+    ): StoryAreaTypeSuggestedReactionInterface;
+
+    public function makeStoryAreaTypeLink(string $type, string $url): StoryAreaTypeLinkInterface;
+
+    public function makeStoryAreaTypeWeather(
+        string $type,
+        float $temperature,
+        string $emoji,
+        int $backgroundColor,
+    ): StoryAreaTypeWeatherInterface;
+
+    public function makeStoryAreaTypeUniqueGift(string $type, string $name): StoryAreaTypeUniqueGiftInterface;
+
+    public function makeStoryArea(
+        StoryAreaPositionInterface $position,
+        Types\Interfaces\StoryAreaTypeInterface $type,
+    ): StoryAreaInterface;
+
     public function makeChatLocation(LocationInterface $location, string $address): ChatLocationInterface;
 
     public function makeReactionTypeEmoji(string $type, string $emoji): ReactionTypeEmojiInterface;
@@ -1077,6 +1155,107 @@ interface FactoryInterface
         int $iconColor,
         ?string $iconCustomEmojiId,
     ): ForumTopicInterface;
+
+    public function makeGift(
+        string $id,
+        StickerInterface $sticker,
+        int $starCount,
+        ?int $upgradeStarCount,
+        ?int $totalCount,
+        ?int $remainingCount,
+    ): GiftInterface;
+
+    public function makeGifts(array $gifts): GiftsInterface;
+
+    public function makeUniqueGiftModel(
+        string $name,
+        StickerInterface $sticker,
+        int $rarityPerMille,
+    ): UniqueGiftModelInterface;
+
+    public function makeUniqueGiftSymbol(
+        string $name,
+        StickerInterface $sticker,
+        int $rarityPerMille,
+    ): UniqueGiftSymbolInterface;
+
+    public function makeUniqueGiftBackdropColors(
+        int $centerColor,
+        int $edgeColor,
+        int $symbolColor,
+        int $textColor,
+    ): UniqueGiftBackdropColorsInterface;
+
+    public function makeUniqueGiftBackdrop(
+        string $name,
+        UniqueGiftBackdropColorsInterface $colors,
+        int $rarityPerMille,
+    ): UniqueGiftBackdropInterface;
+
+    public function makeUniqueGift(
+        string $baseName,
+        string $name,
+        int $number,
+        UniqueGiftModelInterface $model,
+        UniqueGiftSymbolInterface $symbol,
+        UniqueGiftBackdropInterface $backdrop,
+    ): UniqueGiftInterface;
+
+    public function makeGiftInfo(
+        GiftInterface $gift,
+        ?string $ownedGiftId,
+        ?int $convertStarCount,
+        ?int $prepaidUpgradeStarCount,
+        ?bool $canBeUpgraded,
+        ?string $text,
+        ?array $entities,
+        ?bool $isPrivate,
+    ): GiftInfoInterface;
+
+    public function makeUniqueGiftInfo(
+        UniqueGiftInterface $gift,
+        string $origin,
+        ?string $ownedGiftId,
+        ?int $transferStarCount,
+    ): UniqueGiftInfoInterface;
+
+    public function makeOwnedGiftRegular(
+        string $type,
+        GiftInterface $gift,
+        int $sendDate,
+        ?string $ownedGiftId,
+        ?UserInterface $senderUser,
+        ?string $text,
+        ?array $entities,
+        ?bool $isPrivate,
+        ?bool $isSaved,
+        ?bool $canBeUpgraded,
+        ?bool $wasRefunded,
+        ?int $convertStarCount,
+        ?int $prepaidUpgradeStarCount,
+    ): OwnedGiftRegularInterface;
+
+    public function makeOwnedGiftUnique(
+        string $type,
+        UniqueGiftInterface $gift,
+        int $sendDate,
+        ?string $ownedGiftId,
+        ?UserInterface $senderUser,
+        ?bool $isSaved,
+        ?bool $canBeTransferred,
+        ?int $transferStarCount,
+    ): OwnedGiftUniqueInterface;
+
+    public function makeOwnedGifts(int $totalCount, array $gifts, ?string $nextOffset): OwnedGiftsInterface;
+
+    public function makeAcceptedGiftTypes(
+        bool $unlimitedGifts,
+        bool $limitedGifts,
+        bool $uniqueGifts,
+        bool $premiumSubscription,
+    ): AcceptedGiftTypesInterface;
+
+    public function makeStarAmount(int $amount, ?int $nanostarAmount): StarAmountInterface;
 
     public function makeBotCommand(string $command, string $description): BotCommandInterface;
 
@@ -1147,13 +1326,30 @@ interface FactoryInterface
 
     public function makeUserChatBoosts(array $boosts): UserChatBoostsInterface;
 
+    public function makeBusinessBotRights(
+        ?bool $canReply,
+        ?bool $canReadMessages,
+        ?bool $canDeleteOutgoingMessages,
+        ?bool $canDeleteAllMessages,
+        ?bool $canEditName,
+        ?bool $canEditBio,
+        ?bool $canEditProfilePhoto,
+        ?bool $canEditUsername,
+        ?bool $canChangeGiftSettings,
+        ?bool $canViewGiftsAndStars,
+        ?bool $canConvertGiftsToStars,
+        ?bool $canTransferAndUpgradeGifts,
+        ?bool $canTransferStars,
+        ?bool $canManageStories,
+    ): BusinessBotRightsInterface;
+
     public function makeBusinessConnection(
         string $id,
         UserInterface $user,
         int $userChatId,
         int $date,
-        bool $canReply,
         bool $isEnabled,
+        ?BusinessBotRightsInterface $rights,
     ): BusinessConnectionInterface;
 
     public function makeBusinessMessagesDeleted(
@@ -1243,6 +1439,24 @@ interface FactoryInterface
         ?bool $supportsStreaming,
     ): InputPaidMediaVideoInterface;
 
+    public function makeInputProfilePhotoStatic(string $photo, string $type): InputProfilePhotoStaticInterface;
+
+    public function makeInputProfilePhotoAnimated(
+        string $animation,
+        string $type,
+        ?float $mainFrameTimestamp,
+    ): InputProfilePhotoAnimatedInterface;
+
+    public function makeInputStoryContentPhoto(string $photo, string $type): InputStoryContentPhotoInterface;
+
+    public function makeInputStoryContentVideo(
+        string $video,
+        string $type,
+        ?float $duration,
+        ?float $coverFrameTimestamp,
+        ?bool $isAnimation,
+    ): InputStoryContentVideoInterface;
+
     public function makeSticker(
         string $fileId,
         string $fileUniqueId,
@@ -1272,23 +1486,12 @@ interface FactoryInterface
     public function makeMaskPosition(string $point, float $xShift, float $yShift, float $scale): MaskPositionInterface;
 
     public function makeInputSticker(
-        InputFileInterface|string $sticker,
+        string $sticker,
         string $format,
         array $emojiList,
         ?MaskPositionInterface $maskPosition,
         ?array $keywords,
     ): InputStickerInterface;
-
-    public function makeGift(
-        string $id,
-        StickerInterface $sticker,
-        int $starCount,
-        ?int $upgradeStarCount,
-        ?int $totalCount,
-        ?int $remainingCount,
-    ): GiftInterface;
-
-    public function makeGifts(array $gifts): GiftsInterface;
 
     public function makeInlineQuery(
         string $id,
@@ -1745,6 +1948,7 @@ interface FactoryInterface
 
     public function makeTransactionPartnerUser(
         string $type,
+        string $transactionType,
         UserInterface $user,
         ?AffiliateInfoInterface $affiliate,
         ?string $invoicePayload,
@@ -1752,6 +1956,7 @@ interface FactoryInterface
         ?array $paidMedia,
         ?string $paidMediaPayload,
         ?GiftInterface $gift,
+        ?int $premiumSubscriptionDuration,
     ): TransactionPartnerUserInterface;
 
     public function makeTransactionPartnerChat(
