@@ -12,5 +12,5 @@ interface InputFileInterface extends TypeInterface
      *
      * @return string|null returns a string when new data is available or `null` if the stream has closed
      */
-    public function read(): ?string;
+    public function readData(): ?string;
 }
