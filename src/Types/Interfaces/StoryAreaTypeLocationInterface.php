@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface StoryAreaTypeLocationInterface extends TypeInterface
 {
     /** @var string $type Type of the area, always “location” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var float $latitude Location latitude in degrees */
-    public float $latitude { set; }
+    public float $latitude { set; get; }
 
     /** @var float $longitude Location longitude in degrees */
-    public float $longitude { set; }
+    public float $longitude { set; get; }
 
     /** @var LocationAddressInterface|null $address Optional. Address of the location */
-    public ?LocationAddressInterface $address { set; }
+    public ?LocationAddressInterface $address { set; get; }
 }

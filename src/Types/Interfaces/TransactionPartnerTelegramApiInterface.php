@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface TransactionPartnerTelegramApiInterface extends TypeInterface
 {
     /** @var string $type Type of the transaction partner, always “telegram_api” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var int $requestCount The number of successful requests that exceeded regular limits and were therefore billed */
-    public int $requestCount { set; }
+    public int $requestCount { set; get; }
 }

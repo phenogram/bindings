@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface StoryAreaTypeLinkInterface extends TypeInterface
 {
     /** @var string $type Type of the area, always “link” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $url HTTP or tg:// URL to be opened when the area is clicked */
-    public string $url { set; }
+    public string $url { set; get; }
 }

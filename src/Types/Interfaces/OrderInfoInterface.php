@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface OrderInfoInterface extends TypeInterface
 {
     /** @var string|null $name Optional. User name */
-    public ?string $name { set; }
+    public ?string $name { set; get; }
 
     /** @var string|null $phoneNumber Optional. User's phone number */
-    public ?string $phoneNumber { set; }
+    public ?string $phoneNumber { set; get; }
 
     /** @var string|null $email Optional. User email */
-    public ?string $email { set; }
+    public ?string $email { set; get; }
 
     /** @var ShippingAddressInterface|null $shippingAddress Optional. User shipping address */
-    public ?ShippingAddressInterface $shippingAddress { set; }
+    public ?ShippingAddressInterface $shippingAddress { set; get; }
 }

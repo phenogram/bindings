@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface PaidMediaVideoInterface extends TypeInterface
 {
     /** @var string $type Type of the paid media, always “video” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var VideoInterface $video The video */
-    public VideoInterface $video { set; }
+    public VideoInterface $video { set; get; }
 }

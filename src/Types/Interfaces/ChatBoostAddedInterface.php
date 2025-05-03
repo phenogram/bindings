@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ChatBoostAddedInterface extends TypeInterface
 {
     /** @var int $boostCount Number of boosts added by the user */
-    public int $boostCount { set; }
+    public int $boostCount { set; get; }
 }

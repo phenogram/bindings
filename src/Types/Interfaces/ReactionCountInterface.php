@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ReactionCountInterface extends TypeInterface
 {
     /** @var ReactionTypeInterface $type Type of the reaction */
-    public ReactionTypeInterface $type { set; }
+    public ReactionTypeInterface $type { set; get; }
 
     /** @var int $totalCount Number of times the reaction was added */
-    public int $totalCount { set; }
+    public int $totalCount { set; get; }
 }

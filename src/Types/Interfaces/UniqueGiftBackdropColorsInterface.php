@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface UniqueGiftBackdropColorsInterface extends TypeInterface
 {
     /** @var int $centerColor The color in the center of the backdrop in RGB format */
-    public int $centerColor { set; }
+    public int $centerColor { set; get; }
 
     /** @var int $edgeColor The color on the edges of the backdrop in RGB format */
-    public int $edgeColor { set; }
+    public int $edgeColor { set; get; }
 
     /** @var int $symbolColor The color to be applied to the symbol in RGB format */
-    public int $symbolColor { set; }
+    public int $symbolColor { set; get; }
 
     /** @var int $textColor The color for the text on the backdrop in RGB format */
-    public int $textColor { set; }
+    public int $textColor { set; get; }
 }

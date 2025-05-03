@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface UniqueGiftInfoInterface extends TypeInterface
 {
     /** @var UniqueGiftInterface $gift Information about the gift */
-    public UniqueGiftInterface $gift { set; }
+    public UniqueGiftInterface $gift { set; get; }
 
     /** @var string $origin Origin of the gift. Currently, either “upgrade” or “transfer” */
-    public string $origin { set; }
+    public string $origin { set; get; }
 
     /** @var string|null $ownedGiftId Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts */
-    public ?string $ownedGiftId { set; }
+    public ?string $ownedGiftId { set; get; }
 
     /** @var int|null $transferStarCount Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift */
-    public ?int $transferStarCount { set; }
+    public ?int $transferStarCount { set; get; }
 }

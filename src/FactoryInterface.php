@@ -110,7 +110,6 @@ use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\InputContactMessageContentInterface;
-use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
 use Phenogram\Bindings\Types\Interfaces\InputInvoiceMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
@@ -1422,8 +1421,6 @@ interface FactoryInterface
         ?array $captionEntities,
         ?bool $disableContentTypeDetection,
     ): InputMediaDocumentInterface;
-
-    public function makeInputFile(string $filePath): InputFileInterface;
 
     public function makeInputPaidMediaPhoto(string $media, string $type): InputPaidMediaPhotoInterface;
 

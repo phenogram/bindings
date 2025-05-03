@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface BackgroundTypeChatThemeInterface extends TypeInterface
 {
     /** @var string $type Type of the background, always “chat_theme” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $themeName Name of the chat theme, which is usually an emoji */
-    public string $themeName { set; }
+    public string $themeName { set; get; }
 }

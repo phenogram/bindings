@@ -7,5 +7,10 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InputFileInterface extends TypeInterface
 {
-    public string $filePath { set; }
+    /**
+     * Reads data from the file as a stream until it's empty.
+     *
+     * @return string|null returns a string when new data is available or `null` if the stream has closed
+     */
+    public function read(): ?string;
 }

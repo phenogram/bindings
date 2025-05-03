@@ -4992,29 +4992,6 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputFile(array $data): InputFileInterface
-    {
-        $requiredFields = [
-            'file_path',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class InputFile missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeInputFile(
-            filePath: $data['file_path'],
-        );
-    }
-
     public function denormalizeInputPaidMedia(array $data): Types\Interfaces\InputPaidMediaInterface
     {
         return match ($data['type']) {
@@ -7771,7 +7748,6 @@ class Serializer implements SerializerInterface
             InputMediaAnimationInterface::class => $this->denormalizeInputMediaAnimation($data),
             InputMediaAudioInterface::class => $this->denormalizeInputMediaAudio($data),
             InputMediaDocumentInterface::class => $this->denormalizeInputMediaDocument($data),
-            InputFileInterface::class => $this->denormalizeInputFile($data),
             InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
             InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
             InputProfilePhotoStaticInterface::class => $this->denormalizeInputProfilePhotoStatic($data),

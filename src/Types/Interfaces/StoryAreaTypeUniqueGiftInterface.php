@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface StoryAreaTypeUniqueGiftInterface extends TypeInterface
 {
     /** @var string $type Type of the area, always “unique_gift” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $name Unique name of the gift */
-    public string $name { set; }
+    public string $name { set; get; }
 }

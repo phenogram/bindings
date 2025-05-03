@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ChatBoostSourceGiftCodeInterface extends TypeInterface
 {
     /** @var string $source Source of the boost, always “gift_code” */
-    public string $source { set; }
+    public string $source { set; get; }
 
     /** @var UserInterface $user User for which the gift code was created */
-    public UserInterface $user { set; }
+    public UserInterface $user { set; get; }
 }

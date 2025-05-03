@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ReactionTypePaidInterface extends TypeInterface
 {
     /** @var string $type Type of the reaction, always “paid” */
-    public string $type { set; }
+    public string $type { set; get; }
 }

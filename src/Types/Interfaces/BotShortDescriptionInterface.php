@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface BotShortDescriptionInterface extends TypeInterface
 {
     /** @var string $shortDescription The bot's short description */
-    public string $shortDescription { set; }
+    public string $shortDescription { set; get; }
 }

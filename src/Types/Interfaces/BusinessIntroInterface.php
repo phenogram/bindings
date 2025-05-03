@@ -8,11 +8,11 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface BusinessIntroInterface extends TypeInterface
 {
     /** @var string|null $title Optional. Title text of the business intro */
-    public ?string $title { set; }
+    public ?string $title { set; get; }
 
     /** @var string|null $message Optional. Message text of the business intro */
-    public ?string $message { set; }
+    public ?string $message { set; get; }
 
     /** @var StickerInterface|null $sticker Optional. Sticker of the business intro */
-    public ?StickerInterface $sticker { set; }
+    public ?StickerInterface $sticker { set; get; }
 }

@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface PaidMessagePriceChangedInterface extends TypeInterface
 {
     /** @var int $paidMessageStarCount The new number of Telegram Stars that must be paid by non-administrator users of the supergroup chat for each sent message */
-    public int $paidMessageStarCount { set; }
+    public int $paidMessageStarCount { set; get; }
 }

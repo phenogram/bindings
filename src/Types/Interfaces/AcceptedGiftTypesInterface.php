@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface AcceptedGiftTypesInterface extends TypeInterface
 {
     /** @var bool $unlimitedGifts True, if unlimited regular gifts are accepted */
-    public bool $unlimitedGifts { set; }
+    public bool $unlimitedGifts { set; get; }
 
     /** @var bool $limitedGifts True, if limited regular gifts are accepted */
-    public bool $limitedGifts { set; }
+    public bool $limitedGifts { set; get; }
 
     /** @var bool $uniqueGifts True, if unique gifts or gifts that can be upgraded to unique for free are accepted */
-    public bool $uniqueGifts { set; }
+    public bool $uniqueGifts { set; get; }
 
     /** @var bool $premiumSubscription True, if a Telegram Premium subscription is accepted */
-    public bool $premiumSubscription { set; }
+    public bool $premiumSubscription { set; get; }
 }

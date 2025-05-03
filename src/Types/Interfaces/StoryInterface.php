@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface StoryInterface extends TypeInterface
 {
     /** @var ChatInterface $chat Chat that posted the story */
-    public ChatInterface $chat { set; }
+    public ChatInterface $chat { set; get; }
 
     /** @var int $id Unique identifier for the story in the chat */
-    public int $id { set; }
+    public int $id { set; get; }
 }

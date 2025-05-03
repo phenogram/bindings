@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface VideoChatEndedInterface extends TypeInterface
 {
     /** @var int $duration Video chat duration in seconds */
-    public int $duration { set; }
+    public int $duration { set; get; }
 }

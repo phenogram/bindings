@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface PreparedInlineMessageInterface extends TypeInterface
 {
     /** @var string $id Unique identifier of the prepared message */
-    public string $id { set; }
+    public string $id { set; get; }
 
     /** @var int $expirationDate Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used */
-    public int $expirationDate { set; }
+    public int $expirationDate { set; get; }
 }

@@ -8,32 +8,32 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface InlineQueryResultArticleInterface extends TypeInterface
 {
     /** @var string $type Type of the result, must be article */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $id Unique identifier for this result, 1-64 Bytes */
-    public string $id { set; }
+    public string $id { set; get; }
 
     /** @var string $title Title of the result */
-    public string $title { set; }
+    public string $title { set; get; }
 
     /** @var InputMessageContentInterface $inputMessageContent Content of the message to be sent */
-    public InputMessageContentInterface $inputMessageContent { set; }
+    public InputMessageContentInterface $inputMessageContent { set; get; }
 
     /** @var InlineKeyboardMarkupInterface|null $replyMarkup Optional. Inline keyboard attached to the message */
-    public ?InlineKeyboardMarkupInterface $replyMarkup { set; }
+    public ?InlineKeyboardMarkupInterface $replyMarkup { set; get; }
 
     /** @var string|null $url Optional. URL of the result */
-    public ?string $url { set; }
+    public ?string $url { set; get; }
 
     /** @var string|null $description Optional. Short description of the result */
-    public ?string $description { set; }
+    public ?string $description { set; get; }
 
     /** @var string|null $thumbnailUrl Optional. Url of the thumbnail for the result */
-    public ?string $thumbnailUrl { set; }
+    public ?string $thumbnailUrl { set; get; }
 
     /** @var int|null $thumbnailWidth Optional. Thumbnail width */
-    public ?int $thumbnailWidth { set; }
+    public ?int $thumbnailWidth { set; get; }
 
     /** @var int|null $thumbnailHeight Optional. Thumbnail height */
-    public ?int $thumbnailHeight { set; }
+    public ?int $thumbnailHeight { set; get; }
 }

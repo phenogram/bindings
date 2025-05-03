@@ -8,14 +8,14 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface StoryAreaTypeSuggestedReactionInterface extends TypeInterface
 {
     /** @var string $type Type of the area, always “suggested_reaction” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var ReactionTypeInterface $reactionType Type of the reaction */
-    public ReactionTypeInterface $reactionType { set; }
+    public ReactionTypeInterface $reactionType { set; get; }
 
     /** @var bool|null $isDark Optional. Pass True if the reaction area has a dark background */
-    public ?bool $isDark { set; }
+    public ?bool $isDark { set; get; }
 
     /** @var bool|null $isFlipped Optional. Pass True if reaction area corner is flipped */
-    public ?bool $isFlipped { set; }
+    public ?bool $isFlipped { set; get; }
 }

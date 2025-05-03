@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface WebAppInfoInterface extends TypeInterface
 {
     /** @var string $url An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps */
-    public string $url { set; }
+    public string $url { set; get; }
 }

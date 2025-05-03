@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ChatMemberLeftInterface extends TypeInterface
 {
     /** @var string $status The member's status in the chat, always “left” */
-    public string $status { set; }
+    public string $status { set; get; }
 
     /** @var UserInterface $user Information about the user */
-    public UserInterface $user { set; }
+    public UserInterface $user { set; get; }
 }

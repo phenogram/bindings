@@ -8,8 +8,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface ReactionTypeCustomEmojiInterface extends TypeInterface
 {
     /** @var string $type Type of the reaction, always “custom_emoji” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $customEmojiId Custom emoji identifier */
-    public string $customEmojiId { set; }
+    public string $customEmojiId { set; get; }
 }

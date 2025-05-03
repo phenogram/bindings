@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface MenuButtonDefaultInterface extends TypeInterface
 {
     /** @var string $type Type of the button, must be default */
-    public string $type { set; }
+    public string $type { set; get; }
 }

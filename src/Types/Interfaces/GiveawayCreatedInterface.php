@@ -8,5 +8,5 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface GiveawayCreatedInterface extends TypeInterface
 {
     /** @var int|null $prizeStarCount Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only */
-    public ?int $prizeStarCount { set; }
+    public ?int $prizeStarCount { set; get; }
 }

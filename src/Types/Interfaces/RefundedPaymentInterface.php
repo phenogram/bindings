@@ -8,17 +8,17 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface RefundedPaymentInterface extends TypeInterface
 {
     /** @var string $currency Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR” */
-    public string $currency { set; }
+    public string $currency { set; get; }
 
     /** @var int $totalAmount Total refunded price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45, total_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). */
-    public int $totalAmount { set; }
+    public int $totalAmount { set; get; }
 
     /** @var string $invoicePayload Bot-specified invoice payload */
-    public string $invoicePayload { set; }
+    public string $invoicePayload { set; get; }
 
     /** @var string $telegramPaymentChargeId Telegram payment identifier */
-    public string $telegramPaymentChargeId { set; }
+    public string $telegramPaymentChargeId { set; get; }
 
     /** @var string|null $providerPaymentChargeId Optional. Provider payment identifier */
-    public ?string $providerPaymentChargeId { set; }
+    public ?string $providerPaymentChargeId { set; get; }
 }

@@ -110,7 +110,6 @@ use Phenogram\Bindings\Types\InlineQueryResultVenue;
 use Phenogram\Bindings\Types\InlineQueryResultVideo;
 use Phenogram\Bindings\Types\InlineQueryResultVoice;
 use Phenogram\Bindings\Types\InputContactMessageContent;
-use Phenogram\Bindings\Types\InputFile;
 use Phenogram\Bindings\Types\InputInvoiceMessageContent;
 use Phenogram\Bindings\Types\InputLocationMessageContent;
 use Phenogram\Bindings\Types\InputMediaAnimation;
@@ -236,7 +235,6 @@ use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\InputContactMessageContentInterface;
-use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
 use Phenogram\Bindings\Types\Interfaces\InputInvoiceMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
@@ -3073,13 +3071,6 @@ class Factory implements FactoryInterface
             parseMode: $parseMode,
             captionEntities: $captionEntities,
             disableContentTypeDetection: $disableContentTypeDetection,
-        );
-    }
-
-    public function makeInputFile(string $filePath): InputFileInterface
-    {
-        return new InputFile(
-            filePath: $filePath,
         );
     }
 

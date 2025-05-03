@@ -8,26 +8,26 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface OwnedGiftUniqueInterface extends TypeInterface
 {
     /** @var string $type Type of the gift, always “unique” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var UniqueGiftInterface $gift Information about the unique gift */
-    public UniqueGiftInterface $gift { set; }
+    public UniqueGiftInterface $gift { set; get; }
 
     /** @var string|null $ownedGiftId Optional. Unique identifier of the received gift for the bot; for gifts received on behalf of business accounts only */
-    public ?string $ownedGiftId { set; }
+    public ?string $ownedGiftId { set; get; }
 
     /** @var UserInterface|null $senderUser Optional. Sender of the gift if it is a known user */
-    public ?UserInterface $senderUser { set; }
+    public ?UserInterface $senderUser { set; get; }
 
     /** @var int $sendDate Date the gift was sent in Unix time */
-    public int $sendDate { set; }
+    public int $sendDate { set; get; }
 
     /** @var bool|null $isSaved Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only */
-    public ?bool $isSaved { set; }
+    public ?bool $isSaved { set; get; }
 
     /** @var bool|null $canBeTransferred Optional. True, if the gift can be transferred to another owner; for gifts received on behalf of business accounts only */
-    public ?bool $canBeTransferred { set; }
+    public ?bool $canBeTransferred { set; get; }
 
     /** @var int|null $transferStarCount Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift */
-    public ?int $transferStarCount { set; }
+    public ?int $transferStarCount { set; get; }
 }

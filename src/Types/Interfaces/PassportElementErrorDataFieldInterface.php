@@ -8,17 +8,17 @@ namespace Phenogram\Bindings\Types\Interfaces;
 interface PassportElementErrorDataFieldInterface extends TypeInterface
 {
     /** @var string $source Error source, must be data */
-    public string $source { set; }
+    public string $source { set; get; }
 
     /** @var string $type The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address” */
-    public string $type { set; }
+    public string $type { set; get; }
 
     /** @var string $fieldName Name of the data field which has the error */
-    public string $fieldName { set; }
+    public string $fieldName { set; get; }
 
     /** @var string $dataHash Base64-encoded data hash */
-    public string $dataHash { set; }
+    public string $dataHash { set; get; }
 
     /** @var string $message Error message */
-    public string $message { set; }
+    public string $message { set; get; }
 }
