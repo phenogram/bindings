@@ -6,7 +6,6 @@ namespace Phenogram\Bindings\Tests\Readme;
 
 use Phenogram\Bindings\Api;
 use Phenogram\Bindings\Tests\TestCase;
-use Phenogram\Bindings\Types\InputFile;
 
 class ReadmeClientTest extends TestCase
 {
@@ -47,7 +46,7 @@ class ReadmeClientTest extends TestCase
 
         $message = $this->api->sendDocument(
             chatId: $this->testChatId,
-            document: new InputFile($path),
+            document: new ReadmeLocalFile($path),
         );
 
         self::assertNotNull($message->document);

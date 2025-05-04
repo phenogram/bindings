@@ -110,9 +110,9 @@ assert($updates[0]->message->chat instanceof ChatInterface);
 Чтобы использовать API, вам сначала нужно реализовать интерфейс ClientInterface,
 в котором есть только один метод - `sendRequest`.
 
-> Обратите особое внимание на обработку InputFile.
-> Вы можете пропустить эту часть и просто преобразовать запрос в json, если нет необходимости отправлять файлы,
-> но это вызовет ужасное исключение, если вы действительно попытаетесь отправить файл.
+> Обратите особое внимание на обработку файлов.
+> В библиотеке отсутствует реализация InputFileInterface,
+> как вы читаете и отправляете файлы зависит от вашего клиента.
 
 Реализация клиента выходит за рамки этого проекта,
 но вот пример реализации с использованием ext-curl:
@@ -128,6 +128,13 @@ namespace Phenogram\Bindings\Tests\Readme;
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
 
+final readonly class ReadmeLocalFile implements Types\Interfaces\InputFileInterface
+{
+    public function __construct(
+        public string $filePath
+    ) {}
+}
+
 final readonly class ReadmeClient implements ClientInterface
 {
     public function __construct(
@@ -142,12 +149,12 @@ final readonly class ReadmeClient implements ClientInterface
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         foreach ($data as $key => $value) {
-            if ($value instanceof Types\Interfaces\InputFileInterface) {
-                if (file_exists($value->filePath)) {
-                    $data[$key] = new \CURLFile($value->filePath);
-                } else {
+            if ($value instanceof ReadmeLocalFile) {
+                if (!file_exists($value->filePath)) {
                     throw new \RuntimeException("File not found: {$value->filePath}");
                 }
+
+                $data[$key] = new \CURLFile($value->filePath);
             }
         }
 

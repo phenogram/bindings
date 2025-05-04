@@ -7,6 +7,14 @@ namespace Phenogram\Bindings\Tests\Readme;
 use Phenogram\Bindings\ClientInterface;
 use Phenogram\Bindings\Types;
 
+final readonly class ReadmeLocalFile implements Types\Interfaces\InputFileInterface
+{
+    public function __construct(
+        public string $filePath,
+    ) {
+    }
+}
+
 final readonly class ReadmeClient implements ClientInterface
 {
     public function __construct(
@@ -21,12 +29,12 @@ final readonly class ReadmeClient implements ClientInterface
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         foreach ($data as $key => $value) {
-            if ($value instanceof Types\Interfaces\InputFileInterface) {
-                if (file_exists($value->filePath)) {
-                    $data[$key] = new \CURLFile($value->filePath);
-                } else {
+            if ($value instanceof ReadmeLocalFile) {
+                if (!file_exists($value->filePath)) {
                     throw new \RuntimeException("File not found: {$value->filePath}");
                 }
+
+                $data[$key] = new \CURLFile($value->filePath);
             }
         }
 
