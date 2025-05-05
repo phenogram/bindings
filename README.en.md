@@ -266,6 +266,72 @@ $api = new Api(
 
 > You can see this in action in [test](tests/Readme/ReadmeFactoryTest.php)
 
+## Test Factories
+
+To simplify writing tests, this package also includes a set of **Test Factories**.
+They use [FakerPHP](https://github.com/FakerPHP/Faker) to generate Telegram API type objects with random data.
+
+Each *concrete* API type (e.g., `User`, `Chat`, `Message`) has a corresponding factory: `UserFactory`, `ChatFactory`, `MessageFactory`, etc.
+
+**Usage Example:**
+
+```php
+<?php
+
+use Phenogram\Bindings\Factories\UserFactory;
+use Phenogram\Bindings\Factories\MessageFactory;
+use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageInterface;
+
+// Create a user with random data
+$randomUser = UserFactory::make();
+assert($randomUser instanceof UserInterface);
+echo "Created user: ID=" . $randomUser->id . ", Name=" . $randomUser->firstName . "\n";
+
+// Create another user, specifying the ID and bot flag
+$specificBot = UserFactory::make(id: 12345, isBot: true);
+echo "Created bot: ID=" . $specificBot->id . ", Name=" . $specificBot->firstName . "\n";
+
+// Create a message, specifying some parameters and leaving the rest random
+$messageFromBot = MessageFactory::make(
+    from: UserFactory::make(
+        isBot: true,
+        firstName: 'MyTestBot'
+    ), // Nested factory call
+    text: 'Hello from the test!' // Changed text to English
+);
+assert($messageFromBot instanceof MessageInterface);
+echo "Message ID: " . $messageFromBot->messageId . "\n";
+echo "Text: " . $messageFromBot->text . "\n";
+echo "Sender: " . $messageFromBot->from->firstName . "\n";
+echo "Chat ID: " . $messageFromBot->chat->id . "\n"; // Chat is also generated automatically
+
+// Create an array of random message entities (MessageEntity)
+use Phenogram\Bindings\Factories\MessageEntityFactory;
+use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+
+$entities = array_map(fn() => MessageEntityFactory::make(), range(1, 3));
+assert(is_array($entities));
+assert($entities[0] instanceof MessageEntityInterface);
+echo "Generated entities: " . count($entities) . "\n";
+echo "Type of first entity: " . $entities[0]->type . "\n";
+
+```
+
+*   All test factories inherit from `Phenogram\Bindings\Factories\AbstractFactory`.
+*   You can pass specific values to the factory's static `make()` method to override the Faker-generated data for desired fields.
+*   If a value is not passed (`null`) for any parameter of the `make()` method, the factory will generate a random value suitable for the type and (sometimes) the field name.
+*   Factories are generated only for *concrete* Telegram API types (e.g., `User`, `Chat`, `ChatMemberOwner`).
+    To create instances representing abstract types in your tests (e.g., `ChatMember`),
+    you will need to call the factory of one of its concrete descendants
+    (e.g., `ChatMemberOwnerFactory::make()` or `ChatMemberAdministratorFactory::make()`).
+*   Optional parameters are not generated automatically and will default to `null`.
+
+You can also use your custom object factory (the one used by the serializer) when the test factories need to instantiate nested objects. To do this, set the factory via `AbstractFactory` *before* creating the first test object:
+```php
+\Phenogram\Bindings\Factories\AbstractFactory::setFactory(new MyFactory());
+```
+
 # Conclusion
 Although I'm already using both these classes and the [framework](https://github.com/phenogram/framework) in production in my projects
 [sistent](https://t.me/sistent_bot), [mystaro](https://t.me/mystaro_bot), and [genera4](https://t.me/genera4_bot),

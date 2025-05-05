@@ -267,6 +267,73 @@ $api = new Api(
 
 > Посмотреть на это можно в [тесте](tests/Readme/ReadmeFactoryTest.php)
 
+## Тестовые фабрики
+
+Для упрощения написания тестов, этот пакет также включает набор **Тестовых Фабрик**.
+Они используют [FakerPHP](https://github.com/FakerPHP/Faker) для генерации объектов типов Telegram API со случайными данными.
+
+Каждому *конкретному* типу API (например, `User`, `Chat`, `Message`) соответствует своя фабрика: `UserFactory`, `ChatFactory`, `MessageFactory` и т.д.
+
+**Пример использования:**
+
+```php
+<?php
+
+use Phenogram\Bindings\Factories\UserFactory;
+use Phenogram\Bindings\Factories\MessageFactory;
+use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageInterface;
+
+// Создать пользователя со случайными данными
+$randomUser = UserFactory::make();
+assert($randomUser instanceof UserInterface);
+echo "Создан пользователь: ID=" . $randomUser->id . ", Имя=" . $randomUser->firstName . "\n";
+
+// Создать другого пользователя, указав ID и флаг бота
+$specificBot = UserFactory::make(id: 12345, isBot: true);
+echo "Создан бот: ID=" . $specificBot->id . ", Имя=" . $specificBot->firstName . "\n";
+
+// Создать сообщение, указав некоторые параметры и оставив остальные случайными
+$messageFromBot = MessageFactory::make(
+    from: UserFactory::make(
+        isBot: true,
+        firstName: 'MyTestBot'
+    ), // Вложенный вызов фабрики
+    text: 'Привет из теста!'
+);
+assert($messageFromBot instanceof MessageInterface);
+echo "ID сообщения: " . $messageFromBot->messageId . "\n";
+echo "Текст: " . $messageFromBot->text . "\n";
+echo "Отправитель: " . $messageFromBot->from->firstName . "\n";
+echo "ID чата: " . $messageFromBot->chat->id . "\n"; // Chat также сгенерирован автоматически
+
+// Создать массив случайных сущностей сообщения (MessageEntity)
+use Phenogram\Bindings\Factories\MessageEntityFactory;
+use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+
+$entities = array_map(fn() => MessageEntityFactory::make(), range(1, 3));
+assert(is_array($entities));
+assert($entities[0] instanceof MessageEntityInterface);
+echo "Сгенерировано сущностей: " . count($entities) . "\n";
+echo "Тип первой сущности: " . $entities[0]->type . "\n";
+
+```
+
+* Все тестовые фабрики наследуются от `Phenogram\Bindings\Factories\AbstractFactory`.
+* Вы можете передать конкретные значения в статический метод `make()` фабрики, чтобы переопределить сгенерированные Faker данные для нужных полей.
+* Если для какого-либо параметра метода `make()` значение не передано (`null`), фабрика сгенерирует для него случайное значение, подходящее по типу и (иногда) по названию поля.
+* Фабрики генерируются только для *конкретных* типов Telegram API (например, `User`, `Chat`, `ChatMemberOwner`).
+Для создания экземпляров, представляющих абстрактные типы в ваших тестах (например, `ChatMember`), 
+вам нужно будет вызвать фабрику одного из его конкретных наследников
+(например, `ChatMemberOwnerFactory::make()` или `ChatMemberAdministratorFactory::make()`).
+* Необязательные параметры не генерируются автоматически и по умолчанию будут `null`
+
+Также вы можете использовать свою фабрику классов для создания тестовые объектов,
+для этого перед созданием первого тестового объекта, переопределите фабрику через:
+```php
+\Phenogram\Bindings\Factories\AbstractFactory::setFactory(new MyFactory());
+```
+
 # Заключение
 Хоть я уже и во всю использую и эти классы и [фреймворк](https://github.com/phenogram/framework) в продакшене в своих проектах
 [систент](https://t.me/sistent_bot), [мистаро](https://t.me/mystaro_bot) и [генерач](https://t.me/genera4_bot),
