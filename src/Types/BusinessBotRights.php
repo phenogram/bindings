@@ -10,7 +10,7 @@ class BusinessBotRights implements Interfaces\BusinessBotRightsInterface
     /**
      * @param bool|null $canReply                   Optional. True, if the bot can send and edit messages in the private chats that had incoming messages in the last 24 hours
      * @param bool|null $canReadMessages            Optional. True, if the bot can mark incoming private messages as read
-     * @param bool|null $canDeleteOutgoingMessages  Optional. True, if the bot can delete messages sent by the bot
+     * @param bool|null $canDeleteSentMessages      Optional. True, if the bot can delete messages sent by the bot
      * @param bool|null $canDeleteAllMessages       Optional. True, if the bot can delete all private messages in managed chats
      * @param bool|null $canEditName                Optional. True, if the bot can edit the first and last name of the business account
      * @param bool|null $canEditBio                 Optional. True, if the bot can edit the bio of the business account
@@ -26,7 +26,7 @@ class BusinessBotRights implements Interfaces\BusinessBotRightsInterface
     public function __construct(
         public ?bool $canReply = null,
         public ?bool $canReadMessages = null,
-        public ?bool $canDeleteOutgoingMessages = null,
+        public ?bool $canDeleteSentMessages = null,
         public ?bool $canDeleteAllMessages = null,
         public ?bool $canEditName = null,
         public ?bool $canEditBio = null,

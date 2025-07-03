@@ -8,8 +8,12 @@ use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\ForumTopicClosedInterface;
@@ -105,6 +109,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param array<MessageEntityInterface>|null          $captionEntities               Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
      * @param bool|null                                   $showCaptionAboveMedia         Optional. True, if the caption must be shown above the message media
      * @param bool|null                                   $hasMediaSpoiler               Optional. True, if the message media is covered by a spoiler animation
+     * @param ChecklistInterface|null                     $checklist                     Optional. Message is a checklist
      * @param ContactInterface|null                       $contact                       Optional. Message is a shared contact, information about the contact
      * @param DiceInterface|null                          $dice                          Optional. Message is a dice with random value
      * @param GameInterface|null                          $game                          Optional. Message is a game, information about the game. More about games »
@@ -136,6 +141,9 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param ProximityAlertTriggeredInterface|null       $proximityAlertTriggered       Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
      * @param ChatBoostAddedInterface|null                $boostAdded                    Optional. Service message: user boosted the chat
      * @param ChatBackgroundInterface|null                $chatBackgroundSet             Optional. Service message: chat background set
+     * @param ChecklistTasksDoneInterface|null            $checklistTasksDone            Optional. Service message: some tasks in a checklist were marked as done or not done
+     * @param ChecklistTasksAddedInterface|null           $checklistTasksAdded           Optional. Service message: tasks were added to a checklist
+     * @param DirectMessagePriceChangedInterface|null     $directMessagePriceChanged     Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
      * @param ForumTopicCreatedInterface|null             $forumTopicCreated             Optional. Service message: forum topic created
      * @param ForumTopicEditedInterface|null              $forumTopicEdited              Optional. Service message: forum topic edited
      * @param ForumTopicClosedInterface|null              $forumTopicClosed              Optional. Service message: forum topic closed
@@ -196,6 +204,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?array $captionEntities = null,
         public ?bool $showCaptionAboveMedia = null,
         public ?bool $hasMediaSpoiler = null,
+        public ?ChecklistInterface $checklist = null,
         public ?ContactInterface $contact = null,
         public ?DiceInterface $dice = null,
         public ?GameInterface $game = null,
@@ -227,6 +236,9 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?ProximityAlertTriggeredInterface $proximityAlertTriggered = null,
         public ?ChatBoostAddedInterface $boostAdded = null,
         public ?ChatBackgroundInterface $chatBackgroundSet = null,
+        public ?ChecklistTasksDoneInterface $checklistTasksDone = null,
+        public ?ChecklistTasksAddedInterface $checklistTasksAdded = null,
+        public ?DirectMessagePriceChangedInterface $directMessagePriceChanged = null,
         public ?ForumTopicCreatedInterface $forumTopicCreated = null,
         public ?ForumTopicEditedInterface $forumTopicEdited = null,
         public ?ForumTopicClosedInterface $forumTopicClosed = null,

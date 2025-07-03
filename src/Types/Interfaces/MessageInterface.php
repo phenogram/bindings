@@ -130,6 +130,9 @@ interface MessageInterface extends TypeInterface
     /** @var bool|null $hasMediaSpoiler Optional. True, if the message media is covered by a spoiler animation */
     public ?bool $hasMediaSpoiler { set; get; }
 
+    /** @var ChecklistInterface|null $checklist Optional. Message is a checklist */
+    public ?ChecklistInterface $checklist { set; get; }
+
     /** @var ContactInterface|null $contact Optional. Message is a shared contact, information about the contact */
     public ?ContactInterface $contact { set; get; }
 
@@ -222,6 +225,15 @@ interface MessageInterface extends TypeInterface
 
     /** @var ChatBackgroundInterface|null $chatBackgroundSet Optional. Service message: chat background set */
     public ?ChatBackgroundInterface $chatBackgroundSet { set; get; }
+
+    /** @var ChecklistTasksDoneInterface|null $checklistTasksDone Optional. Service message: some tasks in a checklist were marked as done or not done */
+    public ?ChecklistTasksDoneInterface $checklistTasksDone { set; get; }
+
+    /** @var ChecklistTasksAddedInterface|null $checklistTasksAdded Optional. Service message: tasks were added to a checklist */
+    public ?ChecklistTasksAddedInterface $checklistTasksAdded { set; get; }
+
+    /** @var DirectMessagePriceChangedInterface|null $directMessagePriceChanged Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed */
+    public ?DirectMessagePriceChangedInterface $directMessagePriceChanged { set; get; }
 
     /** @var ForumTopicCreatedInterface|null $forumTopicCreated Optional. Service message: forum topic created */
     public ?ForumTopicCreatedInterface $forumTopicCreated { set; get; }

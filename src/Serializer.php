@@ -58,10 +58,15 @@ use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
@@ -109,6 +114,8 @@ use Phenogram\Bindings\Types\Interfaces\InlineQueryResultsButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\InputChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\InputChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\InputContactMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
 use Phenogram\Bindings\Types\Interfaces\InputInvoiceMessageContentInterface;
@@ -641,6 +648,9 @@ class Serializer implements SerializerInterface
                 : null,
             showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
             hasMediaSpoiler: $data['has_media_spoiler'] ?? null,
+            checklist: isset($data['checklist'])
+                ? $this->denormalizeChecklist($data['checklist'])
+                : null,
             contact: isset($data['contact'])
                 ? $this->denormalizeContact($data['contact'])
                 : null,
@@ -717,6 +727,15 @@ class Serializer implements SerializerInterface
                 : null,
             chatBackgroundSet: isset($data['chat_background_set'])
                 ? $this->denormalizeChatBackground($data['chat_background_set'])
+                : null,
+            checklistTasksDone: isset($data['checklist_tasks_done'])
+                ? $this->denormalizeChecklistTasksDone($data['checklist_tasks_done'])
+                : null,
+            checklistTasksAdded: isset($data['checklist_tasks_added'])
+                ? $this->denormalizeChecklistTasksAdded($data['checklist_tasks_added'])
+                : null,
+            directMessagePriceChanged: isset($data['direct_message_price_changed'])
+                ? $this->denormalizeDirectMessagePriceChanged($data['direct_message_price_changed'])
                 : null,
             forumTopicCreated: isset($data['forum_topic_created'])
                 ? $this->denormalizeForumTopicCreated($data['forum_topic_created'])
@@ -951,6 +970,9 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeVoice($data['voice'])
                 : null,
             hasMediaSpoiler: $data['has_media_spoiler'] ?? null,
+            checklist: isset($data['checklist'])
+                ? $this->denormalizeChecklist($data['checklist'])
+                : null,
             contact: isset($data['contact'])
                 ? $this->denormalizeContact($data['contact'])
                 : null,
@@ -1693,6 +1715,165 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeChecklistTask(array $data): ChecklistTaskInterface
+    {
+        $requiredFields = [
+            'id',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChecklistTask missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChecklistTask(
+            id: $data['id'],
+            text: $data['text'],
+            textEntities: isset($data['text_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
+                : null,
+            completedByUser: isset($data['completed_by_user'])
+                ? $this->denormalizeUser($data['completed_by_user'])
+                : null,
+            completionDate: $data['completion_date'] ?? null,
+        );
+    }
+
+    public function denormalizeChecklist(array $data): ChecklistInterface
+    {
+        $requiredFields = [
+            'title',
+            'tasks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Checklist missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChecklist(
+            title: $data['title'],
+            tasks: array_map(fn (array $item) => $this->denormalizeChecklistTask($item), $data['tasks']),
+            titleEntities: isset($data['title_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['title_entities'])
+                : null,
+            othersCanAddTasks: $data['others_can_add_tasks'] ?? null,
+            othersCanMarkTasksAsDone: $data['others_can_mark_tasks_as_done'] ?? null,
+        );
+    }
+
+    public function denormalizeInputChecklistTask(array $data): InputChecklistTaskInterface
+    {
+        $requiredFields = [
+            'id',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputChecklistTask missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputChecklistTask(
+            id: $data['id'],
+            text: $data['text'],
+            parseMode: $data['parse_mode'] ?? null,
+            textEntities: isset($data['text_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputChecklist(array $data): InputChecklistInterface
+    {
+        $requiredFields = [
+            'title',
+            'tasks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputChecklist missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputChecklist(
+            title: $data['title'],
+            tasks: array_map(fn (array $item) => $this->denormalizeInputChecklistTask($item), $data['tasks']),
+            parseMode: $data['parse_mode'] ?? null,
+            titleEntities: isset($data['title_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['title_entities'])
+                : null,
+            othersCanAddTasks: $data['others_can_add_tasks'] ?? null,
+            othersCanMarkTasksAsDone: $data['others_can_mark_tasks_as_done'] ?? null,
+        );
+    }
+
+    public function denormalizeChecklistTasksDone(array $data): ChecklistTasksDoneInterface
+    {
+        return $this->factory->makeChecklistTasksDone(
+            checklistMessage: isset($data['checklist_message'])
+                ? $this->denormalizeMessage($data['checklist_message'])
+                : null,
+            markedAsDoneTaskIds: $data['marked_as_done_task_ids'] ?? null,
+            markedAsNotDoneTaskIds: $data['marked_as_not_done_task_ids'] ?? null,
+        );
+    }
+
+    public function denormalizeChecklistTasksAdded(array $data): ChecklistTasksAddedInterface
+    {
+        $requiredFields = [
+            'tasks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChecklistTasksAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChecklistTasksAdded(
+            tasks: array_map(fn (array $item) => $this->denormalizeChecklistTask($item), $data['tasks']),
+            checklistMessage: isset($data['checklist_message'])
+                ? $this->denormalizeMessage($data['checklist_message'])
+                : null,
+        );
+    }
+
     public function denormalizeLocation(array $data): LocationInterface
     {
         $requiredFields = [
@@ -2327,6 +2508,30 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makePaidMessagePriceChanged(
             paidMessageStarCount: $data['paid_message_star_count'],
+        );
+    }
+
+    public function denormalizeDirectMessagePriceChanged(array $data): DirectMessagePriceChangedInterface
+    {
+        $requiredFields = [
+            'are_direct_messages_enabled',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class DirectMessagePriceChanged missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeDirectMessagePriceChanged(
+            areDirectMessagesEnabled: $data['are_direct_messages_enabled'],
+            directMessageStarCount: $data['direct_message_star_count'] ?? null,
         );
     }
 
@@ -4102,8 +4307,10 @@ class Serializer implements SerializerInterface
         return $this->factory->makeUniqueGiftInfo(
             gift: $this->denormalizeUniqueGift($data['gift']),
             origin: $data['origin'],
+            lastResaleStarCount: $data['last_resale_star_count'] ?? null,
             ownedGiftId: $data['owned_gift_id'] ?? null,
             transferStarCount: $data['transfer_star_count'] ?? null,
+            nextTransferDate: $data['next_transfer_date'] ?? null,
         );
     }
 
@@ -4184,6 +4391,7 @@ class Serializer implements SerializerInterface
             isSaved: $data['is_saved'] ?? null,
             canBeTransferred: $data['can_be_transferred'] ?? null,
             transferStarCount: $data['transfer_star_count'] ?? null,
+            nextTransferDate: $data['next_transfer_date'] ?? null,
         );
     }
 
@@ -4728,7 +4936,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeBusinessBotRights(
             canReply: $data['can_reply'] ?? null,
             canReadMessages: $data['can_read_messages'] ?? null,
-            canDeleteOutgoingMessages: $data['can_delete_outgoing_messages'] ?? null,
+            canDeleteSentMessages: $data['can_delete_sent_messages'] ?? null,
             canDeleteAllMessages: $data['can_delete_all_messages'] ?? null,
             canEditName: $data['can_edit_name'] ?? null,
             canEditBio: $data['can_edit_bio'] ?? null,
@@ -7621,6 +7829,12 @@ class Serializer implements SerializerInterface
             InputPollOptionInterface::class => $this->denormalizeInputPollOption($data),
             PollAnswerInterface::class => $this->denormalizePollAnswer($data),
             PollInterface::class => $this->denormalizePoll($data),
+            ChecklistTaskInterface::class => $this->denormalizeChecklistTask($data),
+            ChecklistInterface::class => $this->denormalizeChecklist($data),
+            InputChecklistTaskInterface::class => $this->denormalizeInputChecklistTask($data),
+            InputChecklistInterface::class => $this->denormalizeInputChecklist($data),
+            ChecklistTasksDoneInterface::class => $this->denormalizeChecklistTasksDone($data),
+            ChecklistTasksAddedInterface::class => $this->denormalizeChecklistTasksAdded($data),
             LocationInterface::class => $this->denormalizeLocation($data),
             VenueInterface::class => $this->denormalizeVenue($data),
             WebAppDataInterface::class => $this->denormalizeWebAppData($data),
@@ -7650,6 +7864,7 @@ class Serializer implements SerializerInterface
             VideoChatEndedInterface::class => $this->denormalizeVideoChatEnded($data),
             VideoChatParticipantsInvitedInterface::class => $this->denormalizeVideoChatParticipantsInvited($data),
             PaidMessagePriceChangedInterface::class => $this->denormalizePaidMessagePriceChanged($data),
+            DirectMessagePriceChangedInterface::class => $this->denormalizeDirectMessagePriceChanged($data),
             GiveawayCreatedInterface::class => $this->denormalizeGiveawayCreated($data),
             GiveawayInterface::class => $this->denormalizeGiveaway($data),
             GiveawayWinnersInterface::class => $this->denormalizeGiveawayWinners($data),

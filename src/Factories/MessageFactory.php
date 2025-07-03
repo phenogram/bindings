@@ -5,6 +5,7 @@ namespace Phenogram\Bindings\Factories;
 use Phenogram\Bindings\Factories\AnimationFactory as Animation;
 use Phenogram\Bindings\Factories\AudioFactory as Audio;
 use Phenogram\Bindings\Factories\ChatFactory as Chat;
+use Phenogram\Bindings\Factories\ChecklistFactory as Checklist;
 use Phenogram\Bindings\Factories\ContactFactory as Contact;
 use Phenogram\Bindings\Factories\DiceFactory as Dice;
 use Phenogram\Bindings\Factories\DocumentFactory as Document;
@@ -25,8 +26,12 @@ use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\ForumTopicClosedInterface;
@@ -118,6 +123,7 @@ class MessageFactory extends AbstractFactory
      * @param array|null                                                                  $captionEntities               Optional. Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
      * @param bool|null                                                                   $showCaptionAboveMedia         Optional. Optional. True, if the caption must be shown above the message media
      * @param bool|null                                                                   $hasMediaSpoiler               Optional. Optional. True, if the message media is covered by a spoiler animation
+     * @param ChecklistInterface|null                                                     $checklist                     Optional. Optional. Message is a checklist
      * @param ContactInterface|null                                                       $contact                       Optional. Optional. Message is a shared contact, information about the contact
      * @param DiceInterface|null                                                          $dice                          Optional. Optional. Message is a dice with random value
      * @param GameInterface|null                                                          $game                          Optional. Optional. Message is a game, information about the game. More about games »
@@ -149,6 +155,9 @@ class MessageFactory extends AbstractFactory
      * @param ProximityAlertTriggeredInterface|null                                       $proximityAlertTriggered       Optional. Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
      * @param ChatBoostAddedInterface|null                                                $boostAdded                    Optional. Optional. Service message: user boosted the chat
      * @param ChatBackgroundInterface|null                                                $chatBackgroundSet             Optional. Optional. Service message: chat background set
+     * @param ChecklistTasksDoneInterface|null                                            $checklistTasksDone            Optional. Optional. Service message: some tasks in a checklist were marked as done or not done
+     * @param ChecklistTasksAddedInterface|null                                           $checklistTasksAdded           Optional. Optional. Service message: tasks were added to a checklist
+     * @param DirectMessagePriceChangedInterface|null                                     $directMessagePriceChanged     Optional. Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
      * @param ForumTopicCreatedInterface|null                                             $forumTopicCreated             Optional. Optional. Service message: forum topic created
      * @param ForumTopicEditedInterface|null                                              $forumTopicEdited              Optional. Optional. Service message: forum topic edited
      * @param ForumTopicClosedInterface|null                                              $forumTopicClosed              Optional. Optional. Service message: forum topic closed
@@ -209,6 +218,7 @@ class MessageFactory extends AbstractFactory
         ?array $captionEntities = null,
         ?bool $showCaptionAboveMedia = null,
         ?bool $hasMediaSpoiler = null,
+        ?ChecklistInterface $checklist = null,
         ?ContactInterface $contact = null,
         ?DiceInterface $dice = null,
         ?GameInterface $game = null,
@@ -240,6 +250,9 @@ class MessageFactory extends AbstractFactory
         ?ProximityAlertTriggeredInterface $proximityAlertTriggered = null,
         ?ChatBoostAddedInterface $boostAdded = null,
         ?ChatBackgroundInterface $chatBackgroundSet = null,
+        ?ChecklistTasksDoneInterface $checklistTasksDone = null,
+        ?ChecklistTasksAddedInterface $checklistTasksAdded = null,
+        ?DirectMessagePriceChangedInterface $directMessagePriceChanged = null,
         ?ForumTopicCreatedInterface $forumTopicCreated = null,
         ?ForumTopicEditedInterface $forumTopicEdited = null,
         ?ForumTopicClosedInterface $forumTopicClosed = null,
@@ -300,6 +313,7 @@ class MessageFactory extends AbstractFactory
             captionEntities: $captionEntities,
             showCaptionAboveMedia: $showCaptionAboveMedia,
             hasMediaSpoiler: $hasMediaSpoiler,
+            checklist: $checklist,
             contact: $contact,
             dice: $dice,
             game: $game,
@@ -331,6 +345,9 @@ class MessageFactory extends AbstractFactory
             proximityAlertTriggered: $proximityAlertTriggered,
             boostAdded: $boostAdded,
             chatBackgroundSet: $chatBackgroundSet,
+            checklistTasksDone: $checklistTasksDone,
+            checklistTasksAdded: $checklistTasksAdded,
+            directMessagePriceChanged: $directMessagePriceChanged,
             forumTopicCreated: $forumTopicCreated,
             forumTopicEdited: $forumTopicEdited,
             forumTopicClosed: $forumTopicClosed,

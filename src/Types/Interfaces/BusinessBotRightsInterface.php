@@ -13,8 +13,8 @@ interface BusinessBotRightsInterface extends TypeInterface
     /** @var bool|null $canReadMessages Optional. True, if the bot can mark incoming private messages as read */
     public ?bool $canReadMessages { set; get; }
 
-    /** @var bool|null $canDeleteOutgoingMessages Optional. True, if the bot can delete messages sent by the bot */
-    public ?bool $canDeleteOutgoingMessages { set; get; }
+    /** @var bool|null $canDeleteSentMessages Optional. True, if the bot can delete messages sent by the bot */
+    public ?bool $canDeleteSentMessages { set; get; }
 
     /** @var bool|null $canDeleteAllMessages Optional. True, if the bot can delete all private messages in managed chats */
     public ?bool $canDeleteAllMessages { set; get; }

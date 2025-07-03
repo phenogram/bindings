@@ -52,6 +52,9 @@ interface ExternalReplyInfoInterface extends TypeInterface
     /** @var bool|null $hasMediaSpoiler Optional. True, if the message media is covered by a spoiler animation */
     public ?bool $hasMediaSpoiler { set; get; }
 
+    /** @var ChecklistInterface|null $checklist Optional. Message is a checklist */
+    public ?ChecklistInterface $checklist { set; get; }
+
     /** @var ContactInterface|null $contact Optional. Message is a shared contact, information about the contact */
     public ?ContactInterface $contact { set; get; }
 

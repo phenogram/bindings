@@ -16,7 +16,7 @@ class ChatMemberAdministratorFactory extends AbstractFactory
      * @param UserInterface|null $user                Optional. Information about the user
      * @param bool|null          $canBeEdited         Optional. True, if the bot is allowed to edit administrator privileges of that user
      * @param bool|null          $isAnonymous         Optional. True, if the user's presence in the chat is hidden
-     * @param bool|null          $canManageChat       Optional. True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+     * @param bool|null          $canManageChat       Optional. True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool|null          $canDeleteMessages   Optional. True, if the administrator can delete messages of other users
      * @param bool|null          $canManageVideoChats Optional. True, if the administrator can manage video chats
      * @param bool|null          $canRestrictMembers  Optional. True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
@@ -26,7 +26,7 @@ class ChatMemberAdministratorFactory extends AbstractFactory
      * @param bool|null          $canPostStories      Optional. True, if the administrator can post stories to the chat
      * @param bool|null          $canEditStories      Optional. True, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
      * @param bool|null          $canDeleteStories    Optional. True, if the administrator can delete stories posted by other users
-     * @param bool|null          $canPostMessages     Optional. Optional. True, if the administrator can post messages in the channel, or access channel statistics; for channels only
+     * @param bool|null          $canPostMessages     Optional. Optional. True, if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
      * @param bool|null          $canEditMessages     Optional. Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|null          $canPinMessages      Optional. Optional. True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|null          $canManageTopics     Optional. Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only

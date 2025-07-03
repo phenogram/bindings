@@ -37,7 +37,7 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var bool $canSendVoiceNotes True, if the user is allowed to send voice notes */
     public bool $canSendVoiceNotes { set; get; }
 
-    /** @var bool $canSendPolls True, if the user is allowed to send polls */
+    /** @var bool $canSendPolls True, if the user is allowed to send polls and checklists */
     public bool $canSendPolls { set; get; }
 
     /** @var bool $canSendOtherMessages True, if the user is allowed to send animations, games, stickers and use inline bots */

@@ -22,6 +22,7 @@ use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultsButtonInterface;
+use Phenogram\Bindings\Types\Interfaces\InputChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
@@ -721,7 +722,7 @@ interface ApiInterface
      *
      * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string                                                                                                           $question              Poll question, 1-300 characters
-     * @param array<InputPollOptionInterface>                                                                                  $options               A JSON-serialized list of 2-10 answer options
+     * @param array<InputPollOptionInterface>                                                                                  $options               A JSON-serialized list of 2-12 answer options
      * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param string|null                                                                                                      $questionParseMode     Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
@@ -767,6 +768,29 @@ interface ApiInterface
         ?string $messageEffectId = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
+    ): MessageInterface;
+
+    /**
+     * Use this method to send a checklist on behalf of a connected business account. On success, the sent Message is returned.
+     *
+     * @param string                             $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int                                $chatId               Unique identifier for the target chat
+     * @param InputChecklistInterface            $checklist            A JSON-serialized object for the checklist to send
+     * @param bool|null                          $disableNotification  Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                          $protectContent       Protects the contents of the sent message from forwarding and saving
+     * @param string|null                        $messageEffectId      Unique identifier of the message effect to be added to the message
+     * @param ReplyParametersInterface|null      $replyParameters      A JSON-serialized object for description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          A JSON-serialized object for an inline keyboard
+     */
+    public function sendChecklist(
+        string $businessConnectionId,
+        int $chatId,
+        InputChecklistInterface $checklist,
+        ?bool $disableNotification = null,
+        ?bool $protectContent = null,
+        ?string $messageEffectId = null,
+        ?ReplyParametersInterface $replyParameters = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
     ): MessageInterface;
 
     /**
@@ -903,7 +927,7 @@ interface ApiInterface
      * @param int|string $chatId              Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int        $userId              Unique identifier of the target user
      * @param bool|null  $isAnonymous         Pass True if the administrator's presence in the chat is hidden
-     * @param bool|null  $canManageChat       Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+     * @param bool|null  $canManageChat       Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool|null  $canDeleteMessages   Pass True if the administrator can delete messages of other users
      * @param bool|null  $canManageVideoChats Pass True if the administrator can manage video chats
      * @param bool|null  $canRestrictMembers  Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
@@ -913,7 +937,7 @@ interface ApiInterface
      * @param bool|null  $canPostStories      Pass True if the administrator can post stories to the chat
      * @param bool|null  $canEditStories      Pass True if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
      * @param bool|null  $canDeleteStories    Pass True if the administrator can delete stories posted by other users
-     * @param bool|null  $canPostMessages     Pass True if the administrator can post messages in the channel, or access channel statistics; for channels only
+     * @param bool|null  $canPostMessages     Pass True if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
      * @param bool|null  $canEditMessages     Pass True if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|null  $canPinMessages      Pass True if the administrator can pin messages; for supergroups only
      * @param bool|null  $canManageTopics     Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
@@ -1559,6 +1583,23 @@ interface ApiInterface
     ): MessageInterface|bool;
 
     /**
+     * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
+     *
+     * @param string                             $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int                                $chatId               Unique identifier for the target chat
+     * @param int                                $messageId            Unique identifier for the target message
+     * @param InputChecklistInterface            $checklist            A JSON-serialized object for the new checklist
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          A JSON-serialized object for the new inline keyboard for the message
+     */
+    public function editMessageChecklist(
+        string $businessConnectionId,
+        int $chatId,
+        int $messageId,
+        InputChecklistInterface $checklist,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface;
+
+    /**
      * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
      *
      * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
@@ -1691,7 +1732,7 @@ interface ApiInterface
     public function readBusinessMessage(string $businessConnectionId, int $chatId, int $messageId): bool;
 
     /**
-     * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
+     * Delete messages on behalf of a business account. Requires the can_delete_sent_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message. Returns True on success.
      *
      * @param string     $businessConnectionId Unique identifier of the business connection on behalf of which to delete the messages
      * @param array<int> $messageIds           A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the same chat. See deleteMessage for limitations on which messages can be deleted
@@ -2255,6 +2296,11 @@ interface ApiInterface
      * @param string|null $errorMessage       Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
      */
     public function answerPreCheckoutQuery(string $preCheckoutQueryId, bool $ok, ?string $errorMessage = null): bool;
+
+    /**
+     * A method to get the current Telegram Stars balance of the bot. Requires no parameters. On success, returns a StarAmount object.
+     */
+    public function getMyStarBalance(): StarAmountInterface;
 
     /**
      * Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.

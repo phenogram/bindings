@@ -5,6 +5,7 @@ namespace Phenogram\Bindings\Factories;
 use Phenogram\Bindings\Factories\AnimationFactory as Animation;
 use Phenogram\Bindings\Factories\AudioFactory as Audio;
 use Phenogram\Bindings\Factories\ChatFactory as Chat;
+use Phenogram\Bindings\Factories\ChecklistFactory as Checklist;
 use Phenogram\Bindings\Factories\ContactFactory as Contact;
 use Phenogram\Bindings\Factories\DiceFactory as Dice;
 use Phenogram\Bindings\Factories\GameFactory as Game;
@@ -21,6 +22,7 @@ use Phenogram\Bindings\Types\ExternalReplyInfo;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
@@ -60,6 +62,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
      * @param VideoNoteInterface|null                                          $videoNote          Optional. Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null                                              $voice              Optional. Optional. Message is a voice message, information about the file
      * @param bool|null                                                        $hasMediaSpoiler    Optional. Optional. True, if the message media is covered by a spoiler animation
+     * @param ChecklistInterface|null                                          $checklist          Optional. Optional. Message is a checklist
      * @param ContactInterface|null                                            $contact            Optional. Optional. Message is a shared contact, information about the contact
      * @param DiceInterface|null                                               $dice               Optional. Optional. Message is a dice with random value
      * @param GameInterface|null                                               $game               Optional. Optional. Message is a game, information about the game. More about games »
@@ -86,6 +89,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
         ?VideoNoteInterface $videoNote = null,
         ?VoiceInterface $voice = null,
         ?bool $hasMediaSpoiler = null,
+        ?ChecklistInterface $checklist = null,
         ?ContactInterface $contact = null,
         ?DiceInterface $dice = null,
         ?GameInterface $game = null,
@@ -112,6 +116,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
             videoNote: $videoNote,
             voice: $voice,
             hasMediaSpoiler: $hasMediaSpoiler,
+            checklist: $checklist,
             contact: $contact,
             dice: $dice,
             game: $game,

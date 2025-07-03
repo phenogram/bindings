@@ -28,7 +28,7 @@ interface ChatPermissionsInterface extends TypeInterface
     /** @var bool|null $canSendVoiceNotes Optional. True, if the user is allowed to send voice notes */
     public ?bool $canSendVoiceNotes { set; get; }
 
-    /** @var bool|null $canSendPolls Optional. True, if the user is allowed to send polls */
+    /** @var bool|null $canSendPolls Optional. True, if the user is allowed to send polls and checklists */
     public ?bool $canSendPolls { set; get; }
 
     /** @var bool|null $canSendOtherMessages Optional. True, if the user is allowed to send animations, games, stickers and use inline bots */

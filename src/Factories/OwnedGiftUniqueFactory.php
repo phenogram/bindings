@@ -22,6 +22,7 @@ class OwnedGiftUniqueFactory extends AbstractFactory
      * @param bool|null                $isSaved           Optional. Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only
      * @param bool|null                $canBeTransferred  Optional. Optional. True, if the gift can be transferred to another owner; for gifts received on behalf of business accounts only
      * @param int|null                 $transferStarCount Optional. Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
+     * @param int|null                 $nextTransferDate  Optional. Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
      */
     public static function make(
         ?string $type = null,
@@ -32,6 +33,7 @@ class OwnedGiftUniqueFactory extends AbstractFactory
         ?bool $isSaved = null,
         ?bool $canBeTransferred = null,
         ?int $transferStarCount = null,
+        ?int $nextTransferDate = null,
     ): OwnedGiftUniqueInterface {
         return self::factory()->makeOwnedGiftUnique(
             type: $type ?? self::fake()->word(),
@@ -42,6 +44,7 @@ class OwnedGiftUniqueFactory extends AbstractFactory
             isSaved: $isSaved,
             canBeTransferred: $canBeTransferred,
             transferStarCount: $transferStarCount,
+            nextTransferDate: $nextTransferDate,
         );
     }
 }

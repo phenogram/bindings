@@ -19,6 +19,7 @@ class OwnedGiftUnique extends OwnedGift implements Interfaces\OwnedGiftUniqueInt
      * @param bool|null           $isSaved           Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only
      * @param bool|null           $canBeTransferred  Optional. True, if the gift can be transferred to another owner; for gifts received on behalf of business accounts only
      * @param int|null            $transferStarCount Optional. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift
+     * @param int|null            $nextTransferDate  Optional. Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift can be transferred now
      */
     public function __construct(
         public string $type,
@@ -29,6 +30,7 @@ class OwnedGiftUnique extends OwnedGift implements Interfaces\OwnedGiftUniqueInt
         public ?bool $isSaved = null,
         public ?bool $canBeTransferred = null,
         public ?int $transferStarCount = null,
+        public ?int $nextTransferDate = null,
     ) {
     }
 }

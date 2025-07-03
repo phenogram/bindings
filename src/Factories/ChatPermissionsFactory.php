@@ -17,7 +17,7 @@ class ChatPermissionsFactory extends AbstractFactory
      * @param bool|null $canSendVideos         Optional. Optional. True, if the user is allowed to send videos
      * @param bool|null $canSendVideoNotes     Optional. Optional. True, if the user is allowed to send video notes
      * @param bool|null $canSendVoiceNotes     Optional. Optional. True, if the user is allowed to send voice notes
-     * @param bool|null $canSendPolls          Optional. Optional. True, if the user is allowed to send polls
+     * @param bool|null $canSendPolls          Optional. Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null $canSendOtherMessages  Optional. Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. Optional. True, if the user is allowed to add web page previews to their messages
      * @param bool|null $canChangeInfo         Optional. Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups

@@ -5,6 +5,7 @@ namespace Phenogram\Bindings\Types;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
@@ -46,6 +47,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
      * @param VideoNoteInterface|null          $videoNote          Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null              $voice              Optional. Message is a voice message, information about the file
      * @param bool|null                        $hasMediaSpoiler    Optional. True, if the message media is covered by a spoiler animation
+     * @param ChecklistInterface|null          $checklist          Optional. Message is a checklist
      * @param ContactInterface|null            $contact            Optional. Message is a shared contact, information about the contact
      * @param DiceInterface|null               $dice               Optional. Message is a dice with random value
      * @param GameInterface|null               $game               Optional. Message is a game, information about the game. More about games »
@@ -72,6 +74,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
         public ?VideoNoteInterface $videoNote = null,
         public ?VoiceInterface $voice = null,
         public ?bool $hasMediaSpoiler = null,
+        public ?ChecklistInterface $checklist = null,
         public ?ContactInterface $contact = null,
         public ?DiceInterface $dice = null,
         public ?GameInterface $game = null,

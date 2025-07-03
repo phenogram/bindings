@@ -58,10 +58,15 @@ use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
@@ -109,6 +114,8 @@ use Phenogram\Bindings\Types\Interfaces\InlineQueryResultsButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultVoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\InputChecklistInterface;
+use Phenogram\Bindings\Types\Interfaces\InputChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\InputContactMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputInvoiceMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
@@ -400,6 +407,7 @@ interface FactoryInterface
         ?array $captionEntities,
         ?bool $showCaptionAboveMedia,
         ?bool $hasMediaSpoiler,
+        ?ChecklistInterface $checklist,
         ?ContactInterface $contact,
         ?DiceInterface $dice,
         ?GameInterface $game,
@@ -431,6 +439,9 @@ interface FactoryInterface
         ?ProximityAlertTriggeredInterface $proximityAlertTriggered,
         ?ChatBoostAddedInterface $boostAdded,
         ?ChatBackgroundInterface $chatBackgroundSet,
+        ?ChecklistTasksDoneInterface $checklistTasksDone,
+        ?ChecklistTasksAddedInterface $checklistTasksAdded,
+        ?DirectMessagePriceChangedInterface $directMessagePriceChanged,
         ?ForumTopicCreatedInterface $forumTopicCreated,
         ?ForumTopicEditedInterface $forumTopicEdited,
         ?ForumTopicClosedInterface $forumTopicClosed,
@@ -482,6 +493,7 @@ interface FactoryInterface
         ?VideoNoteInterface $videoNote,
         ?VoiceInterface $voice,
         ?bool $hasMediaSpoiler,
+        ?ChecklistInterface $checklist,
         ?ContactInterface $contact,
         ?DiceInterface $dice,
         ?GameInterface $game,
@@ -655,6 +667,49 @@ interface FactoryInterface
         ?int $closeDate,
     ): PollInterface;
 
+    public function makeChecklistTask(
+        int $id,
+        string $text,
+        ?array $textEntities,
+        ?UserInterface $completedByUser,
+        ?int $completionDate,
+    ): ChecklistTaskInterface;
+
+    public function makeChecklist(
+        string $title,
+        array $tasks,
+        ?array $titleEntities,
+        ?bool $othersCanAddTasks,
+        ?bool $othersCanMarkTasksAsDone,
+    ): ChecklistInterface;
+
+    public function makeInputChecklistTask(
+        int $id,
+        string $text,
+        ?string $parseMode,
+        ?array $textEntities,
+    ): InputChecklistTaskInterface;
+
+    public function makeInputChecklist(
+        string $title,
+        array $tasks,
+        ?string $parseMode,
+        ?array $titleEntities,
+        ?bool $othersCanAddTasks,
+        ?bool $othersCanMarkTasksAsDone,
+    ): InputChecklistInterface;
+
+    public function makeChecklistTasksDone(
+        ?MessageInterface $checklistMessage,
+        ?array $markedAsDoneTaskIds,
+        ?array $markedAsNotDoneTaskIds,
+    ): ChecklistTasksDoneInterface;
+
+    public function makeChecklistTasksAdded(
+        array $tasks,
+        ?MessageInterface $checklistMessage,
+    ): ChecklistTasksAddedInterface;
+
     public function makeLocation(
         float $latitude,
         float $longitude,
@@ -776,6 +831,11 @@ interface FactoryInterface
     public function makeVideoChatParticipantsInvited(array $users): VideoChatParticipantsInvitedInterface;
 
     public function makePaidMessagePriceChanged(int $paidMessageStarCount): PaidMessagePriceChangedInterface;
+
+    public function makeDirectMessagePriceChanged(
+        bool $areDirectMessagesEnabled,
+        ?int $directMessageStarCount,
+    ): DirectMessagePriceChangedInterface;
 
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface;
 
@@ -1214,8 +1274,10 @@ interface FactoryInterface
     public function makeUniqueGiftInfo(
         UniqueGiftInterface $gift,
         string $origin,
+        ?int $lastResaleStarCount,
         ?string $ownedGiftId,
         ?int $transferStarCount,
+        ?int $nextTransferDate,
     ): UniqueGiftInfoInterface;
 
     public function makeOwnedGiftRegular(
@@ -1243,6 +1305,7 @@ interface FactoryInterface
         ?bool $isSaved,
         ?bool $canBeTransferred,
         ?int $transferStarCount,
+        ?int $nextTransferDate,
     ): OwnedGiftUniqueInterface;
 
     public function makeOwnedGifts(int $totalCount, array $gifts, ?string $nextOffset): OwnedGiftsInterface;
@@ -1328,7 +1391,7 @@ interface FactoryInterface
     public function makeBusinessBotRights(
         ?bool $canReply,
         ?bool $canReadMessages,
-        ?bool $canDeleteOutgoingMessages,
+        ?bool $canDeleteSentMessages,
         ?bool $canDeleteAllMessages,
         ?bool $canEditName,
         ?bool $canEditBio,

@@ -12,7 +12,7 @@ class BusinessBotRightsFactory extends AbstractFactory
      *
      * @param bool|null $canReply                   Optional. Optional. True, if the bot can send and edit messages in the private chats that had incoming messages in the last 24 hours
      * @param bool|null $canReadMessages            Optional. Optional. True, if the bot can mark incoming private messages as read
-     * @param bool|null $canDeleteOutgoingMessages  Optional. Optional. True, if the bot can delete messages sent by the bot
+     * @param bool|null $canDeleteSentMessages      Optional. Optional. True, if the bot can delete messages sent by the bot
      * @param bool|null $canDeleteAllMessages       Optional. Optional. True, if the bot can delete all private messages in managed chats
      * @param bool|null $canEditName                Optional. Optional. True, if the bot can edit the first and last name of the business account
      * @param bool|null $canEditBio                 Optional. Optional. True, if the bot can edit the bio of the business account
@@ -28,7 +28,7 @@ class BusinessBotRightsFactory extends AbstractFactory
     public static function make(
         ?bool $canReply = null,
         ?bool $canReadMessages = null,
-        ?bool $canDeleteOutgoingMessages = null,
+        ?bool $canDeleteSentMessages = null,
         ?bool $canDeleteAllMessages = null,
         ?bool $canEditName = null,
         ?bool $canEditBio = null,
@@ -44,7 +44,7 @@ class BusinessBotRightsFactory extends AbstractFactory
         return self::factory()->makeBusinessBotRights(
             canReply: $canReply,
             canReadMessages: $canReadMessages,
-            canDeleteOutgoingMessages: $canDeleteOutgoingMessages,
+            canDeleteSentMessages: $canDeleteSentMessages,
             canDeleteAllMessages: $canDeleteAllMessages,
             canEditName: $canEditName,
             canEditBio: $canEditBio,
