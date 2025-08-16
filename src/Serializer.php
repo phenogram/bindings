@@ -67,6 +67,7 @@ use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
@@ -218,6 +219,14 @@ use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeWeatherInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovalFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostDeclinedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostParametersInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
@@ -448,6 +457,7 @@ class Serializer implements SerializerInterface
             firstName: $data['first_name'] ?? null,
             lastName: $data['last_name'] ?? null,
             isForum: $data['is_forum'] ?? null,
+            isDirectMessages: $data['is_direct_messages'] ?? null,
         );
     }
 
@@ -484,6 +494,7 @@ class Serializer implements SerializerInterface
             firstName: $data['first_name'] ?? null,
             lastName: $data['last_name'] ?? null,
             isForum: $data['is_forum'] ?? null,
+            isDirectMessages: $data['is_direct_messages'] ?? null,
             photo: isset($data['photo'])
                 ? $this->denormalizeChatPhoto($data['photo'])
                 : null,
@@ -502,6 +513,9 @@ class Serializer implements SerializerInterface
                 : null,
             personalChat: isset($data['personal_chat'])
                 ? $this->denormalizeChat($data['personal_chat'])
+                : null,
+            parentChat: isset($data['parent_chat'])
+                ? $this->denormalizeChat($data['parent_chat'])
                 : null,
             availableReactions: isset($data['available_reactions'])
                 ? array_map(fn (array $item) => $this->denormalizeReactionType($item), $data['available_reactions'])
@@ -567,6 +581,9 @@ class Serializer implements SerializerInterface
             date: $data['date'],
             chat: $this->denormalizeChat($data['chat']),
             messageThreadId: $data['message_thread_id'] ?? null,
+            directMessagesTopic: isset($data['direct_messages_topic'])
+                ? $this->denormalizeDirectMessagesTopic($data['direct_messages_topic'])
+                : null,
             from: isset($data['from'])
                 ? $this->denormalizeUser($data['from'])
                 : null,
@@ -595,12 +612,14 @@ class Serializer implements SerializerInterface
             replyToStory: isset($data['reply_to_story'])
                 ? $this->denormalizeStory($data['reply_to_story'])
                 : null,
+            replyToChecklistTaskId: $data['reply_to_checklist_task_id'] ?? null,
             viaBot: isset($data['via_bot'])
                 ? $this->denormalizeUser($data['via_bot'])
                 : null,
             editDate: $data['edit_date'] ?? null,
             hasProtectedContent: $data['has_protected_content'] ?? null,
             isFromOffline: $data['is_from_offline'] ?? null,
+            isPaidPost: $data['is_paid_post'] ?? null,
             mediaGroupId: $data['media_group_id'] ?? null,
             authorSignature: $data['author_signature'] ?? null,
             paidStarCount: $data['paid_star_count'] ?? null,
@@ -610,6 +629,9 @@ class Serializer implements SerializerInterface
                 : null,
             linkPreviewOptions: isset($data['link_preview_options'])
                 ? $this->denormalizeLinkPreviewOptions($data['link_preview_options'])
+                : null,
+            suggestedPostInfo: isset($data['suggested_post_info'])
+                ? $this->denormalizeSuggestedPostInfo($data['suggested_post_info'])
                 : null,
             effectId: $data['effect_id'] ?? null,
             animation: isset($data['animation'])
@@ -769,6 +791,21 @@ class Serializer implements SerializerInterface
                 : null,
             paidMessagePriceChanged: isset($data['paid_message_price_changed'])
                 ? $this->denormalizePaidMessagePriceChanged($data['paid_message_price_changed'])
+                : null,
+            suggestedPostApproved: isset($data['suggested_post_approved'])
+                ? $this->denormalizeSuggestedPostApproved($data['suggested_post_approved'])
+                : null,
+            suggestedPostApprovalFailed: isset($data['suggested_post_approval_failed'])
+                ? $this->denormalizeSuggestedPostApprovalFailed($data['suggested_post_approval_failed'])
+                : null,
+            suggestedPostDeclined: isset($data['suggested_post_declined'])
+                ? $this->denormalizeSuggestedPostDeclined($data['suggested_post_declined'])
+                : null,
+            suggestedPostPaid: isset($data['suggested_post_paid'])
+                ? $this->denormalizeSuggestedPostPaid($data['suggested_post_paid'])
+                : null,
+            suggestedPostRefunded: isset($data['suggested_post_refunded'])
+                ? $this->denormalizeSuggestedPostRefunded($data['suggested_post_refunded'])
                 : null,
             videoChatScheduled: isset($data['video_chat_scheduled'])
                 ? $this->denormalizeVideoChatScheduled($data['video_chat_scheduled'])
@@ -1031,6 +1068,7 @@ class Serializer implements SerializerInterface
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['quote_entities'])
                 : null,
             quotePosition: $data['quote_position'] ?? null,
+            checklistTaskId: $data['checklist_task_id'] ?? null,
         );
     }
 
@@ -2535,6 +2573,127 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeSuggestedPostApproved(array $data): SuggestedPostApprovedInterface
+    {
+        $requiredFields = [
+            'send_date',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostApproved missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostApproved(
+            sendDate: $data['send_date'],
+            suggestedPostMessage: isset($data['suggested_post_message'])
+                ? $this->denormalizeMessage($data['suggested_post_message'])
+                : null,
+            price: isset($data['price'])
+                ? $this->denormalizeSuggestedPostPrice($data['price'])
+                : null,
+        );
+    }
+
+    public function denormalizeSuggestedPostApprovalFailed(array $data): SuggestedPostApprovalFailedInterface
+    {
+        $requiredFields = [
+            'price',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostApprovalFailed missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostApprovalFailed(
+            price: $this->denormalizeSuggestedPostPrice($data['price']),
+            suggestedPostMessage: isset($data['suggested_post_message'])
+                ? $this->denormalizeMessage($data['suggested_post_message'])
+                : null,
+        );
+    }
+
+    public function denormalizeSuggestedPostDeclined(array $data): SuggestedPostDeclinedInterface
+    {
+        return $this->factory->makeSuggestedPostDeclined(
+            suggestedPostMessage: isset($data['suggested_post_message'])
+                ? $this->denormalizeMessage($data['suggested_post_message'])
+                : null,
+            comment: $data['comment'] ?? null,
+        );
+    }
+
+    public function denormalizeSuggestedPostPaid(array $data): SuggestedPostPaidInterface
+    {
+        $requiredFields = [
+            'currency',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostPaid missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostPaid(
+            currency: $data['currency'],
+            suggestedPostMessage: isset($data['suggested_post_message'])
+                ? $this->denormalizeMessage($data['suggested_post_message'])
+                : null,
+            amount: $data['amount'] ?? null,
+            starAmount: isset($data['star_amount'])
+                ? $this->denormalizeStarAmount($data['star_amount'])
+                : null,
+        );
+    }
+
+    public function denormalizeSuggestedPostRefunded(array $data): SuggestedPostRefundedInterface
+    {
+        $requiredFields = [
+            'reason',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostRefunded missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostRefunded(
+            reason: $data['reason'],
+            suggestedPostMessage: isset($data['suggested_post_message'])
+                ? $this->denormalizeMessage($data['suggested_post_message'])
+                : null,
+        );
+    }
+
     public function denormalizeGiveawayCreated(array $data): GiveawayCreatedInterface
     {
         return $this->factory->makeGiveawayCreated(
@@ -2649,6 +2808,94 @@ class Serializer implements SerializerInterface
             preferSmallMedia: $data['prefer_small_media'] ?? null,
             preferLargeMedia: $data['prefer_large_media'] ?? null,
             showAboveText: $data['show_above_text'] ?? null,
+        );
+    }
+
+    public function denormalizeSuggestedPostPrice(array $data): SuggestedPostPriceInterface
+    {
+        $requiredFields = [
+            'currency',
+            'amount',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostPrice missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostPrice(
+            currency: $data['currency'],
+            amount: $data['amount'],
+        );
+    }
+
+    public function denormalizeSuggestedPostInfo(array $data): SuggestedPostInfoInterface
+    {
+        $requiredFields = [
+            'state',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SuggestedPostInfo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSuggestedPostInfo(
+            state: $data['state'],
+            price: isset($data['price'])
+                ? $this->denormalizeSuggestedPostPrice($data['price'])
+                : null,
+            sendDate: $data['send_date'] ?? null,
+        );
+    }
+
+    public function denormalizeSuggestedPostParameters(array $data): SuggestedPostParametersInterface
+    {
+        return $this->factory->makeSuggestedPostParameters(
+            price: isset($data['price'])
+                ? $this->denormalizeSuggestedPostPrice($data['price'])
+                : null,
+            sendDate: $data['send_date'] ?? null,
+        );
+    }
+
+    public function denormalizeDirectMessagesTopic(array $data): DirectMessagesTopicInterface
+    {
+        $requiredFields = [
+            'topic_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class DirectMessagesTopic missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeDirectMessagesTopic(
+            topicId: $data['topic_id'],
+            user: isset($data['user'])
+                ? $this->denormalizeUser($data['user'])
+                : null,
         );
     }
 
@@ -3170,6 +3417,7 @@ class Serializer implements SerializerInterface
             canEditMessages: $data['can_edit_messages'] ?? null,
             canPinMessages: $data['can_pin_messages'] ?? null,
             canManageTopics: $data['can_manage_topics'] ?? null,
+            canManageDirectMessages: $data['can_manage_direct_messages'] ?? null,
         );
     }
 
@@ -3300,6 +3548,7 @@ class Serializer implements SerializerInterface
             canEditMessages: $data['can_edit_messages'] ?? null,
             canPinMessages: $data['can_pin_messages'] ?? null,
             canManageTopics: $data['can_manage_topics'] ?? null,
+            canManageDirectMessages: $data['can_manage_direct_messages'] ?? null,
             customTitle: $data['custom_title'] ?? null,
         );
     }
@@ -4084,6 +4333,9 @@ class Serializer implements SerializerInterface
             upgradeStarCount: $data['upgrade_star_count'] ?? null,
             totalCount: $data['total_count'] ?? null,
             remainingCount: $data['remaining_count'] ?? null,
+            publisherChat: isset($data['publisher_chat'])
+                ? $this->denormalizeChat($data['publisher_chat'])
+                : null,
         );
     }
 
@@ -4250,6 +4502,9 @@ class Serializer implements SerializerInterface
             model: $this->denormalizeUniqueGiftModel($data['model']),
             symbol: $this->denormalizeUniqueGiftSymbol($data['symbol']),
             backdrop: $this->denormalizeUniqueGiftBackdrop($data['backdrop']),
+            publisherChat: isset($data['publisher_chat'])
+                ? $this->denormalizeChat($data['publisher_chat'])
+                : null,
         );
     }
 
@@ -7865,11 +8120,20 @@ class Serializer implements SerializerInterface
             VideoChatParticipantsInvitedInterface::class => $this->denormalizeVideoChatParticipantsInvited($data),
             PaidMessagePriceChangedInterface::class => $this->denormalizePaidMessagePriceChanged($data),
             DirectMessagePriceChangedInterface::class => $this->denormalizeDirectMessagePriceChanged($data),
+            SuggestedPostApprovedInterface::class => $this->denormalizeSuggestedPostApproved($data),
+            SuggestedPostApprovalFailedInterface::class => $this->denormalizeSuggestedPostApprovalFailed($data),
+            SuggestedPostDeclinedInterface::class => $this->denormalizeSuggestedPostDeclined($data),
+            SuggestedPostPaidInterface::class => $this->denormalizeSuggestedPostPaid($data),
+            SuggestedPostRefundedInterface::class => $this->denormalizeSuggestedPostRefunded($data),
             GiveawayCreatedInterface::class => $this->denormalizeGiveawayCreated($data),
             GiveawayInterface::class => $this->denormalizeGiveaway($data),
             GiveawayWinnersInterface::class => $this->denormalizeGiveawayWinners($data),
             GiveawayCompletedInterface::class => $this->denormalizeGiveawayCompleted($data),
             LinkPreviewOptionsInterface::class => $this->denormalizeLinkPreviewOptions($data),
+            SuggestedPostPriceInterface::class => $this->denormalizeSuggestedPostPrice($data),
+            SuggestedPostInfoInterface::class => $this->denormalizeSuggestedPostInfo($data),
+            SuggestedPostParametersInterface::class => $this->denormalizeSuggestedPostParameters($data),
+            DirectMessagesTopicInterface::class => $this->denormalizeDirectMessagesTopic($data),
             UserProfilePhotosInterface::class => $this->denormalizeUserProfilePhotos($data),
             FileInterface::class => $this->denormalizeFile($data),
             WebAppInfoInterface::class => $this->denormalizeWebAppInfo($data),

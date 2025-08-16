@@ -14,6 +14,7 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\ForumTopicClosedInterface;
@@ -47,6 +48,12 @@ use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovalFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostDeclinedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -72,6 +79,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param int                                         $date                          Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param ChatInterface                               $chat                          Chat the message belongs to
      * @param int|null                                    $messageThreadId               Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+     * @param DirectMessagesTopicInterface|null           $directMessagesTopic           Optional. Information about the direct messages chat topic that contains the message
      * @param UserInterface|null                          $from                          Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
      * @param ChatInterface|null                          $senderChat                    Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                    $senderBoostCount              Optional. If the sender of the message boosted the chat, the number of boosts added by the user
@@ -84,16 +92,19 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param ExternalReplyInfoInterface|null             $externalReply                 Optional. Information about the message that is being replied to, which may come from another chat or forum topic
      * @param TextQuoteInterface|null                     $quote                         Optional. For replies that quote part of the original message, the quoted part of the message
      * @param StoryInterface|null                         $replyToStory                  Optional. For replies to a story, the original story
+     * @param int|null                                    $replyToChecklistTaskId        Optional. Identifier of the specific checklist task that is being replied to
      * @param UserInterface|null                          $viaBot                        Optional. Bot through which the message was sent
      * @param int|null                                    $editDate                      Optional. Date the message was last edited in Unix time
      * @param bool|null                                   $hasProtectedContent           Optional. True, if the message can't be forwarded
      * @param bool|null                                   $isFromOffline                 Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
+     * @param bool|null                                   $isPaidPost                    Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
      * @param string|null                                 $mediaGroupId                  Optional. The unique identifier of a media message group this message belongs to
      * @param string|null                                 $authorSignature               Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|null                                    $paidStarCount                 Optional. The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|null                                 $text                          Optional. For text messages, the actual UTF-8 text of the message
      * @param array<MessageEntityInterface>|null          $entities                      Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      * @param LinkPreviewOptionsInterface|null            $linkPreviewOptions            Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
+     * @param SuggestedPostInfoInterface|null             $suggestedPostInfo             Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|null                                 $effectId                      Optional. Unique identifier of the message effect added to the message
      * @param AnimationInterface|null                     $animation                     Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
      * @param AudioInterface|null                         $audio                         Optional. Message is an audio file, information about the file
@@ -155,6 +166,11 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param GiveawayWinnersInterface|null               $giveawayWinners               Optional. A giveaway with public winners was completed
      * @param GiveawayCompletedInterface|null             $giveawayCompleted             Optional. Service message: a giveaway without public winners was completed
      * @param PaidMessagePriceChangedInterface|null       $paidMessagePriceChanged       Optional. Service message: the price for paid messages has changed in the chat
+     * @param SuggestedPostApprovedInterface|null         $suggestedPostApproved         Optional. Service message: a suggested post was approved
+     * @param SuggestedPostApprovalFailedInterface|null   $suggestedPostApprovalFailed   Optional. Service message: approval of a suggested post has failed
+     * @param SuggestedPostDeclinedInterface|null         $suggestedPostDeclined         Optional. Service message: a suggested post was declined
+     * @param SuggestedPostPaidInterface|null             $suggestedPostPaid             Optional. Service message: payment for a suggested post was received
+     * @param SuggestedPostRefundedInterface|null         $suggestedPostRefunded         Optional. Service message: payment for a suggested post was refunded
      * @param VideoChatScheduledInterface|null            $videoChatScheduled            Optional. Service message: video chat scheduled
      * @param VideoChatStartedInterface|null              $videoChatStarted              Optional. Service message: video chat started
      * @param VideoChatEndedInterface|null                $videoChatEnded                Optional. Service message: video chat ended
@@ -167,6 +183,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public int $date,
         public ChatInterface $chat,
         public ?int $messageThreadId = null,
+        public ?DirectMessagesTopicInterface $directMessagesTopic = null,
         public ?UserInterface $from = null,
         public ?ChatInterface $senderChat = null,
         public ?int $senderBoostCount = null,
@@ -179,16 +196,19 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?ExternalReplyInfoInterface $externalReply = null,
         public ?TextQuoteInterface $quote = null,
         public ?StoryInterface $replyToStory = null,
+        public ?int $replyToChecklistTaskId = null,
         public ?UserInterface $viaBot = null,
         public ?int $editDate = null,
         public ?bool $hasProtectedContent = null,
         public ?bool $isFromOffline = null,
+        public ?bool $isPaidPost = null,
         public ?string $mediaGroupId = null,
         public ?string $authorSignature = null,
         public ?int $paidStarCount = null,
         public ?string $text = null,
         public ?array $entities = null,
         public ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
+        public ?SuggestedPostInfoInterface $suggestedPostInfo = null,
         public ?string $effectId = null,
         public ?AnimationInterface $animation = null,
         public ?AudioInterface $audio = null,
@@ -250,6 +270,11 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?GiveawayWinnersInterface $giveawayWinners = null,
         public ?GiveawayCompletedInterface $giveawayCompleted = null,
         public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        public ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
+        public ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed = null,
+        public ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,
+        public ?SuggestedPostPaidInterface $suggestedPostPaid = null,
+        public ?SuggestedPostRefundedInterface $suggestedPostRefunded = null,
         public ?VideoChatScheduledInterface $videoChatScheduled = null,
         public ?VideoChatStartedInterface $videoChatStarted = null,
         public ?VideoChatEndedInterface $videoChatEnded = null,

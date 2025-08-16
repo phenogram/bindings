@@ -67,6 +67,7 @@ use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
@@ -217,6 +218,14 @@ use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeWeatherInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovalFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostDeclinedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostParametersInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
@@ -315,6 +324,7 @@ interface FactoryInterface
         ?string $firstName,
         ?string $lastName,
         ?bool $isForum,
+        ?bool $isDirectMessages,
     ): ChatInterface;
 
     public function makeChatFullInfo(
@@ -328,6 +338,7 @@ interface FactoryInterface
         ?string $firstName,
         ?string $lastName,
         ?bool $isForum,
+        ?bool $isDirectMessages,
         ?ChatPhotoInterface $photo,
         ?array $activeUsernames,
         ?BirthdateInterface $birthdate,
@@ -335,6 +346,7 @@ interface FactoryInterface
         ?BusinessLocationInterface $businessLocation,
         ?BusinessOpeningHoursInterface $businessOpeningHours,
         ?ChatInterface $personalChat,
+        ?ChatInterface $parentChat,
         ?array $availableReactions,
         ?string $backgroundCustomEmojiId,
         ?int $profileAccentColorId,
@@ -370,6 +382,7 @@ interface FactoryInterface
         int $date,
         ChatInterface $chat,
         ?int $messageThreadId,
+        ?DirectMessagesTopicInterface $directMessagesTopic,
         ?UserInterface $from,
         ?ChatInterface $senderChat,
         ?int $senderBoostCount,
@@ -382,16 +395,19 @@ interface FactoryInterface
         ?ExternalReplyInfoInterface $externalReply,
         ?TextQuoteInterface $quote,
         ?StoryInterface $replyToStory,
+        ?int $replyToChecklistTaskId,
         ?UserInterface $viaBot,
         ?int $editDate,
         ?bool $hasProtectedContent,
         ?bool $isFromOffline,
+        ?bool $isPaidPost,
         ?string $mediaGroupId,
         ?string $authorSignature,
         ?int $paidStarCount,
         ?string $text,
         ?array $entities,
         ?LinkPreviewOptionsInterface $linkPreviewOptions,
+        ?SuggestedPostInfoInterface $suggestedPostInfo,
         ?string $effectId,
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
@@ -453,6 +469,11 @@ interface FactoryInterface
         ?GiveawayWinnersInterface $giveawayWinners,
         ?GiveawayCompletedInterface $giveawayCompleted,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?SuggestedPostApprovedInterface $suggestedPostApproved,
+        ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed,
+        ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
+        ?SuggestedPostPaidInterface $suggestedPostPaid,
+        ?SuggestedPostRefundedInterface $suggestedPostRefunded,
         ?VideoChatScheduledInterface $videoChatScheduled,
         ?VideoChatStartedInterface $videoChatStarted,
         ?VideoChatEndedInterface $videoChatEnded,
@@ -513,6 +534,7 @@ interface FactoryInterface
         ?string $quoteParseMode,
         ?array $quoteEntities,
         ?int $quotePosition,
+        ?int $checklistTaskId,
     ): ReplyParametersInterface;
 
     public function makeMessageOriginUser(string $type, int $date, UserInterface $senderUser): MessageOriginUserInterface;
@@ -837,6 +859,34 @@ interface FactoryInterface
         ?int $directMessageStarCount,
     ): DirectMessagePriceChangedInterface;
 
+    public function makeSuggestedPostApproved(
+        int $sendDate,
+        ?MessageInterface $suggestedPostMessage,
+        ?SuggestedPostPriceInterface $price,
+    ): SuggestedPostApprovedInterface;
+
+    public function makeSuggestedPostApprovalFailed(
+        SuggestedPostPriceInterface $price,
+        ?MessageInterface $suggestedPostMessage,
+    ): SuggestedPostApprovalFailedInterface;
+
+    public function makeSuggestedPostDeclined(
+        ?MessageInterface $suggestedPostMessage,
+        ?string $comment,
+    ): SuggestedPostDeclinedInterface;
+
+    public function makeSuggestedPostPaid(
+        string $currency,
+        ?MessageInterface $suggestedPostMessage,
+        ?int $amount,
+        ?StarAmountInterface $starAmount,
+    ): SuggestedPostPaidInterface;
+
+    public function makeSuggestedPostRefunded(
+        string $reason,
+        ?MessageInterface $suggestedPostMessage,
+    ): SuggestedPostRefundedInterface;
+
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface;
 
     public function makeGiveaway(
@@ -880,6 +930,21 @@ interface FactoryInterface
         ?bool $preferLargeMedia,
         ?bool $showAboveText,
     ): LinkPreviewOptionsInterface;
+
+    public function makeSuggestedPostPrice(string $currency, int $amount): SuggestedPostPriceInterface;
+
+    public function makeSuggestedPostInfo(
+        string $state,
+        ?SuggestedPostPriceInterface $price,
+        ?int $sendDate,
+    ): SuggestedPostInfoInterface;
+
+    public function makeSuggestedPostParameters(
+        ?SuggestedPostPriceInterface $price,
+        ?int $sendDate,
+    ): SuggestedPostParametersInterface;
+
+    public function makeDirectMessagesTopic(int $topicId, ?UserInterface $user): DirectMessagesTopicInterface;
 
     public function makeUserProfilePhotos(int $totalCount, array $photos): UserProfilePhotosInterface;
 
@@ -1020,6 +1085,7 @@ interface FactoryInterface
         ?bool $canEditMessages,
         ?bool $canPinMessages,
         ?bool $canManageTopics,
+        ?bool $canManageDirectMessages,
     ): ChatAdministratorRightsInterface;
 
     public function makeChatMemberUpdated(
@@ -1059,6 +1125,7 @@ interface FactoryInterface
         ?bool $canEditMessages,
         ?bool $canPinMessages,
         ?bool $canManageTopics,
+        ?bool $canManageDirectMessages,
         ?string $customTitle,
     ): ChatMemberAdministratorInterface;
 
@@ -1222,6 +1289,7 @@ interface FactoryInterface
         ?int $upgradeStarCount,
         ?int $totalCount,
         ?int $remainingCount,
+        ?ChatInterface $publisherChat,
     ): GiftInterface;
 
     public function makeGifts(array $gifts): GiftsInterface;
@@ -1258,6 +1326,7 @@ interface FactoryInterface
         UniqueGiftModelInterface $model,
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
+        ?ChatInterface $publisherChat,
     ): UniqueGiftInterface;
 
     public function makeGiftInfo(

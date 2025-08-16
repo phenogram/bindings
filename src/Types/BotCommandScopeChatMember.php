@@ -8,7 +8,7 @@ namespace Phenogram\Bindings\Types;
 class BotCommandScopeChatMember extends BotCommandScope implements Interfaces\BotCommandScopeChatMemberInterface
 {
     /**
-     * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel direct messages chats and channel chats aren't supported.
      * @param int        $userId Unique identifier of the target user
      * @param string     $type   Scope type, must be chat_member
      */

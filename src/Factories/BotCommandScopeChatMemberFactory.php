@@ -11,7 +11,7 @@ class BotCommandScopeChatMemberFactory extends AbstractFactory
      * Creates a new BotCommandScopeChatMember instance with default fake data.
      *
      * @param string|null     $type   Optional. Scope type, must be chat_member
-     * @param int|string|null $chatId Optional. Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int|string|null $chatId Optional. Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel direct messages chats and channel chats aren't supported.
      * @param int|null        $userId Optional. Unique identifier of the target user
      */
     public static function make(

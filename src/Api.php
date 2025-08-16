@@ -57,6 +57,7 @@ use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -212,25 +213,28 @@ class Api implements ApiInterface
     /**
      * Use this method to send text messages. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string                                                                                                           $text                 Text of the message to be sent, 1-4096 characters after entities parsing
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $parseMode            Mode for parsing entities in the message text. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $entities             A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
-     * @param LinkPreviewOptionsInterface|null                                                                                 $linkPreviewOptions   Link preview generation options for the message
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string                                                                                                           $text                    Text of the message to be sent, 1-4096 characters after entities parsing
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the message text. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $entities                A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+     * @param LinkPreviewOptionsInterface|null                                                                                 $linkPreviewOptions      Link preview generation options for the message
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendMessage(
         int|string $chatId,
         string $text,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $parseMode = null,
         ?array $entities = null,
         ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
@@ -238,6 +242,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -251,22 +256,26 @@ class Api implements ApiInterface
     /**
      * Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
      *
-     * @param int|string $chatId              Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string $fromChatId          Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-     * @param int        $messageId           Message identifier in the chat specified in from_chat_id
-     * @param int|null   $messageThreadId     Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param int|null   $videoStartTimestamp New start timestamp for the forwarded video in the message
-     * @param bool|null  $disableNotification Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null  $protectContent      Protects the contents of the forwarded message from forwarding and saving
+     * @param int|string                            $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string                            $fromChatId              Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+     * @param int                                   $messageId               Message identifier in the chat specified in from_chat_id
+     * @param int|null                              $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                              $directMessagesTopicId   Identifier of the direct messages topic to which the message will be forwarded; required if the message is forwarded to a direct messages chat
+     * @param int|null                              $videoStartTimestamp     New start timestamp for the forwarded video in the message
+     * @param bool|null                             $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                             $protectContent          Protects the contents of the forwarded message from forwarding and saving
+     * @param SuggestedPostParametersInterface|null $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only
      */
     public function forwardMessage(
         int|string $chatId,
         int|string $fromChatId,
         int $messageId,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?int $videoStartTimestamp = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
     ): MessageInterface {
         return $this->doRequest(
             method: 'forwardMessage',
@@ -278,12 +287,13 @@ class Api implements ApiInterface
     /**
      * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
      *
-     * @param int|string $chatId              Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string $fromChatId          Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
-     * @param array<int> $messageIds          A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
-     * @param int|null   $messageThreadId     Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param bool|null  $disableNotification Sends the messages silently. Users will receive a notification with no sound.
-     * @param bool|null  $protectContent      Protects the contents of the forwarded messages from forwarding and saving
+     * @param int|string $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string $fromChatId            Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     * @param array<int> $messageIds            A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+     * @param int|null   $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null   $directMessagesTopicId Identifier of the direct messages topic to which the messages will be forwarded; required if the messages are forwarded to a direct messages chat
+     * @param bool|null  $disableNotification   Sends the messages silently. Users will receive a notification with no sound.
+     * @param bool|null  $protectContent        Protects the contents of the forwarded messages from forwarding and saving
      *
      * @return array<MessageIdInterface>
      */
@@ -292,6 +302,7 @@ class Api implements ApiInterface
         int|string $fromChatId,
         array $messageIds,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
     ): array {
@@ -306,26 +317,29 @@ class Api implements ApiInterface
     /**
      * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string                                                                                                       $fromChatId            Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-     * @param int                                                                                                              $messageId             Message identifier in the chat specified in from_chat_id
-     * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param int|null                                                                                                         $videoStartTimestamp   New start timestamp for the copied video in the message
-     * @param string|null                                                                                                      $caption               New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
-     * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the new caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string                                                                                                       $fromChatId              Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+     * @param int                                                                                                              $messageId               Message identifier in the chat specified in from_chat_id
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $videoStartTimestamp     New start timestamp for the copied video in the message
+     * @param string|null                                                                                                      $caption                 New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the new caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function copyMessage(
         int|string $chatId,
         int|string $fromChatId,
         int $messageId,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?int $videoStartTimestamp = null,
         ?string $caption = null,
         ?string $parseMode = null,
@@ -334,6 +348,7 @@ class Api implements ApiInterface
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageIdInterface {
@@ -347,13 +362,14 @@ class Api implements ApiInterface
     /**
      * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
      *
-     * @param int|string $chatId              Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|string $fromChatId          Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
-     * @param array<int> $messageIds          A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
-     * @param int|null   $messageThreadId     Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param bool|null  $disableNotification Sends the messages silently. Users will receive a notification with no sound.
-     * @param bool|null  $protectContent      Protects the contents of the sent messages from forwarding and saving
-     * @param bool|null  $removeCaption       Pass True to copy the messages without their captions
+     * @param int|string $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string $fromChatId            Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     * @param array<int> $messageIds            A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+     * @param int|null   $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null   $directMessagesTopicId Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
+     * @param bool|null  $disableNotification   Sends the messages silently. Users will receive a notification with no sound.
+     * @param bool|null  $protectContent        Protects the contents of the sent messages from forwarding and saving
+     * @param bool|null  $removeCaption         Pass True to copy the messages without their captions
      *
      * @return array<MessageIdInterface>
      */
@@ -362,6 +378,7 @@ class Api implements ApiInterface
         int|string $fromChatId,
         array $messageIds,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $removeCaption = null,
@@ -377,27 +394,30 @@ class Api implements ApiInterface
     /**
      * Use this method to send photos. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $photo                 Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
-     * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $caption               Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the photo caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia Pass True, if the caption must be shown above the message media
-     * @param bool|null                                                                                                        $hasSpoiler            Pass True if the photo needs to be covered with a spoiler animation
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $photo                   Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $caption                 Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the photo caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $hasSpoiler              Pass True if the photo needs to be covered with a spoiler animation
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendPhoto(
         int|string $chatId,
         InputFileInterface|string $photo,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -407,6 +427,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -421,29 +442,32 @@ class Api implements ApiInterface
      * Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
      * For sending voice messages, use the sendVoice method instead.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $audio                Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $caption              Audio caption, 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode            Mode for parsing entities in the audio caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param int|null                                                                                                         $duration             Duration of the audio in seconds
-     * @param string|null                                                                                                      $performer            Performer
-     * @param string|null                                                                                                      $title                Track name
-     * @param InputFileInterface|string|null                                                                                   $thumbnail            Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $audio                   Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $caption                 Audio caption, 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the audio caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param int|null                                                                                                         $duration                Duration of the audio in seconds
+     * @param string|null                                                                                                      $performer               Performer
+     * @param string|null                                                                                                      $title                   Track name
+     * @param InputFileInterface|string|null                                                                                   $thumbnail               Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendAudio(
         int|string $chatId,
         InputFileInterface|string $audio,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -455,6 +479,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -472,6 +497,7 @@ class Api implements ApiInterface
      * @param InputFileInterface|string                                                                                        $document                    File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
      * @param string|null                                                                                                      $businessConnectionId        Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId             Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId       Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
      * @param InputFileInterface|string|null                                                                                   $thumbnail                   Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
      * @param string|null                                                                                                      $caption                     Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode                   Mode for parsing entities in the document caption. See formatting options for more details.
@@ -481,6 +507,7 @@ class Api implements ApiInterface
      * @param bool|null                                                                                                        $protectContent              Protects the contents of the sent message from forwarding and saving
      * @param bool|null                                                                                                        $allowPaidBroadcast          Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null                                                                                                      $messageEffectId             Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters     A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
      * @param ReplyParametersInterface|null                                                                                    $replyParameters             Description of the message to reply to
      * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup                 Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
@@ -489,6 +516,7 @@ class Api implements ApiInterface
         InputFileInterface|string $document,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         InputFileInterface|string|null $thumbnail = null,
         ?string $caption = null,
         ?string $parseMode = null,
@@ -498,6 +526,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -511,34 +540,37 @@ class Api implements ApiInterface
     /**
      * Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $video                 Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files »
-     * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param int|null                                                                                                         $duration              Duration of sent video in seconds
-     * @param int|null                                                                                                         $width                 Video width
-     * @param int|null                                                                                                         $height                Video height
-     * @param InputFileInterface|string|null                                                                                   $thumbnail             Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
-     * @param InputFileInterface|string|null                                                                                   $cover                 Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
-     * @param int|null                                                                                                         $startTimestamp        Start timestamp for the video in the message
-     * @param string|null                                                                                                      $caption               Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the video caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia Pass True, if the caption must be shown above the message media
-     * @param bool|null                                                                                                        $hasSpoiler            Pass True if the video needs to be covered with a spoiler animation
-     * @param bool|null                                                                                                        $supportsStreaming     Pass True if the uploaded video is suitable for streaming
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $video                   Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files »
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $duration                Duration of sent video in seconds
+     * @param int|null                                                                                                         $width                   Video width
+     * @param int|null                                                                                                         $height                  Video height
+     * @param InputFileInterface|string|null                                                                                   $thumbnail               Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param InputFileInterface|string|null                                                                                   $cover                   Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
+     * @param int|null                                                                                                         $startTimestamp          Start timestamp for the video in the message
+     * @param string|null                                                                                                      $caption                 Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the video caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $hasSpoiler              Pass True if the video needs to be covered with a spoiler animation
+     * @param bool|null                                                                                                        $supportsStreaming       Pass True if the uploaded video is suitable for streaming
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendVideo(
         int|string $chatId,
         InputFileInterface|string $video,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?int $duration = null,
         ?int $width = null,
         ?int $height = null,
@@ -555,6 +587,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -568,31 +601,34 @@ class Api implements ApiInterface
     /**
      * Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $animation             Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files »
-     * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param int|null                                                                                                         $duration              Duration of sent animation in seconds
-     * @param int|null                                                                                                         $width                 Animation width
-     * @param int|null                                                                                                         $height                Animation height
-     * @param InputFileInterface|string|null                                                                                   $thumbnail             Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
-     * @param string|null                                                                                                      $caption               Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the animation caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia Pass True, if the caption must be shown above the message media
-     * @param bool|null                                                                                                        $hasSpoiler            Pass True if the animation needs to be covered with a spoiler animation
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $animation               Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files »
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $duration                Duration of sent animation in seconds
+     * @param int|null                                                                                                         $width                   Animation width
+     * @param int|null                                                                                                         $height                  Animation height
+     * @param InputFileInterface|string|null                                                                                   $thumbnail               Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param string|null                                                                                                      $caption                 Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the animation caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $hasSpoiler              Pass True if the animation needs to be covered with a spoiler animation
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendAnimation(
         int|string $chatId,
         InputFileInterface|string $animation,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?int $duration = null,
         ?int $width = null,
         ?int $height = null,
@@ -606,6 +642,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -619,26 +656,29 @@ class Api implements ApiInterface
     /**
      * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $voice                Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $caption              Voice message caption, 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode            Mode for parsing entities in the voice message caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities      A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param int|null                                                                                                         $duration             Duration of the voice message in seconds
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $voice                   Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $caption                 Voice message caption, 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the voice message caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param int|null                                                                                                         $duration                Duration of the voice message in seconds
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendVoice(
         int|string $chatId,
         InputFileInterface|string $voice,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -647,6 +687,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -660,25 +701,28 @@ class Api implements ApiInterface
     /**
      * As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $videoNote            Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending video notes by a URL is currently unsupported
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param int|null                                                                                                         $duration             Duration of sent video in seconds
-     * @param int|null                                                                                                         $length               Video width and height, i.e. diameter of the video message
-     * @param InputFileInterface|string|null                                                                                   $thumbnail            Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $videoNote               Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending video notes by a URL is currently unsupported
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $duration                Duration of sent video in seconds
+     * @param int|null                                                                                                         $length                  Video width and height, i.e. diameter of the video message
+     * @param InputFileInterface|string|null                                                                                   $thumbnail               Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendVideoNote(
         int|string $chatId,
         InputFileInterface|string $videoNote,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?int $duration = null,
         ?int $length = null,
         InputFileInterface|string|null $thumbnail = null,
@@ -686,6 +730,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -699,26 +744,31 @@ class Api implements ApiInterface
     /**
      * Use this method to send paid media. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
-     * @param int                                                                                                              $starCount             The number of Telegram Stars that must be paid to buy access to the media; 1-10000
-     * @param array<InputPaidMediaInterface>                                                                                   $media                 A JSON-serialized array describing the media to be sent; up to 10 items
-     * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
-     * @param string|null                                                                                                      $payload               Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
-     * @param string|null                                                                                                      $caption               Media caption, 0-1024 characters after entities parsing
-     * @param string|null                                                                                                      $parseMode             Mode for parsing entities in the media caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia Pass True, if the caption must be shown above the message media
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
+     * @param int                                                                                                              $starCount               The number of Telegram Stars that must be paid to buy access to the media; 1-10000
+     * @param array<InputPaidMediaInterface>                                                                                   $media                   A JSON-serialized array describing the media to be sent; up to 10 items
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $payload                 Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
+     * @param string|null                                                                                                      $caption                 Media caption, 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the media caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendPaidMedia(
         int|string $chatId,
         int $starCount,
         array $media,
         ?string $businessConnectionId = null,
+        ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $payload = null,
         ?string $caption = null,
         ?string $parseMode = null,
@@ -727,6 +777,7 @@ class Api implements ApiInterface
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -738,17 +789,18 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
+     * Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.
      *
-     * @param int|string                                                                                                    $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array<InputMediaAudioInterface|InputMediaDocumentInterface|InputMediaPhotoInterface|InputMediaVideoInterface> $media                A JSON-serialized array describing messages to be sent, must include 2-10 items
-     * @param string|null                                                                                                   $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                      $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param bool|null                                                                                                     $disableNotification  Sends messages silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                     $protectContent       Protects the contents of the sent messages from forwarding and saving
-     * @param bool|null                                                                                                     $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                   $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                 $replyParameters      Description of the message to reply to
+     * @param int|string                                                                                                    $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param array<InputMediaAudioInterface|InputMediaDocumentInterface|InputMediaPhotoInterface|InputMediaVideoInterface> $media                 A JSON-serialized array describing messages to be sent, must include 2-10 items
+     * @param string|null                                                                                                   $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                      $messageThreadId       Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                      $directMessagesTopicId Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
+     * @param bool|null                                                                                                     $disableNotification   Sends messages silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                     $protectContent        Protects the contents of the sent messages from forwarding and saving
+     * @param bool|null                                                                                                     $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                   $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
+     * @param ReplyParametersInterface|null                                                                                 $replyParameters       Description of the message to reply to
      *
      * @return array<MessageInterface>
      */
@@ -757,6 +809,7 @@ class Api implements ApiInterface
         array $media,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
@@ -774,21 +827,23 @@ class Api implements ApiInterface
     /**
      * Use this method to send point on the map. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param float                                                                                                            $latitude             Latitude of the location
-     * @param float                                                                                                            $longitude            Longitude of the location
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param float|null                                                                                                       $horizontalAccuracy   The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|null                                                                                                         $livePeriod           period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely
-     * @param int|null                                                                                                         $heading              For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
-     * @param int|null                                                                                                         $proximityAlertRadius For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param float                                                                                                            $latitude                Latitude of the location
+     * @param float                                                                                                            $longitude               Longitude of the location
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param float|null                                                                                                       $horizontalAccuracy      The radius of uncertainty for the location, measured in meters; 0-1500
+     * @param int|null                                                                                                         $livePeriod              period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely
+     * @param int|null                                                                                                         $heading                 For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+     * @param int|null                                                                                                         $proximityAlertRadius    For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendLocation(
         int|string $chatId,
@@ -796,6 +851,7 @@ class Api implements ApiInterface
         float $longitude,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?float $horizontalAccuracy = null,
         ?int $livePeriod = null,
         ?int $heading = null,
@@ -804,6 +860,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -817,23 +874,25 @@ class Api implements ApiInterface
     /**
      * Use this method to send information about a venue. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param float                                                                                                            $latitude             Latitude of the venue
-     * @param float                                                                                                            $longitude            Longitude of the venue
-     * @param string                                                                                                           $title                Name of the venue
-     * @param string                                                                                                           $address              Address of the venue
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $foursquareId         Foursquare identifier of the venue
-     * @param string|null                                                                                                      $foursquareType       Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
-     * @param string|null                                                                                                      $googlePlaceId        Google Places identifier of the venue
-     * @param string|null                                                                                                      $googlePlaceType      Google Places type of the venue. (See supported types.)
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param float                                                                                                            $latitude                Latitude of the venue
+     * @param float                                                                                                            $longitude               Longitude of the venue
+     * @param string                                                                                                           $title                   Name of the venue
+     * @param string                                                                                                           $address                 Address of the venue
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $foursquareId            Foursquare identifier of the venue
+     * @param string|null                                                                                                      $foursquareType          Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+     * @param string|null                                                                                                      $googlePlaceId           Google Places identifier of the venue
+     * @param string|null                                                                                                      $googlePlaceType         Google Places type of the venue. (See supported types.)
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendVenue(
         int|string $chatId,
@@ -843,6 +902,7 @@ class Api implements ApiInterface
         string $address,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $foursquareId = null,
         ?string $foursquareType = null,
         ?string $googlePlaceId = null,
@@ -851,6 +911,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -864,19 +925,21 @@ class Api implements ApiInterface
     /**
      * Use this method to send phone contacts. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string                                                                                                           $phoneNumber          Contact's phone number
-     * @param string                                                                                                           $firstName            Contact's first name
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $lastName             Contact's last name
-     * @param string|null                                                                                                      $vcard                Additional data about the contact in the form of a vCard, 0-2048 bytes
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string                                                                                                           $phoneNumber             Contact's phone number
+     * @param string                                                                                                           $firstName               Contact's first name
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $lastName                Contact's last name
+     * @param string|null                                                                                                      $vcard                   Additional data about the contact in the form of a vCard, 0-2048 bytes
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendContact(
         int|string $chatId,
@@ -884,12 +947,14 @@ class Api implements ApiInterface
         string $firstName,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $lastName = null,
         ?string $vcard = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -903,7 +968,7 @@ class Api implements ApiInterface
     /**
      * Use this method to send a native poll. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername). Polls can't be sent to channel direct messages chats.
      * @param string                                                                                                           $question              Poll question, 1-300 characters
      * @param array<InputPollOptionInterface>                                                                                  $options               A JSON-serialized list of 2-12 answer options
      * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
@@ -991,26 +1056,30 @@ class Api implements ApiInterface
     /**
      * Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $emoji                Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $emoji                   Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendDice(
         int|string $chatId,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $emoji = '🎲',
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -1025,7 +1094,7 @@ class Api implements ApiInterface
      * Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
      * We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
      *
-     * @param int|string  $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string  $chatId               Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername). Channel chats and channel direct messages chats aren't supported.
      * @param string      $action               Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
      * @param string|null $businessConnectionId Unique identifier of the business connection on behalf of which the action will be sent
      * @param int|null    $messageThreadId      Unique identifier for the target message thread; for supergroups only
@@ -1176,23 +1245,24 @@ class Api implements ApiInterface
     /**
      * Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success.
      *
-     * @param int|string $chatId              Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int        $userId              Unique identifier of the target user
-     * @param bool|null  $isAnonymous         Pass True if the administrator's presence in the chat is hidden
-     * @param bool|null  $canManageChat       Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
-     * @param bool|null  $canDeleteMessages   Pass True if the administrator can delete messages of other users
-     * @param bool|null  $canManageVideoChats Pass True if the administrator can manage video chats
-     * @param bool|null  $canRestrictMembers  Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
-     * @param bool|null  $canPromoteMembers   Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by him)
-     * @param bool|null  $canChangeInfo       Pass True if the administrator can change chat title, photo and other settings
-     * @param bool|null  $canInviteUsers      Pass True if the administrator can invite new users to the chat
-     * @param bool|null  $canPostStories      Pass True if the administrator can post stories to the chat
-     * @param bool|null  $canEditStories      Pass True if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
-     * @param bool|null  $canDeleteStories    Pass True if the administrator can delete stories posted by other users
-     * @param bool|null  $canPostMessages     Pass True if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
-     * @param bool|null  $canEditMessages     Pass True if the administrator can edit messages of other users and can pin messages; for channels only
-     * @param bool|null  $canPinMessages      Pass True if the administrator can pin messages; for supergroups only
-     * @param bool|null  $canManageTopics     Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
+     * @param int|string $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int        $userId                  Unique identifier of the target user
+     * @param bool|null  $isAnonymous             Pass True if the administrator's presence in the chat is hidden
+     * @param bool|null  $canManageChat           Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.
+     * @param bool|null  $canDeleteMessages       Pass True if the administrator can delete messages of other users
+     * @param bool|null  $canManageVideoChats     Pass True if the administrator can manage video chats
+     * @param bool|null  $canRestrictMembers      Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
+     * @param bool|null  $canPromoteMembers       Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by him)
+     * @param bool|null  $canChangeInfo           Pass True if the administrator can change chat title, photo and other settings
+     * @param bool|null  $canInviteUsers          Pass True if the administrator can invite new users to the chat
+     * @param bool|null  $canPostStories          Pass True if the administrator can post stories to the chat
+     * @param bool|null  $canEditStories          Pass True if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
+     * @param bool|null  $canDeleteStories        Pass True if the administrator can delete stories posted by other users
+     * @param bool|null  $canPostMessages         Pass True if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only
+     * @param bool|null  $canEditMessages         Pass True if the administrator can edit messages of other users and can pin messages; for channels only
+     * @param bool|null  $canPinMessages          Pass True if the administrator can pin messages; for supergroups only
+     * @param bool|null  $canManageTopics         Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
+     * @param bool|null  $canManageDirectMessages Pass True if the administrator can manage direct messages within the channel and decline suggested posts; for channels only
      */
     public function promoteChatMember(
         int|string $chatId,
@@ -1212,6 +1282,7 @@ class Api implements ApiInterface
         ?bool $canEditMessages = null,
         ?bool $canPinMessages = null,
         ?bool $canManageTopics = null,
+        ?bool $canManageDirectMessages = null,
     ): bool {
         return $this->doRequest(
             method: 'promoteChatMember',
@@ -1492,7 +1563,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+     * Use this method to add a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages in groups and channels respectively. Returns True on success.
      *
      * @param int|string  $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int         $messageId            Identifier of a message to pin
@@ -1513,7 +1584,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+     * Use this method to remove a message from the list of pinned messages in a chat. In private chats and channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages in groups and channels respectively. Returns True on success.
      *
      * @param int|string  $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string|null $businessConnectionId Unique identifier of the business connection on behalf of which the message will be unpinned
@@ -1532,7 +1603,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
+     * Use this method to clear the list of pinned messages in a chat. In private chats and channel direct messages chats, no additional rights are required to unpin all pinned messages. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin all pinned messages in groups and channels respectively. Returns True on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      */
@@ -1548,7 +1619,7 @@ class Api implements ApiInterface
     /**
      * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
      *
-     * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+     * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername). Channel direct messages chats aren't supported; leave the corresponding channel instead.
      */
     public function leaveChat(int|string $chatId): bool
     {
@@ -2102,248 +2173,6 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-     *
-     * @param string                             $text                 New text of the message, 1-4096 characters after entities parsing
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param string|null                        $parseMode            Mode for parsing entities in the message text. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null $entities             A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
-     * @param LinkPreviewOptionsInterface|null   $linkPreviewOptions   Link preview generation options for the message
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for an inline keyboard
-     */
-    public function editMessageText(
-        string $text,
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?string $parseMode = null,
-        ?array $entities = null,
-        ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'editMessageText',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-     *
-     * @param string|null                        $businessConnectionId  Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId                Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId             Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|null                        $inlineMessageId       Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param string|null                        $caption               New caption of the message, 0-1024 characters after entities parsing
-     * @param string|null                        $parseMode             Mode for parsing entities in the message caption. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                          $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup           a JSON-serialized object for an inline keyboard
-     */
-    public function editMessageCaption(
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?string $caption = null,
-        ?string $parseMode = null,
-        ?array $captionEntities = null,
-        ?bool $showCaptionAboveMedia = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'editMessageCaption',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-     *
-     * @param InputMediaInterface                $media                A JSON-serialized object for a new media content of the message
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     */
-    public function editMessageMedia(
-        InputMediaInterface $media,
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'editMessageMedia',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-     *
-     * @param float                              $latitude             Latitude of new location
-     * @param float                              $longitude            Longitude of new location
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param int|null                           $livePeriod           New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
-     * @param float|null                         $horizontalAccuracy   The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|null                           $heading              Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
-     * @param int|null                           $proximityAlertRadius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     */
-    public function editMessageLiveLocation(
-        float $latitude,
-        float $longitude,
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?int $livePeriod = null,
-        ?float $horizontalAccuracy = null,
-        ?int $heading = null,
-        ?int $proximityAlertRadius = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'editMessageLiveLocation',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
-     *
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message with live location to stop
-     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
-     */
-    public function stopMessageLiveLocation(
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'stopMessageLiveLocation',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
-     *
-     * @param string                             $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int                                $chatId               Unique identifier for the target chat
-     * @param int                                $messageId            Unique identifier for the target message
-     * @param InputChecklistInterface            $checklist            A JSON-serialized object for the new checklist
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          A JSON-serialized object for the new inline keyboard for the message
-     */
-    public function editMessageChecklist(
-        string $businessConnectionId,
-        int $chatId,
-        int $messageId,
-        InputChecklistInterface $checklist,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface {
-        return $this->doRequest(
-            method: 'editMessageChecklist',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
-     *
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for an inline keyboard
-     */
-    public function editMessageReplyMarkup(
-        ?string $businessConnectionId = null,
-        int|string|null $chatId = null,
-        ?int $messageId = null,
-        ?string $inlineMessageId = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): MessageInterface|bool {
-        return $this->doRequest(
-            method: 'editMessageReplyMarkup',
-            args: get_defined_vars(),
-            returnType: MessageInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
-     *
-     * @param int|string                         $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int                                $messageId            Identifier of the original message with the poll
-     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new message inline keyboard
-     */
-    public function stopPoll(
-        int|string $chatId,
-        int $messageId,
-        ?string $businessConnectionId = null,
-        ?InlineKeyboardMarkupInterface $replyMarkup = null,
-    ): PollInterface {
-        return $this->doRequest(
-            method: 'stopPoll',
-            args: get_defined_vars(),
-            returnType: PollInterface::class,
-        );
-    }
-
-    /**
-     * Use this method to delete a message, including service messages, with the following limitations:- A message can only be deleted if it was sent less than 48 hours ago.- Service messages about a supergroup, channel, or forum topic creation can't be deleted.- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted can_post_messages permissions can delete outgoing messages in channels.- If the bot is an administrator of a group, it can delete any message there.- If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.Returns True on success.
-     *
-     * @param int|string $chatId    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int        $messageId Identifier of the message to delete
-     */
-    public function deleteMessage(int|string $chatId, int $messageId): bool
-    {
-        return $this->doRequest(
-            method: 'deleteMessage',
-            args: get_defined_vars(),
-            returnType: 'bool',
-        );
-    }
-
-    /**
-     * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
-     *
-     * @param int|string $chatId     Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param array<int> $messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
-     */
-    public function deleteMessages(int|string $chatId, array $messageIds): bool
-    {
-        return $this->doRequest(
-            method: 'deleteMessages',
-            args: get_defined_vars(),
-            returnType: 'bool',
-        );
-    }
-
-    /**
      * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters. Returns a Gifts object.
      */
     public function getAvailableGifts(): GiftsInterface
@@ -2425,7 +2254,7 @@ class Api implements ApiInterface
     /**
      * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
      *
-     * @param int|string  $chatId            Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string  $chatId            Unique identifier for the target chat or username of the target channel (in the format @channelusername). Channel direct messages chats can't be verified.
      * @param string|null $customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
      */
     public function verifyChat(int|string $chatId, ?string $customDescription = null): bool
@@ -2789,30 +2618,308 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     *
+     * @param string                             $text                 New text of the message, 1-4096 characters after entities parsing
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param string|null                        $parseMode            Mode for parsing entities in the message text. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $entities             A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+     * @param LinkPreviewOptionsInterface|null   $linkPreviewOptions   Link preview generation options for the message
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for an inline keyboard
+     */
+    public function editMessageText(
+        string $text,
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?string $parseMode = null,
+        ?array $entities = null,
+        ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'editMessageText',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     *
+     * @param string|null                        $businessConnectionId  Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId                Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId             Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|null                        $inlineMessageId       Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param string|null                        $caption               New caption of the message, 0-1024 characters after entities parsing
+     * @param string|null                        $parseMode             Mode for parsing entities in the message caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|null                          $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup           a JSON-serialized object for an inline keyboard
+     */
+    public function editMessageCaption(
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?string $caption = null,
+        ?string $parseMode = null,
+        ?array $captionEntities = null,
+        ?bool $showCaptionAboveMedia = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'editMessageCaption',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     *
+     * @param InputMediaInterface                $media                A JSON-serialized object for a new media content of the message
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
+     */
+    public function editMessageMedia(
+        InputMediaInterface $media,
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'editMessageMedia',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @param float                              $latitude             Latitude of new location
+     * @param float                              $longitude            Longitude of new location
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|null                           $livePeriod           New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
+     * @param float|null                         $horizontalAccuracy   The radius of uncertainty for the location, measured in meters; 0-1500
+     * @param int|null                           $heading              Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+     * @param int|null                           $proximityAlertRadius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
+     */
+    public function editMessageLiveLocation(
+        float $latitude,
+        float $longitude,
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?int $livePeriod = null,
+        ?float $horizontalAccuracy = null,
+        ?int $heading = null,
+        ?int $proximityAlertRadius = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'editMessageLiveLocation',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message with live location to stop
+     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new inline keyboard
+     */
+    public function stopMessageLiveLocation(
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'stopMessageLiveLocation',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to edit a checklist on behalf of a connected business account. On success, the edited Message is returned.
+     *
+     * @param string                             $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int                                $chatId               Unique identifier for the target chat
+     * @param int                                $messageId            Unique identifier for the target message
+     * @param InputChecklistInterface            $checklist            A JSON-serialized object for the new checklist
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          A JSON-serialized object for the new inline keyboard for the message
+     */
+    public function editMessageChecklist(
+        string $businessConnectionId,
+        int $chatId,
+        int $messageId,
+        InputChecklistInterface $checklist,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface {
+        return $this->doRequest(
+            method: 'editMessageChecklist',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     *
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for an inline keyboard
+     */
+    public function editMessageReplyMarkup(
+        ?string $businessConnectionId = null,
+        int|string|null $chatId = null,
+        ?int $messageId = null,
+        ?string $inlineMessageId = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): MessageInterface|bool {
+        return $this->doRequest(
+            method: 'editMessageReplyMarkup',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
+     *
+     * @param int|string                         $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int                                $messageId            Identifier of the original message with the poll
+     * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup          a JSON-serialized object for a new message inline keyboard
+     */
+    public function stopPoll(
+        int|string $chatId,
+        int $messageId,
+        ?string $businessConnectionId = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): PollInterface {
+        return $this->doRequest(
+            method: 'stopPoll',
+            args: get_defined_vars(),
+            returnType: PollInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.
+     *
+     * @param int      $chatId    Unique identifier for the target direct messages chat
+     * @param int      $messageId Identifier of a suggested post message to approve
+     * @param int|null $sendDate  Point in time (Unix timestamp) when the post is expected to be published; omit if the date has already been specified when the suggested post was created. If specified, then the date must be not more than 2678400 seconds (30 days) in the future
+     */
+    public function approveSuggestedPost(int $chatId, int $messageId, ?int $sendDate = null): bool
+    {
+        return $this->doRequest(
+            method: 'approveSuggestedPost',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat. Returns True on success.
+     *
+     * @param int         $chatId    Unique identifier for the target direct messages chat
+     * @param int         $messageId Identifier of a suggested post message to decline
+     * @param string|null $comment   Comment for the creator of the suggested post; 0-128 characters
+     */
+    public function declineSuggestedPost(int $chatId, int $messageId, ?string $comment = null): bool
+    {
+        return $this->doRequest(
+            method: 'declineSuggestedPost',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to delete a message, including service messages, with the following limitations:- A message can only be deleted if it was sent less than 48 hours ago.- Service messages about a supergroup, channel, or forum topic creation can't be deleted.- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted can_post_messages permissions can delete outgoing messages in channels.- If the bot is an administrator of a group, it can delete any message there.- If the bot has can_delete_messages administrator right in a supergroup or a channel, it can delete any message there.- If the bot has can_manage_direct_messages administrator right in a channel, it can delete any message in the corresponding direct messages chat.Returns True on success.
+     *
+     * @param int|string $chatId    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int        $messageId Identifier of the message to delete
+     */
+    public function deleteMessage(int|string $chatId, int $messageId): bool
+    {
+        return $this->doRequest(
+            method: 'deleteMessage',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
+     *
+     * @param int|string $chatId     Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param array<int> $messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
+     */
+    public function deleteMessages(int|string $chatId, array $messageIds): bool
+    {
+        return $this->doRequest(
+            method: 'deleteMessages',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId               Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param InputFileInterface|string                                                                                        $sticker              Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files ». Video and animated stickers can't be sent via an HTTP URL.
-     * @param string|null                                                                                                      $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                                                                                                      $emoji                Emoji associated with the sticker; only for just uploaded stickers
-     * @param bool|null                                                                                                        $disableNotification  Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent       Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast   Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId      Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters      Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup          Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param InputFileInterface|string                                                                                        $sticker                 Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending Files ». Video and animated stickers can't be sent via an HTTP URL.
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                                                                                                      $emoji                   Emoji associated with the sticker; only for just uploaded stickers
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendSticker(
         int|string $chatId,
         InputFileInterface|string $sticker,
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $emoji = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
     ): MessageInterface {
@@ -3141,35 +3248,37 @@ class Api implements ApiInterface
     /**
      * Use this method to send invoices. On success, the sent Message is returned.
      *
-     * @param int|string                         $chatId                    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param string                             $title                     Product name, 1-32 characters
-     * @param string                             $description               Product description, 1-255 characters
-     * @param string                             $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
-     * @param string                             $currency                  Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
-     * @param array<LabeledPriceInterface>       $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
-     * @param int|null                           $messageThreadId           Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param string|null                        $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
-     * @param int|null                           $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
-     * @param array<int>|null                    $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
-     * @param string|null                        $startParameter            Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter
-     * @param string|null                        $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
-     * @param string|null                        $photoUrl                  URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
-     * @param int|null                           $photoSize                 Photo size in bytes
-     * @param int|null                           $photoWidth                Photo width
-     * @param int|null                           $photoHeight               Photo height
-     * @param bool|null                          $needName                  Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $needPhoneNumber           Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $needEmail                 Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $needShippingAddress       Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $sendPhoneNumberToProvider Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $sendEmailToProvider       Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $isFlexible                Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
-     * @param bool|null                          $disableNotification       Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                          $protectContent            Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                          $allowPaidBroadcast        Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                        $messageEffectId           Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null      $replyParameters           Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|null $replyMarkup               A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
+     * @param int|string                            $chatId                    Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string                                $title                     Product name, 1-32 characters
+     * @param string                                $description               Product description, 1-255 characters
+     * @param string                                $payload                   Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
+     * @param string                                $currency                  Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
+     * @param array<LabeledPriceInterface>          $prices                    Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
+     * @param int|null                              $messageThreadId           Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|null                              $directMessagesTopicId     Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param string|null                           $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
+     * @param int|null                              $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
+     * @param array<int>|null                       $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+     * @param string|null                           $startParameter            Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter
+     * @param string|null                           $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
+     * @param string|null                           $photoUrl                  URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+     * @param int|null                              $photoSize                 Photo size in bytes
+     * @param int|null                              $photoWidth                Photo width
+     * @param int|null                              $photoHeight               Photo height
+     * @param bool|null                             $needName                  Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $needPhoneNumber           Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $needEmail                 Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $needShippingAddress       Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $sendPhoneNumberToProvider Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $sendEmailToProvider       Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $isFlexible                Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
+     * @param bool|null                             $disableNotification       Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                             $protectContent            Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                             $allowPaidBroadcast        Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                           $messageEffectId           Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null $suggestedPostParameters   A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null         $replyParameters           Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|null    $replyMarkup               A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
      */
     public function sendInvoice(
         int|string $chatId,
@@ -3179,6 +3288,7 @@ class Api implements ApiInterface
         string $currency,
         array $prices,
         ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
         ?string $providerToken = null,
         ?int $maxTipAmount = null,
         ?array $suggestedTipAmounts = null,
@@ -3199,6 +3309,7 @@ class Api implements ApiInterface
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
         ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
         ?ReplyParametersInterface $replyParameters = null,
         ?InlineKeyboardMarkupInterface $replyMarkup = null,
     ): MessageInterface {
@@ -3380,7 +3491,7 @@ class Api implements ApiInterface
     /**
      * Use this method to send a game. On success, the sent Message is returned.
      *
-     * @param int                                $chatId               Unique identifier for the target chat
+     * @param int                                $chatId               Unique identifier for the target chat. Games can't be sent to channel direct messages chats and channel chats.
      * @param string                             $gameShortName        Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
      * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                           $messageThreadId      Unique identifier for the target message thread (topic) of the forum; for forum supergroups only

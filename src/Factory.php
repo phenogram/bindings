@@ -67,6 +67,7 @@ use Phenogram\Bindings\Types\Contact;
 use Phenogram\Bindings\Types\CopyTextButton;
 use Phenogram\Bindings\Types\Dice;
 use Phenogram\Bindings\Types\DirectMessagePriceChanged;
+use Phenogram\Bindings\Types\DirectMessagesTopic;
 use Phenogram\Bindings\Types\Document;
 use Phenogram\Bindings\Types\EncryptedCredentials;
 use Phenogram\Bindings\Types\EncryptedPassportElement;
@@ -199,6 +200,7 @@ use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
@@ -349,6 +351,14 @@ use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeWeatherInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovalFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostDeclinedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostParametersInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
@@ -464,6 +474,14 @@ use Phenogram\Bindings\Types\StoryAreaTypeSuggestedReaction;
 use Phenogram\Bindings\Types\StoryAreaTypeUniqueGift;
 use Phenogram\Bindings\Types\StoryAreaTypeWeather;
 use Phenogram\Bindings\Types\SuccessfulPayment;
+use Phenogram\Bindings\Types\SuggestedPostApprovalFailed;
+use Phenogram\Bindings\Types\SuggestedPostApproved;
+use Phenogram\Bindings\Types\SuggestedPostDeclined;
+use Phenogram\Bindings\Types\SuggestedPostInfo;
+use Phenogram\Bindings\Types\SuggestedPostPaid;
+use Phenogram\Bindings\Types\SuggestedPostParameters;
+use Phenogram\Bindings\Types\SuggestedPostPrice;
+use Phenogram\Bindings\Types\SuggestedPostRefunded;
 use Phenogram\Bindings\Types\SwitchInlineQueryChosenChat;
 use Phenogram\Bindings\Types\TextQuote;
 use Phenogram\Bindings\Types\TransactionPartnerAffiliateProgram;
@@ -617,6 +635,7 @@ class Factory implements FactoryInterface
         ?string $firstName,
         ?string $lastName,
         ?bool $isForum,
+        ?bool $isDirectMessages,
     ): ChatInterface {
         return new Chat(
             id: $id,
@@ -626,6 +645,7 @@ class Factory implements FactoryInterface
             firstName: $firstName,
             lastName: $lastName,
             isForum: $isForum,
+            isDirectMessages: $isDirectMessages,
         );
     }
 
@@ -640,6 +660,7 @@ class Factory implements FactoryInterface
         ?string $firstName,
         ?string $lastName,
         ?bool $isForum,
+        ?bool $isDirectMessages,
         ?ChatPhotoInterface $photo,
         ?array $activeUsernames,
         ?BirthdateInterface $birthdate,
@@ -647,6 +668,7 @@ class Factory implements FactoryInterface
         ?BusinessLocationInterface $businessLocation,
         ?BusinessOpeningHoursInterface $businessOpeningHours,
         ?ChatInterface $personalChat,
+        ?ChatInterface $parentChat,
         ?array $availableReactions,
         ?string $backgroundCustomEmojiId,
         ?int $profileAccentColorId,
@@ -687,6 +709,7 @@ class Factory implements FactoryInterface
             firstName: $firstName,
             lastName: $lastName,
             isForum: $isForum,
+            isDirectMessages: $isDirectMessages,
             photo: $photo,
             activeUsernames: $activeUsernames,
             birthdate: $birthdate,
@@ -694,6 +717,7 @@ class Factory implements FactoryInterface
             businessLocation: $businessLocation,
             businessOpeningHours: $businessOpeningHours,
             personalChat: $personalChat,
+            parentChat: $parentChat,
             availableReactions: $availableReactions,
             backgroundCustomEmojiId: $backgroundCustomEmojiId,
             profileAccentColorId: $profileAccentColorId,
@@ -730,6 +754,7 @@ class Factory implements FactoryInterface
         int $date,
         ChatInterface $chat,
         ?int $messageThreadId,
+        ?DirectMessagesTopicInterface $directMessagesTopic,
         ?UserInterface $from,
         ?ChatInterface $senderChat,
         ?int $senderBoostCount,
@@ -742,16 +767,19 @@ class Factory implements FactoryInterface
         ?ExternalReplyInfoInterface $externalReply,
         ?TextQuoteInterface $quote,
         ?StoryInterface $replyToStory,
+        ?int $replyToChecklistTaskId,
         ?UserInterface $viaBot,
         ?int $editDate,
         ?bool $hasProtectedContent,
         ?bool $isFromOffline,
+        ?bool $isPaidPost,
         ?string $mediaGroupId,
         ?string $authorSignature,
         ?int $paidStarCount,
         ?string $text,
         ?array $entities,
         ?LinkPreviewOptionsInterface $linkPreviewOptions,
+        ?SuggestedPostInfoInterface $suggestedPostInfo,
         ?string $effectId,
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
@@ -813,6 +841,11 @@ class Factory implements FactoryInterface
         ?GiveawayWinnersInterface $giveawayWinners,
         ?GiveawayCompletedInterface $giveawayCompleted,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?SuggestedPostApprovedInterface $suggestedPostApproved,
+        ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed,
+        ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
+        ?SuggestedPostPaidInterface $suggestedPostPaid,
+        ?SuggestedPostRefundedInterface $suggestedPostRefunded,
         ?VideoChatScheduledInterface $videoChatScheduled,
         ?VideoChatStartedInterface $videoChatStarted,
         ?VideoChatEndedInterface $videoChatEnded,
@@ -825,6 +858,7 @@ class Factory implements FactoryInterface
             date: $date,
             chat: $chat,
             messageThreadId: $messageThreadId,
+            directMessagesTopic: $directMessagesTopic,
             from: $from,
             senderChat: $senderChat,
             senderBoostCount: $senderBoostCount,
@@ -837,16 +871,19 @@ class Factory implements FactoryInterface
             externalReply: $externalReply,
             quote: $quote,
             replyToStory: $replyToStory,
+            replyToChecklistTaskId: $replyToChecklistTaskId,
             viaBot: $viaBot,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
             isFromOffline: $isFromOffline,
+            isPaidPost: $isPaidPost,
             mediaGroupId: $mediaGroupId,
             authorSignature: $authorSignature,
             paidStarCount: $paidStarCount,
             text: $text,
             entities: $entities,
             linkPreviewOptions: $linkPreviewOptions,
+            suggestedPostInfo: $suggestedPostInfo,
             effectId: $effectId,
             animation: $animation,
             audio: $audio,
@@ -908,6 +945,11 @@ class Factory implements FactoryInterface
             giveawayWinners: $giveawayWinners,
             giveawayCompleted: $giveawayCompleted,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            suggestedPostApproved: $suggestedPostApproved,
+            suggestedPostApprovalFailed: $suggestedPostApprovalFailed,
+            suggestedPostDeclined: $suggestedPostDeclined,
+            suggestedPostPaid: $suggestedPostPaid,
+            suggestedPostRefunded: $suggestedPostRefunded,
             videoChatScheduled: $videoChatScheduled,
             videoChatStarted: $videoChatStarted,
             videoChatEnded: $videoChatEnded,
@@ -1027,6 +1069,7 @@ class Factory implements FactoryInterface
         ?string $quoteParseMode,
         ?array $quoteEntities,
         ?int $quotePosition,
+        ?int $checklistTaskId,
     ): ReplyParametersInterface {
         return new ReplyParameters(
             messageId: $messageId,
@@ -1036,6 +1079,7 @@ class Factory implements FactoryInterface
             quoteParseMode: $quoteParseMode,
             quoteEntities: $quoteEntities,
             quotePosition: $quotePosition,
+            checklistTaskId: $checklistTaskId,
         );
     }
 
@@ -1759,6 +1803,62 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeSuggestedPostApproved(
+        int $sendDate,
+        ?MessageInterface $suggestedPostMessage,
+        ?SuggestedPostPriceInterface $price,
+    ): SuggestedPostApprovedInterface {
+        return new SuggestedPostApproved(
+            sendDate: $sendDate,
+            suggestedPostMessage: $suggestedPostMessage,
+            price: $price,
+        );
+    }
+
+    public function makeSuggestedPostApprovalFailed(
+        SuggestedPostPriceInterface $price,
+        ?MessageInterface $suggestedPostMessage,
+    ): SuggestedPostApprovalFailedInterface {
+        return new SuggestedPostApprovalFailed(
+            price: $price,
+            suggestedPostMessage: $suggestedPostMessage,
+        );
+    }
+
+    public function makeSuggestedPostDeclined(
+        ?MessageInterface $suggestedPostMessage,
+        ?string $comment,
+    ): SuggestedPostDeclinedInterface {
+        return new SuggestedPostDeclined(
+            suggestedPostMessage: $suggestedPostMessage,
+            comment: $comment,
+        );
+    }
+
+    public function makeSuggestedPostPaid(
+        string $currency,
+        ?MessageInterface $suggestedPostMessage,
+        ?int $amount,
+        ?StarAmountInterface $starAmount,
+    ): SuggestedPostPaidInterface {
+        return new SuggestedPostPaid(
+            currency: $currency,
+            suggestedPostMessage: $suggestedPostMessage,
+            amount: $amount,
+            starAmount: $starAmount,
+        );
+    }
+
+    public function makeSuggestedPostRefunded(
+        string $reason,
+        ?MessageInterface $suggestedPostMessage,
+    ): SuggestedPostRefundedInterface {
+        return new SuggestedPostRefunded(
+            reason: $reason,
+            suggestedPostMessage: $suggestedPostMessage,
+        );
+    }
+
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface
     {
         return new GiveawayCreated(
@@ -1847,6 +1947,44 @@ class Factory implements FactoryInterface
             preferSmallMedia: $preferSmallMedia,
             preferLargeMedia: $preferLargeMedia,
             showAboveText: $showAboveText,
+        );
+    }
+
+    public function makeSuggestedPostPrice(string $currency, int $amount): SuggestedPostPriceInterface
+    {
+        return new SuggestedPostPrice(
+            currency: $currency,
+            amount: $amount,
+        );
+    }
+
+    public function makeSuggestedPostInfo(
+        string $state,
+        ?SuggestedPostPriceInterface $price,
+        ?int $sendDate,
+    ): SuggestedPostInfoInterface {
+        return new SuggestedPostInfo(
+            state: $state,
+            price: $price,
+            sendDate: $sendDate,
+        );
+    }
+
+    public function makeSuggestedPostParameters(
+        ?SuggestedPostPriceInterface $price,
+        ?int $sendDate,
+    ): SuggestedPostParametersInterface {
+        return new SuggestedPostParameters(
+            price: $price,
+            sendDate: $sendDate,
+        );
+    }
+
+    public function makeDirectMessagesTopic(int $topicId, ?UserInterface $user): DirectMessagesTopicInterface
+    {
+        return new DirectMessagesTopic(
+            topicId: $topicId,
+            user: $user,
         );
     }
 
@@ -2138,6 +2276,7 @@ class Factory implements FactoryInterface
         ?bool $canEditMessages,
         ?bool $canPinMessages,
         ?bool $canManageTopics,
+        ?bool $canManageDirectMessages,
     ): ChatAdministratorRightsInterface {
         return new ChatAdministratorRights(
             isAnonymous: $isAnonymous,
@@ -2155,6 +2294,7 @@ class Factory implements FactoryInterface
             canEditMessages: $canEditMessages,
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
+            canManageDirectMessages: $canManageDirectMessages,
         );
     }
 
@@ -2213,6 +2353,7 @@ class Factory implements FactoryInterface
         ?bool $canEditMessages,
         ?bool $canPinMessages,
         ?bool $canManageTopics,
+        ?bool $canManageDirectMessages,
         ?string $customTitle,
     ): ChatMemberAdministratorInterface {
         return new ChatMemberAdministrator(
@@ -2234,6 +2375,7 @@ class Factory implements FactoryInterface
             canEditMessages: $canEditMessages,
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
+            canManageDirectMessages: $canManageDirectMessages,
             customTitle: $customTitle,
         );
     }
@@ -2601,6 +2743,7 @@ class Factory implements FactoryInterface
         ?int $upgradeStarCount,
         ?int $totalCount,
         ?int $remainingCount,
+        ?ChatInterface $publisherChat,
     ): GiftInterface {
         return new Gift(
             id: $id,
@@ -2609,6 +2752,7 @@ class Factory implements FactoryInterface
             upgradeStarCount: $upgradeStarCount,
             totalCount: $totalCount,
             remainingCount: $remainingCount,
+            publisherChat: $publisherChat,
         );
     }
 
@@ -2676,6 +2820,7 @@ class Factory implements FactoryInterface
         UniqueGiftModelInterface $model,
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
+        ?ChatInterface $publisherChat,
     ): UniqueGiftInterface {
         return new UniqueGift(
             baseName: $baseName,
@@ -2684,6 +2829,7 @@ class Factory implements FactoryInterface
             model: $model,
             symbol: $symbol,
             backdrop: $backdrop,
+            publisherChat: $publisherChat,
         );
     }
 

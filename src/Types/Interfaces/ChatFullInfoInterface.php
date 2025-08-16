@@ -28,6 +28,9 @@ interface ChatFullInfoInterface extends TypeInterface
     /** @var bool|null $isForum Optional. True, if the supergroup chat is a forum (has topics enabled) */
     public ?bool $isForum { set; get; }
 
+    /** @var bool|null $isDirectMessages Optional. True, if the chat is the direct messages chat of a channel */
+    public ?bool $isDirectMessages { set; get; }
+
     /** @var int $accentColorId Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details. */
     public int $accentColorId { set; get; }
 
@@ -54,6 +57,9 @@ interface ChatFullInfoInterface extends TypeInterface
 
     /** @var ChatInterface|null $personalChat Optional. For private chats, the personal channel of the user */
     public ?ChatInterface $personalChat { set; get; }
+
+    /** @var ChatInterface|null $parentChat Optional. Information about the corresponding channel chat; for direct messages chats only */
+    public ?ChatInterface $parentChat { set; get; }
 
     /** @var array<ReactionTypeInterface>|null $availableReactions Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed. */
     public ?array $availableReactions { set; get; }

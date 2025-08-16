@@ -13,6 +13,9 @@ interface MessageInterface extends TypeInterface
     /** @var int|null $messageThreadId Optional. Unique identifier of a message thread to which the message belongs; for supergroups only */
     public ?int $messageThreadId { set; get; }
 
+    /** @var DirectMessagesTopicInterface|null $directMessagesTopic Optional. Information about the direct messages chat topic that contains the message */
+    public ?DirectMessagesTopicInterface $directMessagesTopic { set; get; }
+
     /** @var UserInterface|null $from Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats */
     public ?UserInterface $from { set; get; }
 
@@ -55,6 +58,9 @@ interface MessageInterface extends TypeInterface
     /** @var StoryInterface|null $replyToStory Optional. For replies to a story, the original story */
     public ?StoryInterface $replyToStory { set; get; }
 
+    /** @var int|null $replyToChecklistTaskId Optional. Identifier of the specific checklist task that is being replied to */
+    public ?int $replyToChecklistTaskId { set; get; }
+
     /** @var UserInterface|null $viaBot Optional. Bot through which the message was sent */
     public ?UserInterface $viaBot { set; get; }
 
@@ -66,6 +72,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var bool|null $isFromOffline Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message */
     public ?bool $isFromOffline { set; get; }
+
+    /** @var bool|null $isPaidPost Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited. */
+    public ?bool $isPaidPost { set; get; }
 
     /** @var string|null $mediaGroupId Optional. The unique identifier of a media message group this message belongs to */
     public ?string $mediaGroupId { set; get; }
@@ -84,6 +93,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var LinkPreviewOptionsInterface|null $linkPreviewOptions Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed */
     public ?LinkPreviewOptionsInterface $linkPreviewOptions { set; get; }
+
+    /** @var SuggestedPostInfoInterface|null $suggestedPostInfo Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited. */
+    public ?SuggestedPostInfoInterface $suggestedPostInfo { set; get; }
 
     /** @var string|null $effectId Optional. Unique identifier of the message effect added to the message */
     public ?string $effectId { set; get; }
@@ -267,6 +279,21 @@ interface MessageInterface extends TypeInterface
 
     /** @var PaidMessagePriceChangedInterface|null $paidMessagePriceChanged Optional. Service message: the price for paid messages has changed in the chat */
     public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged { set; get; }
+
+    /** @var SuggestedPostApprovedInterface|null $suggestedPostApproved Optional. Service message: a suggested post was approved */
+    public ?SuggestedPostApprovedInterface $suggestedPostApproved { set; get; }
+
+    /** @var SuggestedPostApprovalFailedInterface|null $suggestedPostApprovalFailed Optional. Service message: approval of a suggested post has failed */
+    public ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed { set; get; }
+
+    /** @var SuggestedPostDeclinedInterface|null $suggestedPostDeclined Optional. Service message: a suggested post was declined */
+    public ?SuggestedPostDeclinedInterface $suggestedPostDeclined { set; get; }
+
+    /** @var SuggestedPostPaidInterface|null $suggestedPostPaid Optional. Service message: payment for a suggested post was received */
+    public ?SuggestedPostPaidInterface $suggestedPostPaid { set; get; }
+
+    /** @var SuggestedPostRefundedInterface|null $suggestedPostRefunded Optional. Service message: payment for a suggested post was refunded */
+    public ?SuggestedPostRefundedInterface $suggestedPostRefunded { set; get; }
 
     /** @var VideoChatScheduledInterface|null $videoChatScheduled Optional. Service message: video chat scheduled */
     public ?VideoChatScheduledInterface $videoChatScheduled { set; get; }

@@ -61,6 +61,9 @@ interface ChatMemberAdministratorInterface extends TypeInterface
     /** @var bool|null $canManageTopics Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only */
     public ?bool $canManageTopics { set; get; }
 
+    /** @var bool|null $canManageDirectMessages Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only */
+    public ?bool $canManageDirectMessages { set; get; }
+
     /** @var string|null $customTitle Optional. Custom title for this user */
     public ?string $customTitle { set; get; }
 }

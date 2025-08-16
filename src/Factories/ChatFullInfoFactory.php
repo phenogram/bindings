@@ -30,6 +30,7 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param string|null                        $firstName                          Optional. Optional. First name of the other party in a private chat
      * @param string|null                        $lastName                           Optional. Optional. Last name of the other party in a private chat
      * @param bool|null                          $isForum                            Optional. Optional. True, if the supergroup chat is a forum (has topics enabled)
+     * @param bool|null                          $isDirectMessages                   Optional. Optional. True, if the chat is the direct messages chat of a channel
      * @param int|null                           $accentColorId                      Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
      * @param int|null                           $maxReactionCount                   Optional. The maximum number of reactions that can be set on a message in the chat
      * @param ChatPhotoInterface|null            $photo                              Optional. Optional. Chat photo
@@ -39,6 +40,7 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param BusinessLocationInterface|null     $businessLocation                   Optional. Optional. For private chats with business accounts, the location of the business
      * @param BusinessOpeningHoursInterface|null $businessOpeningHours               Optional. Optional. For private chats with business accounts, the opening hours of the business
      * @param ChatInterface|null                 $personalChat                       Optional. Optional. For private chats, the personal channel of the user
+     * @param ChatInterface|null                 $parentChat                         Optional. Optional. Information about the corresponding channel chat; for direct messages chats only
      * @param array|null                         $availableReactions                 Optional. Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
      * @param string|null                        $backgroundCustomEmojiId            Optional. Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
      * @param int|null                           $profileAccentColorId               Optional. Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
@@ -77,6 +79,7 @@ class ChatFullInfoFactory extends AbstractFactory
         ?string $firstName = null,
         ?string $lastName = null,
         ?bool $isForum = null,
+        ?bool $isDirectMessages = null,
         ?int $accentColorId = null,
         ?int $maxReactionCount = null,
         ?ChatPhotoInterface $photo = null,
@@ -86,6 +89,7 @@ class ChatFullInfoFactory extends AbstractFactory
         ?BusinessLocationInterface $businessLocation = null,
         ?BusinessOpeningHoursInterface $businessOpeningHours = null,
         ?ChatInterface $personalChat = null,
+        ?ChatInterface $parentChat = null,
         ?array $availableReactions = null,
         ?string $backgroundCustomEmojiId = null,
         ?int $profileAccentColorId = null,
@@ -124,6 +128,7 @@ class ChatFullInfoFactory extends AbstractFactory
             firstName: $firstName,
             lastName: $lastName,
             isForum: $isForum,
+            isDirectMessages: $isDirectMessages,
             accentColorId: $accentColorId ?? self::fake()->numberBetween(100000, 999999999),
             maxReactionCount: $maxReactionCount ?? self::fake()->randomNumber(),
             photo: $photo,
@@ -133,6 +138,7 @@ class ChatFullInfoFactory extends AbstractFactory
             businessLocation: $businessLocation,
             businessOpeningHours: $businessOpeningHours,
             personalChat: $personalChat,
+            parentChat: $parentChat,
             availableReactions: $availableReactions,
             backgroundCustomEmojiId: $backgroundCustomEmojiId,
             profileAccentColorId: $profileAccentColorId,

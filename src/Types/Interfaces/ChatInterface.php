@@ -27,4 +27,7 @@ interface ChatInterface extends TypeInterface
 
     /** @var bool|null $isForum Optional. True, if the supergroup chat is a forum (has topics enabled) */
     public ?bool $isForum { set; get; }
+
+    /** @var bool|null $isDirectMessages Optional. True, if the chat is the direct messages chat of a channel */
+    public ?bool $isDirectMessages { set; get; }
 }

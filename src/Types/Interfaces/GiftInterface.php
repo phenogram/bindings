@@ -24,4 +24,7 @@ interface GiftInterface extends TypeInterface
 
     /** @var int|null $remainingCount Optional. The number of remaining gifts of this type that can be sent; for limited gifts only */
     public ?int $remainingCount { set; get; }
+
+    /** @var ChatInterface|null $publisherChat Optional. Information about the chat that published the gift */
+    public ?ChatInterface $publisherChat { set; get; }
 }

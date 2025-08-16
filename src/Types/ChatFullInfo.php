@@ -30,6 +30,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param string|null                        $firstName                          Optional. First name of the other party in a private chat
      * @param string|null                        $lastName                           Optional. Last name of the other party in a private chat
      * @param bool|null                          $isForum                            Optional. True, if the supergroup chat is a forum (has topics enabled)
+     * @param bool|null                          $isDirectMessages                   Optional. True, if the chat is the direct messages chat of a channel
      * @param ChatPhotoInterface|null            $photo                              Optional. Chat photo
      * @param array<string>|null                 $activeUsernames                    Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
      * @param BirthdateInterface|null            $birthdate                          Optional. For private chats, the date of birth of the user
@@ -37,6 +38,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param BusinessLocationInterface|null     $businessLocation                   Optional. For private chats with business accounts, the location of the business
      * @param BusinessOpeningHoursInterface|null $businessOpeningHours               Optional. For private chats with business accounts, the opening hours of the business
      * @param ChatInterface|null                 $personalChat                       Optional. For private chats, the personal channel of the user
+     * @param ChatInterface|null                 $parentChat                         Optional. Information about the corresponding channel chat; for direct messages chats only
      * @param array<ReactionTypeInterface>|null  $availableReactions                 Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
      * @param string|null                        $backgroundCustomEmojiId            Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
      * @param int|null                           $profileAccentColorId               Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
@@ -77,6 +79,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?string $firstName = null,
         public ?string $lastName = null,
         public ?bool $isForum = null,
+        public ?bool $isDirectMessages = null,
         public ?ChatPhotoInterface $photo = null,
         public ?array $activeUsernames = null,
         public ?BirthdateInterface $birthdate = null,
@@ -84,6 +87,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?BusinessLocationInterface $businessLocation = null,
         public ?BusinessOpeningHoursInterface $businessOpeningHours = null,
         public ?ChatInterface $personalChat = null,
+        public ?ChatInterface $parentChat = null,
         public ?array $availableReactions = null,
         public ?string $backgroundCustomEmojiId = null,
         public ?int $profileAccentColorId = null,

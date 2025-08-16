@@ -2,8 +2,10 @@
 
 namespace Phenogram\Bindings\Factories;
 
+use Phenogram\Bindings\Factories\ChatFactory as Chat;
 use Phenogram\Bindings\Factories\StickerFactory as Sticker;
 use Phenogram\Bindings\Types\Gift;
+use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 
@@ -18,6 +20,7 @@ class GiftFactory extends AbstractFactory
      * @param int|null              $upgradeStarCount Optional. Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
      * @param int|null              $totalCount       Optional. Optional. The total number of the gifts of this type that can be sent; for limited gifts only
      * @param int|null              $remainingCount   Optional. Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
+     * @param ChatInterface|null    $publisherChat    Optional. Optional. Information about the chat that published the gift
      */
     public static function make(
         ?string $id = null,
@@ -26,6 +29,7 @@ class GiftFactory extends AbstractFactory
         ?int $upgradeStarCount = null,
         ?int $totalCount = null,
         ?int $remainingCount = null,
+        ?ChatInterface $publisherChat = null,
     ): GiftInterface {
         return self::factory()->makeGift(
             id: $id ?? self::fake()->bothify('?#?#?#?#?#?#?#???'),
@@ -34,6 +38,7 @@ class GiftFactory extends AbstractFactory
             upgradeStarCount: $upgradeStarCount,
             totalCount: $totalCount,
             remainingCount: $remainingCount,
+            publisherChat: $publisherChat,
         );
     }
 }

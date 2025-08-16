@@ -32,6 +32,7 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\ForumTopicClosedInterface;
@@ -61,6 +62,12 @@ use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovalFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostApprovedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostDeclinedInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
+use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
@@ -84,6 +91,7 @@ class MessageFactory extends AbstractFactory
      *
      * @param int|null                                                                    $messageId                     Optional. Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
      * @param int|null                                                                    $messageThreadId               Optional. Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+     * @param DirectMessagesTopicInterface|null                                           $directMessagesTopic           Optional. Optional. Information about the direct messages chat topic that contains the message
      * @param UserInterface|null                                                          $from                          Optional. Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
      * @param ChatInterface|null                                                          $senderChat                    Optional. Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                                                    $senderBoostCount              Optional. Optional. If the sender of the message boosted the chat, the number of boosts added by the user
@@ -98,16 +106,19 @@ class MessageFactory extends AbstractFactory
      * @param ExternalReplyInfoInterface|null                                             $externalReply                 Optional. Optional. Information about the message that is being replied to, which may come from another chat or forum topic
      * @param TextQuoteInterface|null                                                     $quote                         Optional. Optional. For replies that quote part of the original message, the quoted part of the message
      * @param StoryInterface|null                                                         $replyToStory                  Optional. Optional. For replies to a story, the original story
+     * @param int|null                                                                    $replyToChecklistTaskId        Optional. Optional. Identifier of the specific checklist task that is being replied to
      * @param UserInterface|null                                                          $viaBot                        Optional. Optional. Bot through which the message was sent
      * @param int|null                                                                    $editDate                      Optional. Optional. Date the message was last edited in Unix time
      * @param bool|null                                                                   $hasProtectedContent           Optional. Optional. True, if the message can't be forwarded
      * @param bool|null                                                                   $isFromOffline                 Optional. Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
+     * @param bool|null                                                                   $isPaidPost                    Optional. Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
      * @param string|null                                                                 $mediaGroupId                  Optional. Optional. The unique identifier of a media message group this message belongs to
      * @param string|null                                                                 $authorSignature               Optional. Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|null                                                                    $paidStarCount                 Optional. Optional. The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|null                                                                 $text                          Optional. Optional. For text messages, the actual UTF-8 text of the message
      * @param array|null                                                                  $entities                      Optional. Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      * @param LinkPreviewOptionsInterface|null                                            $linkPreviewOptions            Optional. Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
+     * @param SuggestedPostInfoInterface|null                                             $suggestedPostInfo             Optional. Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|null                                                                 $effectId                      Optional. Optional. Unique identifier of the message effect added to the message
      * @param AnimationInterface|null                                                     $animation                     Optional. Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
      * @param AudioInterface|null                                                         $audio                         Optional. Optional. Message is an audio file, information about the file
@@ -169,6 +180,11 @@ class MessageFactory extends AbstractFactory
      * @param GiveawayWinnersInterface|null                                               $giveawayWinners               Optional. Optional. A giveaway with public winners was completed
      * @param GiveawayCompletedInterface|null                                             $giveawayCompleted             Optional. Optional. Service message: a giveaway without public winners was completed
      * @param PaidMessagePriceChangedInterface|null                                       $paidMessagePriceChanged       Optional. Optional. Service message: the price for paid messages has changed in the chat
+     * @param SuggestedPostApprovedInterface|null                                         $suggestedPostApproved         Optional. Optional. Service message: a suggested post was approved
+     * @param SuggestedPostApprovalFailedInterface|null                                   $suggestedPostApprovalFailed   Optional. Optional. Service message: approval of a suggested post has failed
+     * @param SuggestedPostDeclinedInterface|null                                         $suggestedPostDeclined         Optional. Optional. Service message: a suggested post was declined
+     * @param SuggestedPostPaidInterface|null                                             $suggestedPostPaid             Optional. Optional. Service message: payment for a suggested post was received
+     * @param SuggestedPostRefundedInterface|null                                         $suggestedPostRefunded         Optional. Optional. Service message: payment for a suggested post was refunded
      * @param VideoChatScheduledInterface|null                                            $videoChatScheduled            Optional. Optional. Service message: video chat scheduled
      * @param VideoChatStartedInterface|null                                              $videoChatStarted              Optional. Optional. Service message: video chat started
      * @param VideoChatEndedInterface|null                                                $videoChatEnded                Optional. Optional. Service message: video chat ended
@@ -179,6 +195,7 @@ class MessageFactory extends AbstractFactory
     public static function make(
         ?int $messageId = null,
         ?int $messageThreadId = null,
+        ?DirectMessagesTopicInterface $directMessagesTopic = null,
         ?UserInterface $from = null,
         ?ChatInterface $senderChat = null,
         ?int $senderBoostCount = null,
@@ -193,16 +210,19 @@ class MessageFactory extends AbstractFactory
         ?ExternalReplyInfoInterface $externalReply = null,
         ?TextQuoteInterface $quote = null,
         ?StoryInterface $replyToStory = null,
+        ?int $replyToChecklistTaskId = null,
         ?UserInterface $viaBot = null,
         ?int $editDate = null,
         ?bool $hasProtectedContent = null,
         ?bool $isFromOffline = null,
+        ?bool $isPaidPost = null,
         ?string $mediaGroupId = null,
         ?string $authorSignature = null,
         ?int $paidStarCount = null,
         ?string $text = null,
         ?array $entities = null,
         ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
+        ?SuggestedPostInfoInterface $suggestedPostInfo = null,
         ?string $effectId = null,
         ?AnimationInterface $animation = null,
         ?AudioInterface $audio = null,
@@ -264,6 +284,11 @@ class MessageFactory extends AbstractFactory
         ?GiveawayWinnersInterface $giveawayWinners = null,
         ?GiveawayCompletedInterface $giveawayCompleted = null,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
+        ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed = null,
+        ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,
+        ?SuggestedPostPaidInterface $suggestedPostPaid = null,
+        ?SuggestedPostRefundedInterface $suggestedPostRefunded = null,
         ?VideoChatScheduledInterface $videoChatScheduled = null,
         ?VideoChatStartedInterface $videoChatStarted = null,
         ?VideoChatEndedInterface $videoChatEnded = null,
@@ -274,6 +299,7 @@ class MessageFactory extends AbstractFactory
         return self::factory()->makeMessage(
             messageId: $messageId ?? self::fake()->numberBetween(100000, 999999999),
             messageThreadId: $messageThreadId,
+            directMessagesTopic: $directMessagesTopic,
             from: $from,
             senderChat: $senderChat,
             senderBoostCount: $senderBoostCount,
@@ -288,16 +314,19 @@ class MessageFactory extends AbstractFactory
             externalReply: $externalReply,
             quote: $quote,
             replyToStory: $replyToStory,
+            replyToChecklistTaskId: $replyToChecklistTaskId,
             viaBot: $viaBot,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
             isFromOffline: $isFromOffline,
+            isPaidPost: $isPaidPost,
             mediaGroupId: $mediaGroupId,
             authorSignature: $authorSignature,
             paidStarCount: $paidStarCount,
             text: $text,
             entities: $entities,
             linkPreviewOptions: $linkPreviewOptions,
+            suggestedPostInfo: $suggestedPostInfo,
             effectId: $effectId,
             animation: $animation,
             audio: $audio,
@@ -359,6 +388,11 @@ class MessageFactory extends AbstractFactory
             giveawayWinners: $giveawayWinners,
             giveawayCompleted: $giveawayCompleted,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            suggestedPostApproved: $suggestedPostApproved,
+            suggestedPostApprovalFailed: $suggestedPostApprovalFailed,
+            suggestedPostDeclined: $suggestedPostDeclined,
+            suggestedPostPaid: $suggestedPostPaid,
+            suggestedPostRefunded: $suggestedPostRefunded,
             videoChatScheduled: $videoChatScheduled,
             videoChatStarted: $videoChatStarted,
             videoChatEnded: $videoChatEnded,

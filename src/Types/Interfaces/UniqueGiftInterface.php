@@ -24,4 +24,7 @@ interface UniqueGiftInterface extends TypeInterface
 
     /** @var UniqueGiftBackdropInterface $backdrop Backdrop of the gift */
     public UniqueGiftBackdropInterface $backdrop { set; get; }
+
+    /** @var ChatInterface|null $publisherChat Optional. Information about the chat that published the gift */
+    public ?ChatInterface $publisherChat { set; get; }
 }
