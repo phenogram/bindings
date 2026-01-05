@@ -14,18 +14,21 @@ class AcceptedGiftTypesFactory extends AbstractFactory
      * @param bool|null $limitedGifts        Optional. True, if limited regular gifts are accepted
      * @param bool|null $uniqueGifts         Optional. True, if unique gifts or gifts that can be upgraded to unique for free are accepted
      * @param bool|null $premiumSubscription Optional. True, if a Telegram Premium subscription is accepted
+     * @param bool|null $giftsFromChannels   Optional. True, if transfers of unique gifts from channels are accepted
      */
     public static function make(
         ?bool $unlimitedGifts = null,
         ?bool $limitedGifts = null,
         ?bool $uniqueGifts = null,
         ?bool $premiumSubscription = null,
+        ?bool $giftsFromChannels = null,
     ): AcceptedGiftTypesInterface {
         return self::factory()->makeAcceptedGiftTypes(
             unlimitedGifts: $unlimitedGifts ?? self::fake()->boolean(),
             limitedGifts: $limitedGifts ?? self::fake()->boolean(),
             uniqueGifts: $uniqueGifts ?? self::fake()->boolean(),
             premiumSubscription: $premiumSubscription ?? self::fake()->boolean(),
+            giftsFromChannels: $giftsFromChannels ?? self::fake()->boolean(),
         );
     }
 }

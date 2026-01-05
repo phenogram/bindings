@@ -25,8 +25,10 @@ class OwnedGiftRegularFactory extends AbstractFactory
      * @param bool|null          $isSaved                 Optional. Optional. True, if the gift is displayed on the account's profile page; for gifts received on behalf of business accounts only
      * @param bool|null          $canBeUpgraded           Optional. Optional. True, if the gift can be upgraded to a unique gift; for gifts received on behalf of business accounts only
      * @param bool|null          $wasRefunded             Optional. Optional. True, if the gift was refunded and isn't available anymore
-     * @param int|null           $convertStarCount        Optional. Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars
-     * @param int|null           $prepaidUpgradeStarCount Optional. Optional. Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift
+     * @param int|null           $convertStarCount        Optional. Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars; for gifts received on behalf of business accounts only
+     * @param int|null           $prepaidUpgradeStarCount Optional. Optional. Number of Telegram Stars that were paid for the ability to upgrade the gift
+     * @param bool|null          $isUpgradeSeparate       Optional. Optional. True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of business accounts only
+     * @param int|null           $uniqueGiftNumber        Optional. Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift
      */
     public static function make(
         ?string $type = null,
@@ -42,6 +44,8 @@ class OwnedGiftRegularFactory extends AbstractFactory
         ?bool $wasRefunded = null,
         ?int $convertStarCount = null,
         ?int $prepaidUpgradeStarCount = null,
+        ?bool $isUpgradeSeparate = null,
+        ?int $uniqueGiftNumber = null,
     ): OwnedGiftRegularInterface {
         return self::factory()->makeOwnedGiftRegular(
             type: $type ?? self::fake()->word(),
@@ -57,6 +61,8 @@ class OwnedGiftRegularFactory extends AbstractFactory
             wasRefunded: $wasRefunded,
             convertStarCount: $convertStarCount,
             prepaidUpgradeStarCount: $prepaidUpgradeStarCount,
+            isUpgradeSeparate: $isUpgradeSeparate,
+            uniqueGiftNumber: $uniqueGiftNumber,
         );
     }
 }

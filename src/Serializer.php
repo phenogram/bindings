@@ -83,6 +83,7 @@ use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
@@ -239,6 +240,7 @@ use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
 use Phenogram\Bindings\Types\Interfaces\TypeInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
@@ -247,6 +249,7 @@ use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
+use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\VenueInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatEndedInterface;
@@ -427,6 +430,7 @@ class Serializer implements SerializerInterface
             supportsInlineQueries: $data['supports_inline_queries'] ?? null,
             canConnectToBusiness: $data['can_connect_to_business'] ?? null,
             hasMainWebApp: $data['has_main_web_app'] ?? null,
+            hasTopicsEnabled: $data['has_topics_enabled'] ?? null,
         );
     }
 
@@ -553,6 +557,13 @@ class Serializer implements SerializerInterface
             location: isset($data['location'])
                 ? $this->denormalizeChatLocation($data['location'])
                 : null,
+            rating: isset($data['rating'])
+                ? $this->denormalizeUserRating($data['rating'])
+                : null,
+            uniqueGiftColors: isset($data['unique_gift_colors'])
+                ? $this->denormalizeUniqueGiftColors($data['unique_gift_colors'])
+                : null,
+            paidMessageStarCount: $data['paid_message_star_count'] ?? null,
         );
     }
 
@@ -733,6 +744,9 @@ class Serializer implements SerializerInterface
                 : null,
             uniqueGift: isset($data['unique_gift'])
                 ? $this->denormalizeUniqueGiftInfo($data['unique_gift'])
+                : null,
+            giftUpgradeSent: isset($data['gift_upgrade_sent'])
+                ? $this->denormalizeGiftInfo($data['gift_upgrade_sent'])
                 : null,
             connectedWebsite: $data['connected_website'] ?? null,
             writeAccessAllowed: isset($data['write_access_allowed'])
@@ -1781,6 +1795,9 @@ class Serializer implements SerializerInterface
             completedByUser: isset($data['completed_by_user'])
                 ? $this->denormalizeUser($data['completed_by_user'])
                 : null,
+            completedByChat: isset($data['completed_by_chat'])
+                ? $this->denormalizeChat($data['completed_by_chat'])
+                : null,
             completionDate: $data['completion_date'] ?? null,
         );
     }
@@ -2328,6 +2345,7 @@ class Serializer implements SerializerInterface
             name: $data['name'],
             iconColor: $data['icon_color'],
             iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
+            isNameImplicit: $data['is_name_implicit'] ?? null,
         );
     }
 
@@ -3854,6 +3872,34 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeUserRating(array $data): UserRatingInterface
+    {
+        $requiredFields = [
+            'level',
+            'rating',
+            'current_level_rating',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UserRating missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUserRating(
+            level: $data['level'],
+            rating: $data['rating'],
+            currentLevelRating: $data['current_level_rating'],
+            nextLevelRating: $data['next_level_rating'] ?? null,
+        );
+    }
+
     public function denormalizeStoryAreaPosition(array $data): StoryAreaPositionInterface
     {
         $requiredFields = [
@@ -4303,6 +4349,34 @@ class Serializer implements SerializerInterface
             name: $data['name'],
             iconColor: $data['icon_color'],
             iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
+            isNameImplicit: $data['is_name_implicit'] ?? null,
+        );
+    }
+
+    public function denormalizeGiftBackground(array $data): GiftBackgroundInterface
+    {
+        $requiredFields = [
+            'center_color',
+            'edge_color',
+            'text_color',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class GiftBackground missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeGiftBackground(
+            centerColor: $data['center_color'],
+            edgeColor: $data['edge_color'],
+            textColor: $data['text_color'],
         );
     }
 
@@ -4331,8 +4405,16 @@ class Serializer implements SerializerInterface
             sticker: $this->denormalizeSticker($data['sticker']),
             starCount: $data['star_count'],
             upgradeStarCount: $data['upgrade_star_count'] ?? null,
+            isPremium: $data['is_premium'] ?? null,
+            hasColors: $data['has_colors'] ?? null,
             totalCount: $data['total_count'] ?? null,
             remainingCount: $data['remaining_count'] ?? null,
+            personalTotalCount: $data['personal_total_count'] ?? null,
+            personalRemainingCount: $data['personal_remaining_count'] ?? null,
+            background: isset($data['background'])
+                ? $this->denormalizeGiftBackground($data['background'])
+                : null,
+            uniqueGiftVariantCount: $data['unique_gift_variant_count'] ?? null,
             publisherChat: isset($data['publisher_chat'])
                 ? $this->denormalizeChat($data['publisher_chat'])
                 : null,
@@ -4472,9 +4554,43 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeUniqueGiftColors(array $data): UniqueGiftColorsInterface
+    {
+        $requiredFields = [
+            'model_custom_emoji_id',
+            'symbol_custom_emoji_id',
+            'light_theme_main_color',
+            'light_theme_other_colors',
+            'dark_theme_main_color',
+            'dark_theme_other_colors',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UniqueGiftColors missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUniqueGiftColors(
+            modelCustomEmojiId: $data['model_custom_emoji_id'],
+            symbolCustomEmojiId: $data['symbol_custom_emoji_id'],
+            lightThemeMainColor: $data['light_theme_main_color'],
+            lightThemeOtherColors: $data['light_theme_other_colors'],
+            darkThemeMainColor: $data['dark_theme_main_color'],
+            darkThemeOtherColors: $data['dark_theme_other_colors'],
+        );
+    }
+
     public function denormalizeUniqueGift(array $data): UniqueGiftInterface
     {
         $requiredFields = [
+            'gift_id',
             'base_name',
             'name',
             'number',
@@ -4496,12 +4612,18 @@ class Serializer implements SerializerInterface
         }
 
         return $this->factory->makeUniqueGift(
+            giftId: $data['gift_id'],
             baseName: $data['base_name'],
             name: $data['name'],
             number: $data['number'],
             model: $this->denormalizeUniqueGiftModel($data['model']),
             symbol: $this->denormalizeUniqueGiftSymbol($data['symbol']),
             backdrop: $this->denormalizeUniqueGiftBackdrop($data['backdrop']),
+            isPremium: $data['is_premium'] ?? null,
+            isFromBlockchain: $data['is_from_blockchain'] ?? null,
+            colors: isset($data['colors'])
+                ? $this->denormalizeUniqueGiftColors($data['colors'])
+                : null,
             publisherChat: isset($data['publisher_chat'])
                 ? $this->denormalizeChat($data['publisher_chat'])
                 : null,
@@ -4531,12 +4653,14 @@ class Serializer implements SerializerInterface
             ownedGiftId: $data['owned_gift_id'] ?? null,
             convertStarCount: $data['convert_star_count'] ?? null,
             prepaidUpgradeStarCount: $data['prepaid_upgrade_star_count'] ?? null,
+            isUpgradeSeparate: $data['is_upgrade_separate'] ?? null,
             canBeUpgraded: $data['can_be_upgraded'] ?? null,
             text: $data['text'] ?? null,
             entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
                 : null,
             isPrivate: $data['is_private'] ?? null,
+            uniqueGiftNumber: $data['unique_gift_number'] ?? null,
         );
     }
 
@@ -4562,7 +4686,8 @@ class Serializer implements SerializerInterface
         return $this->factory->makeUniqueGiftInfo(
             gift: $this->denormalizeUniqueGift($data['gift']),
             origin: $data['origin'],
-            lastResaleStarCount: $data['last_resale_star_count'] ?? null,
+            lastResaleCurrency: $data['last_resale_currency'] ?? null,
+            lastResaleAmount: $data['last_resale_amount'] ?? null,
             ownedGiftId: $data['owned_gift_id'] ?? null,
             transferStarCount: $data['transfer_star_count'] ?? null,
             nextTransferDate: $data['next_transfer_date'] ?? null,
@@ -4612,6 +4737,8 @@ class Serializer implements SerializerInterface
             wasRefunded: $data['was_refunded'] ?? null,
             convertStarCount: $data['convert_star_count'] ?? null,
             prepaidUpgradeStarCount: $data['prepaid_upgrade_star_count'] ?? null,
+            isUpgradeSeparate: $data['is_upgrade_separate'] ?? null,
+            uniqueGiftNumber: $data['unique_gift_number'] ?? null,
         );
     }
 
@@ -4683,6 +4810,7 @@ class Serializer implements SerializerInterface
             'limited_gifts',
             'unique_gifts',
             'premium_subscription',
+            'gifts_from_channels',
         ];
 
         $missingFields = [];
@@ -4702,6 +4830,7 @@ class Serializer implements SerializerInterface
             limitedGifts: $data['limited_gifts'],
             uniqueGifts: $data['unique_gifts'],
             premiumSubscription: $data['premium_subscription'],
+            giftsFromChannels: $data['gifts_from_channels'],
         );
     }
 
@@ -8167,6 +8296,7 @@ class Serializer implements SerializerInterface
             BusinessLocationInterface::class => $this->denormalizeBusinessLocation($data),
             BusinessOpeningHoursIntervalInterface::class => $this->denormalizeBusinessOpeningHoursInterval($data),
             BusinessOpeningHoursInterface::class => $this->denormalizeBusinessOpeningHours($data),
+            UserRatingInterface::class => $this->denormalizeUserRating($data),
             StoryAreaPositionInterface::class => $this->denormalizeStoryAreaPosition($data),
             LocationAddressInterface::class => $this->denormalizeLocationAddress($data),
             StoryAreaTypeLocationInterface::class => $this->denormalizeStoryAreaTypeLocation($data),
@@ -8183,12 +8313,14 @@ class Serializer implements SerializerInterface
             MessageReactionUpdatedInterface::class => $this->denormalizeMessageReactionUpdated($data),
             MessageReactionCountUpdatedInterface::class => $this->denormalizeMessageReactionCountUpdated($data),
             ForumTopicInterface::class => $this->denormalizeForumTopic($data),
+            GiftBackgroundInterface::class => $this->denormalizeGiftBackground($data),
             GiftInterface::class => $this->denormalizeGift($data),
             GiftsInterface::class => $this->denormalizeGifts($data),
             UniqueGiftModelInterface::class => $this->denormalizeUniqueGiftModel($data),
             UniqueGiftSymbolInterface::class => $this->denormalizeUniqueGiftSymbol($data),
             UniqueGiftBackdropColorsInterface::class => $this->denormalizeUniqueGiftBackdropColors($data),
             UniqueGiftBackdropInterface::class => $this->denormalizeUniqueGiftBackdrop($data),
+            UniqueGiftColorsInterface::class => $this->denormalizeUniqueGiftColors($data),
             UniqueGiftInterface::class => $this->denormalizeUniqueGift($data),
             GiftInfoInterface::class => $this->denormalizeGiftInfo($data),
             UniqueGiftInfoInterface::class => $this->denormalizeUniqueGiftInfo($data),

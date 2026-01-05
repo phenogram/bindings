@@ -18,4 +18,7 @@ interface ForumTopicInterface extends TypeInterface
 
     /** @var string|null $iconCustomEmojiId Optional. Unique identifier of the custom emoji shown as the topic icon */
     public ?string $iconCustomEmojiId { set; get; }
+
+    /** @var bool|null $isNameImplicit Optional. True, if the name of the topic wasn't specified explicitly by its creator and likely needs to be changed by the bot */
+    public ?bool $isNameImplicit { set; get; }
 }

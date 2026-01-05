@@ -147,4 +147,13 @@ interface ChatFullInfoInterface extends TypeInterface
 
     /** @var ChatLocationInterface|null $location Optional. For supergroups, the location to which the supergroup is connected */
     public ?ChatLocationInterface $location { set; get; }
+
+    /** @var UserRatingInterface|null $rating Optional. For private chats, the rating of the user if any */
+    public ?UserRatingInterface $rating { set; get; }
+
+    /** @var UniqueGiftColorsInterface|null $uniqueGiftColors Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews */
+    public ?UniqueGiftColorsInterface $uniqueGiftColors { set; get; }
+
+    /** @var int|null $paidMessageStarCount Optional. The number of Telegram Stars a general user have to pay to send a message to the chat */
+    public ?int $paidMessageStarCount { set; get; }
 }

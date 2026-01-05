@@ -23,6 +23,7 @@ class UserFactory extends AbstractFactory
      * @param bool|null   $supportsInlineQueries   Optional. Optional. True, if the bot supports inline queries. Returned only in getMe.
      * @param bool|null   $canConnectToBusiness    Optional. Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
      * @param bool|null   $hasMainWebApp           Optional. Optional. True, if the bot has a main Web App. Returned only in getMe.
+     * @param bool|null   $hasTopicsEnabled        Optional. Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      */
     public static function make(
         ?int $id = null,
@@ -38,6 +39,7 @@ class UserFactory extends AbstractFactory
         ?bool $supportsInlineQueries = null,
         ?bool $canConnectToBusiness = null,
         ?bool $hasMainWebApp = null,
+        ?bool $hasTopicsEnabled = null,
     ): UserInterface {
         return self::factory()->makeUser(
             id: $id ?? self::fake()->numberBetween(100000, 999999999),
@@ -53,6 +55,7 @@ class UserFactory extends AbstractFactory
             supportsInlineQueries: $supportsInlineQueries,
             canConnectToBusiness: $canConnectToBusiness,
             hasMainWebApp: $hasMainWebApp,
+            hasTopicsEnabled: $hasTopicsEnabled,
         );
     }
 }

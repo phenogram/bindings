@@ -8,6 +8,7 @@ use Phenogram\Bindings\Factories\UniqueGiftModelFactory as UniqueGiftModel;
 use Phenogram\Bindings\Factories\UniqueGiftSymbolFactory as UniqueGiftSymbol;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
@@ -18,30 +19,42 @@ class UniqueGiftFactory extends AbstractFactory
     /**
      * Creates a new UniqueGift instance with default fake data.
      *
-     * @param string|null                      $baseName      Optional. Human-readable name of the regular gift from which this unique gift was upgraded
-     * @param string|null                      $name          Optional. Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
-     * @param int|null                         $number        Optional. Unique number of the upgraded gift among gifts upgraded from the same regular gift
-     * @param UniqueGiftModelInterface|null    $model         Optional. Model of the gift
-     * @param UniqueGiftSymbolInterface|null   $symbol        Optional. Symbol of the gift
-     * @param UniqueGiftBackdropInterface|null $backdrop      Optional. Backdrop of the gift
-     * @param ChatInterface|null               $publisherChat Optional. Optional. Information about the chat that published the gift
+     * @param string|null                      $giftId           Optional. Identifier of the regular gift from which the gift was upgraded
+     * @param string|null                      $baseName         Optional. Human-readable name of the regular gift from which this unique gift was upgraded
+     * @param string|null                      $name             Optional. Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
+     * @param int|null                         $number           Optional. Unique number of the upgraded gift among gifts upgraded from the same regular gift
+     * @param UniqueGiftModelInterface|null    $model            Optional. Model of the gift
+     * @param UniqueGiftSymbolInterface|null   $symbol           Optional. Symbol of the gift
+     * @param UniqueGiftBackdropInterface|null $backdrop         Optional. Backdrop of the gift
+     * @param bool|null                        $isPremium        Optional. Optional. True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     * @param bool|null                        $isFromBlockchain Optional. Optional. True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
+     * @param UniqueGiftColorsInterface|null   $colors           Optional. Optional. The color scheme that can be used by the gift's owner for the chat's name, replies to messages and link previews; for business account gifts and gifts that are currently on sale only
+     * @param ChatInterface|null               $publisherChat    Optional. Optional. Information about the chat that published the gift
      */
     public static function make(
+        ?string $giftId = null,
         ?string $baseName = null,
         ?string $name = null,
         ?int $number = null,
         ?UniqueGiftModelInterface $model = null,
         ?UniqueGiftSymbolInterface $symbol = null,
         ?UniqueGiftBackdropInterface $backdrop = null,
+        ?bool $isPremium = null,
+        ?bool $isFromBlockchain = null,
+        ?UniqueGiftColorsInterface $colors = null,
         ?ChatInterface $publisherChat = null,
     ): UniqueGiftInterface {
         return self::factory()->makeUniqueGift(
+            giftId: $giftId ?? self::fake()->bothify('?#?#?#?#?#?#?#???'),
             baseName: $baseName ?? self::fake()->text(50),
             name: $name ?? self::fake()->text(50),
             number: $number ?? self::fake()->randomNumber(),
             model: $model ?? UniqueGiftModel::make(),
             symbol: $symbol ?? UniqueGiftSymbol::make(),
             backdrop: $backdrop ?? UniqueGiftBackdrop::make(),
+            isPremium: $isPremium,
+            isFromBlockchain: $isFromBlockchain,
+            colors: $colors,
             publisherChat: $publisherChat,
         );
     }

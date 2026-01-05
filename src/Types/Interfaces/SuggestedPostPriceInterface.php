@@ -3,7 +3,7 @@
 namespace Phenogram\Bindings\Types\Interfaces;
 
 /**
- * Desribes price of a suggested post.
+ * Describes the price of a suggested post.
  */
 interface SuggestedPostPriceInterface extends TypeInterface
 {

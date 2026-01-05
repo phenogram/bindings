@@ -3,7 +3,7 @@
 namespace Phenogram\Bindings\Types;
 
 /**
- * Desribes price of a suggested post.
+ * Describes the price of a suggested post.
  */
 class SuggestedPostPrice implements Interfaces\SuggestedPostPriceInterface
 {

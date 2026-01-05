@@ -45,4 +45,7 @@ interface UserInterface extends TypeInterface
 
     /** @var bool|null $hasMainWebApp Optional. True, if the bot has a main Web App. Returned only in getMe. */
     public ?bool $hasMainWebApp { set; get; }
+
+    /** @var bool|null $hasTopicsEnabled Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe. */
+    public ?bool $hasTopicsEnabled { set; get; }
 }

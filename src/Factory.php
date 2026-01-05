@@ -84,6 +84,7 @@ use Phenogram\Bindings\Types\GameHighScore;
 use Phenogram\Bindings\Types\GeneralForumTopicHidden;
 use Phenogram\Bindings\Types\GeneralForumTopicUnhidden;
 use Phenogram\Bindings\Types\Gift;
+use Phenogram\Bindings\Types\GiftBackground;
 use Phenogram\Bindings\Types\GiftInfo;
 use Phenogram\Bindings\Types\Gifts;
 use Phenogram\Bindings\Types\Giveaway;
@@ -216,6 +217,7 @@ use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
@@ -370,6 +372,7 @@ use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
@@ -378,6 +381,7 @@ use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
+use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\VenueInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatEndedInterface;
@@ -494,6 +498,7 @@ use Phenogram\Bindings\Types\TransactionPartnerUser;
 use Phenogram\Bindings\Types\UniqueGift;
 use Phenogram\Bindings\Types\UniqueGiftBackdrop;
 use Phenogram\Bindings\Types\UniqueGiftBackdropColors;
+use Phenogram\Bindings\Types\UniqueGiftColors;
 use Phenogram\Bindings\Types\UniqueGiftInfo;
 use Phenogram\Bindings\Types\UniqueGiftModel;
 use Phenogram\Bindings\Types\UniqueGiftSymbol;
@@ -501,6 +506,7 @@ use Phenogram\Bindings\Types\Update;
 use Phenogram\Bindings\Types\User;
 use Phenogram\Bindings\Types\UserChatBoosts;
 use Phenogram\Bindings\Types\UserProfilePhotos;
+use Phenogram\Bindings\Types\UserRating;
 use Phenogram\Bindings\Types\UsersShared;
 use Phenogram\Bindings\Types\Venue;
 use Phenogram\Bindings\Types\Video;
@@ -609,6 +615,7 @@ class Factory implements FactoryInterface
         ?bool $supportsInlineQueries,
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
+        ?bool $hasTopicsEnabled,
     ): UserInterface {
         return new User(
             id: $id,
@@ -624,6 +631,7 @@ class Factory implements FactoryInterface
             supportsInlineQueries: $supportsInlineQueries,
             canConnectToBusiness: $canConnectToBusiness,
             hasMainWebApp: $hasMainWebApp,
+            hasTopicsEnabled: $hasTopicsEnabled,
         );
     }
 
@@ -697,6 +705,9 @@ class Factory implements FactoryInterface
         ?string $customEmojiStickerSetName,
         ?int $linkedChatId,
         ?ChatLocationInterface $location,
+        ?UserRatingInterface $rating,
+        ?UniqueGiftColorsInterface $uniqueGiftColors,
+        ?int $paidMessageStarCount,
     ): ChatFullInfoInterface {
         return new ChatFullInfo(
             id: $id,
@@ -746,6 +757,9 @@ class Factory implements FactoryInterface
             customEmojiStickerSetName: $customEmojiStickerSetName,
             linkedChatId: $linkedChatId,
             location: $location,
+            rating: $rating,
+            uniqueGiftColors: $uniqueGiftColors,
+            paidMessageStarCount: $paidMessageStarCount,
         );
     }
 
@@ -821,6 +835,7 @@ class Factory implements FactoryInterface
         ?ChatSharedInterface $chatShared,
         ?GiftInfoInterface $gift,
         ?UniqueGiftInfoInterface $uniqueGift,
+        ?GiftInfoInterface $giftUpgradeSent,
         ?string $connectedWebsite,
         ?WriteAccessAllowedInterface $writeAccessAllowed,
         ?PassportDataInterface $passportData,
@@ -925,6 +940,7 @@ class Factory implements FactoryInterface
             chatShared: $chatShared,
             gift: $gift,
             uniqueGift: $uniqueGift,
+            giftUpgradeSent: $giftUpgradeSent,
             connectedWebsite: $connectedWebsite,
             writeAccessAllowed: $writeAccessAllowed,
             passportData: $passportData,
@@ -1422,6 +1438,7 @@ class Factory implements FactoryInterface
         string $text,
         ?array $textEntities,
         ?UserInterface $completedByUser,
+        ?ChatInterface $completedByChat,
         ?int $completionDate,
     ): ChecklistTaskInterface {
         return new ChecklistTask(
@@ -1429,6 +1446,7 @@ class Factory implements FactoryInterface
             text: $text,
             textEntities: $textEntities,
             completedByUser: $completedByUser,
+            completedByChat: $completedByChat,
             completionDate: $completionDate,
         );
     }
@@ -1672,11 +1690,13 @@ class Factory implements FactoryInterface
         string $name,
         int $iconColor,
         ?string $iconCustomEmojiId,
+        ?bool $isNameImplicit,
     ): ForumTopicCreatedInterface {
         return new ForumTopicCreated(
             name: $name,
             iconColor: $iconColor,
             iconCustomEmojiId: $iconCustomEmojiId,
+            isNameImplicit: $isNameImplicit,
         );
     }
 
@@ -2547,6 +2567,20 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeUserRating(
+        int $level,
+        int $rating,
+        int $currentLevelRating,
+        ?int $nextLevelRating,
+    ): UserRatingInterface {
+        return new UserRating(
+            level: $level,
+            rating: $rating,
+            currentLevelRating: $currentLevelRating,
+            nextLevelRating: $nextLevelRating,
+        );
+    }
+
     public function makeStoryAreaPosition(
         float $xPercentage,
         float $yPercentage,
@@ -2727,12 +2761,23 @@ class Factory implements FactoryInterface
         string $name,
         int $iconColor,
         ?string $iconCustomEmojiId,
+        ?bool $isNameImplicit,
     ): ForumTopicInterface {
         return new ForumTopic(
             messageThreadId: $messageThreadId,
             name: $name,
             iconColor: $iconColor,
             iconCustomEmojiId: $iconCustomEmojiId,
+            isNameImplicit: $isNameImplicit,
+        );
+    }
+
+    public function makeGiftBackground(int $centerColor, int $edgeColor, int $textColor): GiftBackgroundInterface
+    {
+        return new GiftBackground(
+            centerColor: $centerColor,
+            edgeColor: $edgeColor,
+            textColor: $textColor,
         );
     }
 
@@ -2741,8 +2786,14 @@ class Factory implements FactoryInterface
         StickerInterface $sticker,
         int $starCount,
         ?int $upgradeStarCount,
+        ?bool $isPremium,
+        ?bool $hasColors,
         ?int $totalCount,
         ?int $remainingCount,
+        ?int $personalTotalCount,
+        ?int $personalRemainingCount,
+        ?GiftBackgroundInterface $background,
+        ?int $uniqueGiftVariantCount,
         ?ChatInterface $publisherChat,
     ): GiftInterface {
         return new Gift(
@@ -2750,8 +2801,14 @@ class Factory implements FactoryInterface
             sticker: $sticker,
             starCount: $starCount,
             upgradeStarCount: $upgradeStarCount,
+            isPremium: $isPremium,
+            hasColors: $hasColors,
             totalCount: $totalCount,
             remainingCount: $remainingCount,
+            personalTotalCount: $personalTotalCount,
+            personalRemainingCount: $personalRemainingCount,
+            background: $background,
+            uniqueGiftVariantCount: $uniqueGiftVariantCount,
             publisherChat: $publisherChat,
         );
     }
@@ -2813,22 +2870,48 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeUniqueGiftColors(
+        string $modelCustomEmojiId,
+        string $symbolCustomEmojiId,
+        int $lightThemeMainColor,
+        array $lightThemeOtherColors,
+        int $darkThemeMainColor,
+        array $darkThemeOtherColors,
+    ): UniqueGiftColorsInterface {
+        return new UniqueGiftColors(
+            modelCustomEmojiId: $modelCustomEmojiId,
+            symbolCustomEmojiId: $symbolCustomEmojiId,
+            lightThemeMainColor: $lightThemeMainColor,
+            lightThemeOtherColors: $lightThemeOtherColors,
+            darkThemeMainColor: $darkThemeMainColor,
+            darkThemeOtherColors: $darkThemeOtherColors,
+        );
+    }
+
     public function makeUniqueGift(
+        string $giftId,
         string $baseName,
         string $name,
         int $number,
         UniqueGiftModelInterface $model,
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
+        ?bool $isPremium,
+        ?bool $isFromBlockchain,
+        ?UniqueGiftColorsInterface $colors,
         ?ChatInterface $publisherChat,
     ): UniqueGiftInterface {
         return new UniqueGift(
+            giftId: $giftId,
             baseName: $baseName,
             name: $name,
             number: $number,
             model: $model,
             symbol: $symbol,
             backdrop: $backdrop,
+            isPremium: $isPremium,
+            isFromBlockchain: $isFromBlockchain,
+            colors: $colors,
             publisherChat: $publisherChat,
         );
     }
@@ -2838,27 +2921,32 @@ class Factory implements FactoryInterface
         ?string $ownedGiftId,
         ?int $convertStarCount,
         ?int $prepaidUpgradeStarCount,
+        ?bool $isUpgradeSeparate,
         ?bool $canBeUpgraded,
         ?string $text,
         ?array $entities,
         ?bool $isPrivate,
+        ?int $uniqueGiftNumber,
     ): GiftInfoInterface {
         return new GiftInfo(
             gift: $gift,
             ownedGiftId: $ownedGiftId,
             convertStarCount: $convertStarCount,
             prepaidUpgradeStarCount: $prepaidUpgradeStarCount,
+            isUpgradeSeparate: $isUpgradeSeparate,
             canBeUpgraded: $canBeUpgraded,
             text: $text,
             entities: $entities,
             isPrivate: $isPrivate,
+            uniqueGiftNumber: $uniqueGiftNumber,
         );
     }
 
     public function makeUniqueGiftInfo(
         UniqueGiftInterface $gift,
         string $origin,
-        ?int $lastResaleStarCount,
+        ?string $lastResaleCurrency,
+        ?int $lastResaleAmount,
         ?string $ownedGiftId,
         ?int $transferStarCount,
         ?int $nextTransferDate,
@@ -2866,7 +2954,8 @@ class Factory implements FactoryInterface
         return new UniqueGiftInfo(
             gift: $gift,
             origin: $origin,
-            lastResaleStarCount: $lastResaleStarCount,
+            lastResaleCurrency: $lastResaleCurrency,
+            lastResaleAmount: $lastResaleAmount,
             ownedGiftId: $ownedGiftId,
             transferStarCount: $transferStarCount,
             nextTransferDate: $nextTransferDate,
@@ -2887,6 +2976,8 @@ class Factory implements FactoryInterface
         ?bool $wasRefunded,
         ?int $convertStarCount,
         ?int $prepaidUpgradeStarCount,
+        ?bool $isUpgradeSeparate,
+        ?int $uniqueGiftNumber,
     ): OwnedGiftRegularInterface {
         return new OwnedGiftRegular(
             type: $type,
@@ -2902,6 +2993,8 @@ class Factory implements FactoryInterface
             wasRefunded: $wasRefunded,
             convertStarCount: $convertStarCount,
             prepaidUpgradeStarCount: $prepaidUpgradeStarCount,
+            isUpgradeSeparate: $isUpgradeSeparate,
+            uniqueGiftNumber: $uniqueGiftNumber,
         );
     }
 
@@ -2943,12 +3036,14 @@ class Factory implements FactoryInterface
         bool $limitedGifts,
         bool $uniqueGifts,
         bool $premiumSubscription,
+        bool $giftsFromChannels,
     ): AcceptedGiftTypesInterface {
         return new AcceptedGiftTypes(
             unlimitedGifts: $unlimitedGifts,
             limitedGifts: $limitedGifts,
             uniqueGifts: $uniqueGifts,
             premiumSubscription: $premiumSubscription,
+            giftsFromChannels: $giftsFromChannels,
         );
     }
 

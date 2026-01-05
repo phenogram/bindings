@@ -12,12 +12,14 @@ class AcceptedGiftTypes implements Interfaces\AcceptedGiftTypesInterface
      * @param bool $limitedGifts        True, if limited regular gifts are accepted
      * @param bool $uniqueGifts         True, if unique gifts or gifts that can be upgraded to unique for free are accepted
      * @param bool $premiumSubscription True, if a Telegram Premium subscription is accepted
+     * @param bool $giftsFromChannels   True, if transfers of unique gifts from channels are accepted
      */
     public function __construct(
         public bool $unlimitedGifts,
         public bool $limitedGifts,
         public bool $uniqueGifts,
         public bool $premiumSubscription,
+        public bool $giftsFromChannels,
     ) {
     }
 }

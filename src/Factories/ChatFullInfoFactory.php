@@ -17,6 +17,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 
 class ChatFullInfoFactory extends AbstractFactory
 {
@@ -70,6 +72,9 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param string|null                        $customEmojiStickerSetName          Optional. Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
      * @param int|null                           $linkedChatId                       Optional. Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocationInterface|null         $location                           Optional. Optional. For supergroups, the location to which the supergroup is connected
+     * @param UserRatingInterface|null           $rating                             Optional. Optional. For private chats, the rating of the user if any
+     * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
+     * @param int|null                           $paidMessageStarCount               Optional. Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
      */
     public static function make(
         ?int $id = null,
@@ -119,6 +124,9 @@ class ChatFullInfoFactory extends AbstractFactory
         ?string $customEmojiStickerSetName = null,
         ?int $linkedChatId = null,
         ?ChatLocationInterface $location = null,
+        ?UserRatingInterface $rating = null,
+        ?UniqueGiftColorsInterface $uniqueGiftColors = null,
+        ?int $paidMessageStarCount = null,
     ): ChatFullInfoInterface {
         return self::factory()->makeChatFullInfo(
             id: $id ?? self::fake()->numberBetween(100000, 999999999),
@@ -168,6 +176,9 @@ class ChatFullInfoFactory extends AbstractFactory
             customEmojiStickerSetName: $customEmojiStickerSetName,
             linkedChatId: $linkedChatId,
             location: $location,
+            rating: $rating,
+            uniqueGiftColors: $uniqueGiftColors,
+            paidMessageStarCount: $paidMessageStarCount,
         );
     }
 }

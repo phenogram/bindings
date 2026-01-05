@@ -18,4 +18,7 @@ interface AcceptedGiftTypesInterface extends TypeInterface
 
     /** @var bool $premiumSubscription True, if a Telegram Premium subscription is accepted */
     public bool $premiumSubscription { set; get; }
+
+    /** @var bool $giftsFromChannels True, if transfers of unique gifts from channels are accepted */
+    public bool $giftsFromChannels { set; get; }
 }

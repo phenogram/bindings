@@ -21,6 +21,7 @@ class User implements Interfaces\UserInterface
      * @param bool|null   $supportsInlineQueries   Optional. True, if the bot supports inline queries. Returned only in getMe.
      * @param bool|null   $canConnectToBusiness    Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
      * @param bool|null   $hasMainWebApp           Optional. True, if the bot has a main Web App. Returned only in getMe.
+     * @param bool|null   $hasTopicsEnabled        Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      */
     public function __construct(
         public int $id,
@@ -36,6 +37,7 @@ class User implements Interfaces\UserInterface
         public ?bool $supportsInlineQueries = null,
         public ?bool $canConnectToBusiness = null,
         public ?bool $hasMainWebApp = null,
+        public ?bool $hasTopicsEnabled = null,
     ) {
     }
 }

@@ -10,7 +10,7 @@ interface MessageInterface extends TypeInterface
     /** @var int $messageId Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent */
     public int $messageId { set; get; }
 
-    /** @var int|null $messageThreadId Optional. Unique identifier of a message thread to which the message belongs; for supergroups only */
+    /** @var int|null $messageThreadId Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only */
     public ?int $messageThreadId { set; get; }
 
     /** @var DirectMessagesTopicInterface|null $directMessagesTopic Optional. Information about the direct messages chat topic that contains the message */
@@ -40,7 +40,7 @@ interface MessageInterface extends TypeInterface
     /** @var MessageOriginInterface|null $forwardOrigin Optional. Information about the original message for forwarded messages */
     public ?MessageOriginInterface $forwardOrigin { set; get; }
 
-    /** @var bool|null $isTopicMessage Optional. True, if the message is sent to a forum topic */
+    /** @var bool|null $isTopicMessage Optional. True, if the message is sent to a topic in a forum supergroup or a private chat with the bot */
     public ?bool $isTopicMessage { set; get; }
 
     /** @var bool|null $isAutomaticForward Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group */
@@ -219,6 +219,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var UniqueGiftInfoInterface|null $uniqueGift Optional. Service message: a unique gift was sent or received */
     public ?UniqueGiftInfoInterface $uniqueGift { set; get; }
+
+    /** @var GiftInfoInterface|null $giftUpgradeSent Optional. Service message: upgrade of a gift was purchased after the gift was sent */
+    public ?GiftInfoInterface $giftUpgradeSent { set; get; }
 
     /** @var string|null $connectedWebsite Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
     public ?string $connectedWebsite { set; get; }

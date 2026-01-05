@@ -40,9 +40,15 @@ interface OwnedGiftRegularInterface extends TypeInterface
     /** @var bool|null $wasRefunded Optional. True, if the gift was refunded and isn't available anymore */
     public ?bool $wasRefunded { set; get; }
 
-    /** @var int|null $convertStarCount Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars */
+    /** @var int|null $convertStarCount Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars; for gifts received on behalf of business accounts only */
     public ?int $convertStarCount { set; get; }
 
-    /** @var int|null $prepaidUpgradeStarCount Optional. Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift */
+    /** @var int|null $prepaidUpgradeStarCount Optional. Number of Telegram Stars that were paid for the ability to upgrade the gift */
     public ?int $prepaidUpgradeStarCount { set; get; }
+
+    /** @var bool|null $isUpgradeSeparate Optional. True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of business accounts only */
+    public ?bool $isUpgradeSeparate { set; get; }
+
+    /** @var int|null $uniqueGiftNumber Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift */
+    public ?int $uniqueGiftNumber { set; get; }
 }

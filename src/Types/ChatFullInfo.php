@@ -13,6 +13,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 
 /**
  * This object contains full information about a chat.
@@ -67,6 +69,9 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param string|null                        $customEmojiStickerSetName          Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
      * @param int|null                           $linkedChatId                       Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocationInterface|null         $location                           Optional. For supergroups, the location to which the supergroup is connected
+     * @param UserRatingInterface|null           $rating                             Optional. For private chats, the rating of the user if any
+     * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
+     * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
      */
     public function __construct(
         public int $id,
@@ -116,6 +121,9 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?string $customEmojiStickerSetName = null,
         public ?int $linkedChatId = null,
         public ?ChatLocationInterface $location = null,
+        public ?UserRatingInterface $rating = null,
+        public ?UniqueGiftColorsInterface $uniqueGiftColors = null,
+        public ?int $paidMessageStarCount = null,
     ) {
     }
 }

@@ -83,6 +83,7 @@ use Phenogram\Bindings\Types\Interfaces\GameHighScoreInterface;
 use Phenogram\Bindings\Types\Interfaces\GameInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicHiddenInterface;
 use Phenogram\Bindings\Types\Interfaces\GeneralForumTopicUnhiddenInterface;
+use Phenogram\Bindings\Types\Interfaces\GiftBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftInterface;
 use Phenogram\Bindings\Types\Interfaces\GiftsInterface;
@@ -237,6 +238,7 @@ use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerUserInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftModelInterface;
@@ -245,6 +247,7 @@ use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
+use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\VenueInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatEndedInterface;
@@ -314,6 +317,7 @@ interface FactoryInterface
         ?bool $supportsInlineQueries,
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
+        ?bool $hasTopicsEnabled,
     ): UserInterface;
 
     public function makeChat(
@@ -375,6 +379,9 @@ interface FactoryInterface
         ?string $customEmojiStickerSetName,
         ?int $linkedChatId,
         ?ChatLocationInterface $location,
+        ?UserRatingInterface $rating,
+        ?UniqueGiftColorsInterface $uniqueGiftColors,
+        ?int $paidMessageStarCount,
     ): ChatFullInfoInterface;
 
     public function makeMessage(
@@ -449,6 +456,7 @@ interface FactoryInterface
         ?ChatSharedInterface $chatShared,
         ?GiftInfoInterface $gift,
         ?UniqueGiftInfoInterface $uniqueGift,
+        ?GiftInfoInterface $giftUpgradeSent,
         ?string $connectedWebsite,
         ?WriteAccessAllowedInterface $writeAccessAllowed,
         ?PassportDataInterface $passportData,
@@ -694,6 +702,7 @@ interface FactoryInterface
         string $text,
         ?array $textEntities,
         ?UserInterface $completedByUser,
+        ?ChatInterface $completedByChat,
         ?int $completionDate,
     ): ChecklistTaskInterface;
 
@@ -808,6 +817,7 @@ interface FactoryInterface
         string $name,
         int $iconColor,
         ?string $iconCustomEmojiId,
+        ?bool $isNameImplicit,
     ): ForumTopicCreatedInterface;
 
     public function makeForumTopicClosed(): ForumTopicClosedInterface;
@@ -1199,6 +1209,13 @@ interface FactoryInterface
 
     public function makeBusinessOpeningHours(string $timeZoneName, array $openingHours): BusinessOpeningHoursInterface;
 
+    public function makeUserRating(
+        int $level,
+        int $rating,
+        int $currentLevelRating,
+        ?int $nextLevelRating,
+    ): UserRatingInterface;
+
     public function makeStoryAreaPosition(
         float $xPercentage,
         float $yPercentage,
@@ -1280,15 +1297,24 @@ interface FactoryInterface
         string $name,
         int $iconColor,
         ?string $iconCustomEmojiId,
+        ?bool $isNameImplicit,
     ): ForumTopicInterface;
+
+    public function makeGiftBackground(int $centerColor, int $edgeColor, int $textColor): GiftBackgroundInterface;
 
     public function makeGift(
         string $id,
         StickerInterface $sticker,
         int $starCount,
         ?int $upgradeStarCount,
+        ?bool $isPremium,
+        ?bool $hasColors,
         ?int $totalCount,
         ?int $remainingCount,
+        ?int $personalTotalCount,
+        ?int $personalRemainingCount,
+        ?GiftBackgroundInterface $background,
+        ?int $uniqueGiftVariantCount,
         ?ChatInterface $publisherChat,
     ): GiftInterface;
 
@@ -1319,13 +1345,26 @@ interface FactoryInterface
         int $rarityPerMille,
     ): UniqueGiftBackdropInterface;
 
+    public function makeUniqueGiftColors(
+        string $modelCustomEmojiId,
+        string $symbolCustomEmojiId,
+        int $lightThemeMainColor,
+        array $lightThemeOtherColors,
+        int $darkThemeMainColor,
+        array $darkThemeOtherColors,
+    ): UniqueGiftColorsInterface;
+
     public function makeUniqueGift(
+        string $giftId,
         string $baseName,
         string $name,
         int $number,
         UniqueGiftModelInterface $model,
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
+        ?bool $isPremium,
+        ?bool $isFromBlockchain,
+        ?UniqueGiftColorsInterface $colors,
         ?ChatInterface $publisherChat,
     ): UniqueGiftInterface;
 
@@ -1334,16 +1373,19 @@ interface FactoryInterface
         ?string $ownedGiftId,
         ?int $convertStarCount,
         ?int $prepaidUpgradeStarCount,
+        ?bool $isUpgradeSeparate,
         ?bool $canBeUpgraded,
         ?string $text,
         ?array $entities,
         ?bool $isPrivate,
+        ?int $uniqueGiftNumber,
     ): GiftInfoInterface;
 
     public function makeUniqueGiftInfo(
         UniqueGiftInterface $gift,
         string $origin,
-        ?int $lastResaleStarCount,
+        ?string $lastResaleCurrency,
+        ?int $lastResaleAmount,
         ?string $ownedGiftId,
         ?int $transferStarCount,
         ?int $nextTransferDate,
@@ -1363,6 +1405,8 @@ interface FactoryInterface
         ?bool $wasRefunded,
         ?int $convertStarCount,
         ?int $prepaidUpgradeStarCount,
+        ?bool $isUpgradeSeparate,
+        ?int $uniqueGiftNumber,
     ): OwnedGiftRegularInterface;
 
     public function makeOwnedGiftUnique(
@@ -1384,6 +1428,7 @@ interface FactoryInterface
         bool $limitedGifts,
         bool $uniqueGifts,
         bool $premiumSubscription,
+        bool $giftsFromChannels,
     ): AcceptedGiftTypesInterface;
 
     public function makeStarAmount(int $amount, ?int $nanostarAmount): StarAmountInterface;

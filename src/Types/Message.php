@@ -78,7 +78,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param int                                         $messageId                     Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
      * @param int                                         $date                          Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param ChatInterface                               $chat                          Chat the message belongs to
-     * @param int|null                                    $messageThreadId               Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+     * @param int|null                                    $messageThreadId               Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only
      * @param DirectMessagesTopicInterface|null           $directMessagesTopic           Optional. Information about the direct messages chat topic that contains the message
      * @param UserInterface|null                          $from                          Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
      * @param ChatInterface|null                          $senderChat                    Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
@@ -86,7 +86,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param UserInterface|null                          $senderBusinessBot             Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
      * @param string|null                                 $businessConnectionId          Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
      * @param MessageOriginInterface|null                 $forwardOrigin                 Optional. Information about the original message for forwarded messages
-     * @param bool|null                                   $isTopicMessage                Optional. True, if the message is sent to a forum topic
+     * @param bool|null                                   $isTopicMessage                Optional. True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
      * @param bool|null                                   $isAutomaticForward            Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
      * @param MessageInterface|null                       $replyToMessage                Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
      * @param ExternalReplyInfoInterface|null             $externalReply                 Optional. Information about the message that is being replied to, which may come from another chat or forum topic
@@ -146,6 +146,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param ChatSharedInterface|null                    $chatShared                    Optional. Service message: a chat was shared with the bot
      * @param GiftInfoInterface|null                      $gift                          Optional. Service message: a regular gift was sent or received
      * @param UniqueGiftInfoInterface|null                $uniqueGift                    Optional. Service message: a unique gift was sent or received
+     * @param GiftInfoInterface|null                      $giftUpgradeSent               Optional. Service message: upgrade of a gift was purchased after the gift was sent
      * @param string|null                                 $connectedWebsite              Optional. The domain name of the website on which the user has logged in. More about Telegram Login »
      * @param WriteAccessAllowedInterface|null            $writeAccessAllowed            Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      * @param PassportDataInterface|null                  $passportData                  Optional. Telegram Passport data
@@ -250,6 +251,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?ChatSharedInterface $chatShared = null,
         public ?GiftInfoInterface $gift = null,
         public ?UniqueGiftInfoInterface $uniqueGift = null,
+        public ?GiftInfoInterface $giftUpgradeSent = null,
         public ?string $connectedWebsite = null,
         public ?WriteAccessAllowedInterface $writeAccessAllowed = null,
         public ?PassportDataInterface $passportData = null,
