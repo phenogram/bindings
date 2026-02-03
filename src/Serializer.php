@@ -8432,9 +8432,14 @@ class Serializer implements SerializerInterface
             : $data;
     }
 
+    public function supports(string $type): bool
+    {
+        return interface_exists($type) && is_subclass_of($type, TypeInterface::class);
+    }
+
     public function denormalize(array $data, string $type, bool $isArray = false): mixed
     {
-        if (!interface_exists($type) && !is_subclass_of($type, TypeInterface::class)) {
+        if (!$this->supports($type)) {
             throw new \UnexpectedValueException(sprintf('Failed to decode response to the expected type: %s', $type));
         }
 
