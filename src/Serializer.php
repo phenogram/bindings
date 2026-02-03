@@ -8165,7 +8165,7 @@ class Serializer implements SerializerInterface
 
     public function denormalize(array $data, string $type, bool $isArray = false): mixed
     {
-        if (!interface_exists($type) || !is_subclass_of($type, TypeInterface::class)) {
+        if (!interface_exists($type) && !is_subclass_of($type, TypeInterface::class)) {
             throw new \UnexpectedValueException(sprintf('Failed to decode response to the expected type: %s', $type));
         }
 

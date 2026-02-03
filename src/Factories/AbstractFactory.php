@@ -3,6 +3,7 @@
 namespace Phenogram\Bindings\Factories;
 
 use Faker\Generator;
+use Phenogram\Bindings\Factory;
 use Phenogram\Bindings\FactoryInterface;
 
 abstract class AbstractFactory
@@ -22,7 +23,7 @@ abstract class AbstractFactory
     protected static function factory(): FactoryInterface
     {
         if (!isset(static::$factory)) {
-            static::$factory = new \Phenogram\Bindings\Factory();
+            static::$factory = new Factory();
         }
 
         return static::$factory;
