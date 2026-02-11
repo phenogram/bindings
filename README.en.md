@@ -13,7 +13,7 @@ This is still a work in progress and not every class is tested or used.
 If you find some inconsistency with the documentation, feel free to file an issue.
 Everything that is not covered in the official Telegram Bot API documentation is out of the scope of this project.
 
-Current supported Telegram bot API version is **v9.3.0**
+Current supported Telegram bot API version is **v9.4.0**
 
 This is just an SDK for your Telegram bot, not a full framework.
 You can use it as is or use only the parts you need.

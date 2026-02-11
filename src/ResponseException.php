@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Phenogram\Bindings;
 
-use Phenogram\Bindings\Types\Response;
+use Phenogram\Bindings\Types\Interfaces\ResponseInterface;
 
 class ResponseException extends \RuntimeException
 {
-    public function __construct(public Response $response)
+    public function __construct(public ResponseInterface $response)
     {
         parent::__construct(
             sprintf(

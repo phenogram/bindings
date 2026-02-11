@@ -74,10 +74,15 @@ class Api implements ApiInterface
     }
 
     /**
-     * @param array<mixed>                       $args
-     * @param class-string|'bool'|'string'|'int' $returnType
+     * @template T of object
      *
-     * @phpstan-ignore-next-line TODO: add generics to the promise from $returnType
+     * @param array<mixed>                          $args
+     * @param class-string<T>|'bool'|'string'|'int' $returnType
+     *
+     * @return ($returnType is 'bool' ? ($returnsArray is true ? array<bool> : bool)
+     *       : ($returnType is 'int' ? ($returnsArray is true ? array<int> : int)
+     *       : ($returnType is 'string' ? ($returnsArray is true ? array<string> : string)
+     *       : ($returnsArray is true ? array<T> : T))))
      */
     protected function doRequest(string $method, array $args, string $returnType, bool $returnsArray = false): mixed
     {
