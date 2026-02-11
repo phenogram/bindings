@@ -13,28 +13,28 @@ abstract class AbstractFactory
 
     protected static function fake(): Generator
     {
-        if (!isset(static::$faker)) {
-            static::$faker = \Faker\Factory::create();
+        if (!isset(self::$faker)) {
+            self::$faker = \Faker\Factory::create();
         }
 
-        return static::$faker;
+        return self::$faker;
     }
 
     protected static function factory(): FactoryInterface
     {
-        if (!isset(static::$factory)) {
-            static::$factory = new Factory();
+        if (!isset(self::$factory)) {
+            self::$factory = new Factory();
         }
 
-        return static::$factory;
+        return self::$factory;
     }
 
     public static function setFactory(FactoryInterface $factory): void
     {
-        if (isset(static::$factory)) {
+        if (isset(self::$factory)) {
             throw new \RuntimeException('Factory already set');
         }
 
-        static::$factory = $factory;
+        self::$factory = $factory;
     }
 }
