@@ -3,10 +3,12 @@
 namespace Phenogram\Bindings\Factories;
 
 use Phenogram\Bindings\Factories\AcceptedGiftTypesFactory as AcceptedGiftTypes;
+use Phenogram\Bindings\Factories\AudioFactory as Audio;
 use Phenogram\Bindings\Factories\ChatFactory as Chat;
 use Phenogram\Bindings\Factories\MessageFactory as Message;
 use Phenogram\Bindings\Types\ChatFullInfo;
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
+use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
@@ -73,6 +75,7 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param int|null                           $linkedChatId                       Optional. Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocationInterface|null         $location                           Optional. Optional. For supergroups, the location to which the supergroup is connected
      * @param UserRatingInterface|null           $rating                             Optional. Optional. For private chats, the rating of the user if any
+     * @param AudioInterface|null                $firstProfileAudio                  Optional. Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
      * @param int|null                           $paidMessageStarCount               Optional. Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
      */
@@ -125,6 +128,7 @@ class ChatFullInfoFactory extends AbstractFactory
         ?int $linkedChatId = null,
         ?ChatLocationInterface $location = null,
         ?UserRatingInterface $rating = null,
+        ?AudioInterface $firstProfileAudio = null,
         ?UniqueGiftColorsInterface $uniqueGiftColors = null,
         ?int $paidMessageStarCount = null,
     ): ChatFullInfoInterface {
@@ -177,6 +181,7 @@ class ChatFullInfoFactory extends AbstractFactory
             linkedChatId: $linkedChatId,
             location: $location,
             rating: $rating,
+            firstProfileAudio: $firstProfileAudio,
             uniqueGiftColors: $uniqueGiftColors,
             paidMessageStarCount: $paidMessageStarCount,
         );

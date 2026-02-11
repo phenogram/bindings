@@ -7,6 +7,8 @@ use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
@@ -129,6 +131,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param LocationInterface|null                      $location                      Optional. Message is a shared location, information about the location
      * @param array<UserInterface>|null                   $newChatMembers                Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
      * @param UserInterface|null                          $leftChatMember                Optional. A member was removed from the group, information about them (this member may be the bot itself)
+     * @param ChatOwnerLeftInterface|null                 $chatOwnerLeft                 Optional. Service message: chat owner has left
+     * @param ChatOwnerChangedInterface|null              $chatOwnerChanged              Optional. Service message: chat owner has changed
      * @param string|null                                 $newChatTitle                  Optional. A chat title was changed to this value
      * @param array<PhotoSizeInterface>|null              $newChatPhoto                  Optional. A chat photo was change to this value
      * @param bool|null                                   $deleteChatPhoto               Optional. Service message: the chat photo was deleted
@@ -234,6 +238,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?LocationInterface $location = null,
         public ?array $newChatMembers = null,
         public ?UserInterface $leftChatMember = null,
+        public ?ChatOwnerLeftInterface $chatOwnerLeft = null,
+        public ?ChatOwnerChangedInterface $chatOwnerChanged = null,
         public ?string $newChatTitle = null,
         public ?array $newChatPhoto = null,
         public ?bool $deleteChatPhoto = null,

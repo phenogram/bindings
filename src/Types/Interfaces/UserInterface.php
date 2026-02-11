@@ -48,4 +48,7 @@ interface UserInterface extends TypeInterface
 
     /** @var bool|null $hasTopicsEnabled Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe. */
     public ?bool $hasTopicsEnabled { set; get; }
+
+    /** @var bool|null $allowsUsersToCreateTopics Optional. True, if the bot allows users to create and delete topics in private chats. Returned only in getMe. */
+    public ?bool $allowsUsersToCreateTopics { set; get; }
 }

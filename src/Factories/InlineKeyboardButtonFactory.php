@@ -16,6 +16,8 @@ class InlineKeyboardButtonFactory extends AbstractFactory
      * Creates a new InlineKeyboardButton instance with default fake data.
      *
      * @param string|null                               $text                         Optional. Label text on the button
+     * @param string|null                               $iconCustomEmojiId            Optional. Optional. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
+     * @param string|null                               $style                        Optional. Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.
      * @param string|null                               $url                          Optional. Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id= can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
      * @param string|null                               $callbackData                 Optional. Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
      * @param WebAppInfoInterface|null                  $webApp                       Optional. Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.
@@ -29,6 +31,8 @@ class InlineKeyboardButtonFactory extends AbstractFactory
      */
     public static function make(
         ?string $text = null,
+        ?string $iconCustomEmojiId = null,
+        ?string $style = null,
         ?string $url = null,
         ?string $callbackData = null,
         ?WebAppInfoInterface $webApp = null,
@@ -42,6 +46,8 @@ class InlineKeyboardButtonFactory extends AbstractFactory
     ): InlineKeyboardButtonInterface {
         return self::factory()->makeInlineKeyboardButton(
             text: $text ?? self::fake()->sentence(),
+            iconCustomEmojiId: $iconCustomEmojiId,
+            style: $style,
             url: $url,
             callbackData: $callbackData,
             webApp: $webApp,

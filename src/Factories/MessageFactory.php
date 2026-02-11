@@ -25,6 +25,8 @@ use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
@@ -143,6 +145,8 @@ class MessageFactory extends AbstractFactory
      * @param LocationInterface|null                                                      $location                      Optional. Optional. Message is a shared location, information about the location
      * @param array|null                                                                  $newChatMembers                Optional. Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
      * @param UserInterface|null                                                          $leftChatMember                Optional. Optional. A member was removed from the group, information about them (this member may be the bot itself)
+     * @param ChatOwnerLeftInterface|null                                                 $chatOwnerLeft                 Optional. Optional. Service message: chat owner has left
+     * @param ChatOwnerChangedInterface|null                                              $chatOwnerChanged              Optional. Optional. Service message: chat owner has changed
      * @param string|null                                                                 $newChatTitle                  Optional. Optional. A chat title was changed to this value
      * @param array|null                                                                  $newChatPhoto                  Optional. Optional. A chat photo was change to this value
      * @param bool|null                                                                   $deleteChatPhoto               Optional. Optional. Service message: the chat photo was deleted
@@ -248,6 +252,8 @@ class MessageFactory extends AbstractFactory
         ?LocationInterface $location = null,
         ?array $newChatMembers = null,
         ?UserInterface $leftChatMember = null,
+        ?ChatOwnerLeftInterface $chatOwnerLeft = null,
+        ?ChatOwnerChangedInterface $chatOwnerChanged = null,
         ?string $newChatTitle = null,
         ?array $newChatPhoto = null,
         ?bool $deleteChatPhoto = null,
@@ -353,6 +359,8 @@ class MessageFactory extends AbstractFactory
             location: $location,
             newChatMembers: $newChatMembers,
             leftChatMember: $leftChatMember,
+            chatOwnerLeft: $chatOwnerLeft,
+            chatOwnerChanged: $chatOwnerChanged,
             newChatTitle: $newChatTitle,
             newChatPhoto: $newChatPhoto,
             deleteChatPhoto: $deleteChatPhoto,

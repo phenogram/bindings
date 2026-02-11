@@ -31,6 +31,9 @@ interface VideoInterface extends TypeInterface
     /** @var int|null $startTimestamp Optional. Timestamp in seconds from which the video will play in the message */
     public ?int $startTimestamp { set; get; }
 
+    /** @var array<VideoQualityInterface>|null $qualities Optional. List of available qualities of the video */
+    public ?array $qualities { set; get; }
+
     /** @var string|null $fileName Optional. Original filename as defined by the sender */
     public ?string $fileName { set; get; }
 

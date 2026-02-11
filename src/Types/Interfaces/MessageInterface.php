@@ -169,6 +169,12 @@ interface MessageInterface extends TypeInterface
     /** @var UserInterface|null $leftChatMember Optional. A member was removed from the group, information about them (this member may be the bot itself) */
     public ?UserInterface $leftChatMember { set; get; }
 
+    /** @var ChatOwnerLeftInterface|null $chatOwnerLeft Optional. Service message: chat owner has left */
+    public ?ChatOwnerLeftInterface $chatOwnerLeft { set; get; }
+
+    /** @var ChatOwnerChangedInterface|null $chatOwnerChanged Optional. Service message: chat owner has changed */
+    public ?ChatOwnerChangedInterface $chatOwnerChanged { set; get; }
+
     /** @var string|null $newChatTitle Optional. A chat title was changed to this value */
     public ?string $newChatTitle { set; get; }
 

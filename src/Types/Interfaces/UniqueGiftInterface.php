@@ -31,6 +31,9 @@ interface UniqueGiftInterface extends TypeInterface
     /** @var bool|null $isPremium Optional. True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers */
     public ?bool $isPremium { set; get; }
 
+    /** @var bool|null $isBurned Optional. True, if the gift was used to craft another gift and isn't available anymore */
+    public ?bool $isBurned { set; get; }
+
     /** @var bool|null $isFromBlockchain Optional. True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram */
     public ?bool $isFromBlockchain { set; get; }
 

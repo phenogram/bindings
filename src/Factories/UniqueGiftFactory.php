@@ -27,6 +27,7 @@ class UniqueGiftFactory extends AbstractFactory
      * @param UniqueGiftSymbolInterface|null   $symbol           Optional. Symbol of the gift
      * @param UniqueGiftBackdropInterface|null $backdrop         Optional. Backdrop of the gift
      * @param bool|null                        $isPremium        Optional. Optional. True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     * @param bool|null                        $isBurned         Optional. Optional. True, if the gift was used to craft another gift and isn't available anymore
      * @param bool|null                        $isFromBlockchain Optional. Optional. True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
      * @param UniqueGiftColorsInterface|null   $colors           Optional. Optional. The color scheme that can be used by the gift's owner for the chat's name, replies to messages and link previews; for business account gifts and gifts that are currently on sale only
      * @param ChatInterface|null               $publisherChat    Optional. Optional. Information about the chat that published the gift
@@ -40,6 +41,7 @@ class UniqueGiftFactory extends AbstractFactory
         ?UniqueGiftSymbolInterface $symbol = null,
         ?UniqueGiftBackdropInterface $backdrop = null,
         ?bool $isPremium = null,
+        ?bool $isBurned = null,
         ?bool $isFromBlockchain = null,
         ?UniqueGiftColorsInterface $colors = null,
         ?ChatInterface $publisherChat = null,
@@ -53,6 +55,7 @@ class UniqueGiftFactory extends AbstractFactory
             symbol: $symbol ?? UniqueGiftSymbol::make(),
             backdrop: $backdrop ?? UniqueGiftBackdrop::make(),
             isPremium: $isPremium,
+            isBurned: $isBurned,
             isFromBlockchain: $isFromBlockchain,
             colors: $colors,
             publisherChat: $publisherChat,

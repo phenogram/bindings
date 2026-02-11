@@ -55,6 +55,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatMemberMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberOwnerInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberRestrictedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
@@ -246,6 +248,7 @@ use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\UserProfileAudiosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
@@ -256,6 +259,7 @@ use Phenogram\Bindings\Types\Interfaces\VideoChatScheduledInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatStartedInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoQualityInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
@@ -318,6 +322,7 @@ interface FactoryInterface
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
         ?bool $hasTopicsEnabled,
+        ?bool $allowsUsersToCreateTopics,
     ): UserInterface;
 
     public function makeChat(
@@ -380,6 +385,7 @@ interface FactoryInterface
         ?int $linkedChatId,
         ?ChatLocationInterface $location,
         ?UserRatingInterface $rating,
+        ?AudioInterface $firstProfileAudio,
         ?UniqueGiftColorsInterface $uniqueGiftColors,
         ?int $paidMessageStarCount,
     ): ChatFullInfoInterface;
@@ -439,6 +445,8 @@ interface FactoryInterface
         ?LocationInterface $location,
         ?array $newChatMembers,
         ?UserInterface $leftChatMember,
+        ?ChatOwnerLeftInterface $chatOwnerLeft,
+        ?ChatOwnerChangedInterface $chatOwnerChanged,
         ?string $newChatTitle,
         ?array $newChatPhoto,
         ?bool $deleteChatPhoto,
@@ -611,6 +619,15 @@ interface FactoryInterface
 
     public function makeStory(ChatInterface $chat, int $id): StoryInterface;
 
+    public function makeVideoQuality(
+        string $fileId,
+        string $fileUniqueId,
+        int $width,
+        int $height,
+        string $codec,
+        ?int $fileSize,
+    ): VideoQualityInterface;
+
     public function makeVideo(
         string $fileId,
         string $fileUniqueId,
@@ -620,6 +637,7 @@ interface FactoryInterface
         ?PhotoSizeInterface $thumbnail,
         ?array $cover,
         ?int $startTimestamp,
+        ?array $qualities,
         ?string $fileName,
         ?string $mimeType,
         ?int $fileSize,
@@ -958,6 +976,8 @@ interface FactoryInterface
 
     public function makeUserProfilePhotos(int $totalCount, array $photos): UserProfilePhotosInterface;
 
+    public function makeUserProfileAudios(int $totalCount, array $audios): UserProfileAudiosInterface;
+
     public function makeFile(string $fileId, string $fileUniqueId, ?int $fileSize, ?string $filePath): FileInterface;
 
     public function makeWebAppInfo(string $url): WebAppInfoInterface;
@@ -973,6 +993,8 @@ interface FactoryInterface
 
     public function makeKeyboardButton(
         string $text,
+        ?string $iconCustomEmojiId,
+        ?string $style,
         ?KeyboardButtonRequestUsersInterface $requestUsers,
         ?KeyboardButtonRequestChatInterface $requestChat,
         ?bool $requestContact,
@@ -1013,6 +1035,8 @@ interface FactoryInterface
 
     public function makeInlineKeyboardButton(
         string $text,
+        ?string $iconCustomEmojiId,
+        ?string $style,
         ?string $url,
         ?string $callbackData,
         ?WebAppInfoInterface $webApp,
@@ -1324,6 +1348,7 @@ interface FactoryInterface
         string $name,
         StickerInterface $sticker,
         int $rarityPerMille,
+        ?string $rarity,
     ): UniqueGiftModelInterface;
 
     public function makeUniqueGiftSymbol(
@@ -1363,6 +1388,7 @@ interface FactoryInterface
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
         ?bool $isPremium,
+        ?bool $isBurned,
         ?bool $isFromBlockchain,
         ?UniqueGiftColorsInterface $colors,
         ?ChatInterface $publisherChat,
@@ -1499,6 +1525,10 @@ interface FactoryInterface
         int $removeDate,
         Types\Interfaces\ChatBoostSourceInterface $source,
     ): ChatBoostRemovedInterface;
+
+    public function makeChatOwnerLeft(?UserInterface $newOwner): ChatOwnerLeftInterface;
+
+    public function makeChatOwnerChanged(UserInterface $newOwner): ChatOwnerChangedInterface;
 
     public function makeUserChatBoosts(array $boosts): UserChatBoostsInterface;
 

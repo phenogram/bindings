@@ -151,6 +151,9 @@ interface ChatFullInfoInterface extends TypeInterface
     /** @var UserRatingInterface|null $rating Optional. For private chats, the rating of the user if any */
     public ?UserRatingInterface $rating { set; get; }
 
+    /** @var AudioInterface|null $firstProfileAudio Optional. For private chats, the first audio added to the profile of the user */
+    public ?AudioInterface $firstProfileAudio { set; get; }
+
     /** @var UniqueGiftColorsInterface|null $uniqueGiftColors Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews */
     public ?UniqueGiftColorsInterface $uniqueGiftColors { set; get; }
 

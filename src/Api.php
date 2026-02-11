@@ -61,6 +61,7 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\UserProfileAudiosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
 use Phenogram\Bindings\Types\Interfaces\WebhookInfoInterface;
 
@@ -1179,6 +1180,22 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to get a list of profile audios for a user. Returns a UserProfileAudios object.
+     *
+     * @param int      $userId Unique identifier of the target user
+     * @param int|null $offset Sequential number of the first audio to be returned. By default, all audios are returned.
+     * @param int|null $limit  Limits the number of audios to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+     */
+    public function getUserProfileAudios(int $userId, ?int $offset = null, ?int $limit = 100): UserProfileAudiosInterface
+    {
+        return $this->doRequest(
+            method: 'getUserProfileAudios',
+            args: get_defined_vars(),
+            returnType: UserProfileAudiosInterface::class,
+        );
+    }
+
+    /**
      * Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method requestEmojiStatusAccess. Returns True on success.
      *
      * @param int         $userId                    Unique identifier of the target user
@@ -1764,7 +1781,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
+     * Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator right. Returns information about the created topic as a ForumTopic object.
      *
      * @param int|string  $chatId            Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string      $name              Topic name, 1-128 characters
@@ -2138,6 +2155,32 @@ class Api implements ApiInterface
             method: 'getMyShortDescription',
             args: get_defined_vars(),
             returnType: BotShortDescriptionInterface::class,
+        );
+    }
+
+    /**
+     * Changes the profile photo of the bot. Returns True on success.
+     *
+     * @param InputProfilePhotoInterface $photo The new profile photo to set
+     */
+    public function setMyProfilePhoto(InputProfilePhotoInterface $photo): bool
+    {
+        return $this->doRequest(
+            method: 'setMyProfilePhoto',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Removes the profile photo of the bot. Requires no parameters. Returns True on success.
+     */
+    public function removeMyProfilePhoto(): bool
+    {
+        return $this->doRequest(
+            method: 'removeMyProfilePhoto',
+            args: get_defined_vars(),
+            returnType: 'bool',
         );
     }
 

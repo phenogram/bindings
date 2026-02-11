@@ -22,6 +22,7 @@ class UniqueGift implements Interfaces\UniqueGiftInterface
      * @param UniqueGiftSymbolInterface      $symbol           Symbol of the gift
      * @param UniqueGiftBackdropInterface    $backdrop         Backdrop of the gift
      * @param bool|null                      $isPremium        Optional. True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     * @param bool|null                      $isBurned         Optional. True, if the gift was used to craft another gift and isn't available anymore
      * @param bool|null                      $isFromBlockchain Optional. True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
      * @param UniqueGiftColorsInterface|null $colors           Optional. The color scheme that can be used by the gift's owner for the chat's name, replies to messages and link previews; for business account gifts and gifts that are currently on sale only
      * @param ChatInterface|null             $publisherChat    Optional. Information about the chat that published the gift
@@ -35,6 +36,7 @@ class UniqueGift implements Interfaces\UniqueGiftInterface
         public UniqueGiftSymbolInterface $symbol,
         public UniqueGiftBackdropInterface $backdrop,
         public ?bool $isPremium = null,
+        public ?bool $isBurned = null,
         public ?bool $isFromBlockchain = null,
         public ?UniqueGiftColorsInterface $colors = null,
         public ?ChatInterface $publisherChat = null,

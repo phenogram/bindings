@@ -3,6 +3,7 @@
 namespace Phenogram\Bindings\Types;
 
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
+use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessLocationInterface;
@@ -70,6 +71,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param int|null                           $linkedChatId                       Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocationInterface|null         $location                           Optional. For supergroups, the location to which the supergroup is connected
      * @param UserRatingInterface|null           $rating                             Optional. For private chats, the rating of the user if any
+     * @param AudioInterface|null                $firstProfileAudio                  Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
      * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
      */
@@ -122,6 +124,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?int $linkedChatId = null,
         public ?ChatLocationInterface $location = null,
         public ?UserRatingInterface $rating = null,
+        public ?AudioInterface $firstProfileAudio = null,
         public ?UniqueGiftColorsInterface $uniqueGiftColors = null,
         public ?int $paidMessageStarCount = null,
     ) {

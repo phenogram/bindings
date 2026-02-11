@@ -13,6 +13,9 @@ interface UniqueGiftModelInterface extends TypeInterface
     /** @var StickerInterface $sticker The sticker that represents the unique gift */
     public StickerInterface $sticker { set; get; }
 
-    /** @var int $rarityPerMille The number of unique gifts that receive this model for every 1000 gifts upgraded */
+    /** @var int $rarityPerMille The number of unique gifts that receive this model for every 1000 gift upgrades. Always 0 for crafted gifts. */
     public int $rarityPerMille { set; get; }
+
+    /** @var string|null $rarity Optional. Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”, “epic”, or “legendary”. */
+    public ?string $rarity { set; get; }
 }

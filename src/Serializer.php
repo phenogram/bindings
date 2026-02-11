@@ -55,6 +55,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatMemberMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberOwnerInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberRestrictedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
@@ -248,6 +250,7 @@ use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\UserProfileAudiosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
@@ -258,6 +261,7 @@ use Phenogram\Bindings\Types\Interfaces\VideoChatScheduledInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatStartedInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoQualityInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
@@ -288,6 +292,7 @@ class Serializer implements SerializerInterface
         AudioInterface::class,
         DocumentInterface::class,
         StoryInterface::class,
+        VideoQualityInterface::class,
         VideoInterface::class,
         VideoNoteInterface::class,
         VoiceInterface::class,
@@ -352,6 +357,7 @@ class Serializer implements SerializerInterface
         SuggestedPostParametersInterface::class,
         DirectMessagesTopicInterface::class,
         UserProfilePhotosInterface::class,
+        UserProfileAudiosInterface::class,
         FileInterface::class,
         WebAppInfoInterface::class,
         ReplyKeyboardMarkupInterface::class,
@@ -437,6 +443,8 @@ class Serializer implements SerializerInterface
         ChatBoostInterface::class,
         ChatBoostUpdatedInterface::class,
         ChatBoostRemovedInterface::class,
+        ChatOwnerLeftInterface::class,
+        ChatOwnerChangedInterface::class,
         UserChatBoostsInterface::class,
         BusinessBotRightsInterface::class,
         BusinessConnectionInterface::class,
@@ -700,6 +708,7 @@ class Serializer implements SerializerInterface
             canConnectToBusiness: $data['can_connect_to_business'] ?? null,
             hasMainWebApp: $data['has_main_web_app'] ?? null,
             hasTopicsEnabled: $data['has_topics_enabled'] ?? null,
+            allowsUsersToCreateTopics: $data['allows_users_to_create_topics'] ?? null,
         );
     }
 
@@ -828,6 +837,9 @@ class Serializer implements SerializerInterface
                 : null,
             rating: isset($data['rating'])
                 ? $this->denormalizeUserRating($data['rating'])
+                : null,
+            firstProfileAudio: isset($data['first_profile_audio'])
+                ? $this->denormalizeAudio($data['first_profile_audio'])
                 : null,
             uniqueGiftColors: isset($data['unique_gift_colors'])
                 ? $this->denormalizeUniqueGiftColors($data['unique_gift_colors'])
@@ -976,6 +988,12 @@ class Serializer implements SerializerInterface
                 : null,
             leftChatMember: isset($data['left_chat_member'])
                 ? $this->denormalizeUser($data['left_chat_member'])
+                : null,
+            chatOwnerLeft: isset($data['chat_owner_left'])
+                ? $this->denormalizeChatOwnerLeft($data['chat_owner_left'])
+                : null,
+            chatOwnerChanged: isset($data['chat_owner_changed'])
+                ? $this->denormalizeChatOwnerChanged($data['chat_owner_changed'])
                 : null,
             newChatTitle: $data['new_chat_title'] ?? null,
             newChatPhoto: isset($data['new_chat_photo'])
@@ -1636,6 +1654,38 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeVideoQuality(array $data): VideoQualityInterface
+    {
+        $requiredFields = [
+            'file_id',
+            'file_unique_id',
+            'width',
+            'height',
+            'codec',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class VideoQuality missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeVideoQuality(
+            fileId: $data['file_id'],
+            fileUniqueId: $data['file_unique_id'],
+            width: $data['width'],
+            height: $data['height'],
+            codec: $data['codec'],
+            fileSize: $data['file_size'] ?? null,
+        );
+    }
+
     public function denormalizeVideo(array $data): VideoInterface
     {
         $requiredFields = [
@@ -1671,6 +1721,9 @@ class Serializer implements SerializerInterface
                 ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['cover'])
                 : null,
             startTimestamp: $data['start_timestamp'] ?? null,
+            qualities: isset($data['qualities'])
+                ? array_map(fn (array $item) => $this->denormalizeVideoQuality($item), $data['qualities'])
+                : null,
             fileName: $data['file_name'] ?? null,
             mimeType: $data['mime_type'] ?? null,
             fileSize: $data['file_size'] ?? null,
@@ -3217,6 +3270,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeUserProfileAudios(array $data): UserProfileAudiosInterface
+    {
+        $requiredFields = [
+            'total_count',
+            'audios',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class UserProfileAudios missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeUserProfileAudios(
+            totalCount: $data['total_count'],
+            audios: array_map(fn (array $item) => $this->denormalizeAudio($item), $data['audios']),
+        );
+    }
+
     public function denormalizeFile(array $data): FileInterface
     {
         $requiredFields = [
@@ -3321,6 +3399,8 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeKeyboardButton(
             text: $data['text'],
+            iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
+            style: $data['style'] ?? null,
             requestUsers: isset($data['request_users'])
                 ? $this->denormalizeKeyboardButtonRequestUsers($data['request_users'])
                 : null,
@@ -3469,6 +3549,8 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeInlineKeyboardButton(
             text: $data['text'],
+            iconCustomEmojiId: $data['icon_custom_emoji_id'] ?? null,
+            style: $data['style'] ?? null,
             url: $data['url'] ?? null,
             callbackData: $data['callback_data'] ?? null,
             webApp: isset($data['web_app'])
@@ -4737,6 +4819,7 @@ class Serializer implements SerializerInterface
             name: $data['name'],
             sticker: $this->denormalizeSticker($data['sticker']),
             rarityPerMille: $data['rarity_per_mille'],
+            rarity: $data['rarity'] ?? null,
         );
     }
 
@@ -4889,6 +4972,7 @@ class Serializer implements SerializerInterface
             symbol: $this->denormalizeUniqueGiftSymbol($data['symbol']),
             backdrop: $this->denormalizeUniqueGiftBackdrop($data['backdrop']),
             isPremium: $data['is_premium'] ?? null,
+            isBurned: $data['is_burned'] ?? null,
             isFromBlockchain: $data['is_from_blockchain'] ?? null,
             colors: isset($data['colors'])
                 ? $this->denormalizeUniqueGiftColors($data['colors'])
@@ -5558,6 +5642,38 @@ class Serializer implements SerializerInterface
             boostId: $data['boost_id'],
             removeDate: $data['remove_date'],
             source: $this->denormalizeChatBoostSource($data['source']),
+        );
+    }
+
+    public function denormalizeChatOwnerLeft(array $data): ChatOwnerLeftInterface
+    {
+        return $this->factory->makeChatOwnerLeft(
+            newOwner: isset($data['new_owner'])
+                ? $this->denormalizeUser($data['new_owner'])
+                : null,
+        );
+    }
+
+    public function denormalizeChatOwnerChanged(array $data): ChatOwnerChangedInterface
+    {
+        $requiredFields = [
+            'new_owner',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChatOwnerChanged missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChatOwnerChanged(
+            newOwner: $this->denormalizeUser($data['new_owner']),
         );
     }
 
@@ -8474,6 +8590,7 @@ class Serializer implements SerializerInterface
             AudioInterface::class => $this->denormalizeAudio($data),
             DocumentInterface::class => $this->denormalizeDocument($data),
             StoryInterface::class => $this->denormalizeStory($data),
+            VideoQualityInterface::class => $this->denormalizeVideoQuality($data),
             VideoInterface::class => $this->denormalizeVideo($data),
             VideoNoteInterface::class => $this->denormalizeVideoNote($data),
             VoiceInterface::class => $this->denormalizeVoice($data),
@@ -8538,6 +8655,7 @@ class Serializer implements SerializerInterface
             SuggestedPostParametersInterface::class => $this->denormalizeSuggestedPostParameters($data),
             DirectMessagesTopicInterface::class => $this->denormalizeDirectMessagesTopic($data),
             UserProfilePhotosInterface::class => $this->denormalizeUserProfilePhotos($data),
+            UserProfileAudiosInterface::class => $this->denormalizeUserProfileAudios($data),
             FileInterface::class => $this->denormalizeFile($data),
             WebAppInfoInterface::class => $this->denormalizeWebAppInfo($data),
             ReplyKeyboardMarkupInterface::class => $this->denormalizeReplyKeyboardMarkup($data),
@@ -8623,6 +8741,8 @@ class Serializer implements SerializerInterface
             ChatBoostInterface::class => $this->denormalizeChatBoost($data),
             ChatBoostUpdatedInterface::class => $this->denormalizeChatBoostUpdated($data),
             ChatBoostRemovedInterface::class => $this->denormalizeChatBoostRemoved($data),
+            ChatOwnerLeftInterface::class => $this->denormalizeChatOwnerLeft($data),
+            ChatOwnerChangedInterface::class => $this->denormalizeChatOwnerChanged($data),
             UserChatBoostsInterface::class => $this->denormalizeUserChatBoosts($data),
             BusinessBotRightsInterface::class => $this->denormalizeBusinessBotRights($data),
             BusinessConnectionInterface::class => $this->denormalizeBusinessConnection($data),

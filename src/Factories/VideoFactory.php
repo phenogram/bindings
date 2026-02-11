@@ -19,6 +19,7 @@ class VideoFactory extends AbstractFactory
      * @param PhotoSizeInterface|null $thumbnail      Optional. Optional. Video thumbnail
      * @param array|null              $cover          Optional. Optional. Available sizes of the cover of the video in the message
      * @param int|null                $startTimestamp Optional. Optional. Timestamp in seconds from which the video will play in the message
+     * @param array|null              $qualities      Optional. Optional. List of available qualities of the video
      * @param string|null             $fileName       Optional. Optional. Original filename as defined by the sender
      * @param string|null             $mimeType       Optional. Optional. MIME type of the file as defined by the sender
      * @param int|null                $fileSize       Optional. Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
@@ -32,6 +33,7 @@ class VideoFactory extends AbstractFactory
         ?PhotoSizeInterface $thumbnail = null,
         ?array $cover = null,
         ?int $startTimestamp = null,
+        ?array $qualities = null,
         ?string $fileName = null,
         ?string $mimeType = null,
         ?int $fileSize = null,
@@ -45,6 +47,7 @@ class VideoFactory extends AbstractFactory
             thumbnail: $thumbnail,
             cover: $cover,
             startTimestamp: $startTimestamp,
+            qualities: $qualities,
             fileName: $fileName,
             mimeType: $mimeType,
             fileSize: $fileSize,

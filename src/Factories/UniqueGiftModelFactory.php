@@ -14,17 +14,20 @@ class UniqueGiftModelFactory extends AbstractFactory
      *
      * @param string|null           $name           Optional. Name of the model
      * @param StickerInterface|null $sticker        Optional. The sticker that represents the unique gift
-     * @param int|null              $rarityPerMille Optional. The number of unique gifts that receive this model for every 1000 gifts upgraded
+     * @param int|null              $rarityPerMille Optional. The number of unique gifts that receive this model for every 1000 gift upgrades. Always 0 for crafted gifts.
+     * @param string|null           $rarity         Optional. Optional. Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”, “epic”, or “legendary”.
      */
     public static function make(
         ?string $name = null,
         ?StickerInterface $sticker = null,
         ?int $rarityPerMille = null,
+        ?string $rarity = null,
     ): UniqueGiftModelInterface {
         return self::factory()->makeUniqueGiftModel(
             name: $name ?? self::fake()->text(50),
             sticker: $sticker ?? Sticker::make(),
             rarityPerMille: $rarityPerMille ?? self::fake()->randomNumber(),
+            rarity: $rarity,
         );
     }
 }

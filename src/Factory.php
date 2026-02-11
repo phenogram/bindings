@@ -55,6 +55,8 @@ use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\ChatMemberOwner;
 use Phenogram\Bindings\Types\ChatMemberRestricted;
 use Phenogram\Bindings\Types\ChatMemberUpdated;
+use Phenogram\Bindings\Types\ChatOwnerChanged;
+use Phenogram\Bindings\Types\ChatOwnerLeft;
 use Phenogram\Bindings\Types\ChatPermissions;
 use Phenogram\Bindings\Types\ChatPhoto;
 use Phenogram\Bindings\Types\ChatShared;
@@ -189,6 +191,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatMemberMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberOwnerInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberRestrictedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberUpdatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
@@ -380,6 +384,7 @@ use Phenogram\Bindings\Types\Interfaces\UniqueGiftSymbolInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Interfaces\UserChatBoostsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
+use Phenogram\Bindings\Types\Interfaces\UserProfileAudiosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserProfilePhotosInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
@@ -390,6 +395,7 @@ use Phenogram\Bindings\Types\Interfaces\VideoChatScheduledInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoChatStartedInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\VideoQualityInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
@@ -505,6 +511,7 @@ use Phenogram\Bindings\Types\UniqueGiftSymbol;
 use Phenogram\Bindings\Types\Update;
 use Phenogram\Bindings\Types\User;
 use Phenogram\Bindings\Types\UserChatBoosts;
+use Phenogram\Bindings\Types\UserProfileAudios;
 use Phenogram\Bindings\Types\UserProfilePhotos;
 use Phenogram\Bindings\Types\UserRating;
 use Phenogram\Bindings\Types\UsersShared;
@@ -515,6 +522,7 @@ use Phenogram\Bindings\Types\VideoChatParticipantsInvited;
 use Phenogram\Bindings\Types\VideoChatScheduled;
 use Phenogram\Bindings\Types\VideoChatStarted;
 use Phenogram\Bindings\Types\VideoNote;
+use Phenogram\Bindings\Types\VideoQuality;
 use Phenogram\Bindings\Types\Voice;
 use Phenogram\Bindings\Types\WebAppData;
 use Phenogram\Bindings\Types\WebAppInfo;
@@ -616,6 +624,7 @@ class Factory implements FactoryInterface
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
         ?bool $hasTopicsEnabled,
+        ?bool $allowsUsersToCreateTopics,
     ): UserInterface {
         return new User(
             id: $id,
@@ -632,6 +641,7 @@ class Factory implements FactoryInterface
             canConnectToBusiness: $canConnectToBusiness,
             hasMainWebApp: $hasMainWebApp,
             hasTopicsEnabled: $hasTopicsEnabled,
+            allowsUsersToCreateTopics: $allowsUsersToCreateTopics,
         );
     }
 
@@ -706,6 +716,7 @@ class Factory implements FactoryInterface
         ?int $linkedChatId,
         ?ChatLocationInterface $location,
         ?UserRatingInterface $rating,
+        ?AudioInterface $firstProfileAudio,
         ?UniqueGiftColorsInterface $uniqueGiftColors,
         ?int $paidMessageStarCount,
     ): ChatFullInfoInterface {
@@ -758,6 +769,7 @@ class Factory implements FactoryInterface
             linkedChatId: $linkedChatId,
             location: $location,
             rating: $rating,
+            firstProfileAudio: $firstProfileAudio,
             uniqueGiftColors: $uniqueGiftColors,
             paidMessageStarCount: $paidMessageStarCount,
         );
@@ -818,6 +830,8 @@ class Factory implements FactoryInterface
         ?LocationInterface $location,
         ?array $newChatMembers,
         ?UserInterface $leftChatMember,
+        ?ChatOwnerLeftInterface $chatOwnerLeft,
+        ?ChatOwnerChangedInterface $chatOwnerChanged,
         ?string $newChatTitle,
         ?array $newChatPhoto,
         ?bool $deleteChatPhoto,
@@ -923,6 +937,8 @@ class Factory implements FactoryInterface
             location: $location,
             newChatMembers: $newChatMembers,
             leftChatMember: $leftChatMember,
+            chatOwnerLeft: $chatOwnerLeft,
+            chatOwnerChanged: $chatOwnerChanged,
             newChatTitle: $newChatTitle,
             newChatPhoto: $newChatPhoto,
             deleteChatPhoto: $deleteChatPhoto,
@@ -1240,6 +1256,24 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeVideoQuality(
+        string $fileId,
+        string $fileUniqueId,
+        int $width,
+        int $height,
+        string $codec,
+        ?int $fileSize,
+    ): VideoQualityInterface {
+        return new VideoQuality(
+            fileId: $fileId,
+            fileUniqueId: $fileUniqueId,
+            width: $width,
+            height: $height,
+            codec: $codec,
+            fileSize: $fileSize,
+        );
+    }
+
     public function makeVideo(
         string $fileId,
         string $fileUniqueId,
@@ -1249,6 +1283,7 @@ class Factory implements FactoryInterface
         ?PhotoSizeInterface $thumbnail,
         ?array $cover,
         ?int $startTimestamp,
+        ?array $qualities,
         ?string $fileName,
         ?string $mimeType,
         ?int $fileSize,
@@ -1262,6 +1297,7 @@ class Factory implements FactoryInterface
             thumbnail: $thumbnail,
             cover: $cover,
             startTimestamp: $startTimestamp,
+            qualities: $qualities,
             fileName: $fileName,
             mimeType: $mimeType,
             fileSize: $fileSize,
@@ -2016,6 +2052,14 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeUserProfileAudios(int $totalCount, array $audios): UserProfileAudiosInterface
+    {
+        return new UserProfileAudios(
+            totalCount: $totalCount,
+            audios: $audios,
+        );
+    }
+
     public function makeFile(string $fileId, string $fileUniqueId, ?int $fileSize, ?string $filePath): FileInterface
     {
         return new File(
@@ -2053,6 +2097,8 @@ class Factory implements FactoryInterface
 
     public function makeKeyboardButton(
         string $text,
+        ?string $iconCustomEmojiId,
+        ?string $style,
         ?KeyboardButtonRequestUsersInterface $requestUsers,
         ?KeyboardButtonRequestChatInterface $requestChat,
         ?bool $requestContact,
@@ -2062,6 +2108,8 @@ class Factory implements FactoryInterface
     ): KeyboardButtonInterface {
         return new KeyboardButton(
             text: $text,
+            iconCustomEmojiId: $iconCustomEmojiId,
+            style: $style,
             requestUsers: $requestUsers,
             requestChat: $requestChat,
             requestContact: $requestContact,
@@ -2143,6 +2191,8 @@ class Factory implements FactoryInterface
 
     public function makeInlineKeyboardButton(
         string $text,
+        ?string $iconCustomEmojiId,
+        ?string $style,
         ?string $url,
         ?string $callbackData,
         ?WebAppInfoInterface $webApp,
@@ -2156,6 +2206,8 @@ class Factory implements FactoryInterface
     ): InlineKeyboardButtonInterface {
         return new InlineKeyboardButton(
             text: $text,
+            iconCustomEmojiId: $iconCustomEmojiId,
+            style: $style,
             url: $url,
             callbackData: $callbackData,
             webApp: $webApp,
@@ -2824,11 +2876,13 @@ class Factory implements FactoryInterface
         string $name,
         StickerInterface $sticker,
         int $rarityPerMille,
+        ?string $rarity,
     ): UniqueGiftModelInterface {
         return new UniqueGiftModel(
             name: $name,
             sticker: $sticker,
             rarityPerMille: $rarityPerMille,
+            rarity: $rarity,
         );
     }
 
@@ -2897,6 +2951,7 @@ class Factory implements FactoryInterface
         UniqueGiftSymbolInterface $symbol,
         UniqueGiftBackdropInterface $backdrop,
         ?bool $isPremium,
+        ?bool $isBurned,
         ?bool $isFromBlockchain,
         ?UniqueGiftColorsInterface $colors,
         ?ChatInterface $publisherChat,
@@ -2910,6 +2965,7 @@ class Factory implements FactoryInterface
             symbol: $symbol,
             backdrop: $backdrop,
             isPremium: $isPremium,
+            isBurned: $isBurned,
             isFromBlockchain: $isFromBlockchain,
             colors: $colors,
             publisherChat: $publisherChat,
@@ -3233,6 +3289,20 @@ class Factory implements FactoryInterface
             boostId: $boostId,
             removeDate: $removeDate,
             source: $source,
+        );
+    }
+
+    public function makeChatOwnerLeft(?UserInterface $newOwner): ChatOwnerLeftInterface
+    {
+        return new ChatOwnerLeft(
+            newOwner: $newOwner,
+        );
+    }
+
+    public function makeChatOwnerChanged(UserInterface $newOwner): ChatOwnerChangedInterface
+    {
+        return new ChatOwnerChanged(
+            newOwner: $newOwner,
         );
     }
 
