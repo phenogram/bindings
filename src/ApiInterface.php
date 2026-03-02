@@ -895,7 +895,7 @@ interface ApiInterface
     ): MessageInterface;
 
     /**
-     * Use this method to stream a partial message to a user while the message is being generated; supported only for bots with forum topic mode enabled. Returns True on success.
+     * Use this method to stream a partial message to a user while the message is being generated. Returns True on success.
      *
      * @param int                                $chatId          Unique identifier for the target private chat
      * @param int                                $draftId         Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated
@@ -1044,6 +1044,7 @@ interface ApiInterface
      * @param bool|null  $canPinMessages          Pass True if the administrator can pin messages; for supergroups only
      * @param bool|null  $canManageTopics         Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|null  $canManageDirectMessages Pass True if the administrator can manage direct messages within the channel and decline suggested posts; for channels only
+     * @param bool|null  $canManageTags           Pass True if the administrator can edit the tags of regular members; for groups and supergroups only
      */
     public function promoteChatMember(
         int|string $chatId,
@@ -1064,6 +1065,7 @@ interface ApiInterface
         ?bool $canPinMessages = null,
         ?bool $canManageTopics = null,
         ?bool $canManageDirectMessages = null,
+        ?bool $canManageTags = null,
     ): bool;
 
     /**
@@ -1074,6 +1076,15 @@ interface ApiInterface
      * @param string     $customTitle New custom title for the administrator; 0-16 characters, emoji are not allowed
      */
     public function setChatAdministratorCustomTitle(int|string $chatId, int $userId, string $customTitle): bool;
+
+    /**
+     * Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the can_manage_tags administrator right. Returns True on success.
+     *
+     * @param int|string  $chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int         $userId Unique identifier of the target user
+     * @param string|null $tag    New tag for the member; 0-16 characters, emoji are not allowed
+     */
+    public function setChatMemberTag(int|string $chatId, int $userId, ?string $tag = null): bool;
 
     /**
      * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights. Returns True on success.

@@ -10,6 +10,9 @@ interface ChatMemberMemberInterface extends TypeInterface
     /** @var string $status The member's status in the chat, always “member” */
     public string $status { set; get; }
 
+    /** @var string|null $tag Optional. Tag of the member */
+    public ?string $tag { set; get; }
+
     /** @var UserInterface $user Information about the user */
     public UserInterface $user { set; get; }
 

@@ -37,6 +37,9 @@ interface ChatPermissionsInterface extends TypeInterface
     /** @var bool|null $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages */
     public ?bool $canAddWebPagePreviews { set; get; }
 
+    /** @var bool|null $canEditTag Optional. True, if the user is allowed to edit their own tag */
+    public ?bool $canEditTag { set; get; }
+
     /** @var bool|null $canChangeInfo Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups */
     public ?bool $canChangeInfo { set; get; }
 

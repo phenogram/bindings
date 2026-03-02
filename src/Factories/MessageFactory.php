@@ -98,6 +98,7 @@ class MessageFactory extends AbstractFactory
      * @param ChatInterface|null                                                          $senderChat                    Optional. Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                                                    $senderBoostCount              Optional. Optional. If the sender of the message boosted the chat, the number of boosts added by the user
      * @param UserInterface|null                                                          $senderBusinessBot             Optional. Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
+     * @param string|null                                                                 $senderTag                     Optional. Optional. Tag or custom title of the sender of the message; for supergroups only
      * @param int|null                                                                    $date                          Optional. Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param string|null                                                                 $businessConnectionId          Optional. Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
      * @param ChatInterface|null                                                          $chat                          Optional. Chat the message belongs to
@@ -114,7 +115,7 @@ class MessageFactory extends AbstractFactory
      * @param bool|null                                                                   $hasProtectedContent           Optional. Optional. True, if the message can't be forwarded
      * @param bool|null                                                                   $isFromOffline                 Optional. Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
      * @param bool|null                                                                   $isPaidPost                    Optional. Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
-     * @param string|null                                                                 $mediaGroupId                  Optional. Optional. The unique identifier of a media message group this message belongs to
+     * @param string|null                                                                 $mediaGroupId                  Optional. Optional. The unique identifier inside this chat of a media message group this message belongs to
      * @param string|null                                                                 $authorSignature               Optional. Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|null                                                                    $paidStarCount                 Optional. Optional. The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|null                                                                 $text                          Optional. Optional. For text messages, the actual UTF-8 text of the message
@@ -205,6 +206,7 @@ class MessageFactory extends AbstractFactory
         ?ChatInterface $senderChat = null,
         ?int $senderBoostCount = null,
         ?UserInterface $senderBusinessBot = null,
+        ?string $senderTag = null,
         ?int $date = null,
         ?string $businessConnectionId = null,
         ?ChatInterface $chat = null,
@@ -312,6 +314,7 @@ class MessageFactory extends AbstractFactory
             senderChat: $senderChat,
             senderBoostCount: $senderBoostCount,
             senderBusinessBot: $senderBusinessBot,
+            senderTag: $senderTag,
             date: $date ?? self::fake()->unixTime(),
             businessConnectionId: $businessConnectionId,
             chat: $chat ?? Chat::make(),

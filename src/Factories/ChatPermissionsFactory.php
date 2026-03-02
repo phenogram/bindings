@@ -20,6 +20,7 @@ class ChatPermissionsFactory extends AbstractFactory
      * @param bool|null $canSendPolls          Optional. Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null $canSendOtherMessages  Optional. Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. Optional. True, if the user is allowed to add web page previews to their messages
+     * @param bool|null $canEditTag            Optional. Optional. True, if the user is allowed to edit their own tag
      * @param bool|null $canChangeInfo         Optional. Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
      * @param bool|null $canInviteUsers        Optional. Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null $canPinMessages        Optional. Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
@@ -36,6 +37,7 @@ class ChatPermissionsFactory extends AbstractFactory
         ?bool $canSendPolls = null,
         ?bool $canSendOtherMessages = null,
         ?bool $canAddWebPagePreviews = null,
+        ?bool $canEditTag = null,
         ?bool $canChangeInfo = null,
         ?bool $canInviteUsers = null,
         ?bool $canPinMessages = null,
@@ -52,6 +54,7 @@ class ChatPermissionsFactory extends AbstractFactory
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,
             canPinMessages: $canPinMessages,

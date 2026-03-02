@@ -886,6 +886,7 @@ class Serializer implements SerializerInterface
             senderBusinessBot: isset($data['sender_business_bot'])
                 ? $this->denormalizeUser($data['sender_business_bot'])
                 : null,
+            senderTag: $data['sender_tag'] ?? null,
             businessConnectionId: $data['business_connection_id'] ?? null,
             forwardOrigin: isset($data['forward_origin'])
                 ? $this->denormalizeMessageOrigin($data['forward_origin'])
@@ -1218,6 +1219,8 @@ class Serializer implements SerializerInterface
                 : null,
             language: $data['language'] ?? null,
             customEmojiId: $data['custom_emoji_id'] ?? null,
+            unixTime: $data['unix_time'] ?? null,
+            dateTimeFormat: $data['date_time_format'] ?? null,
         );
     }
 
@@ -3787,6 +3790,7 @@ class Serializer implements SerializerInterface
             canPinMessages: $data['can_pin_messages'] ?? null,
             canManageTopics: $data['can_manage_topics'] ?? null,
             canManageDirectMessages: $data['can_manage_direct_messages'] ?? null,
+            canManageTags: $data['can_manage_tags'] ?? null,
         );
     }
 
@@ -3918,6 +3922,7 @@ class Serializer implements SerializerInterface
             canPinMessages: $data['can_pin_messages'] ?? null,
             canManageTopics: $data['can_manage_topics'] ?? null,
             canManageDirectMessages: $data['can_manage_direct_messages'] ?? null,
+            canManageTags: $data['can_manage_tags'] ?? null,
             customTitle: $data['custom_title'] ?? null,
         );
     }
@@ -3944,6 +3949,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeChatMemberMember(
             status: $data['status'],
             user: $this->denormalizeUser($data['user']),
+            tag: $data['tag'] ?? null,
             untilDate: $data['until_date'] ?? null,
         );
     }
@@ -3964,6 +3970,7 @@ class Serializer implements SerializerInterface
             'can_send_polls',
             'can_send_other_messages',
             'can_add_web_page_previews',
+            'can_edit_tag',
             'can_change_info',
             'can_invite_users',
             'can_pin_messages',
@@ -3997,11 +4004,13 @@ class Serializer implements SerializerInterface
             canSendPolls: $data['can_send_polls'],
             canSendOtherMessages: $data['can_send_other_messages'],
             canAddWebPagePreviews: $data['can_add_web_page_previews'],
+            canEditTag: $data['can_edit_tag'],
             canChangeInfo: $data['can_change_info'],
             canInviteUsers: $data['can_invite_users'],
             canPinMessages: $data['can_pin_messages'],
             canManageTopics: $data['can_manage_topics'],
             untilDate: $data['until_date'],
+            tag: $data['tag'] ?? null,
         );
     }
 
@@ -4103,6 +4112,7 @@ class Serializer implements SerializerInterface
             canSendPolls: $data['can_send_polls'] ?? null,
             canSendOtherMessages: $data['can_send_other_messages'] ?? null,
             canAddWebPagePreviews: $data['can_add_web_page_previews'] ?? null,
+            canEditTag: $data['can_edit_tag'] ?? null,
             canChangeInfo: $data['can_change_info'] ?? null,
             canInviteUsers: $data['can_invite_users'] ?? null,
             canPinMessages: $data['can_pin_messages'] ?? null,

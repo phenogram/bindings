@@ -785,6 +785,7 @@ class Factory implements FactoryInterface
         ?ChatInterface $senderChat,
         ?int $senderBoostCount,
         ?UserInterface $senderBusinessBot,
+        ?string $senderTag,
         ?string $businessConnectionId,
         ?Types\Interfaces\MessageOriginInterface $forwardOrigin,
         ?bool $isTopicMessage,
@@ -892,6 +893,7 @@ class Factory implements FactoryInterface
             senderChat: $senderChat,
             senderBoostCount: $senderBoostCount,
             senderBusinessBot: $senderBusinessBot,
+            senderTag: $senderTag,
             businessConnectionId: $businessConnectionId,
             forwardOrigin: $forwardOrigin,
             isTopicMessage: $isTopicMessage,
@@ -1015,6 +1017,8 @@ class Factory implements FactoryInterface
         ?UserInterface $user,
         ?string $language,
         ?string $customEmojiId,
+        ?int $unixTime,
+        ?string $dateTimeFormat,
     ): MessageEntityInterface {
         return new MessageEntity(
             type: $type,
@@ -1024,6 +1028,8 @@ class Factory implements FactoryInterface
             user: $user,
             language: $language,
             customEmojiId: $customEmojiId,
+            unixTime: $unixTime,
+            dateTimeFormat: $dateTimeFormat,
         );
     }
 
@@ -2349,6 +2355,7 @@ class Factory implements FactoryInterface
         ?bool $canPinMessages,
         ?bool $canManageTopics,
         ?bool $canManageDirectMessages,
+        ?bool $canManageTags,
     ): ChatAdministratorRightsInterface {
         return new ChatAdministratorRights(
             isAnonymous: $isAnonymous,
@@ -2367,6 +2374,7 @@ class Factory implements FactoryInterface
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
             canManageDirectMessages: $canManageDirectMessages,
+            canManageTags: $canManageTags,
         );
     }
 
@@ -2426,6 +2434,7 @@ class Factory implements FactoryInterface
         ?bool $canPinMessages,
         ?bool $canManageTopics,
         ?bool $canManageDirectMessages,
+        ?bool $canManageTags,
         ?string $customTitle,
     ): ChatMemberAdministratorInterface {
         return new ChatMemberAdministrator(
@@ -2448,15 +2457,21 @@ class Factory implements FactoryInterface
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
             canManageDirectMessages: $canManageDirectMessages,
+            canManageTags: $canManageTags,
             customTitle: $customTitle,
         );
     }
 
-    public function makeChatMemberMember(string $status, UserInterface $user, ?int $untilDate): ChatMemberMemberInterface
-    {
+    public function makeChatMemberMember(
+        string $status,
+        UserInterface $user,
+        ?string $tag,
+        ?int $untilDate,
+    ): ChatMemberMemberInterface {
         return new ChatMemberMember(
             status: $status,
             user: $user,
+            tag: $tag,
             untilDate: $untilDate,
         );
     }
@@ -2475,11 +2490,13 @@ class Factory implements FactoryInterface
         bool $canSendPolls,
         bool $canSendOtherMessages,
         bool $canAddWebPagePreviews,
+        bool $canEditTag,
         bool $canChangeInfo,
         bool $canInviteUsers,
         bool $canPinMessages,
         bool $canManageTopics,
         int $untilDate,
+        ?string $tag,
     ): ChatMemberRestrictedInterface {
         return new ChatMemberRestricted(
             status: $status,
@@ -2495,11 +2512,13 @@ class Factory implements FactoryInterface
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
             untilDate: $untilDate,
+            tag: $tag,
         );
     }
 
@@ -2549,6 +2568,7 @@ class Factory implements FactoryInterface
         ?bool $canSendPolls,
         ?bool $canSendOtherMessages,
         ?bool $canAddWebPagePreviews,
+        ?bool $canEditTag,
         ?bool $canChangeInfo,
         ?bool $canInviteUsers,
         ?bool $canPinMessages,
@@ -2565,6 +2585,7 @@ class Factory implements FactoryInterface
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,
             canPinMessages: $canPinMessages,

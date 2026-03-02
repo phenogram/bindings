@@ -26,6 +26,7 @@ class ChatAdministratorRightsFactory extends AbstractFactory
      * @param bool|null $canPinMessages          Optional. Optional. True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|null $canManageTopics         Optional. Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|null $canManageDirectMessages Optional. Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
+     * @param bool|null $canManageTags           Optional. Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages.
      */
     public static function make(
         ?bool $isAnonymous = null,
@@ -44,6 +45,7 @@ class ChatAdministratorRightsFactory extends AbstractFactory
         ?bool $canPinMessages = null,
         ?bool $canManageTopics = null,
         ?bool $canManageDirectMessages = null,
+        ?bool $canManageTags = null,
     ): ChatAdministratorRightsInterface {
         return self::factory()->makeChatAdministratorRights(
             isAnonymous: $isAnonymous ?? self::fake()->boolean(),
@@ -62,6 +64,7 @@ class ChatAdministratorRightsFactory extends AbstractFactory
             canPinMessages: $canPinMessages,
             canManageTopics: $canManageTopics,
             canManageDirectMessages: $canManageDirectMessages,
+            canManageTags: $canManageTags,
         );
     }
 }

@@ -400,6 +400,7 @@ interface FactoryInterface
         ?ChatInterface $senderChat,
         ?int $senderBoostCount,
         ?UserInterface $senderBusinessBot,
+        ?string $senderTag,
         ?string $businessConnectionId,
         ?Types\Interfaces\MessageOriginInterface $forwardOrigin,
         ?bool $isTopicMessage,
@@ -510,6 +511,8 @@ interface FactoryInterface
         ?UserInterface $user,
         ?string $language,
         ?string $customEmojiId,
+        ?int $unixTime,
+        ?string $dateTimeFormat,
     ): MessageEntityInterface;
 
     public function makeTextQuote(string $text, int $position, ?array $entities, ?bool $isManual): TextQuoteInterface;
@@ -1120,6 +1123,7 @@ interface FactoryInterface
         ?bool $canPinMessages,
         ?bool $canManageTopics,
         ?bool $canManageDirectMessages,
+        ?bool $canManageTags,
     ): ChatAdministratorRightsInterface;
 
     public function makeChatMemberUpdated(
@@ -1160,10 +1164,16 @@ interface FactoryInterface
         ?bool $canPinMessages,
         ?bool $canManageTopics,
         ?bool $canManageDirectMessages,
+        ?bool $canManageTags,
         ?string $customTitle,
     ): ChatMemberAdministratorInterface;
 
-    public function makeChatMemberMember(string $status, UserInterface $user, ?int $untilDate): ChatMemberMemberInterface;
+    public function makeChatMemberMember(
+        string $status,
+        UserInterface $user,
+        ?string $tag,
+        ?int $untilDate,
+    ): ChatMemberMemberInterface;
 
     public function makeChatMemberRestricted(
         string $status,
@@ -1179,11 +1189,13 @@ interface FactoryInterface
         bool $canSendPolls,
         bool $canSendOtherMessages,
         bool $canAddWebPagePreviews,
+        bool $canEditTag,
         bool $canChangeInfo,
         bool $canInviteUsers,
         bool $canPinMessages,
         bool $canManageTopics,
         int $untilDate,
+        ?string $tag,
     ): ChatMemberRestrictedInterface;
 
     public function makeChatMemberLeft(string $status, UserInterface $user): ChatMemberLeftInterface;
@@ -1210,6 +1222,7 @@ interface FactoryInterface
         ?bool $canSendPolls,
         ?bool $canSendOtherMessages,
         ?bool $canAddWebPagePreviews,
+        ?bool $canEditTag,
         ?bool $canChangeInfo,
         ?bool $canInviteUsers,
         ?bool $canPinMessages,

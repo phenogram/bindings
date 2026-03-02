@@ -64,6 +64,9 @@ interface ChatMemberAdministratorInterface extends TypeInterface
     /** @var bool|null $canManageDirectMessages Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only */
     public ?bool $canManageDirectMessages { set; get; }
 
+    /** @var bool|null $canManageTags Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages. */
+    public ?bool $canManageTags { set; get; }
+
     /** @var string|null $customTitle Optional. Custom title for this user */
     public ?string $customTitle { set; get; }
 }

@@ -86,6 +86,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param ChatInterface|null                          $senderChat                    Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                    $senderBoostCount              Optional. If the sender of the message boosted the chat, the number of boosts added by the user
      * @param UserInterface|null                          $senderBusinessBot             Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
+     * @param string|null                                 $senderTag                     Optional. Tag or custom title of the sender of the message; for supergroups only
      * @param string|null                                 $businessConnectionId          Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
      * @param MessageOriginInterface|null                 $forwardOrigin                 Optional. Information about the original message for forwarded messages
      * @param bool|null                                   $isTopicMessage                Optional. True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
@@ -100,7 +101,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param bool|null                                   $hasProtectedContent           Optional. True, if the message can't be forwarded
      * @param bool|null                                   $isFromOffline                 Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
      * @param bool|null                                   $isPaidPost                    Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
-     * @param string|null                                 $mediaGroupId                  Optional. The unique identifier of a media message group this message belongs to
+     * @param string|null                                 $mediaGroupId                  Optional. The unique identifier inside this chat of a media message group this message belongs to
      * @param string|null                                 $authorSignature               Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|null                                    $paidStarCount                 Optional. The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|null                                 $text                          Optional. For text messages, the actual UTF-8 text of the message
@@ -193,6 +194,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?ChatInterface $senderChat = null,
         public ?int $senderBoostCount = null,
         public ?UserInterface $senderBusinessBot = null,
+        public ?string $senderTag = null,
         public ?string $businessConnectionId = null,
         public ?MessageOriginInterface $forwardOrigin = null,
         public ?bool $isTopicMessage = null,

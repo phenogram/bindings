@@ -23,11 +23,13 @@ class ChatMemberRestricted extends ChatMember implements Interfaces\ChatMemberRe
      * @param bool          $canSendPolls          True, if the user is allowed to send polls and checklists
      * @param bool          $canSendOtherMessages  True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool          $canAddWebPagePreviews True, if the user is allowed to add web page previews to their messages
+     * @param bool          $canEditTag            True, if the user is allowed to edit their own tag
      * @param bool          $canChangeInfo         True, if the user is allowed to change the chat title, photo and other settings
      * @param bool          $canInviteUsers        True, if the user is allowed to invite new users to the chat
      * @param bool          $canPinMessages        True, if the user is allowed to pin messages
      * @param bool          $canManageTopics       True, if the user is allowed to create forum topics
      * @param int           $untilDate             Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
+     * @param string|null   $tag                   Optional. Tag of the member
      */
     public function __construct(
         public string $status,
@@ -43,11 +45,13 @@ class ChatMemberRestricted extends ChatMember implements Interfaces\ChatMemberRe
         public bool $canSendPolls,
         public bool $canSendOtherMessages,
         public bool $canAddWebPagePreviews,
+        public bool $canEditTag,
         public bool $canChangeInfo,
         public bool $canInviteUsers,
         public bool $canPinMessages,
         public bool $canManageTopics,
         public int $untilDate,
+        public ?string $tag = null,
     ) {
     }
 }

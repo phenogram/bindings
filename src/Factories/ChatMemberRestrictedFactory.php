@@ -13,6 +13,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
      * Creates a new ChatMemberRestricted instance with default fake data.
      *
      * @param string|null        $status                Optional. The member's status in the chat, always “restricted”
+     * @param string|null        $tag                   Optional. Optional. Tag of the member
      * @param UserInterface|null $user                  Optional. Information about the user
      * @param bool|null          $isMember              Optional. True, if the user is a member of the chat at the moment of the request
      * @param bool|null          $canSendMessages       Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
@@ -25,6 +26,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
      * @param bool|null          $canSendPolls          Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null          $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null          $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages
+     * @param bool|null          $canEditTag            Optional. True, if the user is allowed to edit their own tag
      * @param bool|null          $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings
      * @param bool|null          $canInviteUsers        Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null          $canPinMessages        Optional. True, if the user is allowed to pin messages
@@ -33,6 +35,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
      */
     public static function make(
         ?string $status = null,
+        ?string $tag = null,
         ?UserInterface $user = null,
         ?bool $isMember = null,
         ?bool $canSendMessages = null,
@@ -45,6 +48,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
         ?bool $canSendPolls = null,
         ?bool $canSendOtherMessages = null,
         ?bool $canAddWebPagePreviews = null,
+        ?bool $canEditTag = null,
         ?bool $canChangeInfo = null,
         ?bool $canInviteUsers = null,
         ?bool $canPinMessages = null,
@@ -53,6 +57,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
     ): ChatMemberRestrictedInterface {
         return self::factory()->makeChatMemberRestricted(
             status: $status ?? self::fake()->randomElement(['creator', 'administrator', 'member', 'restricted', 'left', 'kicked']),
+            tag: $tag,
             user: $user ?? User::make(),
             isMember: $isMember ?? self::fake()->boolean(),
             canSendMessages: $canSendMessages ?? self::fake()->boolean(),
@@ -65,6 +70,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
             canSendPolls: $canSendPolls ?? self::fake()->boolean(),
             canSendOtherMessages: $canSendOtherMessages ?? self::fake()->boolean(),
             canAddWebPagePreviews: $canAddWebPagePreviews ?? self::fake()->boolean(),
+            canEditTag: $canEditTag ?? self::fake()->boolean(),
             canChangeInfo: $canChangeInfo ?? self::fake()->boolean(),
             canInviteUsers: $canInviteUsers ?? self::fake()->boolean(),
             canPinMessages: $canPinMessages ?? self::fake()->boolean(),

@@ -18,6 +18,7 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
      * @param bool|null $canSendPolls          Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages
+     * @param bool|null $canEditTag            Optional. True, if the user is allowed to edit their own tag
      * @param bool|null $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
      * @param bool|null $canInviteUsers        Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null $canPinMessages        Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
@@ -34,6 +35,7 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
         public ?bool $canSendPolls = null,
         public ?bool $canSendOtherMessages = null,
         public ?bool $canAddWebPagePreviews = null,
+        public ?bool $canEditTag = null,
         public ?bool $canChangeInfo = null,
         public ?bool $canInviteUsers = null,
         public ?bool $canPinMessages = null,

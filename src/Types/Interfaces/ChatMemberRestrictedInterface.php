@@ -10,6 +10,9 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var string $status The member's status in the chat, always “restricted” */
     public string $status { set; get; }
 
+    /** @var string|null $tag Optional. Tag of the member */
+    public ?string $tag { set; get; }
+
     /** @var UserInterface $user Information about the user */
     public UserInterface $user { set; get; }
 
@@ -45,6 +48,9 @@ interface ChatMemberRestrictedInterface extends TypeInterface
 
     /** @var bool $canAddWebPagePreviews True, if the user is allowed to add web page previews to their messages */
     public bool $canAddWebPagePreviews { set; get; }
+
+    /** @var bool $canEditTag True, if the user is allowed to edit their own tag */
+    public bool $canEditTag { set; get; }
 
     /** @var bool $canChangeInfo True, if the user is allowed to change the chat title, photo and other settings */
     public bool $canChangeInfo { set; get; }
