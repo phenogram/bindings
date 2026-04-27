@@ -25,6 +25,7 @@ class UserFactory extends AbstractFactory
      * @param bool|null   $hasMainWebApp             Optional. Optional. True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|null   $hasTopicsEnabled          Optional. Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|null   $allowsUsersToCreateTopics Optional. Optional. True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
+     * @param bool|null   $canManageBots             Optional. Optional. True, if other bots can be created to be controlled by the bot. Returned only in getMe.
      */
     public static function make(
         ?int $id = null,
@@ -42,6 +43,7 @@ class UserFactory extends AbstractFactory
         ?bool $hasMainWebApp = null,
         ?bool $hasTopicsEnabled = null,
         ?bool $allowsUsersToCreateTopics = null,
+        ?bool $canManageBots = null,
     ): UserInterface {
         return self::factory()->makeUser(
             id: $id ?? self::fake()->numberBetween(100000, 999999999),
@@ -59,6 +61,7 @@ class UserFactory extends AbstractFactory
             hasMainWebApp: $hasMainWebApp,
             hasTopicsEnabled: $hasTopicsEnabled,
             allowsUsersToCreateTopics: $allowsUsersToCreateTopics,
+            canManageBots: $canManageBots,
         );
     }
 }

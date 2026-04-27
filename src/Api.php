@@ -34,6 +34,7 @@ use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
@@ -45,6 +46,7 @@ use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
 use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\PreparedKeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardRemoveInterface;
@@ -975,29 +977,36 @@ class Api implements ApiInterface
     /**
      * Use this method to send a native poll. On success, the sent Message is returned.
      *
-     * @param int|string                                                                                                       $chatId                Unique identifier for the target chat or username of the target channel (in the format @channelusername). Polls can't be sent to channel direct messages chats.
-     * @param string                                                                                                           $question              Poll question, 1-300 characters
-     * @param array<InputPollOptionInterface>                                                                                  $options               A JSON-serialized list of 2-12 answer options
-     * @param string|null                                                                                                      $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|null                                                                                                         $messageThreadId       Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
-     * @param string|null                                                                                                      $questionParseMode     Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
-     * @param array<MessageEntityInterface>|null                                                                               $questionEntities      A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
-     * @param bool|null                                                                                                        $isAnonymous           True, if the poll needs to be anonymous, defaults to True
-     * @param string|null                                                                                                      $type                  Poll type, “quiz” or “regular”, defaults to “regular”
-     * @param bool|null                                                                                                        $allowsMultipleAnswers True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
-     * @param int|null                                                                                                         $correctOptionId       0-based identifier of the correct answer option, required for polls in quiz mode
-     * @param string|null                                                                                                      $explanation           Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
-     * @param string|null                                                                                                      $explanationParseMode  Mode for parsing entities in the explanation. See formatting options for more details.
-     * @param array<MessageEntityInterface>|null                                                                               $explanationEntities   A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
-     * @param int|null                                                                                                         $openPeriod            Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
-     * @param int|null                                                                                                         $closeDate             Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
-     * @param bool|null                                                                                                        $isClosed              Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
-     * @param bool|null                                                                                                        $disableNotification   Sends the message silently. Users will receive a notification with no sound.
-     * @param bool|null                                                                                                        $protectContent        Protects the contents of the sent message from forwarding and saving
-     * @param bool|null                                                                                                        $allowPaidBroadcast    Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-     * @param string|null                                                                                                      $messageEffectId       Unique identifier of the message effect to be added to the message; for private chats only
-     * @param ReplyParametersInterface|null                                                                                    $replyParameters       Description of the message to reply to
-     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup           Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param int|string                                                                                                       $chatId                 Unique identifier for the target chat or username of the target channel (in the format @channelusername). Polls can't be sent to channel direct messages chats.
+     * @param string                                                                                                           $question               Poll question, 1-300 characters
+     * @param array<InputPollOptionInterface>                                                                                  $options                A JSON-serialized list of 2-12 answer options
+     * @param string|null                                                                                                      $businessConnectionId   Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int|null                                                                                                         $messageThreadId        Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
+     * @param string|null                                                                                                      $questionParseMode      Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
+     * @param array<MessageEntityInterface>|null                                                                               $questionEntities       A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
+     * @param bool|null                                                                                                        $isAnonymous            True, if the poll needs to be anonymous, defaults to True
+     * @param string|null                                                                                                      $type                   Poll type, “quiz” or “regular”, defaults to “regular”
+     * @param bool|null                                                                                                        $allowsMultipleAnswers  Pass True, if the poll allows multiple answers, defaults to False
+     * @param bool|null                                                                                                        $allowsRevoting         Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
+     * @param bool|null                                                                                                        $shuffleOptions         Pass True, if the poll options must be shown in random order
+     * @param bool|null                                                                                                        $allowAddingOptions     Pass True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
+     * @param bool|null                                                                                                        $hideResultsUntilCloses Pass True, if poll results must be shown only after the poll closes
+     * @param array<int>|null                                                                                                  $correctOptionIds       A JSON-serialized list of monotonically increasing 0-based identifiers of the correct answer options, required for polls in quiz mode
+     * @param string|null                                                                                                      $explanation            Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+     * @param string|null                                                                                                      $explanationParseMode   Mode for parsing entities in the explanation. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $explanationEntities    A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
+     * @param int|null                                                                                                         $openPeriod             Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together with close_date.
+     * @param int|null                                                                                                         $closeDate              Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 2628000 seconds in the future. Can't be used together with open_period.
+     * @param bool|null                                                                                                        $isClosed               Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
+     * @param string|null                                                                                                      $description            Description of the poll to be sent, 0-1024 characters after entities parsing
+     * @param string|null                                                                                                      $descriptionParseMode   Mode for parsing entities in the poll description. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null                                                                               $descriptionEntities    A JSON-serialized list of special entities that appear in the poll description, which can be specified instead of description_parse_mode
+     * @param bool|null                                                                                                        $disableNotification    Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent         Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast     Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|null                                                                                                      $messageEffectId        Unique identifier of the message effect to be added to the message; for private chats only
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters        Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup            Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
     public function sendPoll(
         int|string $chatId,
@@ -1010,13 +1019,20 @@ class Api implements ApiInterface
         ?bool $isAnonymous = true,
         ?string $type = 'regular',
         ?bool $allowsMultipleAnswers = null,
-        ?int $correctOptionId = null,
+        ?bool $allowsRevoting = null,
+        ?bool $shuffleOptions = null,
+        ?bool $allowAddingOptions = null,
+        ?bool $hideResultsUntilCloses = null,
+        ?array $correctOptionIds = null,
         ?string $explanation = null,
         ?string $explanationParseMode = null,
         ?array $explanationEntities = null,
         ?int $openPeriod = null,
         ?int $closeDate = null,
         ?bool $isClosed = null,
+        ?string $description = null,
+        ?string $descriptionParseMode = null,
+        ?array $descriptionEntities = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
         ?bool $allowPaidBroadcast = null,
@@ -2040,6 +2056,34 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to get the token of a managed bot. Returns the token as String on success.
+     *
+     * @param int $userId User identifier of the managed bot whose token will be returned
+     */
+    public function getManagedBotToken(int $userId): string
+    {
+        return $this->doRequest(
+            method: 'getManagedBotToken',
+            args: get_defined_vars(),
+            returnType: 'string',
+        );
+    }
+
+    /**
+     * Use this method to revoke the current token of a managed bot and generate a new one. Returns the new token as String on success.
+     *
+     * @param int $userId User identifier of the managed bot whose token will be replaced
+     */
+    public function replaceManagedBotToken(int $userId): string
+    {
+        return $this->doRequest(
+            method: 'replaceManagedBotToken',
+            args: get_defined_vars(),
+            returnType: 'string',
+        );
+    }
+
+    /**
      * Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
      *
      * @param array<BotCommandInterface>    $commands     A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
@@ -2284,8 +2328,8 @@ class Api implements ApiInterface
      * @param int|string|null                    $chatId        Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
      * @param bool|null                          $payForUpgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
      * @param string|null                        $text          Text that will be shown along with the gift; 0-128 characters
-     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
-     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
+     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      */
     public function sendGift(
         string $giftId,
@@ -2310,8 +2354,8 @@ class Api implements ApiInterface
      * @param int                                $monthCount    Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6, or 12
      * @param int                                $starCount     Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months, 1500 for 6 months, and 2500 for 12 months
      * @param string|null                        $text          Text that will be shown along with the service message about the subscription; 0-128 characters
-     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
-     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @param string|null                        $textParseMode Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
+     * @param array<MessageEntityInterface>|null $textEntities  A JSON-serialized list of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      */
     public function giftPremiumSubscription(
         int $userId,
@@ -2801,6 +2845,65 @@ class Api implements ApiInterface
             method: 'deleteStory',
             args: get_defined_vars(),
             returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
+     *
+     * @param string                     $webAppQueryId Unique identifier for the query to be answered
+     * @param InlineQueryResultInterface $result        A JSON-serialized object describing the message to be sent
+     */
+    public function answerWebAppQuery(
+        string $webAppQueryId,
+        InlineQueryResultInterface $result,
+    ): SentWebAppMessageInterface {
+        return $this->doRequest(
+            method: 'answerWebAppQuery',
+            args: get_defined_vars(),
+            returnType: SentWebAppMessageInterface::class,
+        );
+    }
+
+    /**
+     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
+     *
+     * @param int                        $userId            Unique identifier of the target user that can use the prepared message
+     * @param InlineQueryResultInterface $result            A JSON-serialized object describing the message to be sent
+     * @param bool|null                  $allowUserChats    Pass True if the message can be sent to private chats with users
+     * @param bool|null                  $allowBotChats     Pass True if the message can be sent to private chats with bots
+     * @param bool|null                  $allowGroupChats   Pass True if the message can be sent to group and supergroup chats
+     * @param bool|null                  $allowChannelChats Pass True if the message can be sent to channel chats
+     */
+    public function savePreparedInlineMessage(
+        int $userId,
+        InlineQueryResultInterface $result,
+        ?bool $allowUserChats = null,
+        ?bool $allowBotChats = null,
+        ?bool $allowGroupChats = null,
+        ?bool $allowChannelChats = null,
+    ): PreparedInlineMessageInterface {
+        return $this->doRequest(
+            method: 'savePreparedInlineMessage',
+            args: get_defined_vars(),
+            returnType: PreparedInlineMessageInterface::class,
+        );
+    }
+
+    /**
+     * Stores a keyboard button that can be used by a user within a Mini App. Returns a PreparedKeyboardButton object.
+     *
+     * @param int                     $userId Unique identifier of the target user that can use the button
+     * @param KeyboardButtonInterface $button A JSON-serialized object describing the button to be saved. The button must be of the type request_users, request_chat, or request_managed_bot
+     */
+    public function savePreparedKeyboardButton(
+        int $userId,
+        KeyboardButtonInterface $button,
+    ): PreparedKeyboardButtonInterface {
+        return $this->doRequest(
+            method: 'savePreparedKeyboardButton',
+            args: get_defined_vars(),
+            returnType: PreparedKeyboardButtonInterface::class,
         );
     }
 
@@ -3387,48 +3490,6 @@ class Api implements ApiInterface
             method: 'answerInlineQuery',
             args: get_defined_vars(),
             returnType: 'bool',
-        );
-    }
-
-    /**
-     * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
-     *
-     * @param string                     $webAppQueryId Unique identifier for the query to be answered
-     * @param InlineQueryResultInterface $result        A JSON-serialized object describing the message to be sent
-     */
-    public function answerWebAppQuery(
-        string $webAppQueryId,
-        InlineQueryResultInterface $result,
-    ): SentWebAppMessageInterface {
-        return $this->doRequest(
-            method: 'answerWebAppQuery',
-            args: get_defined_vars(),
-            returnType: SentWebAppMessageInterface::class,
-        );
-    }
-
-    /**
-     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
-     *
-     * @param int                        $userId            Unique identifier of the target user that can use the prepared message
-     * @param InlineQueryResultInterface $result            A JSON-serialized object describing the message to be sent
-     * @param bool|null                  $allowUserChats    Pass True if the message can be sent to private chats with users
-     * @param bool|null                  $allowBotChats     Pass True if the message can be sent to private chats with bots
-     * @param bool|null                  $allowGroupChats   Pass True if the message can be sent to group and supergroup chats
-     * @param bool|null                  $allowChannelChats Pass True if the message can be sent to channel chats
-     */
-    public function savePreparedInlineMessage(
-        int $userId,
-        InlineQueryResultInterface $result,
-        ?bool $allowUserChats = null,
-        ?bool $allowBotChats = null,
-        ?bool $allowGroupChats = null,
-        ?bool $allowChannelChats = null,
-    ): PreparedInlineMessageInterface {
-        return $this->doRequest(
-            method: 'savePreparedInlineMessage',
-            args: get_defined_vars(),
-            returnType: PreparedInlineMessageInterface::class,
         );
     }
 

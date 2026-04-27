@@ -18,4 +18,7 @@ interface PollAnswerInterface extends TypeInterface
 
     /** @var array<int> $optionIds 0-based identifiers of chosen answer options. May be empty if the vote was retracted. */
     public array $optionIds { set; get; }
+
+    /** @var array<string> $optionPersistentIds Persistent identifiers of the chosen answer options. May be empty if the vote was retracted. */
+    public array $optionPersistentIds { set; get; }
 }

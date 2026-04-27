@@ -16,7 +16,7 @@ interface ReplyParametersInterface extends TypeInterface
     /** @var bool|null $allowSendingWithoutReply Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account. */
     public ?bool $allowSendingWithoutReply { set; get; }
 
-    /** @var string|null $quote Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't found in the original message. */
+    /** @var string|null $quote Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the quote isn't found in the original message. */
     public ?string $quote { set; get; }
 
     /** @var string|null $quoteParseMode Optional. Mode for parsing entities in the quote. See formatting options for more details. */
@@ -30,4 +30,7 @@ interface ReplyParametersInterface extends TypeInterface
 
     /** @var int|null $checklistTaskId Optional. Identifier of the specific checklist task to be replied to */
     public ?int $checklistTaskId { set; get; }
+
+    /** @var string|null $pollOptionId Optional. Persistent identifier of the specific poll option to be replied to */
+    public ?string $pollOptionId { set; get; }
 }

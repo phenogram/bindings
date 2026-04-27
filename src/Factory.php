@@ -278,12 +278,15 @@ use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonCommandsInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
@@ -322,9 +325,12 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\PreparedKeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionCountInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeCustomEmojiInterface;
@@ -405,12 +411,15 @@ use Phenogram\Bindings\Types\Invoice;
 use Phenogram\Bindings\Types\KeyboardButton;
 use Phenogram\Bindings\Types\KeyboardButtonPollType;
 use Phenogram\Bindings\Types\KeyboardButtonRequestChat;
+use Phenogram\Bindings\Types\KeyboardButtonRequestManagedBot;
 use Phenogram\Bindings\Types\KeyboardButtonRequestUsers;
 use Phenogram\Bindings\Types\LabeledPrice;
 use Phenogram\Bindings\Types\LinkPreviewOptions;
 use Phenogram\Bindings\Types\Location;
 use Phenogram\Bindings\Types\LocationAddress;
 use Phenogram\Bindings\Types\LoginUrl;
+use Phenogram\Bindings\Types\ManagedBotCreated;
+use Phenogram\Bindings\Types\ManagedBotUpdated;
 use Phenogram\Bindings\Types\MaskPosition;
 use Phenogram\Bindings\Types\MenuButtonCommands;
 use Phenogram\Bindings\Types\MenuButtonDefault;
@@ -450,8 +459,11 @@ use Phenogram\Bindings\Types\PhotoSize;
 use Phenogram\Bindings\Types\Poll;
 use Phenogram\Bindings\Types\PollAnswer;
 use Phenogram\Bindings\Types\PollOption;
+use Phenogram\Bindings\Types\PollOptionAdded;
+use Phenogram\Bindings\Types\PollOptionDeleted;
 use Phenogram\Bindings\Types\PreCheckoutQuery;
 use Phenogram\Bindings\Types\PreparedInlineMessage;
+use Phenogram\Bindings\Types\PreparedKeyboardButton;
 use Phenogram\Bindings\Types\ProximityAlertTriggered;
 use Phenogram\Bindings\Types\ReactionCount;
 use Phenogram\Bindings\Types\ReactionTypeCustomEmoji;
@@ -556,6 +568,7 @@ class Factory implements FactoryInterface
         ?ChatJoinRequestInterface $chatJoinRequest,
         ?ChatBoostUpdatedInterface $chatBoost,
         ?ChatBoostRemovedInterface $removedChatBoost,
+        ?ManagedBotUpdatedInterface $managedBot,
     ): UpdateInterface {
         return new Update(
             updateId: $updateId,
@@ -582,6 +595,7 @@ class Factory implements FactoryInterface
             chatJoinRequest: $chatJoinRequest,
             chatBoost: $chatBoost,
             removedChatBoost: $removedChatBoost,
+            managedBot: $managedBot,
         );
     }
 
@@ -625,6 +639,7 @@ class Factory implements FactoryInterface
         ?bool $hasMainWebApp,
         ?bool $hasTopicsEnabled,
         ?bool $allowsUsersToCreateTopics,
+        ?bool $canManageBots,
     ): UserInterface {
         return new User(
             id: $id,
@@ -642,6 +657,7 @@ class Factory implements FactoryInterface
             hasMainWebApp: $hasMainWebApp,
             hasTopicsEnabled: $hasTopicsEnabled,
             allowsUsersToCreateTopics: $allowsUsersToCreateTopics,
+            canManageBots: $canManageBots,
         );
     }
 
@@ -795,6 +811,7 @@ class Factory implements FactoryInterface
         ?TextQuoteInterface $quote,
         ?StoryInterface $replyToStory,
         ?int $replyToChecklistTaskId,
+        ?string $replyToPollOptionId,
         ?UserInterface $viaBot,
         ?int $editDate,
         ?bool $hasProtectedContent,
@@ -870,7 +887,10 @@ class Factory implements FactoryInterface
         ?GiveawayInterface $giveaway,
         ?GiveawayWinnersInterface $giveawayWinners,
         ?GiveawayCompletedInterface $giveawayCompleted,
+        ?ManagedBotCreatedInterface $managedBotCreated,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?PollOptionAddedInterface $pollOptionAdded,
+        ?PollOptionDeletedInterface $pollOptionDeleted,
         ?SuggestedPostApprovedInterface $suggestedPostApproved,
         ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed,
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
@@ -903,6 +923,7 @@ class Factory implements FactoryInterface
             quote: $quote,
             replyToStory: $replyToStory,
             replyToChecklistTaskId: $replyToChecklistTaskId,
+            replyToPollOptionId: $replyToPollOptionId,
             viaBot: $viaBot,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
@@ -978,7 +999,10 @@ class Factory implements FactoryInterface
             giveaway: $giveaway,
             giveawayWinners: $giveawayWinners,
             giveawayCompleted: $giveawayCompleted,
+            managedBotCreated: $managedBotCreated,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            pollOptionAdded: $pollOptionAdded,
+            pollOptionDeleted: $pollOptionDeleted,
             suggestedPostApproved: $suggestedPostApproved,
             suggestedPostApprovalFailed: $suggestedPostApprovalFailed,
             suggestedPostDeclined: $suggestedPostDeclined,
@@ -1108,6 +1132,7 @@ class Factory implements FactoryInterface
         ?array $quoteEntities,
         ?int $quotePosition,
         ?int $checklistTaskId,
+        ?string $pollOptionId,
     ): ReplyParametersInterface {
         return new ReplyParameters(
             messageId: $messageId,
@@ -1118,6 +1143,7 @@ class Factory implements FactoryInterface
             quoteEntities: $quoteEntities,
             quotePosition: $quotePosition,
             checklistTaskId: $checklistTaskId,
+            pollOptionId: $pollOptionId,
         );
     }
 
@@ -1406,12 +1432,23 @@ class Factory implements FactoryInterface
         );
     }
 
-    public function makePollOption(string $text, int $voterCount, ?array $textEntities): PollOptionInterface
-    {
+    public function makePollOption(
+        string $persistentId,
+        string $text,
+        int $voterCount,
+        ?array $textEntities,
+        ?UserInterface $addedByUser,
+        ?ChatInterface $addedByChat,
+        ?int $additionDate,
+    ): PollOptionInterface {
         return new PollOption(
+            persistentId: $persistentId,
             text: $text,
             voterCount: $voterCount,
             textEntities: $textEntities,
+            addedByUser: $addedByUser,
+            addedByChat: $addedByChat,
+            additionDate: $additionDate,
         );
     }
 
@@ -1430,12 +1467,14 @@ class Factory implements FactoryInterface
     public function makePollAnswer(
         string $pollId,
         array $optionIds,
+        array $optionPersistentIds,
         ?ChatInterface $voterChat,
         ?UserInterface $user,
     ): PollAnswerInterface {
         return new PollAnswer(
             pollId: $pollId,
             optionIds: $optionIds,
+            optionPersistentIds: $optionPersistentIds,
             voterChat: $voterChat,
             user: $user,
         );
@@ -1450,12 +1489,15 @@ class Factory implements FactoryInterface
         bool $isAnonymous,
         string $type,
         bool $allowsMultipleAnswers,
+        bool $allowsRevoting,
         ?array $questionEntities,
-        ?int $correctOptionId,
+        ?array $correctOptionIds,
         ?string $explanation,
         ?array $explanationEntities,
         ?int $openPeriod,
         ?int $closeDate,
+        ?string $description,
+        ?array $descriptionEntities,
     ): PollInterface {
         return new Poll(
             id: $id,
@@ -1466,12 +1508,15 @@ class Factory implements FactoryInterface
             isAnonymous: $isAnonymous,
             type: $type,
             allowsMultipleAnswers: $allowsMultipleAnswers,
+            allowsRevoting: $allowsRevoting,
             questionEntities: $questionEntities,
-            correctOptionId: $correctOptionId,
+            correctOptionIds: $correctOptionIds,
             explanation: $explanation,
             explanationEntities: $explanationEntities,
             openPeriod: $openPeriod,
             closeDate: $closeDate,
+            description: $description,
+            descriptionEntities: $descriptionEntities,
         );
     }
 
@@ -1625,6 +1670,49 @@ class Factory implements FactoryInterface
     {
         return new MessageAutoDeleteTimerChanged(
             messageAutoDeleteTime: $messageAutoDeleteTime,
+        );
+    }
+
+    public function makeManagedBotCreated(UserInterface $bot): ManagedBotCreatedInterface
+    {
+        return new ManagedBotCreated(
+            bot: $bot,
+        );
+    }
+
+    public function makeManagedBotUpdated(UserInterface $user, UserInterface $bot): ManagedBotUpdatedInterface
+    {
+        return new ManagedBotUpdated(
+            user: $user,
+            bot: $bot,
+        );
+    }
+
+    public function makePollOptionAdded(
+        string $optionPersistentId,
+        string $optionText,
+        ?Types\Interfaces\MaybeInaccessibleMessageInterface $pollMessage,
+        ?array $optionTextEntities,
+    ): PollOptionAddedInterface {
+        return new PollOptionAdded(
+            optionPersistentId: $optionPersistentId,
+            optionText: $optionText,
+            pollMessage: $pollMessage,
+            optionTextEntities: $optionTextEntities,
+        );
+    }
+
+    public function makePollOptionDeleted(
+        string $optionPersistentId,
+        string $optionText,
+        ?Types\Interfaces\MaybeInaccessibleMessageInterface $pollMessage,
+        ?array $optionTextEntities,
+    ): PollOptionDeletedInterface {
+        return new PollOptionDeleted(
+            optionPersistentId: $optionPersistentId,
+            optionText: $optionText,
+            pollMessage: $pollMessage,
+            optionTextEntities: $optionTextEntities,
         );
     }
 
@@ -2107,6 +2195,7 @@ class Factory implements FactoryInterface
         ?string $style,
         ?KeyboardButtonRequestUsersInterface $requestUsers,
         ?KeyboardButtonRequestChatInterface $requestChat,
+        ?KeyboardButtonRequestManagedBotInterface $requestManagedBot,
         ?bool $requestContact,
         ?bool $requestLocation,
         ?KeyboardButtonPollTypeInterface $requestPoll,
@@ -2118,6 +2207,7 @@ class Factory implements FactoryInterface
             style: $style,
             requestUsers: $requestUsers,
             requestChat: $requestChat,
+            requestManagedBot: $requestManagedBot,
             requestContact: $requestContact,
             requestLocation: $requestLocation,
             requestPoll: $requestPoll,
@@ -2170,6 +2260,18 @@ class Factory implements FactoryInterface
             requestTitle: $requestTitle,
             requestUsername: $requestUsername,
             requestPhoto: $requestPhoto,
+        );
+    }
+
+    public function makeKeyboardButtonRequestManagedBot(
+        int $requestId,
+        ?string $suggestedName,
+        ?string $suggestedUsername,
+    ): KeyboardButtonRequestManagedBotInterface {
+        return new KeyboardButtonRequestManagedBot(
+            requestId: $requestId,
+            suggestedName: $suggestedName,
+            suggestedUsername: $suggestedUsername,
         );
     }
 
@@ -3398,6 +3500,28 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeSentWebAppMessage(?string $inlineMessageId): SentWebAppMessageInterface
+    {
+        return new SentWebAppMessage(
+            inlineMessageId: $inlineMessageId,
+        );
+    }
+
+    public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface
+    {
+        return new PreparedInlineMessage(
+            id: $id,
+            expirationDate: $expirationDate,
+        );
+    }
+
+    public function makePreparedKeyboardButton(string $id): PreparedKeyboardButtonInterface
+    {
+        return new PreparedKeyboardButton(
+            id: $id,
+        );
+    }
+
     public function makeResponseParameters(?int $migrateToChatId, ?int $retryAfter): ResponseParametersInterface
     {
         return new ResponseParameters(
@@ -4409,21 +4533,6 @@ class Factory implements FactoryInterface
             query: $query,
             location: $location,
             inlineMessageId: $inlineMessageId,
-        );
-    }
-
-    public function makeSentWebAppMessage(?string $inlineMessageId): SentWebAppMessageInterface
-    {
-        return new SentWebAppMessage(
-            inlineMessageId: $inlineMessageId,
-        );
-    }
-
-    public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface
-    {
-        return new PreparedInlineMessage(
-            id: $id,
-            expirationDate: $expirationDate,
         );
     }
 

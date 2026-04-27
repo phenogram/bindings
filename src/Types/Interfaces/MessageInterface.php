@@ -64,6 +64,9 @@ interface MessageInterface extends TypeInterface
     /** @var int|null $replyToChecklistTaskId Optional. Identifier of the specific checklist task that is being replied to */
     public ?int $replyToChecklistTaskId { set; get; }
 
+    /** @var string|null $replyToPollOptionId Optional. Persistent identifier of the specific poll option that is being replied to */
+    public ?string $replyToPollOptionId { set; get; }
+
     /** @var UserInterface|null $viaBot Optional. Bot through which the message was sent */
     public ?UserInterface $viaBot { set; get; }
 
@@ -289,8 +292,17 @@ interface MessageInterface extends TypeInterface
     /** @var GiveawayCompletedInterface|null $giveawayCompleted Optional. Service message: a giveaway without public winners was completed */
     public ?GiveawayCompletedInterface $giveawayCompleted { set; get; }
 
+    /** @var ManagedBotCreatedInterface|null $managedBotCreated Optional. Service message: user created a bot that will be managed by the current bot */
+    public ?ManagedBotCreatedInterface $managedBotCreated { set; get; }
+
     /** @var PaidMessagePriceChangedInterface|null $paidMessagePriceChanged Optional. Service message: the price for paid messages has changed in the chat */
     public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged { set; get; }
+
+    /** @var PollOptionAddedInterface|null $pollOptionAdded Optional. Service message: answer option was added to a poll */
+    public ?PollOptionAddedInterface $pollOptionAdded { set; get; }
+
+    /** @var PollOptionDeletedInterface|null $pollOptionDeleted Optional. Service message: answer option was deleted from a poll */
+    public ?PollOptionDeletedInterface $pollOptionDeleted { set; get; }
 
     /** @var SuggestedPostApprovedInterface|null $suggestedPostApproved Optional. Service message: a suggested post was approved */
     public ?SuggestedPostApprovedInterface $suggestedPostApproved { set; get; }
