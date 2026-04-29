@@ -13,7 +13,7 @@ interface InputChecklistInterface extends TypeInterface
     /** @var string|null $parseMode Optional. Mode for parsing entities in the title. See formatting options for more details. */
     public ?string $parseMode { set; get; }
 
-    /** @var array<MessageEntityInterface>|null $titleEntities Optional. List of special entities that appear in the title, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed. */
+    /** @var array<MessageEntityInterface>|null $titleEntities Optional. List of special entities that appear in the title, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are allowed. */
     public ?array $titleEntities { set; get; }
 
     /** @var array<InputChecklistTaskInterface> $tasks List of 1-30 tasks in the checklist */

@@ -143,12 +143,15 @@ use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonCommandsInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
@@ -187,9 +190,12 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\PreparedKeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionCountInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeCustomEmojiInterface;
@@ -317,6 +323,10 @@ class Serializer implements SerializerInterface
         WebAppDataInterface::class,
         ProximityAlertTriggeredInterface::class,
         MessageAutoDeleteTimerChangedInterface::class,
+        ManagedBotCreatedInterface::class,
+        ManagedBotUpdatedInterface::class,
+        PollOptionAddedInterface::class,
+        PollOptionDeletedInterface::class,
         ChatBoostAddedInterface::class,
         BackgroundFillSolidInterface::class,
         BackgroundFillGradientInterface::class,
@@ -364,6 +374,7 @@ class Serializer implements SerializerInterface
         KeyboardButtonInterface::class,
         KeyboardButtonRequestUsersInterface::class,
         KeyboardButtonRequestChatInterface::class,
+        KeyboardButtonRequestManagedBotInterface::class,
         KeyboardButtonPollTypeInterface::class,
         ReplyKeyboardRemoveInterface::class,
         InlineKeyboardMarkupInterface::class,
@@ -449,6 +460,9 @@ class Serializer implements SerializerInterface
         BusinessBotRightsInterface::class,
         BusinessConnectionInterface::class,
         BusinessMessagesDeletedInterface::class,
+        SentWebAppMessageInterface::class,
+        PreparedInlineMessageInterface::class,
+        PreparedKeyboardButtonInterface::class,
         ResponseParametersInterface::class,
         InputMediaPhotoInterface::class,
         InputMediaVideoInterface::class,
@@ -493,8 +507,6 @@ class Serializer implements SerializerInterface
         InputContactMessageContentInterface::class,
         InputInvoiceMessageContentInterface::class,
         ChosenInlineResultInterface::class,
-        SentWebAppMessageInterface::class,
-        PreparedInlineMessageInterface::class,
         LabeledPriceInterface::class,
         InvoiceInterface::class,
         ShippingAddressInterface::class,
@@ -637,6 +649,9 @@ class Serializer implements SerializerInterface
             removedChatBoost: isset($data['removed_chat_boost'])
                 ? $this->denormalizeChatBoostRemoved($data['removed_chat_boost'])
                 : null,
+            managedBot: isset($data['managed_bot'])
+                ? $this->denormalizeManagedBotUpdated($data['managed_bot'])
+                : null,
         );
     }
 
@@ -709,6 +724,7 @@ class Serializer implements SerializerInterface
             hasMainWebApp: $data['has_main_web_app'] ?? null,
             hasTopicsEnabled: $data['has_topics_enabled'] ?? null,
             allowsUsersToCreateTopics: $data['allows_users_to_create_topics'] ?? null,
+            canManageBots: $data['can_manage_bots'] ?? null,
         );
     }
 
@@ -906,6 +922,7 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeStory($data['reply_to_story'])
                 : null,
             replyToChecklistTaskId: $data['reply_to_checklist_task_id'] ?? null,
+            replyToPollOptionId: $data['reply_to_poll_option_id'] ?? null,
             viaBot: isset($data['via_bot'])
                 ? $this->denormalizeUser($data['via_bot'])
                 : null,
@@ -1091,8 +1108,17 @@ class Serializer implements SerializerInterface
             giveawayCompleted: isset($data['giveaway_completed'])
                 ? $this->denormalizeGiveawayCompleted($data['giveaway_completed'])
                 : null,
+            managedBotCreated: isset($data['managed_bot_created'])
+                ? $this->denormalizeManagedBotCreated($data['managed_bot_created'])
+                : null,
             paidMessagePriceChanged: isset($data['paid_message_price_changed'])
                 ? $this->denormalizePaidMessagePriceChanged($data['paid_message_price_changed'])
+                : null,
+            pollOptionAdded: isset($data['poll_option_added'])
+                ? $this->denormalizePollOptionAdded($data['poll_option_added'])
+                : null,
+            pollOptionDeleted: isset($data['poll_option_deleted'])
+                ? $this->denormalizePollOptionDeleted($data['poll_option_deleted'])
                 : null,
             suggestedPostApproved: isset($data['suggested_post_approved'])
                 ? $this->denormalizeSuggestedPostApproved($data['suggested_post_approved'])
@@ -1373,6 +1399,7 @@ class Serializer implements SerializerInterface
                 : null,
             quotePosition: $data['quote_position'] ?? null,
             checklistTaskId: $data['checklist_task_id'] ?? null,
+            pollOptionId: $data['poll_option_id'] ?? null,
         );
     }
 
@@ -1962,6 +1989,7 @@ class Serializer implements SerializerInterface
     public function denormalizePollOption(array $data): PollOptionInterface
     {
         $requiredFields = [
+            'persistent_id',
             'text',
             'voter_count',
         ];
@@ -1979,11 +2007,19 @@ class Serializer implements SerializerInterface
         }
 
         return $this->factory->makePollOption(
+            persistentId: $data['persistent_id'],
             text: $data['text'],
             voterCount: $data['voter_count'],
             textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
                 : null,
+            addedByUser: isset($data['added_by_user'])
+                ? $this->denormalizeUser($data['added_by_user'])
+                : null,
+            addedByChat: isset($data['added_by_chat'])
+                ? $this->denormalizeChat($data['added_by_chat'])
+                : null,
+            additionDate: $data['addition_date'] ?? null,
         );
     }
 
@@ -2019,6 +2055,7 @@ class Serializer implements SerializerInterface
         $requiredFields = [
             'poll_id',
             'option_ids',
+            'option_persistent_ids',
         ];
 
         $missingFields = [];
@@ -2036,6 +2073,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makePollAnswer(
             pollId: $data['poll_id'],
             optionIds: $data['option_ids'],
+            optionPersistentIds: $data['option_persistent_ids'],
             voterChat: isset($data['voter_chat'])
                 ? $this->denormalizeChat($data['voter_chat'])
                 : null,
@@ -2056,6 +2094,7 @@ class Serializer implements SerializerInterface
             'is_anonymous',
             'type',
             'allows_multiple_answers',
+            'allows_revoting',
         ];
 
         $missingFields = [];
@@ -2079,16 +2118,21 @@ class Serializer implements SerializerInterface
             isAnonymous: $data['is_anonymous'],
             type: $data['type'],
             allowsMultipleAnswers: $data['allows_multiple_answers'],
+            allowsRevoting: $data['allows_revoting'],
             questionEntities: isset($data['question_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['question_entities'])
                 : null,
-            correctOptionId: $data['correct_option_id'] ?? null,
+            correctOptionIds: $data['correct_option_ids'] ?? null,
             explanation: $data['explanation'] ?? null,
             explanationEntities: isset($data['explanation_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['explanation_entities'])
                 : null,
             openPeriod: $data['open_period'] ?? null,
             closeDate: $data['close_date'] ?? null,
+            description: $data['description'] ?? null,
+            descriptionEntities: isset($data['description_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['description_entities'])
+                : null,
         );
     }
 
@@ -2386,6 +2430,116 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeMessageAutoDeleteTimerChanged(
             messageAutoDeleteTime: $data['message_auto_delete_time'],
+        );
+    }
+
+    public function denormalizeManagedBotCreated(array $data): ManagedBotCreatedInterface
+    {
+        $requiredFields = [
+            'bot',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ManagedBotCreated missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeManagedBotCreated(
+            bot: $this->denormalizeUser($data['bot']),
+        );
+    }
+
+    public function denormalizeManagedBotUpdated(array $data): ManagedBotUpdatedInterface
+    {
+        $requiredFields = [
+            'user',
+            'bot',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ManagedBotUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeManagedBotUpdated(
+            user: $this->denormalizeUser($data['user']),
+            bot: $this->denormalizeUser($data['bot']),
+        );
+    }
+
+    public function denormalizePollOptionAdded(array $data): PollOptionAddedInterface
+    {
+        $requiredFields = [
+            'option_persistent_id',
+            'option_text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PollOptionAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePollOptionAdded(
+            optionPersistentId: $data['option_persistent_id'],
+            optionText: $data['option_text'],
+            pollMessage: isset($data['poll_message'])
+                ? $this->denormalizeMaybeInaccessibleMessage($data['poll_message'])
+                : null,
+            optionTextEntities: isset($data['option_text_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['option_text_entities'])
+                : null,
+        );
+    }
+
+    public function denormalizePollOptionDeleted(array $data): PollOptionDeletedInterface
+    {
+        $requiredFields = [
+            'option_persistent_id',
+            'option_text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PollOptionDeleted missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePollOptionDeleted(
+            optionPersistentId: $data['option_persistent_id'],
+            optionText: $data['option_text'],
+            pollMessage: isset($data['poll_message'])
+                ? $this->denormalizeMaybeInaccessibleMessage($data['poll_message'])
+                : null,
+            optionTextEntities: isset($data['option_text_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['option_text_entities'])
+                : null,
         );
     }
 
@@ -3410,6 +3564,9 @@ class Serializer implements SerializerInterface
             requestChat: isset($data['request_chat'])
                 ? $this->denormalizeKeyboardButtonRequestChat($data['request_chat'])
                 : null,
+            requestManagedBot: isset($data['request_managed_bot'])
+                ? $this->denormalizeKeyboardButtonRequestManagedBot($data['request_managed_bot'])
+                : null,
             requestContact: $data['request_contact'] ?? null,
             requestLocation: $data['request_location'] ?? null,
             requestPoll: isset($data['request_poll'])
@@ -3485,6 +3642,31 @@ class Serializer implements SerializerInterface
             requestTitle: $data['request_title'] ?? null,
             requestUsername: $data['request_username'] ?? null,
             requestPhoto: $data['request_photo'] ?? null,
+        );
+    }
+
+    public function denormalizeKeyboardButtonRequestManagedBot(array $data): KeyboardButtonRequestManagedBotInterface
+    {
+        $requiredFields = [
+            'request_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class KeyboardButtonRequestManagedBot missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeKeyboardButtonRequestManagedBot(
+            requestId: $data['request_id'],
+            suggestedName: $data['suggested_name'] ?? null,
+            suggestedUsername: $data['suggested_username'] ?? null,
         );
     }
 
@@ -5791,6 +5973,61 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeSentWebAppMessage(array $data): SentWebAppMessageInterface
+    {
+        return $this->factory->makeSentWebAppMessage(
+            inlineMessageId: $data['inline_message_id'] ?? null,
+        );
+    }
+
+    public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessageInterface
+    {
+        $requiredFields = [
+            'id',
+            'expiration_date',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PreparedInlineMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePreparedInlineMessage(
+            id: $data['id'],
+            expirationDate: $data['expiration_date'],
+        );
+    }
+
+    public function denormalizePreparedKeyboardButton(array $data): PreparedKeyboardButtonInterface
+    {
+        $requiredFields = [
+            'id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PreparedKeyboardButton missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePreparedKeyboardButton(
+            id: $data['id'],
+        );
+    }
+
     public function denormalizeResponseParameters(array $data): ResponseParametersInterface
     {
         return $this->factory->makeResponseParameters(
@@ -7389,38 +7626,6 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeSentWebAppMessage(array $data): SentWebAppMessageInterface
-    {
-        return $this->factory->makeSentWebAppMessage(
-            inlineMessageId: $data['inline_message_id'] ?? null,
-        );
-    }
-
-    public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessageInterface
-    {
-        $requiredFields = [
-            'id',
-            'expiration_date',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class PreparedInlineMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makePreparedInlineMessage(
-            id: $data['id'],
-            expirationDate: $data['expiration_date'],
-        );
-    }
-
     public function denormalizeLabeledPrice(array $data): LabeledPriceInterface
     {
         $requiredFields = [
@@ -8625,6 +8830,10 @@ class Serializer implements SerializerInterface
             WebAppDataInterface::class => $this->denormalizeWebAppData($data),
             ProximityAlertTriggeredInterface::class => $this->denormalizeProximityAlertTriggered($data),
             MessageAutoDeleteTimerChangedInterface::class => $this->denormalizeMessageAutoDeleteTimerChanged($data),
+            ManagedBotCreatedInterface::class => $this->denormalizeManagedBotCreated($data),
+            ManagedBotUpdatedInterface::class => $this->denormalizeManagedBotUpdated($data),
+            PollOptionAddedInterface::class => $this->denormalizePollOptionAdded($data),
+            PollOptionDeletedInterface::class => $this->denormalizePollOptionDeleted($data),
             ChatBoostAddedInterface::class => $this->denormalizeChatBoostAdded($data),
             BackgroundFillSolidInterface::class => $this->denormalizeBackgroundFillSolid($data),
             BackgroundFillGradientInterface::class => $this->denormalizeBackgroundFillGradient($data),
@@ -8672,6 +8881,7 @@ class Serializer implements SerializerInterface
             KeyboardButtonInterface::class => $this->denormalizeKeyboardButton($data),
             KeyboardButtonRequestUsersInterface::class => $this->denormalizeKeyboardButtonRequestUsers($data),
             KeyboardButtonRequestChatInterface::class => $this->denormalizeKeyboardButtonRequestChat($data),
+            KeyboardButtonRequestManagedBotInterface::class => $this->denormalizeKeyboardButtonRequestManagedBot($data),
             KeyboardButtonPollTypeInterface::class => $this->denormalizeKeyboardButtonPollType($data),
             ReplyKeyboardRemoveInterface::class => $this->denormalizeReplyKeyboardRemove($data),
             InlineKeyboardMarkupInterface::class => $this->denormalizeInlineKeyboardMarkup($data),
@@ -8757,6 +8967,9 @@ class Serializer implements SerializerInterface
             BusinessBotRightsInterface::class => $this->denormalizeBusinessBotRights($data),
             BusinessConnectionInterface::class => $this->denormalizeBusinessConnection($data),
             BusinessMessagesDeletedInterface::class => $this->denormalizeBusinessMessagesDeleted($data),
+            SentWebAppMessageInterface::class => $this->denormalizeSentWebAppMessage($data),
+            PreparedInlineMessageInterface::class => $this->denormalizePreparedInlineMessage($data),
+            PreparedKeyboardButtonInterface::class => $this->denormalizePreparedKeyboardButton($data),
             ResponseParametersInterface::class => $this->denormalizeResponseParameters($data),
             InputMediaPhotoInterface::class => $this->denormalizeInputMediaPhoto($data),
             InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
@@ -8801,8 +9014,6 @@ class Serializer implements SerializerInterface
             InputContactMessageContentInterface::class => $this->denormalizeInputContactMessageContent($data),
             InputInvoiceMessageContentInterface::class => $this->denormalizeInputInvoiceMessageContent($data),
             ChosenInlineResultInterface::class => $this->denormalizeChosenInlineResult($data),
-            SentWebAppMessageInterface::class => $this->denormalizeSentWebAppMessage($data),
-            PreparedInlineMessageInterface::class => $this->denormalizePreparedInlineMessage($data),
             LabeledPriceInterface::class => $this->denormalizeLabeledPrice($data),
             InvoiceInterface::class => $this->denormalizeInvoice($data),
             ShippingAddressInterface::class => $this->denormalizeShippingAddress($data),

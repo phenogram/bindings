@@ -142,12 +142,15 @@ use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
+use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonCommandsInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
@@ -186,9 +189,12 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\PreparedInlineMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\PreparedKeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionCountInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeCustomEmojiInterface;
@@ -293,6 +299,7 @@ interface FactoryInterface
         ?ChatJoinRequestInterface $chatJoinRequest,
         ?ChatBoostUpdatedInterface $chatBoost,
         ?ChatBoostRemovedInterface $removedChatBoost,
+        ?ManagedBotUpdatedInterface $managedBot,
     ): UpdateInterface;
 
     public function makeWebhookInfo(
@@ -323,6 +330,7 @@ interface FactoryInterface
         ?bool $hasMainWebApp,
         ?bool $hasTopicsEnabled,
         ?bool $allowsUsersToCreateTopics,
+        ?bool $canManageBots,
     ): UserInterface;
 
     public function makeChat(
@@ -410,6 +418,7 @@ interface FactoryInterface
         ?TextQuoteInterface $quote,
         ?StoryInterface $replyToStory,
         ?int $replyToChecklistTaskId,
+        ?string $replyToPollOptionId,
         ?UserInterface $viaBot,
         ?int $editDate,
         ?bool $hasProtectedContent,
@@ -485,7 +494,10 @@ interface FactoryInterface
         ?GiveawayInterface $giveaway,
         ?GiveawayWinnersInterface $giveawayWinners,
         ?GiveawayCompletedInterface $giveawayCompleted,
+        ?ManagedBotCreatedInterface $managedBotCreated,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?PollOptionAddedInterface $pollOptionAdded,
+        ?PollOptionDeletedInterface $pollOptionDeleted,
         ?SuggestedPostApprovedInterface $suggestedPostApproved,
         ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed,
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
@@ -554,6 +566,7 @@ interface FactoryInterface
         ?array $quoteEntities,
         ?int $quotePosition,
         ?int $checklistTaskId,
+        ?string $pollOptionId,
     ): ReplyParametersInterface;
 
     public function makeMessageOriginUser(string $type, int $date, UserInterface $senderUser): MessageOriginUserInterface;
@@ -686,7 +699,15 @@ interface FactoryInterface
 
     public function makeDice(string $emoji, int $value): DiceInterface;
 
-    public function makePollOption(string $text, int $voterCount, ?array $textEntities): PollOptionInterface;
+    public function makePollOption(
+        string $persistentId,
+        string $text,
+        int $voterCount,
+        ?array $textEntities,
+        ?UserInterface $addedByUser,
+        ?ChatInterface $addedByChat,
+        ?int $additionDate,
+    ): PollOptionInterface;
 
     public function makeInputPollOption(
         string $text,
@@ -697,6 +718,7 @@ interface FactoryInterface
     public function makePollAnswer(
         string $pollId,
         array $optionIds,
+        array $optionPersistentIds,
         ?ChatInterface $voterChat,
         ?UserInterface $user,
     ): PollAnswerInterface;
@@ -710,12 +732,15 @@ interface FactoryInterface
         bool $isAnonymous,
         string $type,
         bool $allowsMultipleAnswers,
+        bool $allowsRevoting,
         ?array $questionEntities,
-        ?int $correctOptionId,
+        ?array $correctOptionIds,
         ?string $explanation,
         ?array $explanationEntities,
         ?int $openPeriod,
         ?int $closeDate,
+        ?string $description,
+        ?array $descriptionEntities,
     ): PollInterface;
 
     public function makeChecklistTask(
@@ -790,6 +815,24 @@ interface FactoryInterface
     ): ProximityAlertTriggeredInterface;
 
     public function makeMessageAutoDeleteTimerChanged(int $messageAutoDeleteTime): MessageAutoDeleteTimerChangedInterface;
+
+    public function makeManagedBotCreated(UserInterface $bot): ManagedBotCreatedInterface;
+
+    public function makeManagedBotUpdated(UserInterface $user, UserInterface $bot): ManagedBotUpdatedInterface;
+
+    public function makePollOptionAdded(
+        string $optionPersistentId,
+        string $optionText,
+        ?Types\Interfaces\MaybeInaccessibleMessageInterface $pollMessage,
+        ?array $optionTextEntities,
+    ): PollOptionAddedInterface;
+
+    public function makePollOptionDeleted(
+        string $optionPersistentId,
+        string $optionText,
+        ?Types\Interfaces\MaybeInaccessibleMessageInterface $pollMessage,
+        ?array $optionTextEntities,
+    ): PollOptionDeletedInterface;
 
     public function makeChatBoostAdded(int $boostCount): ChatBoostAddedInterface;
 
@@ -1000,6 +1043,7 @@ interface FactoryInterface
         ?string $style,
         ?KeyboardButtonRequestUsersInterface $requestUsers,
         ?KeyboardButtonRequestChatInterface $requestChat,
+        ?KeyboardButtonRequestManagedBotInterface $requestManagedBot,
         ?bool $requestContact,
         ?bool $requestLocation,
         ?KeyboardButtonPollTypeInterface $requestPoll,
@@ -1029,6 +1073,12 @@ interface FactoryInterface
         ?bool $requestUsername,
         ?bool $requestPhoto,
     ): KeyboardButtonRequestChatInterface;
+
+    public function makeKeyboardButtonRequestManagedBot(
+        int $requestId,
+        ?string $suggestedName,
+        ?string $suggestedUsername,
+    ): KeyboardButtonRequestManagedBotInterface;
 
     public function makeKeyboardButtonPollType(?string $type): KeyboardButtonPollTypeInterface;
 
@@ -1577,6 +1627,12 @@ interface FactoryInterface
         array $messageIds,
     ): BusinessMessagesDeletedInterface;
 
+    public function makeSentWebAppMessage(?string $inlineMessageId): SentWebAppMessageInterface;
+
+    public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface;
+
+    public function makePreparedKeyboardButton(string $id): PreparedKeyboardButtonInterface;
+
     public function makeResponseParameters(?int $migrateToChatId, ?int $retryAfter): ResponseParametersInterface;
 
     public function makeInputMediaPhoto(
@@ -2072,10 +2128,6 @@ interface FactoryInterface
         ?LocationInterface $location,
         ?string $inlineMessageId,
     ): ChosenInlineResultInterface;
-
-    public function makeSentWebAppMessage(?string $inlineMessageId): SentWebAppMessageInterface;
-
-    public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface;
 
     public function makeLabeledPrice(string $label, int $amount): LabeledPriceInterface;
 

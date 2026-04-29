@@ -78,4 +78,7 @@ interface UpdateInterface extends TypeInterface
 
     /** @var ChatBoostRemovedInterface|null $removedChatBoost Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates. */
     public ?ChatBoostRemovedInterface $removedChatBoost { set; get; }
+
+    /** @var ManagedBotUpdatedInterface|null $managedBot Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed */
+    public ?ManagedBotUpdatedInterface $managedBot { set; get; }
 }

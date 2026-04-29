@@ -23,6 +23,7 @@ class User implements Interfaces\UserInterface
      * @param bool|null   $hasMainWebApp             Optional. True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|null   $hasTopicsEnabled          Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|null   $allowsUsersToCreateTopics Optional. True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
+     * @param bool|null   $canManageBots             Optional. True, if other bots can be created to be controlled by the bot. Returned only in getMe.
      */
     public function __construct(
         public int $id,
@@ -40,6 +41,7 @@ class User implements Interfaces\UserInterface
         public ?bool $hasMainWebApp = null,
         public ?bool $hasTopicsEnabled = null,
         public ?bool $allowsUsersToCreateTopics = null,
+        public ?bool $canManageBots = null,
     ) {
     }
 }

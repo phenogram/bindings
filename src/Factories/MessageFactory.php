@@ -53,12 +53,15 @@ use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
@@ -110,6 +113,7 @@ class MessageFactory extends AbstractFactory
      * @param TextQuoteInterface|null                                                     $quote                         Optional. Optional. For replies that quote part of the original message, the quoted part of the message
      * @param StoryInterface|null                                                         $replyToStory                  Optional. Optional. For replies to a story, the original story
      * @param int|null                                                                    $replyToChecklistTaskId        Optional. Optional. Identifier of the specific checklist task that is being replied to
+     * @param string|null                                                                 $replyToPollOptionId           Optional. Optional. Persistent identifier of the specific poll option that is being replied to
      * @param UserInterface|null                                                          $viaBot                        Optional. Optional. Bot through which the message was sent
      * @param int|null                                                                    $editDate                      Optional. Optional. Date the message was last edited in Unix time
      * @param bool|null                                                                   $hasProtectedContent           Optional. Optional. True, if the message can't be forwarded
@@ -185,7 +189,10 @@ class MessageFactory extends AbstractFactory
      * @param GiveawayInterface|null                                                      $giveaway                      Optional. Optional. The message is a scheduled giveaway message
      * @param GiveawayWinnersInterface|null                                               $giveawayWinners               Optional. Optional. A giveaway with public winners was completed
      * @param GiveawayCompletedInterface|null                                             $giveawayCompleted             Optional. Optional. Service message: a giveaway without public winners was completed
+     * @param ManagedBotCreatedInterface|null                                             $managedBotCreated             Optional. Optional. Service message: user created a bot that will be managed by the current bot
      * @param PaidMessagePriceChangedInterface|null                                       $paidMessagePriceChanged       Optional. Optional. Service message: the price for paid messages has changed in the chat
+     * @param PollOptionAddedInterface|null                                               $pollOptionAdded               Optional. Optional. Service message: answer option was added to a poll
+     * @param PollOptionDeletedInterface|null                                             $pollOptionDeleted             Optional. Optional. Service message: answer option was deleted from a poll
      * @param SuggestedPostApprovedInterface|null                                         $suggestedPostApproved         Optional. Optional. Service message: a suggested post was approved
      * @param SuggestedPostApprovalFailedInterface|null                                   $suggestedPostApprovalFailed   Optional. Optional. Service message: approval of a suggested post has failed
      * @param SuggestedPostDeclinedInterface|null                                         $suggestedPostDeclined         Optional. Optional. Service message: a suggested post was declined
@@ -218,6 +225,7 @@ class MessageFactory extends AbstractFactory
         ?TextQuoteInterface $quote = null,
         ?StoryInterface $replyToStory = null,
         ?int $replyToChecklistTaskId = null,
+        ?string $replyToPollOptionId = null,
         ?UserInterface $viaBot = null,
         ?int $editDate = null,
         ?bool $hasProtectedContent = null,
@@ -293,7 +301,10 @@ class MessageFactory extends AbstractFactory
         ?GiveawayInterface $giveaway = null,
         ?GiveawayWinnersInterface $giveawayWinners = null,
         ?GiveawayCompletedInterface $giveawayCompleted = null,
+        ?ManagedBotCreatedInterface $managedBotCreated = null,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        ?PollOptionAddedInterface $pollOptionAdded = null,
+        ?PollOptionDeletedInterface $pollOptionDeleted = null,
         ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
         ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed = null,
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,
@@ -326,6 +337,7 @@ class MessageFactory extends AbstractFactory
             quote: $quote,
             replyToStory: $replyToStory,
             replyToChecklistTaskId: $replyToChecklistTaskId,
+            replyToPollOptionId: $replyToPollOptionId,
             viaBot: $viaBot,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
@@ -401,7 +413,10 @@ class MessageFactory extends AbstractFactory
             giveaway: $giveaway,
             giveawayWinners: $giveawayWinners,
             giveawayCompleted: $giveawayCompleted,
+            managedBotCreated: $managedBotCreated,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            pollOptionAdded: $pollOptionAdded,
+            pollOptionDeleted: $pollOptionDeleted,
             suggestedPostApproved: $suggestedPostApproved,
             suggestedPostApprovalFailed: $suggestedPostApprovalFailed,
             suggestedPostDeclined: $suggestedPostDeclined,

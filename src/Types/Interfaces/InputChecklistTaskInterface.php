@@ -16,6 +16,6 @@ interface InputChecklistTaskInterface extends TypeInterface
     /** @var string|null $parseMode Optional. Mode for parsing entities in the text. See formatting options for more details. */
     public ?string $parseMode { set; get; }
 
-    /** @var array<MessageEntityInterface>|null $textEntities Optional. List of special entities that appear in the text, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed. */
+    /** @var array<MessageEntityInterface>|null $textEntities Optional. List of special entities that appear in the text, which can be specified instead of parse_mode. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are allowed. */
     public ?array $textEntities { set; get; }
 }

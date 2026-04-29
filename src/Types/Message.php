@@ -35,6 +35,7 @@ use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
+use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaybeInaccessibleMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
@@ -45,6 +46,8 @@ use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
@@ -96,6 +99,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param TextQuoteInterface|null                     $quote                         Optional. For replies that quote part of the original message, the quoted part of the message
      * @param StoryInterface|null                         $replyToStory                  Optional. For replies to a story, the original story
      * @param int|null                                    $replyToChecklistTaskId        Optional. Identifier of the specific checklist task that is being replied to
+     * @param string|null                                 $replyToPollOptionId           Optional. Persistent identifier of the specific poll option that is being replied to
      * @param UserInterface|null                          $viaBot                        Optional. Bot through which the message was sent
      * @param int|null                                    $editDate                      Optional. Date the message was last edited in Unix time
      * @param bool|null                                   $hasProtectedContent           Optional. True, if the message can't be forwarded
@@ -171,7 +175,10 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param GiveawayInterface|null                      $giveaway                      Optional. The message is a scheduled giveaway message
      * @param GiveawayWinnersInterface|null               $giveawayWinners               Optional. A giveaway with public winners was completed
      * @param GiveawayCompletedInterface|null             $giveawayCompleted             Optional. Service message: a giveaway without public winners was completed
+     * @param ManagedBotCreatedInterface|null             $managedBotCreated             Optional. Service message: user created a bot that will be managed by the current bot
      * @param PaidMessagePriceChangedInterface|null       $paidMessagePriceChanged       Optional. Service message: the price for paid messages has changed in the chat
+     * @param PollOptionAddedInterface|null               $pollOptionAdded               Optional. Service message: answer option was added to a poll
+     * @param PollOptionDeletedInterface|null             $pollOptionDeleted             Optional. Service message: answer option was deleted from a poll
      * @param SuggestedPostApprovedInterface|null         $suggestedPostApproved         Optional. Service message: a suggested post was approved
      * @param SuggestedPostApprovalFailedInterface|null   $suggestedPostApprovalFailed   Optional. Service message: approval of a suggested post has failed
      * @param SuggestedPostDeclinedInterface|null         $suggestedPostDeclined         Optional. Service message: a suggested post was declined
@@ -204,6 +211,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?TextQuoteInterface $quote = null,
         public ?StoryInterface $replyToStory = null,
         public ?int $replyToChecklistTaskId = null,
+        public ?string $replyToPollOptionId = null,
         public ?UserInterface $viaBot = null,
         public ?int $editDate = null,
         public ?bool $hasProtectedContent = null,
@@ -279,7 +287,10 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?GiveawayInterface $giveaway = null,
         public ?GiveawayWinnersInterface $giveawayWinners = null,
         public ?GiveawayCompletedInterface $giveawayCompleted = null,
+        public ?ManagedBotCreatedInterface $managedBotCreated = null,
         public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        public ?PollOptionAddedInterface $pollOptionAdded = null,
+        public ?PollOptionDeletedInterface $pollOptionDeleted = null,
         public ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
         public ?SuggestedPostApprovalFailedInterface $suggestedPostApprovalFailed = null,
         public ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,

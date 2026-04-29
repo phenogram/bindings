@@ -20,11 +20,14 @@ class PollFactory extends AbstractFactory
      * @param bool|null   $isAnonymous           Optional. True, if the poll is anonymous
      * @param string|null $type                  Optional. Poll type, currently can be “regular” or “quiz”
      * @param bool|null   $allowsMultipleAnswers Optional. True, if the poll allows multiple answers
-     * @param int|null    $correctOptionId       Optional. Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
+     * @param bool|null   $allowsRevoting        Optional. True, if the poll allows to change the chosen answer options
+     * @param array|null  $correctOptionIds      Optional. Optional. Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
      * @param string|null $explanation           Optional. Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
      * @param array|null  $explanationEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
      * @param int|null    $openPeriod            Optional. Optional. Amount of time in seconds the poll will be active after creation
      * @param int|null    $closeDate             Optional. Optional. Point in time (Unix timestamp) when the poll will be automatically closed
+     * @param string|null $description           Optional. Optional. Description of the poll; for polls inside the Message object only
+     * @param array|null  $descriptionEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the description
      */
     public static function make(
         ?string $id = null,
@@ -36,11 +39,14 @@ class PollFactory extends AbstractFactory
         ?bool $isAnonymous = null,
         ?string $type = null,
         ?bool $allowsMultipleAnswers = null,
-        ?int $correctOptionId = null,
+        ?bool $allowsRevoting = null,
+        ?array $correctOptionIds = null,
         ?string $explanation = null,
         ?array $explanationEntities = null,
         ?int $openPeriod = null,
         ?int $closeDate = null,
+        ?string $description = null,
+        ?array $descriptionEntities = null,
     ): PollInterface {
         return self::factory()->makePoll(
             id: $id ?? self::fake()->bothify('?#?#?#?#?#?#?#???'),
@@ -52,11 +58,14 @@ class PollFactory extends AbstractFactory
             isAnonymous: $isAnonymous ?? self::fake()->boolean(),
             type: $type ?? self::fake()->word(),
             allowsMultipleAnswers: $allowsMultipleAnswers ?? self::fake()->boolean(),
-            correctOptionId: $correctOptionId,
+            allowsRevoting: $allowsRevoting ?? self::fake()->boolean(),
+            correctOptionIds: $correctOptionIds,
             explanation: $explanation,
             explanationEntities: $explanationEntities,
             openPeriod: $openPeriod,
             closeDate: $closeDate,
+            description: $description,
+            descriptionEntities: $descriptionEntities,
         );
     }
 }
