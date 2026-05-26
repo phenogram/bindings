@@ -16,7 +16,7 @@ interface CallbackQueryInterface extends TypeInterface
     /** @var MaybeInaccessibleMessageInterface|null $message Optional. Message sent by the bot with the callback button that originated the query */
     public ?MaybeInaccessibleMessageInterface $message { set; get; }
 
-    /** @var string|null $inlineMessageId Optional. Identifier of the message sent via the bot in inline mode, that originated the query. */
+    /** @var string|null $inlineMessageId Optional. Identifier of the message sent via the bot in inline mode, that originated the query */
     public ?string $inlineMessageId { set; get; }
 
     /** @var string $chatInstance Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games. */

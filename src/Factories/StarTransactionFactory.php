@@ -14,8 +14,8 @@ class StarTransactionFactory extends AbstractFactory
      * @param int|null                                                              $amount         Optional. Integer amount of Telegram Stars transferred by the transaction
      * @param int|null                                                              $nanostarAmount Optional. Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
      * @param int|null                                                              $date           Optional. Date the transaction was created in Unix time
-     * @param \Phenogram\Bindings\Types\Interfaces\TransactionPartnerInterface|null $source         Optional. Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions
-     * @param \Phenogram\Bindings\Types\Interfaces\TransactionPartnerInterface|null $receiver       Optional. Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions
+     * @param \Phenogram\Bindings\Types\Interfaces\TransactionPartnerInterface|null $source         Optional. Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions.
+     * @param \Phenogram\Bindings\Types\Interfaces\TransactionPartnerInterface|null $receiver       Optional. Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions.
      */
     public static function make(
         ?string $id = null,

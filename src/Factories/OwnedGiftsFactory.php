@@ -12,7 +12,7 @@ class OwnedGiftsFactory extends AbstractFactory
      *
      * @param int|null    $totalCount Optional. The total number of gifts owned by the user or the chat
      * @param array|null  $gifts      Optional. The list of gifts
-     * @param string|null $nextOffset Optional. Optional. Offset for the next request. If empty, then there are no more results
+     * @param string|null $nextOffset Optional. Optional. Offset for the next request. If empty, then there are no more results.
      */
     public static function make(
         ?int $totalCount = null,

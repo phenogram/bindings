@@ -16,7 +16,7 @@ class UniqueGift implements Interfaces\UniqueGiftInterface
     /**
      * @param string                         $giftId           Identifier of the regular gift from which the gift was upgraded
      * @param string                         $baseName         Human-readable name of the regular gift from which this unique gift was upgraded
-     * @param string                         $name             Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
+     * @param string                         $name             Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas.
      * @param int                            $number           Unique number of the upgraded gift among gifts upgraded from the same regular gift
      * @param UniqueGiftModelInterface       $model            Model of the gift
      * @param UniqueGiftSymbolInterface      $symbol           Symbol of the gift

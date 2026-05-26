@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface KeyboardButtonRequestUsersInterface extends TypeInterface
 {
-    /** @var int $requestId Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must be unique within the message */
+    /** @var int $requestId Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must be unique within the message. */
     public int $requestId { set; get; }
 
     /** @var bool|null $userIsBot Optional. Pass True to request bots, pass False to request regular users. If not specified, no additional restrictions are applied. */

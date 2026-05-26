@@ -28,6 +28,9 @@ interface ExternalReplyInfoInterface extends TypeInterface
     /** @var DocumentInterface|null $document Optional. Message is a general file, information about the file */
     public ?DocumentInterface $document { set; get; }
 
+    /** @var LivePhotoInterface|null $livePhoto Optional. Message is a live photo, information about the live photo */
+    public ?LivePhotoInterface $livePhoto { set; get; }
+
     /** @var PaidMediaInfoInterface|null $paidMedia Optional. Message contains paid media; information about the paid media */
     public ?PaidMediaInfoInterface $paidMedia { set; get; }
 

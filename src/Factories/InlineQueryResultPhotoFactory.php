@@ -13,7 +13,7 @@ class InlineQueryResultPhotoFactory extends AbstractFactory
      *
      * @param string|null                                                            $type                  Optional. Type of the result, must be photo
      * @param string|null                                                            $id                    Optional. Unique identifier for this result, 1-64 bytes
-     * @param string|null                                                            $photoUrl              Optional. A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
+     * @param string|null                                                            $photoUrl              Optional. A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB.
      * @param string|null                                                            $thumbnailUrl          Optional. URL of the thumbnail for the photo
      * @param int|null                                                               $photoWidth            Optional. Optional. Width of the photo
      * @param int|null                                                               $photoHeight           Optional. Optional. Height of the photo

@@ -12,7 +12,7 @@ class ChatOwnerLeftFactory extends AbstractFactory
     /**
      * Creates a new ChatOwnerLeft instance with default fake data.
      *
-     * @param UserInterface|null $newOwner Optional. Optional. The user which will be the new owner of the chat if the previous owner does not return to the chat
+     * @param UserInterface|null $newOwner Optional. Optional. The user who will become the new owner of the chat if the previous owner does not return to the chat
      */
     public static function make(?UserInterface $newOwner = null): ChatOwnerLeftInterface
     {

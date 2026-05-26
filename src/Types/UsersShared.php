@@ -11,7 +11,7 @@ class UsersShared implements Interfaces\UsersSharedInterface
 {
     /**
      * @param int                        $requestId Identifier of the request
-     * @param array<SharedUserInterface> $users     information about users shared with the bot
+     * @param array<SharedUserInterface> $users     Information about users shared with the bot
      */
     public function __construct(
         public int $requestId,

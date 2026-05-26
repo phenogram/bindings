@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface MessageInterface extends TypeInterface
 {
-    /** @var int $messageId Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent */
+    /** @var int $messageId Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent. */
     public int $messageId { set; get; }
 
     /** @var int|null $messageThreadId Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only */
@@ -16,7 +16,7 @@ interface MessageInterface extends TypeInterface
     /** @var DirectMessagesTopicInterface|null $directMessagesTopic Optional. Information about the direct messages chat topic that contains the message */
     public ?DirectMessagesTopicInterface $directMessagesTopic { set; get; }
 
-    /** @var UserInterface|null $from Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats */
+    /** @var UserInterface|null $from Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats. */
     public ?UserInterface $from { set; get; }
 
     /** @var ChatInterface|null $senderChat Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats. */
@@ -33,6 +33,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var int $date Date the message was sent in Unix time. It is always a positive number, representing a valid date. */
     public int $date { set; get; }
+
+    /** @var string|null $guestQueryId Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message. If non-empty, the message belongs to the chat where the guest bot was summoned, which may not coincide with other existing bot chats sharing the same identifier. */
+    public ?string $guestQueryId { set; get; }
 
     /** @var string|null $businessConnectionId Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier. */
     public ?string $businessConnectionId { set; get; }
@@ -70,6 +73,12 @@ interface MessageInterface extends TypeInterface
     /** @var UserInterface|null $viaBot Optional. Bot through which the message was sent */
     public ?UserInterface $viaBot { set; get; }
 
+    /** @var UserInterface|null $guestBotCallerUser Optional. For a message sent by a guest bot, this is the user whose original message triggered the bot's response */
+    public ?UserInterface $guestBotCallerUser { set; get; }
+
+    /** @var ChatInterface|null $guestBotCallerChat Optional. For a message sent by a guest bot, this is the chat whose original message triggered the bot's response */
+    public ?ChatInterface $guestBotCallerChat { set; get; }
+
     /** @var int|null $editDate Optional. Date the message was last edited in Unix time */
     public ?int $editDate { set; get; }
 
@@ -106,7 +115,7 @@ interface MessageInterface extends TypeInterface
     /** @var string|null $effectId Optional. Unique identifier of the message effect added to the message */
     public ?string $effectId { set; get; }
 
-    /** @var AnimationInterface|null $animation Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set */
+    /** @var AnimationInterface|null $animation Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set. */
     public ?AnimationInterface $animation { set; get; }
 
     /** @var AudioInterface|null $audio Optional. Message is an audio file, information about the file */
@@ -114,6 +123,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var DocumentInterface|null $document Optional. Message is a general file, information about the file */
     public ?DocumentInterface $document { set; get; }
+
+    /** @var LivePhotoInterface|null $livePhoto Optional. Message is a live photo, information about the live photo. For backward compatibility, when this field is set, the photo field will also be set. */
+    public ?LivePhotoInterface $livePhoto { set; get; }
 
     /** @var PaidMediaInfoInterface|null $paidMedia Optional. Message contains paid media; information about the paid media */
     public ?PaidMediaInfoInterface $paidMedia { set; get; }
@@ -163,7 +175,7 @@ interface MessageInterface extends TypeInterface
     /** @var PollInterface|null $poll Optional. Message is a native poll, information about the poll */
     public ?PollInterface $poll { set; get; }
 
-    /** @var VenueInterface|null $venue Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set */
+    /** @var VenueInterface|null $venue Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set. */
     public ?VenueInterface $venue { set; get; }
 
     /** @var LocationInterface|null $location Optional. Message is a shared location, information about the location */

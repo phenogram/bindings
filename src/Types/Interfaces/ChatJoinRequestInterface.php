@@ -19,7 +19,7 @@ interface ChatJoinRequestInterface extends TypeInterface
     /** @var int $date Date the request was sent in Unix time */
     public int $date { set; get; }
 
-    /** @var string|null $bio Optional. Bio of the user. */
+    /** @var string|null $bio Optional. Bio of the user */
     public ?string $bio { set; get; }
 
     /** @var ChatInviteLinkInterface|null $inviteLink Optional. Chat invite link that was used by the user to send the join request */

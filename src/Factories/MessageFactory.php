@@ -52,6 +52,7 @@ use Phenogram\Bindings\Types\Interfaces\GiveawayWinnersInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
@@ -94,15 +95,16 @@ class MessageFactory extends AbstractFactory
     /**
      * Creates a new Message instance with default fake data.
      *
-     * @param int|null                                                                    $messageId                     Optional. Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
+     * @param int|null                                                                    $messageId                     Optional. Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
      * @param int|null                                                                    $messageThreadId               Optional. Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only
      * @param DirectMessagesTopicInterface|null                                           $directMessagesTopic           Optional. Optional. Information about the direct messages chat topic that contains the message
-     * @param UserInterface|null                                                          $from                          Optional. Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
+     * @param UserInterface|null                                                          $from                          Optional. Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats.
      * @param ChatInterface|null                                                          $senderChat                    Optional. Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                                                    $senderBoostCount              Optional. Optional. If the sender of the message boosted the chat, the number of boosts added by the user
      * @param UserInterface|null                                                          $senderBusinessBot             Optional. Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
      * @param string|null                                                                 $senderTag                     Optional. Optional. Tag or custom title of the sender of the message; for supergroups only
      * @param int|null                                                                    $date                          Optional. Date the message was sent in Unix time. It is always a positive number, representing a valid date.
+     * @param string|null                                                                 $guestQueryId                  Optional. Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message. If non-empty, the message belongs to the chat where the guest bot was summoned, which may not coincide with other existing bot chats sharing the same identifier.
      * @param string|null                                                                 $businessConnectionId          Optional. Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
      * @param ChatInterface|null                                                          $chat                          Optional. Chat the message belongs to
      * @param \Phenogram\Bindings\Types\Interfaces\MessageOriginInterface|null            $forwardOrigin                 Optional. Optional. Information about the original message for forwarded messages
@@ -115,6 +117,8 @@ class MessageFactory extends AbstractFactory
      * @param int|null                                                                    $replyToChecklistTaskId        Optional. Optional. Identifier of the specific checklist task that is being replied to
      * @param string|null                                                                 $replyToPollOptionId           Optional. Optional. Persistent identifier of the specific poll option that is being replied to
      * @param UserInterface|null                                                          $viaBot                        Optional. Optional. Bot through which the message was sent
+     * @param UserInterface|null                                                          $guestBotCallerUser            Optional. Optional. For a message sent by a guest bot, this is the user whose original message triggered the bot's response
+     * @param ChatInterface|null                                                          $guestBotCallerChat            Optional. Optional. For a message sent by a guest bot, this is the chat whose original message triggered the bot's response
      * @param int|null                                                                    $editDate                      Optional. Optional. Date the message was last edited in Unix time
      * @param bool|null                                                                   $hasProtectedContent           Optional. Optional. True, if the message can't be forwarded
      * @param bool|null                                                                   $isFromOffline                 Optional. Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
@@ -127,9 +131,10 @@ class MessageFactory extends AbstractFactory
      * @param LinkPreviewOptionsInterface|null                                            $linkPreviewOptions            Optional. Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
      * @param SuggestedPostInfoInterface|null                                             $suggestedPostInfo             Optional. Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|null                                                                 $effectId                      Optional. Optional. Unique identifier of the message effect added to the message
-     * @param AnimationInterface|null                                                     $animation                     Optional. Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
+     * @param AnimationInterface|null                                                     $animation                     Optional. Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set.
      * @param AudioInterface|null                                                         $audio                         Optional. Optional. Message is an audio file, information about the file
      * @param DocumentInterface|null                                                      $document                      Optional. Optional. Message is a general file, information about the file
+     * @param LivePhotoInterface|null                                                     $livePhoto                     Optional. Optional. Message is a live photo, information about the live photo. For backward compatibility, when this field is set, the photo field will also be set.
      * @param PaidMediaInfoInterface|null                                                 $paidMedia                     Optional. Optional. Message contains paid media; information about the paid media
      * @param array|null                                                                  $photo                         Optional. Optional. Message is a photo, available sizes of the photo
      * @param StickerInterface|null                                                       $sticker                       Optional. Optional. Message is a sticker, information about the sticker
@@ -146,7 +151,7 @@ class MessageFactory extends AbstractFactory
      * @param DiceInterface|null                                                          $dice                          Optional. Optional. Message is a dice with random value
      * @param GameInterface|null                                                          $game                          Optional. Optional. Message is a game, information about the game. More about games »
      * @param PollInterface|null                                                          $poll                          Optional. Optional. Message is a native poll, information about the poll
-     * @param VenueInterface|null                                                         $venue                         Optional. Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set
+     * @param VenueInterface|null                                                         $venue                         Optional. Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set.
      * @param LocationInterface|null                                                      $location                      Optional. Optional. Message is a shared location, information about the location
      * @param array|null                                                                  $newChatMembers                Optional. Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
      * @param UserInterface|null                                                          $leftChatMember                Optional. Optional. A member was removed from the group, information about them (this member may be the bot itself)
@@ -215,6 +220,7 @@ class MessageFactory extends AbstractFactory
         ?UserInterface $senderBusinessBot = null,
         ?string $senderTag = null,
         ?int $date = null,
+        ?string $guestQueryId = null,
         ?string $businessConnectionId = null,
         ?ChatInterface $chat = null,
         ?\Phenogram\Bindings\Types\Interfaces\MessageOriginInterface $forwardOrigin = null,
@@ -227,6 +233,8 @@ class MessageFactory extends AbstractFactory
         ?int $replyToChecklistTaskId = null,
         ?string $replyToPollOptionId = null,
         ?UserInterface $viaBot = null,
+        ?UserInterface $guestBotCallerUser = null,
+        ?ChatInterface $guestBotCallerChat = null,
         ?int $editDate = null,
         ?bool $hasProtectedContent = null,
         ?bool $isFromOffline = null,
@@ -242,6 +250,7 @@ class MessageFactory extends AbstractFactory
         ?AnimationInterface $animation = null,
         ?AudioInterface $audio = null,
         ?DocumentInterface $document = null,
+        ?LivePhotoInterface $livePhoto = null,
         ?PaidMediaInfoInterface $paidMedia = null,
         ?array $photo = null,
         ?StickerInterface $sticker = null,
@@ -327,6 +336,7 @@ class MessageFactory extends AbstractFactory
             senderBusinessBot: $senderBusinessBot,
             senderTag: $senderTag,
             date: $date ?? self::fake()->unixTime(),
+            guestQueryId: $guestQueryId,
             businessConnectionId: $businessConnectionId,
             chat: $chat ?? Chat::make(),
             forwardOrigin: $forwardOrigin,
@@ -339,6 +349,8 @@ class MessageFactory extends AbstractFactory
             replyToChecklistTaskId: $replyToChecklistTaskId,
             replyToPollOptionId: $replyToPollOptionId,
             viaBot: $viaBot,
+            guestBotCallerUser: $guestBotCallerUser,
+            guestBotCallerChat: $guestBotCallerChat,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
             isFromOffline: $isFromOffline,
@@ -354,6 +366,7 @@ class MessageFactory extends AbstractFactory
             animation: $animation,
             audio: $audio,
             document: $document,
+            livePhoto: $livePhoto,
             paidMedia: $paidMedia,
             photo: $photo,
             sticker: $sticker,

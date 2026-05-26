@@ -21,7 +21,7 @@ class GiftInfoFactory extends AbstractFactory
      * @param string|null        $text                    Optional. Optional. Text of the message that was added to the gift
      * @param array|null         $entities                Optional. Optional. Special entities that appear in the text
      * @param bool|null          $isPrivate               Optional. Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
-     * @param int|null           $uniqueGiftNumber        Optional. Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     * @param int|null           $uniqueGiftNumber        Optional. Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift.
      */
     public static function make(
         ?GiftInterface $gift = null,

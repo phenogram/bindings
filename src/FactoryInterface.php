@@ -14,6 +14,7 @@ use Phenogram\Bindings\Types\Interfaces\BackgroundTypeFillInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypePatternInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeWallpaperInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
+use Phenogram\Bindings\Types\Interfaces\BotAccessSettingsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllGroupChatsInterface;
@@ -126,8 +127,13 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
@@ -146,6 +152,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
@@ -170,6 +177,7 @@ use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
@@ -189,6 +197,7 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
@@ -208,6 +217,7 @@ use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
@@ -284,6 +294,7 @@ interface FactoryInterface
         ?MessageInterface $businessMessage,
         ?MessageInterface $editedBusinessMessage,
         ?BusinessMessagesDeletedInterface $deletedBusinessMessages,
+        ?MessageInterface $guestMessage,
         ?MessageReactionUpdatedInterface $messageReaction,
         ?MessageReactionCountUpdatedInterface $messageReactionCount,
         ?InlineQueryInterface $inlineQuery,
@@ -325,6 +336,7 @@ interface FactoryInterface
         ?bool $addedToAttachmentMenu,
         ?bool $canJoinGroups,
         ?bool $canReadAllGroupMessages,
+        ?bool $supportsGuestQueries,
         ?bool $supportsInlineQueries,
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
@@ -409,6 +421,7 @@ interface FactoryInterface
         ?int $senderBoostCount,
         ?UserInterface $senderBusinessBot,
         ?string $senderTag,
+        ?string $guestQueryId,
         ?string $businessConnectionId,
         ?Types\Interfaces\MessageOriginInterface $forwardOrigin,
         ?bool $isTopicMessage,
@@ -420,6 +433,8 @@ interface FactoryInterface
         ?int $replyToChecklistTaskId,
         ?string $replyToPollOptionId,
         ?UserInterface $viaBot,
+        ?UserInterface $guestBotCallerUser,
+        ?ChatInterface $guestBotCallerChat,
         ?int $editDate,
         ?bool $hasProtectedContent,
         ?bool $isFromOffline,
@@ -435,6 +450,7 @@ interface FactoryInterface
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
         ?PaidMediaInfoInterface $paidMedia,
         ?array $photo,
         ?StickerInterface $sticker,
@@ -537,6 +553,7 @@ interface FactoryInterface
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
         ?PaidMediaInfoInterface $paidMedia,
         ?array $photo,
         ?StickerInterface $sticker,
@@ -633,6 +650,17 @@ interface FactoryInterface
         ?int $fileSize,
     ): DocumentInterface;
 
+    public function makeLivePhoto(
+        string $fileId,
+        string $fileUniqueId,
+        int $width,
+        int $height,
+        int $duration,
+        ?array $photo,
+        ?string $mimeType,
+        ?int $fileSize,
+    ): LivePhotoInterface;
+
     public function makeStory(ChatInterface $chat, int $id): StoryInterface;
 
     public function makeVideoQuality(
@@ -678,14 +706,16 @@ interface FactoryInterface
 
     public function makePaidMediaInfo(int $starCount, array $paidMedia): PaidMediaInfoInterface;
 
+    public function makePaidMediaLivePhoto(string $type, LivePhotoInterface $livePhoto): PaidMediaLivePhotoInterface;
+
+    public function makePaidMediaPhoto(string $type, array $photo): PaidMediaPhotoInterface;
+
     public function makePaidMediaPreview(
         string $type,
         ?int $width,
         ?int $height,
         ?int $duration,
     ): PaidMediaPreviewInterface;
-
-    public function makePaidMediaPhoto(string $type, array $photo): PaidMediaPhotoInterface;
 
     public function makePaidMediaVideo(string $type, VideoInterface $video): PaidMediaVideoInterface;
 
@@ -699,11 +729,24 @@ interface FactoryInterface
 
     public function makeDice(string $emoji, int $value): DiceInterface;
 
+    public function makePollMedia(
+        ?AnimationInterface $animation,
+        ?AudioInterface $audio,
+        ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
+        ?LocationInterface $location,
+        ?array $photo,
+        ?StickerInterface $sticker,
+        ?VenueInterface $venue,
+        ?VideoInterface $video,
+    ): PollMediaInterface;
+
     public function makePollOption(
         string $persistentId,
         string $text,
         int $voterCount,
         ?array $textEntities,
+        ?PollMediaInterface $media,
         ?UserInterface $addedByUser,
         ?ChatInterface $addedByChat,
         ?int $additionDate,
@@ -713,6 +756,7 @@ interface FactoryInterface
         string $text,
         ?string $textParseMode,
         ?array $textEntities,
+        ?Types\Interfaces\InputPollOptionMediaInterface $media,
     ): InputPollOptionInterface;
 
     public function makePollAnswer(
@@ -733,14 +777,18 @@ interface FactoryInterface
         string $type,
         bool $allowsMultipleAnswers,
         bool $allowsRevoting,
+        bool $membersOnly,
         ?array $questionEntities,
+        ?array $countryCodes,
         ?array $correctOptionIds,
         ?string $explanation,
         ?array $explanationEntities,
+        ?PollMediaInterface $explanationMedia,
         ?int $openPeriod,
         ?int $closeDate,
         ?string $description,
         ?array $descriptionEntities,
+        ?PollMediaInterface $media,
     ): PollInterface;
 
     public function makeChecklistTask(
@@ -1239,6 +1287,7 @@ interface FactoryInterface
         bool $canSendPolls,
         bool $canSendOtherMessages,
         bool $canAddWebPagePreviews,
+        bool $canReactToMessages,
         bool $canEditTag,
         bool $canChangeInfo,
         bool $canInviteUsers,
@@ -1272,6 +1321,7 @@ interface FactoryInterface
         ?bool $canSendPolls,
         ?bool $canSendOtherMessages,
         ?bool $canAddWebPagePreviews,
+        ?bool $canReactToMessages,
         ?bool $canEditTag,
         ?bool $canChangeInfo,
         ?bool $canInviteUsers,
@@ -1512,6 +1562,8 @@ interface FactoryInterface
 
     public function makeOwnedGifts(int $totalCount, array $gifts, ?string $nextOffset): OwnedGiftsInterface;
 
+    public function makeBotAccessSettings(bool $isAccessRestricted, ?array $addedUsers): BotAccessSettingsInterface;
+
     public function makeAcceptedGiftTypes(
         bool $unlimitedGifts,
         bool $limitedGifts,
@@ -1629,38 +1681,13 @@ interface FactoryInterface
 
     public function makeSentWebAppMessage(?string $inlineMessageId): SentWebAppMessageInterface;
 
+    public function makeSentGuestMessage(string $inlineMessageId): SentGuestMessageInterface;
+
     public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface;
 
     public function makePreparedKeyboardButton(string $id): PreparedKeyboardButtonInterface;
 
     public function makeResponseParameters(?int $migrateToChatId, ?int $retryAfter): ResponseParametersInterface;
-
-    public function makeInputMediaPhoto(
-        string $media,
-        string $type,
-        ?string $caption,
-        ?string $parseMode,
-        ?array $captionEntities,
-        ?bool $showCaptionAboveMedia,
-        ?bool $hasSpoiler,
-    ): InputMediaPhotoInterface;
-
-    public function makeInputMediaVideo(
-        string $media,
-        string $type,
-        ?string $thumbnail,
-        ?string $cover,
-        ?int $startTimestamp,
-        ?string $caption,
-        ?string $parseMode,
-        ?array $captionEntities,
-        ?bool $showCaptionAboveMedia,
-        ?int $width,
-        ?int $height,
-        ?int $duration,
-        ?bool $supportsStreaming,
-        ?bool $hasSpoiler,
-    ): InputMediaVideoInterface;
 
     public function makeInputMediaAnimation(
         string $media,
@@ -1697,6 +1724,71 @@ interface FactoryInterface
         ?array $captionEntities,
         ?bool $disableContentTypeDetection,
     ): InputMediaDocumentInterface;
+
+    public function makeInputMediaLivePhoto(
+        string $media,
+        string $photo,
+        string $type,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $hasSpoiler,
+    ): InputMediaLivePhotoInterface;
+
+    public function makeInputMediaLocation(
+        float $latitude,
+        float $longitude,
+        string $type,
+        ?float $horizontalAccuracy,
+    ): InputMediaLocationInterface;
+
+    public function makeInputMediaPhoto(
+        string $media,
+        string $type,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $hasSpoiler,
+    ): InputMediaPhotoInterface;
+
+    public function makeInputMediaSticker(string $media, string $type, ?string $emoji): InputMediaStickerInterface;
+
+    public function makeInputMediaVenue(
+        float $latitude,
+        float $longitude,
+        string $title,
+        string $address,
+        string $type,
+        ?string $foursquareId,
+        ?string $foursquareType,
+        ?string $googlePlaceId,
+        ?string $googlePlaceType,
+    ): InputMediaVenueInterface;
+
+    public function makeInputMediaVideo(
+        string $media,
+        string $type,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?int $width,
+        ?int $height,
+        ?int $duration,
+        ?bool $supportsStreaming,
+        ?bool $hasSpoiler,
+    ): InputMediaVideoInterface;
+
+    public function makeInputPaidMediaLivePhoto(
+        string $media,
+        string $photo,
+        string $type,
+    ): InputPaidMediaLivePhotoInterface;
 
     public function makeInputPaidMediaPhoto(string $media, string $type): InputPaidMediaPhotoInterface;
 

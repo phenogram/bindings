@@ -3,7 +3,7 @@
 namespace Phenogram\Bindings\Types\Interfaces;
 
 /**
- * This object represents an incoming update.At most one of the optional parameters can be present in any given update.
+ * This object represents an incoming update.At most one of the optional fields can be present in any given update.
  */
 interface UpdateInterface extends TypeInterface
 {
@@ -34,6 +34,9 @@ interface UpdateInterface extends TypeInterface
     /** @var BusinessMessagesDeletedInterface|null $deletedBusinessMessages Optional. Messages were deleted from a connected business account */
     public ?BusinessMessagesDeletedInterface $deletedBusinessMessages { set; get; }
 
+    /** @var MessageInterface|null $guestMessage Optional. New guest message. The bot can use the field Message.guest_query_id and the method answerGuestQuery to send a message in response. */
+    public ?MessageInterface $guestMessage { set; get; }
+
     /** @var MessageReactionUpdatedInterface|null $messageReaction Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots. */
     public ?MessageReactionUpdatedInterface $messageReaction { set; get; }
 
@@ -49,16 +52,16 @@ interface UpdateInterface extends TypeInterface
     /** @var CallbackQueryInterface|null $callbackQuery Optional. New incoming callback query */
     public ?CallbackQueryInterface $callbackQuery { set; get; }
 
-    /** @var ShippingQueryInterface|null $shippingQuery Optional. New incoming shipping query. Only for invoices with flexible price */
+    /** @var ShippingQueryInterface|null $shippingQuery Optional. New incoming shipping query. Only for invoices with flexible price. */
     public ?ShippingQueryInterface $shippingQuery { set; get; }
 
-    /** @var PreCheckoutQueryInterface|null $preCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout */
+    /** @var PreCheckoutQueryInterface|null $preCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout. */
     public ?PreCheckoutQueryInterface $preCheckoutQuery { set; get; }
 
     /** @var PaidMediaPurchasedInterface|null $purchasedPaidMedia Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat */
     public ?PaidMediaPurchasedInterface $purchasedPaidMedia { set; get; }
 
-    /** @var PollInterface|null $poll Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot */
+    /** @var PollInterface|null $poll Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot. */
     public ?PollInterface $poll { set; get; }
 
     /** @var PollAnswerInterface|null $pollAnswer Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself. */

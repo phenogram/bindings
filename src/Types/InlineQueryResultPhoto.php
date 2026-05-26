@@ -13,7 +13,7 @@ class InlineQueryResultPhoto extends InlineQueryResult implements Interfaces\Inl
 {
     /**
      * @param string                             $id                    Unique identifier for this result, 1-64 bytes
-     * @param string                             $photoUrl              A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
+     * @param string                             $photoUrl              A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB.
      * @param string                             $thumbnailUrl          URL of the thumbnail for the photo
      * @param string                             $type                  Type of the result, must be photo
      * @param int|null                           $photoWidth            Optional. Width of the photo

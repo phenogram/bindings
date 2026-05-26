@@ -18,11 +18,12 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
      * @param bool|null $canSendPolls          Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages
-     * @param bool|null $canEditTag            Optional. True, if the user is allowed to edit their own tag
-     * @param bool|null $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
+     * @param bool|null $canReactToMessages    Optional. True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
+     * @param bool|null $canEditTag            Optional. True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages.
+     * @param bool|null $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups.
      * @param bool|null $canInviteUsers        Optional. True, if the user is allowed to invite new users to the chat
-     * @param bool|null $canPinMessages        Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
-     * @param bool|null $canManageTopics       Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
+     * @param bool|null $canPinMessages        Optional. True, if the user is allowed to pin messages. Ignored in public supergroups.
+     * @param bool|null $canManageTopics       Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
      */
     public function __construct(
         public ?bool $canSendMessages = null,
@@ -35,6 +36,7 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
         public ?bool $canSendPolls = null,
         public ?bool $canSendOtherMessages = null,
         public ?bool $canAddWebPagePreviews = null,
+        public ?bool $canReactToMessages = null,
         public ?bool $canEditTag = null,
         public ?bool $canChangeInfo = null,
         public ?bool $canInviteUsers = null,

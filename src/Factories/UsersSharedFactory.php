@@ -12,7 +12,7 @@ class UsersSharedFactory extends AbstractFactory
      * Creates a new UsersShared instance with default fake data.
      *
      * @param int|null   $requestId Optional. Identifier of the request
-     * @param array|null $users     Optional. Information about users shared with the bot.
+     * @param array|null $users     Optional. Information about users shared with the bot
      */
     public static function make(?int $requestId = null, ?array $users = null): UsersSharedInterface
     {

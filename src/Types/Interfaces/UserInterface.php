@@ -37,10 +37,13 @@ interface UserInterface extends TypeInterface
     /** @var bool|null $canReadAllGroupMessages Optional. True, if privacy mode is disabled for the bot. Returned only in getMe. */
     public ?bool $canReadAllGroupMessages { set; get; }
 
+    /** @var bool|null $supportsGuestQueries Optional. True, if the bot supports guest queries from chats it is not a member of. Returned only in getMe. */
+    public ?bool $supportsGuestQueries { set; get; }
+
     /** @var bool|null $supportsInlineQueries Optional. True, if the bot supports inline queries. Returned only in getMe. */
     public ?bool $supportsInlineQueries { set; get; }
 
-    /** @var bool|null $canConnectToBusiness Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe. */
+    /** @var bool|null $canConnectToBusiness Optional. True, if the bot can be connected to a user account to manage it. Returned only in getMe. */
     public ?bool $canConnectToBusiness { set; get; }
 
     /** @var bool|null $hasMainWebApp Optional. True, if the bot has a main Web App. Returned only in getMe. */

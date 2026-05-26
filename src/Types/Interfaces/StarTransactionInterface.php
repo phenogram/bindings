@@ -19,9 +19,9 @@ interface StarTransactionInterface extends TypeInterface
     /** @var int $date Date the transaction was created in Unix time */
     public int $date { set; get; }
 
-    /** @var TransactionPartnerInterface|null $source Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions */
+    /** @var TransactionPartnerInterface|null $source Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions. */
     public ?TransactionPartnerInterface $source { set; get; }
 
-    /** @var TransactionPartnerInterface|null $receiver Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions */
+    /** @var TransactionPartnerInterface|null $receiver Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions. */
     public ?TransactionPartnerInterface $receiver { set; get; }
 }

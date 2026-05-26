@@ -49,6 +49,6 @@ interface OwnedGiftRegularInterface extends TypeInterface
     /** @var bool|null $isUpgradeSeparate Optional. True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of business accounts only */
     public ?bool $isUpgradeSeparate { set; get; }
 
-    /** @var int|null $uniqueGiftNumber Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift */
+    /** @var int|null $uniqueGiftNumber Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift. */
     public ?int $uniqueGiftNumber { set; get; }
 }

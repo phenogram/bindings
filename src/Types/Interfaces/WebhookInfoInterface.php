@@ -31,6 +31,6 @@ interface WebhookInfoInterface extends TypeInterface
     /** @var int|null $maxConnections Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
     public ?int $maxConnections { set; get; }
 
-    /** @var array<string>|null $allowedUpdates Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member */
+    /** @var array<string>|null $allowedUpdates Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member, message_reaction, and message_reaction_count. */
     public ?array $allowedUpdates { set; get; }
 }

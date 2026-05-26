@@ -157,6 +157,6 @@ interface ChatFullInfoInterface extends TypeInterface
     /** @var UniqueGiftColorsInterface|null $uniqueGiftColors Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews */
     public ?UniqueGiftColorsInterface $uniqueGiftColors { set; get; }
 
-    /** @var int|null $paidMessageStarCount Optional. The number of Telegram Stars a general user have to pay to send a message to the chat */
+    /** @var int|null $paidMessageStarCount Optional. The number of Telegram Stars a general user has to pay to send a message to the chat */
     public ?int $paidMessageStarCount { set; get; }
 }

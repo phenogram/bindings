@@ -37,6 +37,12 @@ interface PollInterface extends TypeInterface
     /** @var bool $allowsRevoting True, if the poll allows to change the chosen answer options */
     public bool $allowsRevoting { set; get; }
 
+    /** @var bool $membersOnly True if voting is limited to users who have been members of the chat where the poll was originally sent for more than 24 hours */
+    public bool $membersOnly { set; get; }
+
+    /** @var array<string>|null $countryCodes Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll. The country code “FT” is used for users with anonymous numbers. If omitted, then users from any country can participate in the poll. */
+    public ?array $countryCodes { set; get; }
+
     /** @var array<int>|null $correctOptionIds Optional. Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode which are closed or were sent (not forwarded) by the bot or to the private chat with the bot. */
     public ?array $correctOptionIds { set; get; }
 
@@ -45,6 +51,9 @@ interface PollInterface extends TypeInterface
 
     /** @var array<MessageEntityInterface>|null $explanationEntities Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation */
     public ?array $explanationEntities { set; get; }
+
+    /** @var PollMediaInterface|null $explanationMedia Optional. Media added to the quiz explanation */
+    public ?PollMediaInterface $explanationMedia { set; get; }
 
     /** @var int|null $openPeriod Optional. Amount of time in seconds the poll will be active after creation */
     public ?int $openPeriod { set; get; }
@@ -57,4 +66,7 @@ interface PollInterface extends TypeInterface
 
     /** @var array<MessageEntityInterface>|null $descriptionEntities Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the description */
     public ?array $descriptionEntities { set; get; }
+
+    /** @var PollMediaInterface|null $media Optional. Media added to the poll description; for polls inside the Message object only */
+    public ?PollMediaInterface $media { set; get; }
 }

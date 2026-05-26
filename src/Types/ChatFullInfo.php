@@ -73,7 +73,7 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param UserRatingInterface|null           $rating                             Optional. For private chats, the rating of the user if any
      * @param AudioInterface|null                $firstProfileAudio                  Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
-     * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
+     * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
      */
     public function __construct(
         public int $id,

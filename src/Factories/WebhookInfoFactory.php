@@ -18,7 +18,7 @@ class WebhookInfoFactory extends AbstractFactory
      * @param string|null $lastErrorMessage             Optional. Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
      * @param int|null    $lastSynchronizationErrorDate Optional. Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
      * @param int|null    $maxConnections               Optional. Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
-     * @param array|null  $allowedUpdates               Optional. Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
+     * @param array|null  $allowedUpdates               Optional. Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member, message_reaction, and message_reaction_count.
      */
     public static function make(
         ?string $url = null,

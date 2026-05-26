@@ -20,7 +20,7 @@ class GiftInfo implements Interfaces\GiftInfoInterface
      * @param string|null                        $text                    Optional. Text of the message that was added to the gift
      * @param array<MessageEntityInterface>|null $entities                Optional. Special entities that appear in the text
      * @param bool|null                          $isPrivate               Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
-     * @param int|null                           $uniqueGiftNumber        Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     * @param int|null                           $uniqueGiftNumber        Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift.
      */
     public function __construct(
         public GiftInterface $gift,

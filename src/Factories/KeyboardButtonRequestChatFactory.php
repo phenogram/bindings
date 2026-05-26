@@ -11,8 +11,8 @@ class KeyboardButtonRequestChatFactory extends AbstractFactory
     /**
      * Creates a new KeyboardButtonRequestChat instance with default fake data.
      *
-     * @param int|null                              $requestId               Optional. Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
-     * @param bool|null                             $chatIsChannel           Optional. Pass True to request a channel chat, pass False to request a group or a supergroup chat.
+     * @param int|null                              $requestId               Optional. Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message.
+     * @param bool|null                             $chatIsChannel           Optional. Pass True to request a channel chat, pass False to request a group or a supergroup chat
      * @param bool|null                             $chatIsForum             Optional. Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
      * @param bool|null                             $chatHasUsername         Optional. Optional. Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
      * @param bool|null                             $chatIsCreated           Optional. Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.

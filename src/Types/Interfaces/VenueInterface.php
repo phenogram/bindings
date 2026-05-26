@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface VenueInterface extends TypeInterface
 {
-    /** @var LocationInterface $location Venue location. Can't be a live location */
+    /** @var LocationInterface $location Venue location. Can't be a live location. */
     public LocationInterface $location { set; get; }
 
     /** @var string $title Name of the venue */

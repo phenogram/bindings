@@ -28,7 +28,7 @@ interface InlineQueryResultMpeg4GifInterface extends TypeInterface
     /** @var string $thumbnailUrl URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result */
     public string $thumbnailUrl { set; get; }
 
-    /** @var string|null $thumbnailMimeType Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg” */
+    /** @var string|null $thumbnailMimeType Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”. */
     public ?string $thumbnailMimeType { set; get; }
 
     /** @var string|null $title Optional. Title for the result */

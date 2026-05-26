@@ -14,8 +14,8 @@ class StarTransaction implements Interfaces\StarTransactionInterface
      * @param int                              $amount         Integer amount of Telegram Stars transferred by the transaction
      * @param int                              $date           Date the transaction was created in Unix time
      * @param int|null                         $nanostarAmount Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
-     * @param TransactionPartnerInterface|null $source         Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions
-     * @param TransactionPartnerInterface|null $receiver       Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions
+     * @param TransactionPartnerInterface|null $source         Optional. Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a failed withdrawal). Only for incoming transactions.
+     * @param TransactionPartnerInterface|null $receiver       Optional. Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal). Only for outgoing transactions.
      */
     public function __construct(
         public string $id,

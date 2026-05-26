@@ -19,7 +19,7 @@ interface BackgroundTypePatternInterface extends TypeInterface
     /** @var int $intensity Intensity of the pattern when it is shown above the filled background; 0-100 */
     public int $intensity { set; get; }
 
-    /** @var bool|null $isInverted Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only */
+    /** @var bool|null $isInverted Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only. */
     public ?bool $isInverted { set; get; }
 
     /** @var bool|null $isMoving Optional. True, if the background moves slightly when the device is tilted */

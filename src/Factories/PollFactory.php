@@ -4,6 +4,7 @@ namespace Phenogram\Bindings\Factories;
 
 use Phenogram\Bindings\Factories\PollOptionFactory as PollOption;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollMediaInterface;
 use Phenogram\Bindings\Types\Poll;
 
 class PollFactory extends AbstractFactory
@@ -11,23 +12,27 @@ class PollFactory extends AbstractFactory
     /**
      * Creates a new Poll instance with default fake data.
      *
-     * @param string|null $id                    Optional. Unique poll identifier
-     * @param string|null $question              Optional. Poll question, 1-300 characters
-     * @param array|null  $questionEntities      Optional. Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
-     * @param array|null  $options               Optional. List of poll options
-     * @param int|null    $totalVoterCount       Optional. Total number of users that voted in the poll
-     * @param bool|null   $isClosed              Optional. True, if the poll is closed
-     * @param bool|null   $isAnonymous           Optional. True, if the poll is anonymous
-     * @param string|null $type                  Optional. Poll type, currently can be “regular” or “quiz”
-     * @param bool|null   $allowsMultipleAnswers Optional. True, if the poll allows multiple answers
-     * @param bool|null   $allowsRevoting        Optional. True, if the poll allows to change the chosen answer options
-     * @param array|null  $correctOptionIds      Optional. Optional. Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
-     * @param string|null $explanation           Optional. Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
-     * @param array|null  $explanationEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
-     * @param int|null    $openPeriod            Optional. Optional. Amount of time in seconds the poll will be active after creation
-     * @param int|null    $closeDate             Optional. Optional. Point in time (Unix timestamp) when the poll will be automatically closed
-     * @param string|null $description           Optional. Optional. Description of the poll; for polls inside the Message object only
-     * @param array|null  $descriptionEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the description
+     * @param string|null             $id                    Optional. Unique poll identifier
+     * @param string|null             $question              Optional. Poll question, 1-300 characters
+     * @param array|null              $questionEntities      Optional. Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
+     * @param array|null              $options               Optional. List of poll options
+     * @param int|null                $totalVoterCount       Optional. Total number of users that voted in the poll
+     * @param bool|null               $isClosed              Optional. True, if the poll is closed
+     * @param bool|null               $isAnonymous           Optional. True, if the poll is anonymous
+     * @param string|null             $type                  Optional. Poll type, currently can be “regular” or “quiz”
+     * @param bool|null               $allowsMultipleAnswers Optional. True, if the poll allows multiple answers
+     * @param bool|null               $allowsRevoting        Optional. True, if the poll allows to change the chosen answer options
+     * @param bool|null               $membersOnly           Optional. True if voting is limited to users who have been members of the chat where the poll was originally sent for more than 24 hours
+     * @param array|null              $countryCodes          Optional. Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll. The country code “FT” is used for users with anonymous numbers. If omitted, then users from any country can participate in the poll.
+     * @param array|null              $correctOptionIds      Optional. Optional. Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
+     * @param string|null             $explanation           Optional. Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
+     * @param array|null              $explanationEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
+     * @param PollMediaInterface|null $explanationMedia      Optional. Optional. Media added to the quiz explanation
+     * @param int|null                $openPeriod            Optional. Optional. Amount of time in seconds the poll will be active after creation
+     * @param int|null                $closeDate             Optional. Optional. Point in time (Unix timestamp) when the poll will be automatically closed
+     * @param string|null             $description           Optional. Optional. Description of the poll; for polls inside the Message object only
+     * @param array|null              $descriptionEntities   Optional. Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the description
+     * @param PollMediaInterface|null $media                 Optional. Optional. Media added to the poll description; for polls inside the Message object only
      */
     public static function make(
         ?string $id = null,
@@ -40,13 +45,17 @@ class PollFactory extends AbstractFactory
         ?string $type = null,
         ?bool $allowsMultipleAnswers = null,
         ?bool $allowsRevoting = null,
+        ?bool $membersOnly = null,
+        ?array $countryCodes = null,
         ?array $correctOptionIds = null,
         ?string $explanation = null,
         ?array $explanationEntities = null,
+        ?PollMediaInterface $explanationMedia = null,
         ?int $openPeriod = null,
         ?int $closeDate = null,
         ?string $description = null,
         ?array $descriptionEntities = null,
+        ?PollMediaInterface $media = null,
     ): PollInterface {
         return self::factory()->makePoll(
             id: $id ?? self::fake()->bothify('?#?#?#?#?#?#?#???'),
@@ -59,13 +68,17 @@ class PollFactory extends AbstractFactory
             type: $type ?? self::fake()->word(),
             allowsMultipleAnswers: $allowsMultipleAnswers ?? self::fake()->boolean(),
             allowsRevoting: $allowsRevoting ?? self::fake()->boolean(),
+            membersOnly: $membersOnly ?? self::fake()->boolean(),
+            countryCodes: $countryCodes,
             correctOptionIds: $correctOptionIds,
             explanation: $explanation,
             explanationEntities: $explanationEntities,
+            explanationMedia: $explanationMedia,
             openPeriod: $openPeriod,
             closeDate: $closeDate,
             description: $description,
             descriptionEntities: $descriptionEntities,
+            media: $media,
         );
     }
 }

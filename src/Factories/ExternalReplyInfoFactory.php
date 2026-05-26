@@ -32,6 +32,7 @@ use Phenogram\Bindings\Types\Interfaces\GiveawayInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayWinnersInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
@@ -54,6 +55,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
      * @param AnimationInterface|null                                          $animation          Optional. Optional. Message is an animation, information about the animation
      * @param AudioInterface|null                                              $audio              Optional. Optional. Message is an audio file, information about the file
      * @param DocumentInterface|null                                           $document           Optional. Optional. Message is a general file, information about the file
+     * @param LivePhotoInterface|null                                          $livePhoto          Optional. Optional. Message is a live photo, information about the live photo
      * @param PaidMediaInfoInterface|null                                      $paidMedia          Optional. Optional. Message contains paid media; information about the paid media
      * @param array|null                                                       $photo              Optional. Optional. Message is a photo, available sizes of the photo
      * @param StickerInterface|null                                            $sticker            Optional. Optional. Message is a sticker, information about the sticker
@@ -81,6 +83,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
         ?AnimationInterface $animation = null,
         ?AudioInterface $audio = null,
         ?DocumentInterface $document = null,
+        ?LivePhotoInterface $livePhoto = null,
         ?PaidMediaInfoInterface $paidMedia = null,
         ?array $photo = null,
         ?StickerInterface $sticker = null,
@@ -108,6 +111,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
             animation: $animation,
             audio: $audio,
             document: $document,
+            livePhoto: $livePhoto,
             paidMedia: $paidMedia,
             photo: $photo,
             sticker: $sticker,

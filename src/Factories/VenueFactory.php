@@ -12,7 +12,7 @@ class VenueFactory extends AbstractFactory
     /**
      * Creates a new Venue instance with default fake data.
      *
-     * @param LocationInterface|null $location        Optional. Venue location. Can't be a live location
+     * @param LocationInterface|null $location        Optional. Venue location. Can't be a live location.
      * @param string|null            $title           Optional. Name of the venue
      * @param string|null            $address         Optional. Address of the venue
      * @param string|null            $foursquareId    Optional. Optional. Foursquare identifier of the venue

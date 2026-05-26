@@ -49,6 +49,9 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var bool $canAddWebPagePreviews True, if the user is allowed to add web page previews to their messages */
     public bool $canAddWebPagePreviews { set; get; }
 
+    /** @var bool $canReactToMessages True, if the user is allowed to react to messages */
+    public bool $canReactToMessages { set; get; }
+
     /** @var bool $canEditTag True, if the user is allowed to edit their own tag */
     public bool $canEditTag { set; get; }
 
@@ -64,6 +67,6 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var bool $canManageTopics True, if the user is allowed to create forum topics */
     public bool $canManageTopics { set; get; }
 
-    /** @var int $untilDate Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever */
+    /** @var int $untilDate Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever. */
     public int $untilDate { set; get; }
 }

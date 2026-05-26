@@ -37,18 +37,21 @@ interface ChatPermissionsInterface extends TypeInterface
     /** @var bool|null $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages */
     public ?bool $canAddWebPagePreviews { set; get; }
 
-    /** @var bool|null $canEditTag Optional. True, if the user is allowed to edit their own tag */
+    /** @var bool|null $canReactToMessages Optional. True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages. */
+    public ?bool $canReactToMessages { set; get; }
+
+    /** @var bool|null $canEditTag Optional. True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages. */
     public ?bool $canEditTag { set; get; }
 
-    /** @var bool|null $canChangeInfo Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups */
+    /** @var bool|null $canChangeInfo Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups. */
     public ?bool $canChangeInfo { set; get; }
 
     /** @var bool|null $canInviteUsers Optional. True, if the user is allowed to invite new users to the chat */
     public ?bool $canInviteUsers { set; get; }
 
-    /** @var bool|null $canPinMessages Optional. True, if the user is allowed to pin messages. Ignored in public supergroups */
+    /** @var bool|null $canPinMessages Optional. True, if the user is allowed to pin messages. Ignored in public supergroups. */
     public ?bool $canPinMessages { set; get; }
 
-    /** @var bool|null $canManageTopics Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages */
+    /** @var bool|null $canManageTopics Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages. */
     public ?bool $canManageTopics { set; get; }
 }

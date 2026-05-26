@@ -10,7 +10,7 @@ use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 class Venue implements Interfaces\VenueInterface
 {
     /**
-     * @param LocationInterface $location        Venue location. Can't be a live location
+     * @param LocationInterface $location        Venue location. Can't be a live location.
      * @param string            $title           Name of the venue
      * @param string            $address         Address of the venue
      * @param string|null       $foursquareId    Optional. Foursquare identifier of the venue

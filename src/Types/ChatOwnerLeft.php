@@ -10,7 +10,7 @@ use Phenogram\Bindings\Types\Interfaces\UserInterface;
 class ChatOwnerLeft implements Interfaces\ChatOwnerLeftInterface
 {
     /**
-     * @param UserInterface|null $newOwner Optional. The user which will be the new owner of the chat if the previous owner does not return to the chat
+     * @param UserInterface|null $newOwner Optional. The user who will become the new owner of the chat if the previous owner does not return to the chat
      */
     public function __construct(
         public ?UserInterface $newOwner = null,

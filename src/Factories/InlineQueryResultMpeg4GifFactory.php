@@ -18,7 +18,7 @@ class InlineQueryResultMpeg4GifFactory extends AbstractFactory
      * @param int|null                                                               $mpeg4Height           Optional. Optional. Video height
      * @param int|null                                                               $mpeg4Duration         Optional. Optional. Video duration in seconds
      * @param string|null                                                            $thumbnailUrl          Optional. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
-     * @param string|null                                                            $thumbnailMimeType     Optional. Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
+     * @param string|null                                                            $thumbnailMimeType     Optional. Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”.
      * @param string|null                                                            $title                 Optional. Optional. Title for the result
      * @param string|null                                                            $caption               Optional. Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
      * @param string|null                                                            $parseMode             Optional. Optional. Mode for parsing entities in the caption. See formatting options for more details.

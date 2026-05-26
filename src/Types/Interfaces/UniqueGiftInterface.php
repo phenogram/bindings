@@ -13,7 +13,7 @@ interface UniqueGiftInterface extends TypeInterface
     /** @var string $baseName Human-readable name of the regular gift from which this unique gift was upgraded */
     public string $baseName { set; get; }
 
-    /** @var string $name Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas */
+    /** @var string $name Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas. */
     public string $name { set; get; }
 
     /** @var int $number Unique number of the upgraded gift among gifts upgraded from the same regular gift */

@@ -11,7 +11,7 @@ class BotCommandFactory extends AbstractFactory
      * Creates a new BotCommand instance with default fake data.
      *
      * @param string|null $command     Optional. Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
-     * @param string|null $description Optional. Description of the command; 1-256 characters.
+     * @param string|null $description Optional. Description of the command; 1-256 characters
      */
     public static function make(?string $command = null, ?string $description = null): BotCommandInterface
     {

@@ -7,10 +7,10 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface KeyboardButtonRequestChatInterface extends TypeInterface
 {
-    /** @var int $requestId Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message */
+    /** @var int $requestId Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message. */
     public int $requestId { set; get; }
 
-    /** @var bool $chatIsChannel Pass True to request a channel chat, pass False to request a group or a supergroup chat. */
+    /** @var bool $chatIsChannel Pass True to request a channel chat, pass False to request a group or a supergroup chat */
     public bool $chatIsChannel { set; get; }
 
     /** @var bool|null $chatIsForum Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied. */

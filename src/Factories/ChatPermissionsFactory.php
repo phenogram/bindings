@@ -20,11 +20,12 @@ class ChatPermissionsFactory extends AbstractFactory
      * @param bool|null $canSendPolls          Optional. Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null $canSendOtherMessages  Optional. Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. Optional. True, if the user is allowed to add web page previews to their messages
-     * @param bool|null $canEditTag            Optional. Optional. True, if the user is allowed to edit their own tag
-     * @param bool|null $canChangeInfo         Optional. Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
+     * @param bool|null $canReactToMessages    Optional. Optional. True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
+     * @param bool|null $canEditTag            Optional. Optional. True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages.
+     * @param bool|null $canChangeInfo         Optional. Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups.
      * @param bool|null $canInviteUsers        Optional. Optional. True, if the user is allowed to invite new users to the chat
-     * @param bool|null $canPinMessages        Optional. Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
-     * @param bool|null $canManageTopics       Optional. Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
+     * @param bool|null $canPinMessages        Optional. Optional. True, if the user is allowed to pin messages. Ignored in public supergroups.
+     * @param bool|null $canManageTopics       Optional. Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
      */
     public static function make(
         ?bool $canSendMessages = null,
@@ -37,6 +38,7 @@ class ChatPermissionsFactory extends AbstractFactory
         ?bool $canSendPolls = null,
         ?bool $canSendOtherMessages = null,
         ?bool $canAddWebPagePreviews = null,
+        ?bool $canReactToMessages = null,
         ?bool $canEditTag = null,
         ?bool $canChangeInfo = null,
         ?bool $canInviteUsers = null,
@@ -54,6 +56,7 @@ class ChatPermissionsFactory extends AbstractFactory
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canReactToMessages: $canReactToMessages,
             canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,

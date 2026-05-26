@@ -14,6 +14,7 @@ use Phenogram\Bindings\Types\Interfaces\BackgroundTypeFillInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypePatternInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeWallpaperInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
+use Phenogram\Bindings\Types\Interfaces\BotAccessSettingsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllGroupChatsInterface;
@@ -127,8 +128,13 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
@@ -147,6 +153,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
@@ -171,6 +178,7 @@ use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
@@ -190,6 +198,7 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
@@ -209,6 +218,7 @@ use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
@@ -297,17 +307,20 @@ class Serializer implements SerializerInterface
         AnimationInterface::class,
         AudioInterface::class,
         DocumentInterface::class,
+        LivePhotoInterface::class,
         StoryInterface::class,
         VideoQualityInterface::class,
         VideoInterface::class,
         VideoNoteInterface::class,
         VoiceInterface::class,
         PaidMediaInfoInterface::class,
-        PaidMediaPreviewInterface::class,
+        PaidMediaLivePhotoInterface::class,
         PaidMediaPhotoInterface::class,
+        PaidMediaPreviewInterface::class,
         PaidMediaVideoInterface::class,
         ContactInterface::class,
         DiceInterface::class,
+        PollMediaInterface::class,
         PollOptionInterface::class,
         InputPollOptionInterface::class,
         PollAnswerInterface::class,
@@ -432,6 +445,7 @@ class Serializer implements SerializerInterface
         OwnedGiftRegularInterface::class,
         OwnedGiftUniqueInterface::class,
         OwnedGiftsInterface::class,
+        BotAccessSettingsInterface::class,
         AcceptedGiftTypesInterface::class,
         StarAmountInterface::class,
         BotCommandInterface::class,
@@ -461,14 +475,20 @@ class Serializer implements SerializerInterface
         BusinessConnectionInterface::class,
         BusinessMessagesDeletedInterface::class,
         SentWebAppMessageInterface::class,
+        SentGuestMessageInterface::class,
         PreparedInlineMessageInterface::class,
         PreparedKeyboardButtonInterface::class,
         ResponseParametersInterface::class,
-        InputMediaPhotoInterface::class,
-        InputMediaVideoInterface::class,
         InputMediaAnimationInterface::class,
         InputMediaAudioInterface::class,
         InputMediaDocumentInterface::class,
+        InputMediaLivePhotoInterface::class,
+        InputMediaLocationInterface::class,
+        InputMediaPhotoInterface::class,
+        InputMediaStickerInterface::class,
+        InputMediaVenueInterface::class,
+        InputMediaVideoInterface::class,
+        InputPaidMediaLivePhotoInterface::class,
         InputPaidMediaPhotoInterface::class,
         InputPaidMediaVideoInterface::class,
         InputProfilePhotoStaticInterface::class,
@@ -604,6 +624,9 @@ class Serializer implements SerializerInterface
             deletedBusinessMessages: isset($data['deleted_business_messages'])
                 ? $this->denormalizeBusinessMessagesDeleted($data['deleted_business_messages'])
                 : null,
+            guestMessage: isset($data['guest_message'])
+                ? $this->denormalizeMessage($data['guest_message'])
+                : null,
             messageReaction: isset($data['message_reaction'])
                 ? $this->denormalizeMessageReactionUpdated($data['message_reaction'])
                 : null,
@@ -719,6 +742,7 @@ class Serializer implements SerializerInterface
             addedToAttachmentMenu: $data['added_to_attachment_menu'] ?? null,
             canJoinGroups: $data['can_join_groups'] ?? null,
             canReadAllGroupMessages: $data['can_read_all_group_messages'] ?? null,
+            supportsGuestQueries: $data['supports_guest_queries'] ?? null,
             supportsInlineQueries: $data['supports_inline_queries'] ?? null,
             canConnectToBusiness: $data['can_connect_to_business'] ?? null,
             hasMainWebApp: $data['has_main_web_app'] ?? null,
@@ -903,6 +927,7 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeUser($data['sender_business_bot'])
                 : null,
             senderTag: $data['sender_tag'] ?? null,
+            guestQueryId: $data['guest_query_id'] ?? null,
             businessConnectionId: $data['business_connection_id'] ?? null,
             forwardOrigin: isset($data['forward_origin'])
                 ? $this->denormalizeMessageOrigin($data['forward_origin'])
@@ -925,6 +950,12 @@ class Serializer implements SerializerInterface
             replyToPollOptionId: $data['reply_to_poll_option_id'] ?? null,
             viaBot: isset($data['via_bot'])
                 ? $this->denormalizeUser($data['via_bot'])
+                : null,
+            guestBotCallerUser: isset($data['guest_bot_caller_user'])
+                ? $this->denormalizeUser($data['guest_bot_caller_user'])
+                : null,
+            guestBotCallerChat: isset($data['guest_bot_caller_chat'])
+                ? $this->denormalizeChat($data['guest_bot_caller_chat'])
                 : null,
             editDate: $data['edit_date'] ?? null,
             hasProtectedContent: $data['has_protected_content'] ?? null,
@@ -952,6 +983,9 @@ class Serializer implements SerializerInterface
                 : null,
             document: isset($data['document'])
                 ? $this->denormalizeDocument($data['document'])
+                : null,
+            livePhoto: isset($data['live_photo'])
+                ? $this->denormalizeLivePhoto($data['live_photo'])
                 : null,
             paidMedia: isset($data['paid_media'])
                 ? $this->denormalizePaidMediaInfo($data['paid_media'])
@@ -1315,6 +1349,9 @@ class Serializer implements SerializerInterface
             document: isset($data['document'])
                 ? $this->denormalizeDocument($data['document'])
                 : null,
+            livePhoto: isset($data['live_photo'])
+                ? $this->denormalizeLivePhoto($data['live_photo'])
+                : null,
             paidMedia: isset($data['paid_media'])
                 ? $this->denormalizePaidMediaInfo($data['paid_media'])
                 : null,
@@ -1659,6 +1696,42 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeLivePhoto(array $data): LivePhotoInterface
+    {
+        $requiredFields = [
+            'file_id',
+            'file_unique_id',
+            'width',
+            'height',
+            'duration',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class LivePhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeLivePhoto(
+            fileId: $data['file_id'],
+            fileUniqueId: $data['file_unique_id'],
+            width: $data['width'],
+            height: $data['height'],
+            duration: $data['duration'],
+            photo: isset($data['photo'])
+                ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
+                : null,
+            mimeType: $data['mime_type'] ?? null,
+            fileSize: $data['file_size'] ?? null,
+        );
+    }
+
     public function denormalizeStory(array $data): StoryInterface
     {
         $requiredFields = [
@@ -1857,10 +1930,11 @@ class Serializer implements SerializerInterface
         };
     }
 
-    public function denormalizePaidMediaPreview(array $data): PaidMediaPreviewInterface
+    public function denormalizePaidMediaLivePhoto(array $data): PaidMediaLivePhotoInterface
     {
         $requiredFields = [
             'type',
+            'live_photo',
         ];
 
         $missingFields = [];
@@ -1872,14 +1946,12 @@ class Serializer implements SerializerInterface
         }
 
         if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class PaidMediaPreview missing some fields from the data array: %s', implode(', ', $missingFields)));
+            throw new \InvalidArgumentException(sprintf('Class PaidMediaLivePhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return $this->factory->makePaidMediaPreview(
+        return $this->factory->makePaidMediaLivePhoto(
             type: $data['type'],
-            width: $data['width'] ?? null,
-            height: $data['height'] ?? null,
-            duration: $data['duration'] ?? null,
+            livePhoto: $this->denormalizeLivePhoto($data['live_photo']),
         );
     }
 
@@ -1905,6 +1977,32 @@ class Serializer implements SerializerInterface
         return $this->factory->makePaidMediaPhoto(
             type: $data['type'],
             photo: array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo']),
+        );
+    }
+
+    public function denormalizePaidMediaPreview(array $data): PaidMediaPreviewInterface
+    {
+        $requiredFields = [
+            'type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class PaidMediaPreview missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makePaidMediaPreview(
+            type: $data['type'],
+            width: $data['width'] ?? null,
+            height: $data['height'] ?? null,
+            duration: $data['duration'] ?? null,
         );
     }
 
@@ -1986,6 +2084,49 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizePollMedia(array $data): PollMediaInterface
+    {
+        return $this->factory->makePollMedia(
+            animation: isset($data['animation'])
+                ? $this->denormalizeAnimation($data['animation'])
+                : null,
+            audio: isset($data['audio'])
+                ? $this->denormalizeAudio($data['audio'])
+                : null,
+            document: isset($data['document'])
+                ? $this->denormalizeDocument($data['document'])
+                : null,
+            livePhoto: isset($data['live_photo'])
+                ? $this->denormalizeLivePhoto($data['live_photo'])
+                : null,
+            location: isset($data['location'])
+                ? $this->denormalizeLocation($data['location'])
+                : null,
+            photo: isset($data['photo'])
+                ? array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo'])
+                : null,
+            sticker: isset($data['sticker'])
+                ? $this->denormalizeSticker($data['sticker'])
+                : null,
+            venue: isset($data['venue'])
+                ? $this->denormalizeVenue($data['venue'])
+                : null,
+            video: isset($data['video'])
+                ? $this->denormalizeVideo($data['video'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputPollMedia(array $data): Types\Interfaces\InputPollMediaInterface
+    {
+        throw new \RuntimeException('class InputPollMedia is abstract and not yet implemented');
+    }
+
+    public function denormalizeInputPollOptionMedia(array $data): Types\Interfaces\InputPollOptionMediaInterface
+    {
+        throw new \RuntimeException('class InputPollOptionMedia is abstract and not yet implemented');
+    }
+
     public function denormalizePollOption(array $data): PollOptionInterface
     {
         $requiredFields = [
@@ -2012,6 +2153,9 @@ class Serializer implements SerializerInterface
             voterCount: $data['voter_count'],
             textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
+                : null,
+            media: isset($data['media'])
+                ? $this->denormalizePollMedia($data['media'])
                 : null,
             addedByUser: isset($data['added_by_user'])
                 ? $this->denormalizeUser($data['added_by_user'])
@@ -2046,6 +2190,9 @@ class Serializer implements SerializerInterface
             textParseMode: $data['text_parse_mode'] ?? null,
             textEntities: isset($data['text_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['text_entities'])
+                : null,
+            media: isset($data['media'])
+                ? $this->denormalizeInputPollOptionMedia($data['media'])
                 : null,
         );
     }
@@ -2095,6 +2242,7 @@ class Serializer implements SerializerInterface
             'type',
             'allows_multiple_answers',
             'allows_revoting',
+            'members_only',
         ];
 
         $missingFields = [];
@@ -2119,19 +2267,27 @@ class Serializer implements SerializerInterface
             type: $data['type'],
             allowsMultipleAnswers: $data['allows_multiple_answers'],
             allowsRevoting: $data['allows_revoting'],
+            membersOnly: $data['members_only'],
             questionEntities: isset($data['question_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['question_entities'])
                 : null,
+            countryCodes: $data['country_codes'] ?? null,
             correctOptionIds: $data['correct_option_ids'] ?? null,
             explanation: $data['explanation'] ?? null,
             explanationEntities: isset($data['explanation_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['explanation_entities'])
+                : null,
+            explanationMedia: isset($data['explanation_media'])
+                ? $this->denormalizePollMedia($data['explanation_media'])
                 : null,
             openPeriod: $data['open_period'] ?? null,
             closeDate: $data['close_date'] ?? null,
             description: $data['description'] ?? null,
             descriptionEntities: isset($data['description_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['description_entities'])
+                : null,
+            media: isset($data['media'])
+                ? $this->denormalizePollMedia($data['media'])
                 : null,
         );
     }
@@ -4152,6 +4308,7 @@ class Serializer implements SerializerInterface
             'can_send_polls',
             'can_send_other_messages',
             'can_add_web_page_previews',
+            'can_react_to_messages',
             'can_edit_tag',
             'can_change_info',
             'can_invite_users',
@@ -4186,6 +4343,7 @@ class Serializer implements SerializerInterface
             canSendPolls: $data['can_send_polls'],
             canSendOtherMessages: $data['can_send_other_messages'],
             canAddWebPagePreviews: $data['can_add_web_page_previews'],
+            canReactToMessages: $data['can_react_to_messages'],
             canEditTag: $data['can_edit_tag'],
             canChangeInfo: $data['can_change_info'],
             canInviteUsers: $data['can_invite_users'],
@@ -4294,6 +4452,7 @@ class Serializer implements SerializerInterface
             canSendPolls: $data['can_send_polls'] ?? null,
             canSendOtherMessages: $data['can_send_other_messages'] ?? null,
             canAddWebPagePreviews: $data['can_add_web_page_previews'] ?? null,
+            canReactToMessages: $data['can_react_to_messages'] ?? null,
             canEditTag: $data['can_edit_tag'] ?? null,
             canChangeInfo: $data['can_change_info'] ?? null,
             canInviteUsers: $data['can_invite_users'] ?? null,
@@ -5348,6 +5507,32 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeBotAccessSettings(array $data): BotAccessSettingsInterface
+    {
+        $requiredFields = [
+            'is_access_restricted',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class BotAccessSettings missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeBotAccessSettings(
+            isAccessRestricted: $data['is_access_restricted'],
+            addedUsers: isset($data['added_users'])
+                ? array_map(fn (array $item) => $this->denormalizeUser($item), $data['added_users'])
+                : null,
+        );
+    }
+
     public function denormalizeAcceptedGiftTypes(array $data): AcceptedGiftTypesInterface
     {
         $requiredFields = [
@@ -5980,6 +6165,29 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeSentGuestMessage(array $data): SentGuestMessageInterface
+    {
+        $requiredFields = [
+            'inline_message_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SentGuestMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSentGuestMessage(
+            inlineMessageId: $data['inline_message_id'],
+        );
+    }
+
     public function denormalizePreparedInlineMessage(array $data): PreparedInlineMessageInterface
     {
         $requiredFields = [
@@ -6046,75 +6254,6 @@ class Serializer implements SerializerInterface
             'document' => $this->denormalizeInputMediaDocument($data),
             default => throw new \InvalidArgumentException(sprintf('Invalid type value for InputMedia: %s', $data['type'])),
         };
-    }
-
-    public function denormalizeInputMediaPhoto(array $data): InputMediaPhotoInterface
-    {
-        $requiredFields = [
-            'media',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class InputMediaPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeInputMediaPhoto(
-            media: $data['media'],
-            type: $data['type'] ?? 'photo',
-            caption: $data['caption'] ?? null,
-            parseMode: $data['parse_mode'] ?? null,
-            captionEntities: isset($data['caption_entities'])
-                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
-                : null,
-            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            hasSpoiler: $data['has_spoiler'] ?? null,
-        );
-    }
-
-    public function denormalizeInputMediaVideo(array $data): InputMediaVideoInterface
-    {
-        $requiredFields = [
-            'media',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class InputMediaVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeInputMediaVideo(
-            media: $data['media'],
-            type: $data['type'] ?? 'video',
-            thumbnail: $data['thumbnail'] ?? null,
-            cover: $data['cover'] ?? null,
-            startTimestamp: $data['start_timestamp'] ?? null,
-            caption: $data['caption'] ?? null,
-            parseMode: $data['parse_mode'] ?? null,
-            captionEntities: isset($data['caption_entities'])
-                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
-                : null,
-            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
-            width: $data['width'] ?? null,
-            height: $data['height'] ?? null,
-            duration: $data['duration'] ?? null,
-            supportsStreaming: $data['supports_streaming'] ?? null,
-            hasSpoiler: $data['has_spoiler'] ?? null,
-        );
     }
 
     public function denormalizeInputMediaAnimation(array $data): InputMediaAnimationInterface
@@ -6216,6 +6355,194 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeInputMediaLivePhoto(array $data): InputMediaLivePhotoInterface
+    {
+        $requiredFields = [
+            'media',
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaLivePhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaLivePhoto(
+            media: $data['media'],
+            photo: $data['photo'],
+            type: $data['type'] ?? 'live_photo',
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
+            hasSpoiler: $data['has_spoiler'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaLocation(array $data): InputMediaLocationInterface
+    {
+        $requiredFields = [
+            'latitude',
+            'longitude',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaLocation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaLocation(
+            latitude: $data['latitude'],
+            longitude: $data['longitude'],
+            type: $data['type'] ?? 'location',
+            horizontalAccuracy: $data['horizontal_accuracy'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaPhoto(array $data): InputMediaPhotoInterface
+    {
+        $requiredFields = [
+            'media',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaPhoto(
+            media: $data['media'],
+            type: $data['type'] ?? 'photo',
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
+            hasSpoiler: $data['has_spoiler'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaSticker(array $data): InputMediaStickerInterface
+    {
+        $requiredFields = [
+            'media',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaSticker missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaSticker(
+            media: $data['media'],
+            type: $data['type'] ?? 'sticker',
+            emoji: $data['emoji'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaVenue(array $data): InputMediaVenueInterface
+    {
+        $requiredFields = [
+            'latitude',
+            'longitude',
+            'title',
+            'address',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaVenue missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaVenue(
+            latitude: $data['latitude'],
+            longitude: $data['longitude'],
+            title: $data['title'],
+            address: $data['address'],
+            type: $data['type'] ?? 'venue',
+            foursquareId: $data['foursquare_id'] ?? null,
+            foursquareType: $data['foursquare_type'] ?? null,
+            googlePlaceId: $data['google_place_id'] ?? null,
+            googlePlaceType: $data['google_place_type'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaVideo(array $data): InputMediaVideoInterface
+    {
+        $requiredFields = [
+            'media',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaVideo(
+            media: $data['media'],
+            type: $data['type'] ?? 'video',
+            thumbnail: $data['thumbnail'] ?? null,
+            cover: $data['cover'] ?? null,
+            startTimestamp: $data['start_timestamp'] ?? null,
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
+            width: $data['width'] ?? null,
+            height: $data['height'] ?? null,
+            duration: $data['duration'] ?? null,
+            supportsStreaming: $data['supports_streaming'] ?? null,
+            hasSpoiler: $data['has_spoiler'] ?? null,
+        );
+    }
+
     public function denormalizeInputPaidMedia(array $data): Types\Interfaces\InputPaidMediaInterface
     {
         return match ($data['type']) {
@@ -6223,6 +6550,32 @@ class Serializer implements SerializerInterface
             'video' => $this->denormalizeInputPaidMediaVideo($data),
             default => throw new \InvalidArgumentException(sprintf('Invalid type value for InputPaidMedia: %s', $data['type'])),
         };
+    }
+
+    public function denormalizeInputPaidMediaLivePhoto(array $data): InputPaidMediaLivePhotoInterface
+    {
+        $requiredFields = [
+            'media',
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputPaidMediaLivePhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputPaidMediaLivePhoto(
+            media: $data['media'],
+            photo: $data['photo'],
+            type: $data['type'] ?? 'live_photo',
+        );
     }
 
     public function denormalizeInputPaidMediaPhoto(array $data): InputPaidMediaPhotoInterface
@@ -8804,17 +9157,20 @@ class Serializer implements SerializerInterface
             AnimationInterface::class => $this->denormalizeAnimation($data),
             AudioInterface::class => $this->denormalizeAudio($data),
             DocumentInterface::class => $this->denormalizeDocument($data),
+            LivePhotoInterface::class => $this->denormalizeLivePhoto($data),
             StoryInterface::class => $this->denormalizeStory($data),
             VideoQualityInterface::class => $this->denormalizeVideoQuality($data),
             VideoInterface::class => $this->denormalizeVideo($data),
             VideoNoteInterface::class => $this->denormalizeVideoNote($data),
             VoiceInterface::class => $this->denormalizeVoice($data),
             PaidMediaInfoInterface::class => $this->denormalizePaidMediaInfo($data),
-            PaidMediaPreviewInterface::class => $this->denormalizePaidMediaPreview($data),
+            PaidMediaLivePhotoInterface::class => $this->denormalizePaidMediaLivePhoto($data),
             PaidMediaPhotoInterface::class => $this->denormalizePaidMediaPhoto($data),
+            PaidMediaPreviewInterface::class => $this->denormalizePaidMediaPreview($data),
             PaidMediaVideoInterface::class => $this->denormalizePaidMediaVideo($data),
             ContactInterface::class => $this->denormalizeContact($data),
             DiceInterface::class => $this->denormalizeDice($data),
+            PollMediaInterface::class => $this->denormalizePollMedia($data),
             PollOptionInterface::class => $this->denormalizePollOption($data),
             InputPollOptionInterface::class => $this->denormalizeInputPollOption($data),
             PollAnswerInterface::class => $this->denormalizePollAnswer($data),
@@ -8939,6 +9295,7 @@ class Serializer implements SerializerInterface
             OwnedGiftRegularInterface::class => $this->denormalizeOwnedGiftRegular($data),
             OwnedGiftUniqueInterface::class => $this->denormalizeOwnedGiftUnique($data),
             OwnedGiftsInterface::class => $this->denormalizeOwnedGifts($data),
+            BotAccessSettingsInterface::class => $this->denormalizeBotAccessSettings($data),
             AcceptedGiftTypesInterface::class => $this->denormalizeAcceptedGiftTypes($data),
             StarAmountInterface::class => $this->denormalizeStarAmount($data),
             BotCommandInterface::class => $this->denormalizeBotCommand($data),
@@ -8968,14 +9325,20 @@ class Serializer implements SerializerInterface
             BusinessConnectionInterface::class => $this->denormalizeBusinessConnection($data),
             BusinessMessagesDeletedInterface::class => $this->denormalizeBusinessMessagesDeleted($data),
             SentWebAppMessageInterface::class => $this->denormalizeSentWebAppMessage($data),
+            SentGuestMessageInterface::class => $this->denormalizeSentGuestMessage($data),
             PreparedInlineMessageInterface::class => $this->denormalizePreparedInlineMessage($data),
             PreparedKeyboardButtonInterface::class => $this->denormalizePreparedKeyboardButton($data),
             ResponseParametersInterface::class => $this->denormalizeResponseParameters($data),
-            InputMediaPhotoInterface::class => $this->denormalizeInputMediaPhoto($data),
-            InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
             InputMediaAnimationInterface::class => $this->denormalizeInputMediaAnimation($data),
             InputMediaAudioInterface::class => $this->denormalizeInputMediaAudio($data),
             InputMediaDocumentInterface::class => $this->denormalizeInputMediaDocument($data),
+            InputMediaLivePhotoInterface::class => $this->denormalizeInputMediaLivePhoto($data),
+            InputMediaLocationInterface::class => $this->denormalizeInputMediaLocation($data),
+            InputMediaPhotoInterface::class => $this->denormalizeInputMediaPhoto($data),
+            InputMediaStickerInterface::class => $this->denormalizeInputMediaSticker($data),
+            InputMediaVenueInterface::class => $this->denormalizeInputMediaVenue($data),
+            InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
+            InputPaidMediaLivePhotoInterface::class => $this->denormalizeInputPaidMediaLivePhoto($data),
             InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
             InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
             InputProfilePhotoStaticInterface::class => $this->denormalizeInputProfilePhotoStatic($data),

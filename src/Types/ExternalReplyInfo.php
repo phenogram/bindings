@@ -14,6 +14,7 @@ use Phenogram\Bindings\Types\Interfaces\GiveawayInterface;
 use Phenogram\Bindings\Types\Interfaces\GiveawayWinnersInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
@@ -39,6 +40,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
      * @param AnimationInterface|null          $animation          Optional. Message is an animation, information about the animation
      * @param AudioInterface|null              $audio              Optional. Message is an audio file, information about the file
      * @param DocumentInterface|null           $document           Optional. Message is a general file, information about the file
+     * @param LivePhotoInterface|null          $livePhoto          Optional. Message is a live photo, information about the live photo
      * @param PaidMediaInfoInterface|null      $paidMedia          Optional. Message contains paid media; information about the paid media
      * @param array<PhotoSizeInterface>|null   $photo              Optional. Message is a photo, available sizes of the photo
      * @param StickerInterface|null            $sticker            Optional. Message is a sticker, information about the sticker
@@ -66,6 +68,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
         public ?AnimationInterface $animation = null,
         public ?AudioInterface $audio = null,
         public ?DocumentInterface $document = null,
+        public ?LivePhotoInterface $livePhoto = null,
         public ?PaidMediaInfoInterface $paidMedia = null,
         public ?array $photo = null,
         public ?StickerInterface $sticker = null,

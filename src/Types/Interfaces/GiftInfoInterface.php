@@ -34,6 +34,6 @@ interface GiftInfoInterface extends TypeInterface
     /** @var bool|null $isPrivate Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them */
     public ?bool $isPrivate { set; get; }
 
-    /** @var int|null $uniqueGiftNumber Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift */
+    /** @var int|null $uniqueGiftNumber Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift. */
     public ?int $uniqueGiftNumber { set; get; }
 }

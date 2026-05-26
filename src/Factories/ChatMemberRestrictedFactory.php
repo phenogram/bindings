@@ -26,12 +26,13 @@ class ChatMemberRestrictedFactory extends AbstractFactory
      * @param bool|null          $canSendPolls          Optional. True, if the user is allowed to send polls and checklists
      * @param bool|null          $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|null          $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages
+     * @param bool|null          $canReactToMessages    Optional. True, if the user is allowed to react to messages
      * @param bool|null          $canEditTag            Optional. True, if the user is allowed to edit their own tag
      * @param bool|null          $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings
      * @param bool|null          $canInviteUsers        Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null          $canPinMessages        Optional. True, if the user is allowed to pin messages
      * @param bool|null          $canManageTopics       Optional. True, if the user is allowed to create forum topics
-     * @param int|null           $untilDate             Optional. Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
+     * @param int|null           $untilDate             Optional. Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever.
      */
     public static function make(
         ?string $status = null,
@@ -48,6 +49,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
         ?bool $canSendPolls = null,
         ?bool $canSendOtherMessages = null,
         ?bool $canAddWebPagePreviews = null,
+        ?bool $canReactToMessages = null,
         ?bool $canEditTag = null,
         ?bool $canChangeInfo = null,
         ?bool $canInviteUsers = null,
@@ -70,6 +72,7 @@ class ChatMemberRestrictedFactory extends AbstractFactory
             canSendPolls: $canSendPolls ?? self::fake()->boolean(),
             canSendOtherMessages: $canSendOtherMessages ?? self::fake()->boolean(),
             canAddWebPagePreviews: $canAddWebPagePreviews ?? self::fake()->boolean(),
+            canReactToMessages: $canReactToMessages ?? self::fake()->boolean(),
             canEditTag: $canEditTag ?? self::fake()->boolean(),
             canChangeInfo: $canChangeInfo ?? self::fake()->boolean(),
             canInviteUsers: $canInviteUsers ?? self::fake()->boolean(),

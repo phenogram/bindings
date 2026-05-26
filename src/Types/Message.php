@@ -34,6 +34,7 @@ use Phenogram\Bindings\Types\Interfaces\GiveawayWinnersInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineKeyboardMarkupInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaybeInaccessibleMessageInterface;
@@ -80,16 +81,17 @@ use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 class Message extends MaybeInaccessibleMessage implements MessageInterface
 {
     /**
-     * @param int                                         $messageId                     Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
+     * @param int                                         $messageId                     Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
      * @param int                                         $date                          Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param ChatInterface                               $chat                          Chat the message belongs to
      * @param int|null                                    $messageThreadId               Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only
      * @param DirectMessagesTopicInterface|null           $directMessagesTopic           Optional. Information about the direct messages chat topic that contains the message
-     * @param UserInterface|null                          $from                          Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
+     * @param UserInterface|null                          $from                          Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats.
      * @param ChatInterface|null                          $senderChat                    Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
      * @param int|null                                    $senderBoostCount              Optional. If the sender of the message boosted the chat, the number of boosts added by the user
      * @param UserInterface|null                          $senderBusinessBot             Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
      * @param string|null                                 $senderTag                     Optional. Tag or custom title of the sender of the message; for supergroups only
+     * @param string|null                                 $guestQueryId                  Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message. If non-empty, the message belongs to the chat where the guest bot was summoned, which may not coincide with other existing bot chats sharing the same identifier.
      * @param string|null                                 $businessConnectionId          Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
      * @param MessageOriginInterface|null                 $forwardOrigin                 Optional. Information about the original message for forwarded messages
      * @param bool|null                                   $isTopicMessage                Optional. True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
@@ -101,6 +103,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param int|null                                    $replyToChecklistTaskId        Optional. Identifier of the specific checklist task that is being replied to
      * @param string|null                                 $replyToPollOptionId           Optional. Persistent identifier of the specific poll option that is being replied to
      * @param UserInterface|null                          $viaBot                        Optional. Bot through which the message was sent
+     * @param UserInterface|null                          $guestBotCallerUser            Optional. For a message sent by a guest bot, this is the user whose original message triggered the bot's response
+     * @param ChatInterface|null                          $guestBotCallerChat            Optional. For a message sent by a guest bot, this is the chat whose original message triggered the bot's response
      * @param int|null                                    $editDate                      Optional. Date the message was last edited in Unix time
      * @param bool|null                                   $hasProtectedContent           Optional. True, if the message can't be forwarded
      * @param bool|null                                   $isFromOffline                 Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
@@ -113,9 +117,10 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param LinkPreviewOptionsInterface|null            $linkPreviewOptions            Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
      * @param SuggestedPostInfoInterface|null             $suggestedPostInfo             Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|null                                 $effectId                      Optional. Unique identifier of the message effect added to the message
-     * @param AnimationInterface|null                     $animation                     Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
+     * @param AnimationInterface|null                     $animation                     Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set.
      * @param AudioInterface|null                         $audio                         Optional. Message is an audio file, information about the file
      * @param DocumentInterface|null                      $document                      Optional. Message is a general file, information about the file
+     * @param LivePhotoInterface|null                     $livePhoto                     Optional. Message is a live photo, information about the live photo. For backward compatibility, when this field is set, the photo field will also be set.
      * @param PaidMediaInfoInterface|null                 $paidMedia                     Optional. Message contains paid media; information about the paid media
      * @param array<PhotoSizeInterface>|null              $photo                         Optional. Message is a photo, available sizes of the photo
      * @param StickerInterface|null                       $sticker                       Optional. Message is a sticker, information about the sticker
@@ -132,7 +137,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param DiceInterface|null                          $dice                          Optional. Message is a dice with random value
      * @param GameInterface|null                          $game                          Optional. Message is a game, information about the game. More about games »
      * @param PollInterface|null                          $poll                          Optional. Message is a native poll, information about the poll
-     * @param VenueInterface|null                         $venue                         Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set
+     * @param VenueInterface|null                         $venue                         Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set.
      * @param LocationInterface|null                      $location                      Optional. Message is a shared location, information about the location
      * @param array<UserInterface>|null                   $newChatMembers                Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
      * @param UserInterface|null                          $leftChatMember                Optional. A member was removed from the group, information about them (this member may be the bot itself)
@@ -202,6 +207,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?int $senderBoostCount = null,
         public ?UserInterface $senderBusinessBot = null,
         public ?string $senderTag = null,
+        public ?string $guestQueryId = null,
         public ?string $businessConnectionId = null,
         public ?MessageOriginInterface $forwardOrigin = null,
         public ?bool $isTopicMessage = null,
@@ -213,6 +219,8 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?int $replyToChecklistTaskId = null,
         public ?string $replyToPollOptionId = null,
         public ?UserInterface $viaBot = null,
+        public ?UserInterface $guestBotCallerUser = null,
+        public ?ChatInterface $guestBotCallerChat = null,
         public ?int $editDate = null,
         public ?bool $hasProtectedContent = null,
         public ?bool $isFromOffline = null,
@@ -228,6 +236,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?AnimationInterface $animation = null,
         public ?AudioInterface $audio = null,
         public ?DocumentInterface $document = null,
+        public ?LivePhotoInterface $livePhoto = null,
         public ?PaidMediaInfoInterface $paidMedia = null,
         public ?array $photo = null,
         public ?StickerInterface $sticker = null,

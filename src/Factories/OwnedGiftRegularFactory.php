@@ -28,7 +28,7 @@ class OwnedGiftRegularFactory extends AbstractFactory
      * @param int|null           $convertStarCount        Optional. Optional. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars; for gifts received on behalf of business accounts only
      * @param int|null           $prepaidUpgradeStarCount Optional. Optional. Number of Telegram Stars that were paid for the ability to upgrade the gift
      * @param bool|null          $isUpgradeSeparate       Optional. Optional. True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of business accounts only
-     * @param int|null           $uniqueGiftNumber        Optional. Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     * @param int|null           $uniqueGiftNumber        Optional. Optional. Unique number reserved for this gift when upgraded. See the number field in UniqueGift.
      */
     public static function make(
         ?string $type = null,

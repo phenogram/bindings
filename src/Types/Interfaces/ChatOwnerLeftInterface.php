@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatOwnerLeftInterface extends TypeInterface
 {
-    /** @var UserInterface|null $newOwner Optional. The user which will be the new owner of the chat if the previous owner does not return to the chat */
+    /** @var UserInterface|null $newOwner Optional. The user who will become the new owner of the chat if the previous owner does not return to the chat */
     public ?UserInterface $newOwner { set; get; }
 }

@@ -16,7 +16,7 @@ class BackgroundTypePatternFactory extends AbstractFactory
      * @param DocumentInterface|null                                            $document   Optional. Document with the pattern
      * @param \Phenogram\Bindings\Types\Interfaces\BackgroundFillInterface|null $fill       Optional. The background fill that is combined with the pattern
      * @param int|null                                                          $intensity  Optional. Intensity of the pattern when it is shown above the filled background; 0-100
-     * @param bool|null                                                         $isInverted Optional. Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+     * @param bool|null                                                         $isInverted Optional. Optional. True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only.
      * @param bool|null                                                         $isMoving   Optional. Optional. True, if the background moves slightly when the device is tilted
      */
     public static function make(

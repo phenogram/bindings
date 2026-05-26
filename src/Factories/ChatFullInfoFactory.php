@@ -77,7 +77,7 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param UserRatingInterface|null           $rating                             Optional. Optional. For private chats, the rating of the user if any
      * @param AudioInterface|null                $firstProfileAudio                  Optional. Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
-     * @param int|null                           $paidMessageStarCount               Optional. Optional. The number of Telegram Stars a general user have to pay to send a message to the chat
+     * @param int|null                           $paidMessageStarCount               Optional. Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
      */
     public static function make(
         ?int $id = null,

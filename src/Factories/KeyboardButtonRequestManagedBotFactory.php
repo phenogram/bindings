@@ -10,7 +10,7 @@ class KeyboardButtonRequestManagedBotFactory extends AbstractFactory
     /**
      * Creates a new KeyboardButtonRequestManagedBot instance with default fake data.
      *
-     * @param int|null    $requestId         Optional. Signed 32-bit identifier of the request. Must be unique within the message
+     * @param int|null    $requestId         Optional. Signed 32-bit identifier of the request. Must be unique within the message.
      * @param string|null $suggestedName     Optional. Optional. Suggested name for the bot
      * @param string|null $suggestedUsername Optional. Optional. Suggested username for the bot
      */

@@ -20,8 +20,9 @@ class UserFactory extends AbstractFactory
      * @param bool|null   $addedToAttachmentMenu     Optional. Optional. True, if this user added the bot to the attachment menu
      * @param bool|null   $canJoinGroups             Optional. Optional. True, if the bot can be invited to groups. Returned only in getMe.
      * @param bool|null   $canReadAllGroupMessages   Optional. Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+     * @param bool|null   $supportsGuestQueries      Optional. Optional. True, if the bot supports guest queries from chats it is not a member of. Returned only in getMe.
      * @param bool|null   $supportsInlineQueries     Optional. Optional. True, if the bot supports inline queries. Returned only in getMe.
-     * @param bool|null   $canConnectToBusiness      Optional. Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
+     * @param bool|null   $canConnectToBusiness      Optional. Optional. True, if the bot can be connected to a user account to manage it. Returned only in getMe.
      * @param bool|null   $hasMainWebApp             Optional. Optional. True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|null   $hasTopicsEnabled          Optional. Optional. True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|null   $allowsUsersToCreateTopics Optional. Optional. True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
@@ -38,6 +39,7 @@ class UserFactory extends AbstractFactory
         ?bool $addedToAttachmentMenu = null,
         ?bool $canJoinGroups = null,
         ?bool $canReadAllGroupMessages = null,
+        ?bool $supportsGuestQueries = null,
         ?bool $supportsInlineQueries = null,
         ?bool $canConnectToBusiness = null,
         ?bool $hasMainWebApp = null,
@@ -56,6 +58,7 @@ class UserFactory extends AbstractFactory
             addedToAttachmentMenu: $addedToAttachmentMenu,
             canJoinGroups: $canJoinGroups,
             canReadAllGroupMessages: $canReadAllGroupMessages,
+            supportsGuestQueries: $supportsGuestQueries,
             supportsInlineQueries: $supportsInlineQueries,
             canConnectToBusiness: $canConnectToBusiness,
             hasMainWebApp: $hasMainWebApp,

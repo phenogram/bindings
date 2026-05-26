@@ -16,6 +16,9 @@ interface PollOptionInterface extends TypeInterface
     /** @var array<MessageEntityInterface>|null $textEntities Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts */
     public ?array $textEntities { set; get; }
 
+    /** @var PollMediaInterface|null $media Optional. Media added to the poll option */
+    public ?PollMediaInterface $media { set; get; }
+
     /** @var int $voterCount Number of users who voted for this option; may be 0 if unknown */
     public int $voterCount { set; get; }
 

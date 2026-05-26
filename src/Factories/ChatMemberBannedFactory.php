@@ -14,7 +14,7 @@ class ChatMemberBannedFactory extends AbstractFactory
      *
      * @param string|null        $status    Optional. The member's status in the chat, always “kicked”
      * @param UserInterface|null $user      Optional. Information about the user
-     * @param int|null           $untilDate Optional. Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
+     * @param int|null           $untilDate Optional. Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever.
      */
     public static function make(
         ?string $status = null,

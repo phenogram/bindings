@@ -13,7 +13,7 @@ interface InlineQueryResultPhotoInterface extends TypeInterface
     /** @var string $id Unique identifier for this result, 1-64 bytes */
     public string $id { set; get; }
 
-    /** @var string $photoUrl A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB */
+    /** @var string $photoUrl A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB. */
     public string $photoUrl { set; get; }
 
     /** @var string $thumbnailUrl URL of the thumbnail for the photo */

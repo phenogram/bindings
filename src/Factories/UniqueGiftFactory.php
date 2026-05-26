@@ -21,7 +21,7 @@ class UniqueGiftFactory extends AbstractFactory
      *
      * @param string|null                      $giftId           Optional. Identifier of the regular gift from which the gift was upgraded
      * @param string|null                      $baseName         Optional. Human-readable name of the regular gift from which this unique gift was upgraded
-     * @param string|null                      $name             Optional. Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
+     * @param string|null                      $name             Optional. Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas.
      * @param int|null                         $number           Optional. Unique number of the upgraded gift among gifts upgraded from the same regular gift
      * @param UniqueGiftModelInterface|null    $model            Optional. Model of the gift
      * @param UniqueGiftSymbolInterface|null   $symbol           Optional. Symbol of the gift

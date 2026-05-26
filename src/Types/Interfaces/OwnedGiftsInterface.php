@@ -13,6 +13,6 @@ interface OwnedGiftsInterface extends TypeInterface
     /** @var array<OwnedGiftInterface> $gifts The list of gifts */
     public array $gifts { set; get; }
 
-    /** @var string|null $nextOffset Optional. Offset for the next request. If empty, then there are no more results */
+    /** @var string|null $nextOffset Optional. Offset for the next request. If empty, then there are no more results. */
     public ?string $nextOffset { set; get; }
 }

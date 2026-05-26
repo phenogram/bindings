@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface SwitchInlineQueryChosenChatInterface extends TypeInterface
 {
-    /** @var string|null $query Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted */
+    /** @var string|null $query Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted. */
     public ?string $query { set; get; }
 
     /** @var bool|null $allowUserChats Optional. True, if private chats with users can be chosen */

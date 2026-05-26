@@ -10,7 +10,7 @@ class RefundedPaymentFactory extends AbstractFactory
     /**
      * Creates a new RefundedPayment instance with default fake data.
      *
-     * @param string|null $currency                Optional. Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”
+     * @param string|null $currency                Optional. Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”.
      * @param int|null    $totalAmount             Optional. Total refunded price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45, total_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
      * @param string|null $invoicePayload          Optional. Bot-specified invoice payload
      * @param string|null $telegramPaymentChargeId Optional. Telegram payment identifier

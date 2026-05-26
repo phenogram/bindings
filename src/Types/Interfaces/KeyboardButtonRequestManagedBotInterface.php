@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface KeyboardButtonRequestManagedBotInterface extends TypeInterface
 {
-    /** @var int $requestId Signed 32-bit identifier of the request. Must be unique within the message */
+    /** @var int $requestId Signed 32-bit identifier of the request. Must be unique within the message. */
     public int $requestId { set; get; }
 
     /** @var string|null $suggestedName Optional. Suggested name for the bot */

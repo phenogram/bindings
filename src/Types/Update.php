@@ -22,7 +22,7 @@ use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
 
 /**
- * This object represents an incoming update.At most one of the optional parameters can be present in any given update.
+ * This object represents an incoming update.At most one of the optional fields can be present in any given update.
  */
 class Update implements Interfaces\UpdateInterface
 {
@@ -36,15 +36,16 @@ class Update implements Interfaces\UpdateInterface
      * @param MessageInterface|null                     $businessMessage         Optional. New message from a connected business account
      * @param MessageInterface|null                     $editedBusinessMessage   Optional. New version of a message from a connected business account
      * @param BusinessMessagesDeletedInterface|null     $deletedBusinessMessages Optional. Messages were deleted from a connected business account
+     * @param MessageInterface|null                     $guestMessage            Optional. New guest message. The bot can use the field Message.guest_query_id and the method answerGuestQuery to send a message in response.
      * @param MessageReactionUpdatedInterface|null      $messageReaction         Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
      * @param MessageReactionCountUpdatedInterface|null $messageReactionCount    Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates. The updates are grouped and can be sent with delay up to a few minutes.
      * @param InlineQueryInterface|null                 $inlineQuery             Optional. New incoming inline query
      * @param ChosenInlineResultInterface|null          $chosenInlineResult      Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot.
      * @param CallbackQueryInterface|null               $callbackQuery           Optional. New incoming callback query
-     * @param ShippingQueryInterface|null               $shippingQuery           Optional. New incoming shipping query. Only for invoices with flexible price
-     * @param PreCheckoutQueryInterface|null            $preCheckoutQuery        Optional. New incoming pre-checkout query. Contains full information about checkout
+     * @param ShippingQueryInterface|null               $shippingQuery           Optional. New incoming shipping query. Only for invoices with flexible price.
+     * @param PreCheckoutQueryInterface|null            $preCheckoutQuery        Optional. New incoming pre-checkout query. Contains full information about checkout.
      * @param PaidMediaPurchasedInterface|null          $purchasedPaidMedia      Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
-     * @param PollInterface|null                        $poll                    Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
+     * @param PollInterface|null                        $poll                    Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot.
      * @param PollAnswerInterface|null                  $pollAnswer              Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
      * @param ChatMemberUpdatedInterface|null           $myChatMember            Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
      * @param ChatMemberUpdatedInterface|null           $chatMember              Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify "chat_member" in the list of allowed_updates to receive these updates.
@@ -63,6 +64,7 @@ class Update implements Interfaces\UpdateInterface
         public ?MessageInterface $businessMessage = null,
         public ?MessageInterface $editedBusinessMessage = null,
         public ?BusinessMessagesDeletedInterface $deletedBusinessMessages = null,
+        public ?MessageInterface $guestMessage = null,
         public ?MessageReactionUpdatedInterface $messageReaction = null,
         public ?MessageReactionCountUpdatedInterface $messageReactionCount = null,
         public ?InlineQueryInterface $inlineQuery = null,

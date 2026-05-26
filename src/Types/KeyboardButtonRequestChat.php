@@ -10,8 +10,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatAdministratorRightsInterface;
 class KeyboardButtonRequestChat implements Interfaces\KeyboardButtonRequestChatInterface
 {
     /**
-     * @param int                                   $requestId               Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
-     * @param bool                                  $chatIsChannel           pass True to request a channel chat, pass False to request a group or a supergroup chat
+     * @param int                                   $requestId               Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message.
+     * @param bool                                  $chatIsChannel           Pass True to request a channel chat, pass False to request a group or a supergroup chat
      * @param bool|null                             $chatIsForum             Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
      * @param bool|null                             $chatHasUsername         Optional. Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
      * @param bool|null                             $chatIsCreated           Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.

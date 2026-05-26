@@ -15,7 +15,7 @@ class KeyboardButtonFactory extends AbstractFactory
     /**
      * Creates a new KeyboardButton instance with default fake data.
      *
-     * @param string|null                                   $text              Optional. Text of the button. If none of the fields other than text, icon_custom_emoji_id, and style are used, it will be sent as a message when the button is pressed
+     * @param string|null                                   $text              Optional. Text of the button. If none of the fields other than text, icon_custom_emoji_id, and style are used, it will be sent as a message when the button is pressed.
      * @param string|null                                   $iconCustomEmojiId Optional. Optional. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on Fragment or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
      * @param string|null                                   $style             Optional. Optional. Style of the button. Must be one of “danger” (red), “success” (green) or “primary” (blue). If omitted, then an app-specific style is used.
      * @param KeyboardButtonRequestUsersInterface|null      $requestUsers      Optional. Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a “users_shared” service message. Available in private chats only.

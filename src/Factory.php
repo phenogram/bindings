@@ -14,6 +14,7 @@ use Phenogram\Bindings\Types\BackgroundTypeFill;
 use Phenogram\Bindings\Types\BackgroundTypePattern;
 use Phenogram\Bindings\Types\BackgroundTypeWallpaper;
 use Phenogram\Bindings\Types\Birthdate;
+use Phenogram\Bindings\Types\BotAccessSettings;
 use Phenogram\Bindings\Types\BotCommand;
 use Phenogram\Bindings\Types\BotCommandScopeAllChatAdministrators;
 use Phenogram\Bindings\Types\BotCommandScopeAllGroupChats;
@@ -126,8 +127,13 @@ use Phenogram\Bindings\Types\InputLocationMessageContent;
 use Phenogram\Bindings\Types\InputMediaAnimation;
 use Phenogram\Bindings\Types\InputMediaAudio;
 use Phenogram\Bindings\Types\InputMediaDocument;
+use Phenogram\Bindings\Types\InputMediaLivePhoto;
+use Phenogram\Bindings\Types\InputMediaLocation;
 use Phenogram\Bindings\Types\InputMediaPhoto;
+use Phenogram\Bindings\Types\InputMediaSticker;
+use Phenogram\Bindings\Types\InputMediaVenue;
 use Phenogram\Bindings\Types\InputMediaVideo;
+use Phenogram\Bindings\Types\InputPaidMediaLivePhoto;
 use Phenogram\Bindings\Types\InputPaidMediaPhoto;
 use Phenogram\Bindings\Types\InputPaidMediaVideo;
 use Phenogram\Bindings\Types\InputPollOption;
@@ -150,6 +156,7 @@ use Phenogram\Bindings\Types\Interfaces\BackgroundTypeFillInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypePatternInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeWallpaperInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
+use Phenogram\Bindings\Types\Interfaces\BotAccessSettingsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllChatAdministratorsInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeAllGroupChatsInterface;
@@ -262,8 +269,13 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
@@ -282,6 +294,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
+use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
@@ -306,6 +319,7 @@ use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
@@ -325,6 +339,7 @@ use Phenogram\Bindings\Types\Interfaces\PassportFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
+use Phenogram\Bindings\Types\Interfaces\PollMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionInterface;
@@ -344,6 +359,7 @@ use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
@@ -415,6 +431,7 @@ use Phenogram\Bindings\Types\KeyboardButtonRequestManagedBot;
 use Phenogram\Bindings\Types\KeyboardButtonRequestUsers;
 use Phenogram\Bindings\Types\LabeledPrice;
 use Phenogram\Bindings\Types\LinkPreviewOptions;
+use Phenogram\Bindings\Types\LivePhoto;
 use Phenogram\Bindings\Types\Location;
 use Phenogram\Bindings\Types\LocationAddress;
 use Phenogram\Bindings\Types\LoginUrl;
@@ -439,6 +456,7 @@ use Phenogram\Bindings\Types\OwnedGiftRegular;
 use Phenogram\Bindings\Types\OwnedGifts;
 use Phenogram\Bindings\Types\OwnedGiftUnique;
 use Phenogram\Bindings\Types\PaidMediaInfo;
+use Phenogram\Bindings\Types\PaidMediaLivePhoto;
 use Phenogram\Bindings\Types\PaidMediaPhoto;
 use Phenogram\Bindings\Types\PaidMediaPreview;
 use Phenogram\Bindings\Types\PaidMediaPurchased;
@@ -458,6 +476,7 @@ use Phenogram\Bindings\Types\PassportFile;
 use Phenogram\Bindings\Types\PhotoSize;
 use Phenogram\Bindings\Types\Poll;
 use Phenogram\Bindings\Types\PollAnswer;
+use Phenogram\Bindings\Types\PollMedia;
 use Phenogram\Bindings\Types\PollOption;
 use Phenogram\Bindings\Types\PollOptionAdded;
 use Phenogram\Bindings\Types\PollOptionDeleted;
@@ -477,6 +496,7 @@ use Phenogram\Bindings\Types\ResponseParameters;
 use Phenogram\Bindings\Types\RevenueWithdrawalStateFailed;
 use Phenogram\Bindings\Types\RevenueWithdrawalStatePending;
 use Phenogram\Bindings\Types\RevenueWithdrawalStateSucceeded;
+use Phenogram\Bindings\Types\SentGuestMessage;
 use Phenogram\Bindings\Types\SentWebAppMessage;
 use Phenogram\Bindings\Types\SharedUser;
 use Phenogram\Bindings\Types\ShippingAddress;
@@ -553,6 +573,7 @@ class Factory implements FactoryInterface
         ?MessageInterface $businessMessage,
         ?MessageInterface $editedBusinessMessage,
         ?BusinessMessagesDeletedInterface $deletedBusinessMessages,
+        ?MessageInterface $guestMessage,
         ?MessageReactionUpdatedInterface $messageReaction,
         ?MessageReactionCountUpdatedInterface $messageReactionCount,
         ?InlineQueryInterface $inlineQuery,
@@ -580,6 +601,7 @@ class Factory implements FactoryInterface
             businessMessage: $businessMessage,
             editedBusinessMessage: $editedBusinessMessage,
             deletedBusinessMessages: $deletedBusinessMessages,
+            guestMessage: $guestMessage,
             messageReaction: $messageReaction,
             messageReactionCount: $messageReactionCount,
             inlineQuery: $inlineQuery,
@@ -634,6 +656,7 @@ class Factory implements FactoryInterface
         ?bool $addedToAttachmentMenu,
         ?bool $canJoinGroups,
         ?bool $canReadAllGroupMessages,
+        ?bool $supportsGuestQueries,
         ?bool $supportsInlineQueries,
         ?bool $canConnectToBusiness,
         ?bool $hasMainWebApp,
@@ -652,6 +675,7 @@ class Factory implements FactoryInterface
             addedToAttachmentMenu: $addedToAttachmentMenu,
             canJoinGroups: $canJoinGroups,
             canReadAllGroupMessages: $canReadAllGroupMessages,
+            supportsGuestQueries: $supportsGuestQueries,
             supportsInlineQueries: $supportsInlineQueries,
             canConnectToBusiness: $canConnectToBusiness,
             hasMainWebApp: $hasMainWebApp,
@@ -802,6 +826,7 @@ class Factory implements FactoryInterface
         ?int $senderBoostCount,
         ?UserInterface $senderBusinessBot,
         ?string $senderTag,
+        ?string $guestQueryId,
         ?string $businessConnectionId,
         ?Types\Interfaces\MessageOriginInterface $forwardOrigin,
         ?bool $isTopicMessage,
@@ -813,6 +838,8 @@ class Factory implements FactoryInterface
         ?int $replyToChecklistTaskId,
         ?string $replyToPollOptionId,
         ?UserInterface $viaBot,
+        ?UserInterface $guestBotCallerUser,
+        ?ChatInterface $guestBotCallerChat,
         ?int $editDate,
         ?bool $hasProtectedContent,
         ?bool $isFromOffline,
@@ -828,6 +855,7 @@ class Factory implements FactoryInterface
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
         ?PaidMediaInfoInterface $paidMedia,
         ?array $photo,
         ?StickerInterface $sticker,
@@ -914,6 +942,7 @@ class Factory implements FactoryInterface
             senderBoostCount: $senderBoostCount,
             senderBusinessBot: $senderBusinessBot,
             senderTag: $senderTag,
+            guestQueryId: $guestQueryId,
             businessConnectionId: $businessConnectionId,
             forwardOrigin: $forwardOrigin,
             isTopicMessage: $isTopicMessage,
@@ -925,6 +954,8 @@ class Factory implements FactoryInterface
             replyToChecklistTaskId: $replyToChecklistTaskId,
             replyToPollOptionId: $replyToPollOptionId,
             viaBot: $viaBot,
+            guestBotCallerUser: $guestBotCallerUser,
+            guestBotCallerChat: $guestBotCallerChat,
             editDate: $editDate,
             hasProtectedContent: $hasProtectedContent,
             isFromOffline: $isFromOffline,
@@ -940,6 +971,7 @@ class Factory implements FactoryInterface
             animation: $animation,
             audio: $audio,
             document: $document,
+            livePhoto: $livePhoto,
             paidMedia: $paidMedia,
             photo: $photo,
             sticker: $sticker,
@@ -1075,6 +1107,7 @@ class Factory implements FactoryInterface
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
         ?PaidMediaInfoInterface $paidMedia,
         ?array $photo,
         ?StickerInterface $sticker,
@@ -1102,6 +1135,7 @@ class Factory implements FactoryInterface
             animation: $animation,
             audio: $audio,
             document: $document,
+            livePhoto: $livePhoto,
             paidMedia: $paidMedia,
             photo: $photo,
             sticker: $sticker,
@@ -1280,6 +1314,28 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeLivePhoto(
+        string $fileId,
+        string $fileUniqueId,
+        int $width,
+        int $height,
+        int $duration,
+        ?array $photo,
+        ?string $mimeType,
+        ?int $fileSize,
+    ): LivePhotoInterface {
+        return new LivePhoto(
+            fileId: $fileId,
+            fileUniqueId: $fileUniqueId,
+            width: $width,
+            height: $height,
+            duration: $duration,
+            photo: $photo,
+            mimeType: $mimeType,
+            fileSize: $fileSize,
+        );
+    }
+
     public function makeStory(ChatInterface $chat, int $id): StoryInterface
     {
         return new Story(
@@ -1378,6 +1434,22 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makePaidMediaLivePhoto(string $type, LivePhotoInterface $livePhoto): PaidMediaLivePhotoInterface
+    {
+        return new PaidMediaLivePhoto(
+            type: $type,
+            livePhoto: $livePhoto,
+        );
+    }
+
+    public function makePaidMediaPhoto(string $type, array $photo): PaidMediaPhotoInterface
+    {
+        return new PaidMediaPhoto(
+            type: $type,
+            photo: $photo,
+        );
+    }
+
     public function makePaidMediaPreview(
         string $type,
         ?int $width,
@@ -1389,14 +1461,6 @@ class Factory implements FactoryInterface
             width: $width,
             height: $height,
             duration: $duration,
-        );
-    }
-
-    public function makePaidMediaPhoto(string $type, array $photo): PaidMediaPhotoInterface
-    {
-        return new PaidMediaPhoto(
-            type: $type,
-            photo: $photo,
         );
     }
 
@@ -1432,11 +1496,36 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makePollMedia(
+        ?AnimationInterface $animation,
+        ?AudioInterface $audio,
+        ?DocumentInterface $document,
+        ?LivePhotoInterface $livePhoto,
+        ?LocationInterface $location,
+        ?array $photo,
+        ?StickerInterface $sticker,
+        ?VenueInterface $venue,
+        ?VideoInterface $video,
+    ): PollMediaInterface {
+        return new PollMedia(
+            animation: $animation,
+            audio: $audio,
+            document: $document,
+            livePhoto: $livePhoto,
+            location: $location,
+            photo: $photo,
+            sticker: $sticker,
+            venue: $venue,
+            video: $video,
+        );
+    }
+
     public function makePollOption(
         string $persistentId,
         string $text,
         int $voterCount,
         ?array $textEntities,
+        ?PollMediaInterface $media,
         ?UserInterface $addedByUser,
         ?ChatInterface $addedByChat,
         ?int $additionDate,
@@ -1446,6 +1535,7 @@ class Factory implements FactoryInterface
             text: $text,
             voterCount: $voterCount,
             textEntities: $textEntities,
+            media: $media,
             addedByUser: $addedByUser,
             addedByChat: $addedByChat,
             additionDate: $additionDate,
@@ -1456,11 +1546,13 @@ class Factory implements FactoryInterface
         string $text,
         ?string $textParseMode,
         ?array $textEntities,
+        ?Types\Interfaces\InputPollOptionMediaInterface $media,
     ): InputPollOptionInterface {
         return new InputPollOption(
             text: $text,
             textParseMode: $textParseMode,
             textEntities: $textEntities,
+            media: $media,
         );
     }
 
@@ -1490,14 +1582,18 @@ class Factory implements FactoryInterface
         string $type,
         bool $allowsMultipleAnswers,
         bool $allowsRevoting,
+        bool $membersOnly,
         ?array $questionEntities,
+        ?array $countryCodes,
         ?array $correctOptionIds,
         ?string $explanation,
         ?array $explanationEntities,
+        ?PollMediaInterface $explanationMedia,
         ?int $openPeriod,
         ?int $closeDate,
         ?string $description,
         ?array $descriptionEntities,
+        ?PollMediaInterface $media,
     ): PollInterface {
         return new Poll(
             id: $id,
@@ -1509,14 +1605,18 @@ class Factory implements FactoryInterface
             type: $type,
             allowsMultipleAnswers: $allowsMultipleAnswers,
             allowsRevoting: $allowsRevoting,
+            membersOnly: $membersOnly,
             questionEntities: $questionEntities,
+            countryCodes: $countryCodes,
             correctOptionIds: $correctOptionIds,
             explanation: $explanation,
             explanationEntities: $explanationEntities,
+            explanationMedia: $explanationMedia,
             openPeriod: $openPeriod,
             closeDate: $closeDate,
             description: $description,
             descriptionEntities: $descriptionEntities,
+            media: $media,
         );
     }
 
@@ -2592,6 +2692,7 @@ class Factory implements FactoryInterface
         bool $canSendPolls,
         bool $canSendOtherMessages,
         bool $canAddWebPagePreviews,
+        bool $canReactToMessages,
         bool $canEditTag,
         bool $canChangeInfo,
         bool $canInviteUsers,
@@ -2614,6 +2715,7 @@ class Factory implements FactoryInterface
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canReactToMessages: $canReactToMessages,
             canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,
@@ -2670,6 +2772,7 @@ class Factory implements FactoryInterface
         ?bool $canSendPolls,
         ?bool $canSendOtherMessages,
         ?bool $canAddWebPagePreviews,
+        ?bool $canReactToMessages,
         ?bool $canEditTag,
         ?bool $canChangeInfo,
         ?bool $canInviteUsers,
@@ -2687,6 +2790,7 @@ class Factory implements FactoryInterface
             canSendPolls: $canSendPolls,
             canSendOtherMessages: $canSendOtherMessages,
             canAddWebPagePreviews: $canAddWebPagePreviews,
+            canReactToMessages: $canReactToMessages,
             canEditTag: $canEditTag,
             canChangeInfo: $canChangeInfo,
             canInviteUsers: $canInviteUsers,
@@ -3210,6 +3314,14 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeBotAccessSettings(bool $isAccessRestricted, ?array $addedUsers): BotAccessSettingsInterface
+    {
+        return new BotAccessSettings(
+            isAccessRestricted: $isAccessRestricted,
+            addedUsers: $addedUsers,
+        );
+    }
+
     public function makeAcceptedGiftTypes(
         bool $unlimitedGifts,
         bool $limitedGifts,
@@ -3507,6 +3619,13 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeSentGuestMessage(string $inlineMessageId): SentGuestMessageInterface
+    {
+        return new SentGuestMessage(
+            inlineMessageId: $inlineMessageId,
+        );
+    }
+
     public function makePreparedInlineMessage(string $id, int $expirationDate): PreparedInlineMessageInterface
     {
         return new PreparedInlineMessage(
@@ -3527,60 +3646,6 @@ class Factory implements FactoryInterface
         return new ResponseParameters(
             migrateToChatId: $migrateToChatId,
             retryAfter: $retryAfter,
-        );
-    }
-
-    public function makeInputMediaPhoto(
-        string $media,
-        string $type,
-        ?string $caption,
-        ?string $parseMode,
-        ?array $captionEntities,
-        ?bool $showCaptionAboveMedia,
-        ?bool $hasSpoiler,
-    ): InputMediaPhotoInterface {
-        return new InputMediaPhoto(
-            media: $media,
-            type: $type,
-            caption: $caption,
-            parseMode: $parseMode,
-            captionEntities: $captionEntities,
-            showCaptionAboveMedia: $showCaptionAboveMedia,
-            hasSpoiler: $hasSpoiler,
-        );
-    }
-
-    public function makeInputMediaVideo(
-        string $media,
-        string $type,
-        ?string $thumbnail,
-        ?string $cover,
-        ?int $startTimestamp,
-        ?string $caption,
-        ?string $parseMode,
-        ?array $captionEntities,
-        ?bool $showCaptionAboveMedia,
-        ?int $width,
-        ?int $height,
-        ?int $duration,
-        ?bool $supportsStreaming,
-        ?bool $hasSpoiler,
-    ): InputMediaVideoInterface {
-        return new InputMediaVideo(
-            media: $media,
-            type: $type,
-            thumbnail: $thumbnail,
-            cover: $cover,
-            startTimestamp: $startTimestamp,
-            caption: $caption,
-            parseMode: $parseMode,
-            captionEntities: $captionEntities,
-            showCaptionAboveMedia: $showCaptionAboveMedia,
-            width: $width,
-            height: $height,
-            duration: $duration,
-            supportsStreaming: $supportsStreaming,
-            hasSpoiler: $hasSpoiler,
         );
     }
 
@@ -3653,6 +3718,141 @@ class Factory implements FactoryInterface
             parseMode: $parseMode,
             captionEntities: $captionEntities,
             disableContentTypeDetection: $disableContentTypeDetection,
+        );
+    }
+
+    public function makeInputMediaLivePhoto(
+        string $media,
+        string $photo,
+        string $type,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $hasSpoiler,
+    ): InputMediaLivePhotoInterface {
+        return new InputMediaLivePhoto(
+            media: $media,
+            photo: $photo,
+            type: $type,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            showCaptionAboveMedia: $showCaptionAboveMedia,
+            hasSpoiler: $hasSpoiler,
+        );
+    }
+
+    public function makeInputMediaLocation(
+        float $latitude,
+        float $longitude,
+        string $type,
+        ?float $horizontalAccuracy,
+    ): InputMediaLocationInterface {
+        return new InputMediaLocation(
+            latitude: $latitude,
+            longitude: $longitude,
+            type: $type,
+            horizontalAccuracy: $horizontalAccuracy,
+        );
+    }
+
+    public function makeInputMediaPhoto(
+        string $media,
+        string $type,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $hasSpoiler,
+    ): InputMediaPhotoInterface {
+        return new InputMediaPhoto(
+            media: $media,
+            type: $type,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            showCaptionAboveMedia: $showCaptionAboveMedia,
+            hasSpoiler: $hasSpoiler,
+        );
+    }
+
+    public function makeInputMediaSticker(string $media, string $type, ?string $emoji): InputMediaStickerInterface
+    {
+        return new InputMediaSticker(
+            media: $media,
+            type: $type,
+            emoji: $emoji,
+        );
+    }
+
+    public function makeInputMediaVenue(
+        float $latitude,
+        float $longitude,
+        string $title,
+        string $address,
+        string $type,
+        ?string $foursquareId,
+        ?string $foursquareType,
+        ?string $googlePlaceId,
+        ?string $googlePlaceType,
+    ): InputMediaVenueInterface {
+        return new InputMediaVenue(
+            latitude: $latitude,
+            longitude: $longitude,
+            title: $title,
+            address: $address,
+            type: $type,
+            foursquareId: $foursquareId,
+            foursquareType: $foursquareType,
+            googlePlaceId: $googlePlaceId,
+            googlePlaceType: $googlePlaceType,
+        );
+    }
+
+    public function makeInputMediaVideo(
+        string $media,
+        string $type,
+        ?string $thumbnail,
+        ?string $cover,
+        ?int $startTimestamp,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?int $width,
+        ?int $height,
+        ?int $duration,
+        ?bool $supportsStreaming,
+        ?bool $hasSpoiler,
+    ): InputMediaVideoInterface {
+        return new InputMediaVideo(
+            media: $media,
+            type: $type,
+            thumbnail: $thumbnail,
+            cover: $cover,
+            startTimestamp: $startTimestamp,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            showCaptionAboveMedia: $showCaptionAboveMedia,
+            width: $width,
+            height: $height,
+            duration: $duration,
+            supportsStreaming: $supportsStreaming,
+            hasSpoiler: $hasSpoiler,
+        );
+    }
+
+    public function makeInputPaidMediaLivePhoto(
+        string $media,
+        string $photo,
+        string $type,
+    ): InputPaidMediaLivePhotoInterface {
+        return new InputPaidMediaLivePhoto(
+            media: $media,
+            photo: $photo,
+            type: $type,
         );
     }
 

@@ -16,7 +16,7 @@ class WebhookInfo implements Interfaces\WebhookInfoInterface
      * @param string|null        $lastErrorMessage             Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
      * @param int|null           $lastSynchronizationErrorDate Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
      * @param int|null           $maxConnections               Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
-     * @param array<string>|null $allowedUpdates               Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
+     * @param array<string>|null $allowedUpdates               Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member, message_reaction, and message_reaction_count.
      */
     public function __construct(
         public string $url,
