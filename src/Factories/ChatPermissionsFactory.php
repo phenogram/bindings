@@ -10,7 +10,7 @@ class ChatPermissionsFactory extends AbstractFactory
     /**
      * Creates a new ChatPermissions instance with default fake data.
      *
-     * @param bool|null $canSendMessages       Optional. Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
+     * @param bool|null $canSendMessages       Optional. Optional. True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      * @param bool|null $canSendAudios         Optional. Optional. True, if the user is allowed to send audios
      * @param bool|null $canSendDocuments      Optional. Optional. True, if the user is allowed to send documents
      * @param bool|null $canSendPhotos         Optional. Optional. True, if the user is allowed to send photos
@@ -25,7 +25,7 @@ class ChatPermissionsFactory extends AbstractFactory
      * @param bool|null $canChangeInfo         Optional. Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups.
      * @param bool|null $canInviteUsers        Optional. Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null $canPinMessages        Optional. Optional. True, if the user is allowed to pin messages. Ignored in public supergroups.
-     * @param bool|null $canManageTopics       Optional. Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
+     * @param bool|null $canManageTopics       Optional. Optional. True, if the user is allowed to create forum topics. If omitted, defaults to the value of can_pin_messages.
      */
     public static function make(
         ?bool $canSendMessages = null,

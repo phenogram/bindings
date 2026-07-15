@@ -4,6 +4,7 @@ namespace Phenogram\Bindings\Factories;
 
 use Phenogram\Bindings\Factories\MessageFactory as Message;
 use Phenogram\Bindings\Factories\PollFactory as Poll;
+use Phenogram\Bindings\Types\Interfaces\BotSubscriptionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessMessagesDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\CallbackQueryInterface;
@@ -56,6 +57,7 @@ class UpdateFactory extends AbstractFactory
      * @param ChatBoostUpdatedInterface|null            $chatBoost               Optional. Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
      * @param ChatBoostRemovedInterface|null            $removedChatBoost        Optional. Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
      * @param ManagedBotUpdatedInterface|null           $managedBot              Optional. Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed
+     * @param BotSubscriptionUpdatedInterface|null      $subscription            Optional. Optional. User payment subscription has changed
      */
     public static function make(
         ?int $updateId = null,
@@ -84,6 +86,7 @@ class UpdateFactory extends AbstractFactory
         ?ChatBoostUpdatedInterface $chatBoost = null,
         ?ChatBoostRemovedInterface $removedChatBoost = null,
         ?ManagedBotUpdatedInterface $managedBot = null,
+        ?BotSubscriptionUpdatedInterface $subscription = null,
     ): UpdateInterface {
         return self::factory()->makeUpdate(
             updateId: $updateId ?? self::fake()->numberBetween(100000, 999999999),
@@ -112,6 +115,7 @@ class UpdateFactory extends AbstractFactory
             chatBoost: $chatBoost,
             removedChatBoost: $removedChatBoost,
             managedBot: $managedBot,
+            subscription: $subscription,
         );
     }
 }

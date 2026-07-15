@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface MessageInterface extends TypeInterface
 {
-    /** @var int $messageId Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent. */
+    /** @var int $messageId Unique message identifier inside this chat; 0 for ephemeral messages. In specific instances (e.g., a message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent. */
     public int $messageId { set; get; }
 
     /** @var int|null $messageThreadId Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only */
@@ -31,6 +31,12 @@ interface MessageInterface extends TypeInterface
     /** @var string|null $senderTag Optional. Tag or custom title of the sender of the message; for supergroups only */
     public ?string $senderTag { set; get; }
 
+    /** @var UserInterface|null $receiverUser Optional. For ephemeral messages, the user who received the message */
+    public ?UserInterface $receiverUser { set; get; }
+
+    /** @var int|null $ephemeralMessageId Optional. For ephemeral messages, identifier of the ephemeral message inside this chat. The identifier may be reused for another ephemeral message after the message is deleted or expires. */
+    public ?int $ephemeralMessageId { set; get; }
+
     /** @var int $date Date the message was sent in Unix time. It is always a positive number, representing a valid date. */
     public int $date { set; get; }
 
@@ -52,7 +58,7 @@ interface MessageInterface extends TypeInterface
     /** @var bool|null $isAutomaticForward Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group */
     public ?bool $isAutomaticForward { set; get; }
 
-    /** @var MessageInterface|null $replyToMessage Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. */
+    /** @var MessageInterface|null $replyToMessage Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. If the message is a reply to an ephemeral message, then this field may be omitted. */
     public ?MessageInterface $replyToMessage { set; get; }
 
     /** @var ExternalReplyInfoInterface|null $externalReply Optional. Information about the message that is being replied to, which may come from another chat or forum topic */
@@ -114,6 +120,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var string|null $effectId Optional. Unique identifier of the message effect added to the message */
     public ?string $effectId { set; get; }
+
+    /** @var RichMessageInterface|null $richMessage Optional. Message is a rich formatted message */
+    public ?RichMessageInterface $richMessage { set; get; }
 
     /** @var AnimationInterface|null $animation Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set. */
     public ?AnimationInterface $animation { set; get; }
@@ -270,6 +279,12 @@ interface MessageInterface extends TypeInterface
 
     /** @var ChecklistTasksAddedInterface|null $checklistTasksAdded Optional. Service message: tasks were added to a checklist */
     public ?ChecklistTasksAddedInterface $checklistTasksAdded { set; get; }
+
+    /** @var CommunityChatAddedInterface|null $communityChatAdded Optional. Service message: chat added to a Community */
+    public ?CommunityChatAddedInterface $communityChatAdded { set; get; }
+
+    /** @var CommunityChatRemovedInterface|null $communityChatRemoved Optional. Service message: chat removed from a Community */
+    public ?CommunityChatRemovedInterface $communityChatRemoved { set; get; }
 
     /** @var DirectMessagePriceChangedInterface|null $directMessagePriceChanged Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed */
     public ?DirectMessagePriceChangedInterface $directMessagePriceChanged { set; get; }

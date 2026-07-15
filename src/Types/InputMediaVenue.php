@@ -12,7 +12,7 @@ class InputMediaVenue extends InputPollOptionMedia implements Interfaces\InputMe
      * @param float       $longitude       Longitude of the location
      * @param string      $title           Name of the venue
      * @param string      $address         Address of the venue
-     * @param string      $type            Type of the result, must be venue
+     * @param string      $type            Type of the media, must be venue
      * @param string|null $foursquareId    Optional. Foursquare identifier of the venue
      * @param string|null $foursquareType  Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
      * @param string|null $googlePlaceId   Optional. Google Places identifier of the venue

@@ -18,6 +18,7 @@ class ChatJoinRequest implements Interfaces\ChatJoinRequestInterface
      * @param int                          $date       Date the request was sent in Unix time
      * @param string|null                  $bio        Optional. Bio of the user
      * @param ChatInviteLinkInterface|null $inviteLink Optional. Chat invite link that was used by the user to send the join request
+     * @param string|null                  $queryId    Optional. Identifier of the join request query; for bots assigned to process join requests only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
      */
     public function __construct(
         public ChatInterface $chat,
@@ -26,6 +27,7 @@ class ChatJoinRequest implements Interfaces\ChatJoinRequestInterface
         public int $date,
         public ?string $bio = null,
         public ?ChatInviteLinkInterface $inviteLink = null,
+        public ?string $queryId = null,
     ) {
     }
 }

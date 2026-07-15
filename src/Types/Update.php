@@ -2,6 +2,7 @@
 
 namespace Phenogram\Bindings\Types;
 
+use Phenogram\Bindings\Types\Interfaces\BotSubscriptionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessMessagesDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\CallbackQueryInterface;
@@ -53,6 +54,7 @@ class Update implements Interfaces\UpdateInterface
      * @param ChatBoostUpdatedInterface|null            $chatBoost               Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
      * @param ChatBoostRemovedInterface|null            $removedChatBoost        Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
      * @param ManagedBotUpdatedInterface|null           $managedBot              Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed
+     * @param BotSubscriptionUpdatedInterface|null      $subscription            Optional. User payment subscription has changed
      */
     public function __construct(
         public int $updateId,
@@ -81,6 +83,7 @@ class Update implements Interfaces\UpdateInterface
         public ?ChatBoostUpdatedInterface $chatBoost = null,
         public ?ChatBoostRemovedInterface $removedChatBoost = null,
         public ?ManagedBotUpdatedInterface $managedBot = null,
+        public ?BotSubscriptionUpdatedInterface $subscription = null,
     ) {
     }
 }

@@ -10,7 +10,7 @@ class InputMediaStickerFactory extends AbstractFactory
     /**
      * Creates a new InputMediaSticker instance with default fake data.
      *
-     * @param string|null $type  Optional. Type of the result, must be sticker
+     * @param string|null $type  Optional. Type of the media, must be sticker
      * @param string|null $media Optional. File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass “attach://” to upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data under  name. More information on Sending Files »
      * @param string|null $emoji Optional. Optional. Emoji associated with the sticker; only for just uploaded stickers
      */

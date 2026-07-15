@@ -20,7 +20,7 @@ class InlineQueryResultVideoFactory extends AbstractFactory
      * @param string|null                                                            $caption               Optional. Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
      * @param string|null                                                            $parseMode             Optional. Optional. Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array|null                                                             $captionEntities       Optional. Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                              $showCaptionAboveMedia Optional. Optional. Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                              $showCaptionAboveMedia Optional. Optional. Pass True if the caption must be shown above the message media
      * @param int|null                                                               $videoWidth            Optional. Optional. Video width
      * @param int|null                                                               $videoHeight           Optional. Optional. Video height
      * @param int|null                                                               $videoDuration         Optional. Optional. Video duration in seconds

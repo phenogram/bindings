@@ -10,7 +10,7 @@ class InputMediaLocationFactory extends AbstractFactory
     /**
      * Creates a new InputMediaLocation instance with default fake data.
      *
-     * @param string|null $type               Optional. Type of the result, must be location
+     * @param string|null $type               Optional. Type of the media, must be location
      * @param float|null  $latitude           Optional. Latitude of the location
      * @param float|null  $longitude          Optional. Longitude of the location
      * @param float|null  $horizontalAccuracy Optional. Optional. The radius of uncertainty for the location, measured in meters; 0-1500

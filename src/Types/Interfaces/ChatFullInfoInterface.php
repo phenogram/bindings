@@ -159,4 +159,10 @@ interface ChatFullInfoInterface extends TypeInterface
 
     /** @var int|null $paidMessageStarCount Optional. The number of Telegram Stars a general user has to pay to send a message to the chat */
     public ?int $paidMessageStarCount { set; get; }
+
+    /** @var UserInterface|null $guardBot Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators. */
+    public ?UserInterface $guardBot { set; get; }
+
+    /** @var CommunityInterface|null $community Optional. The Community to which the chat belongs */
+    public ?CommunityInterface $community { set; get; }
 }

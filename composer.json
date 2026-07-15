@@ -1,7 +1,7 @@
 {
     "name": "phenogram/bindings",
     "description": "Zero deps low level type-safe PHP bindings for the Telegram Bot API",
-    "version": "8.0.0",
+    "version": "9.0.0",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^7",
-        "phpunit/phpunit": "^11",
+        "phpunit/phpunit": "^11.5.50",
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^3.4",
         "ext-curl": "*",

@@ -4,6 +4,7 @@ namespace Phenogram\Bindings\Factories;
 
 use Phenogram\Bindings\Factories\AnimationFactory as Animation;
 use Phenogram\Bindings\Factories\AudioFactory as Audio;
+use Phenogram\Bindings\Factories\LinkFactory as Link;
 use Phenogram\Bindings\Factories\LocationFactory as Location;
 use Phenogram\Bindings\Factories\StickerFactory as Sticker;
 use Phenogram\Bindings\Factories\VenueFactory as Venue;
@@ -11,6 +12,7 @@ use Phenogram\Bindings\Factories\VideoFactory as Video;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\LinkInterface;
 use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\PollMediaInterface;
@@ -27,6 +29,7 @@ class PollMediaFactory extends AbstractFactory
      * @param AnimationInterface|null $animation Optional. Optional. Media is an animation, information about the animation
      * @param AudioInterface|null     $audio     Optional. Optional. Media is an audio file, information about the file; currently, can't be received in a poll option
      * @param DocumentInterface|null  $document  Optional. Optional. Media is a general file, information about the file; currently, can't be received in a poll option
+     * @param LinkInterface|null      $link      Optional. Optional. The HTTP link attached to the poll option
      * @param LivePhotoInterface|null $livePhoto Optional. Optional. Media is a live photo, information about the live photo
      * @param LocationInterface|null  $location  Optional. Optional. Media is a shared location, information about the location
      * @param array|null              $photo     Optional. Optional. Media is a photo, available sizes of the photo
@@ -38,6 +41,7 @@ class PollMediaFactory extends AbstractFactory
         ?AnimationInterface $animation = null,
         ?AudioInterface $audio = null,
         ?DocumentInterface $document = null,
+        ?LinkInterface $link = null,
         ?LivePhotoInterface $livePhoto = null,
         ?LocationInterface $location = null,
         ?array $photo = null,
@@ -49,6 +53,7 @@ class PollMediaFactory extends AbstractFactory
             animation: $animation,
             audio: $audio,
             document: $document,
+            link: $link,
             livePhoto: $livePhoto,
             location: $location,
             photo: $photo,

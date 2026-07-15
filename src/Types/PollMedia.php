@@ -5,6 +5,7 @@ namespace Phenogram\Bindings\Types;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\LinkInterface;
 use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
@@ -21,6 +22,7 @@ class PollMedia implements Interfaces\PollMediaInterface
      * @param AnimationInterface|null        $animation Optional. Media is an animation, information about the animation
      * @param AudioInterface|null            $audio     Optional. Media is an audio file, information about the file; currently, can't be received in a poll option
      * @param DocumentInterface|null         $document  Optional. Media is a general file, information about the file; currently, can't be received in a poll option
+     * @param LinkInterface|null             $link      Optional. The HTTP link attached to the poll option
      * @param LivePhotoInterface|null        $livePhoto Optional. Media is a live photo, information about the live photo
      * @param LocationInterface|null         $location  Optional. Media is a shared location, information about the location
      * @param array<PhotoSizeInterface>|null $photo     Optional. Media is a photo, available sizes of the photo
@@ -32,6 +34,7 @@ class PollMedia implements Interfaces\PollMediaInterface
         public ?AnimationInterface $animation = null,
         public ?AudioInterface $audio = null,
         public ?DocumentInterface $document = null,
+        public ?LinkInterface $link = null,
         public ?LivePhotoInterface $livePhoto = null,
         public ?LocationInterface $location = null,
         public ?array $photo = null,

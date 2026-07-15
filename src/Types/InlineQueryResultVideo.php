@@ -21,7 +21,7 @@ class InlineQueryResultVideo extends InlineQueryResult implements Interfaces\Inl
      * @param string|null                        $caption               Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
      * @param string|null                        $parseMode             Optional. Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null $captionEntities       Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                          $showCaptionAboveMedia Optional. Pass True, if the caption must be shown above the message media
+     * @param bool|null                          $showCaptionAboveMedia Optional. Pass True if the caption must be shown above the message media
      * @param int|null                           $videoWidth            Optional. Video width
      * @param int|null                           $videoHeight           Optional. Video height
      * @param int|null                           $videoDuration         Optional. Video duration in seconds

@@ -19,7 +19,7 @@ class InlineQueryResultCachedGif extends InlineQueryResult implements Interfaces
      * @param string|null                        $caption               Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
      * @param string|null                        $parseMode             Optional. Mode for parsing entities in the caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null $captionEntities       Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                          $showCaptionAboveMedia Optional. Pass True, if the caption must be shown above the message media
+     * @param bool|null                          $showCaptionAboveMedia Optional. Pass True if the caption must be shown above the message media
      * @param InlineKeyboardMarkupInterface|null $replyMarkup           Optional. Inline keyboard attached to the message
      * @param InputMessageContentInterface|null  $inputMessageContent   Optional. Content of the message to be sent instead of the GIF animation
      */

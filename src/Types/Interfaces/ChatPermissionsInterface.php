@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface ChatPermissionsInterface extends TypeInterface
 {
-    /** @var bool|null $canSendMessages Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues */
+    /** @var bool|null $canSendMessages Optional. True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues */
     public ?bool $canSendMessages { set; get; }
 
     /** @var bool|null $canSendAudios Optional. True, if the user is allowed to send audios */
@@ -52,6 +52,6 @@ interface ChatPermissionsInterface extends TypeInterface
     /** @var bool|null $canPinMessages Optional. True, if the user is allowed to pin messages. Ignored in public supergroups. */
     public ?bool $canPinMessages { set; get; }
 
-    /** @var bool|null $canManageTopics Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages. */
+    /** @var bool|null $canManageTopics Optional. True, if the user is allowed to create forum topics. If omitted, defaults to the value of can_pin_messages. */
     public ?bool $canManageTopics { set; get; }
 }

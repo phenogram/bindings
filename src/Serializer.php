@@ -26,6 +26,7 @@ use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
 use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
 use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BotSubscriptionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessBotRightsInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
@@ -66,6 +67,9 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
@@ -128,18 +132,45 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVoiceNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoAnimatedInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoStaticInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockCollageInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDetailsInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockListInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockListItemInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockMapInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockParagraphInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPreformattedInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPullQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockSectionHeadingInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockSlideshowInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockTableInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockThinkingInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
@@ -152,6 +183,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\LinkInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
@@ -218,6 +250,56 @@ use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockCaptionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockCollageInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDetailsInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockListInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockListItemInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockMapInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockParagraphInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPreformattedInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPullQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockSectionHeadingInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockSlideshowInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockTableCellInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockTableInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockThinkingInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\RichMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextAnchorLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBankCardNumberInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBoldInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBotCommandInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCashtagInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCodeInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextDateTimeInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextEmailAddressInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextHashtagInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextItalicInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMarkedInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextPhoneNumberInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextReferenceInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextReferenceLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSpoilerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextStrikethroughInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSubscriptInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSuperscriptInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextUnderlineInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
@@ -320,6 +402,7 @@ class Serializer implements SerializerInterface
         PaidMediaVideoInterface::class,
         ContactInterface::class,
         DiceInterface::class,
+        LinkInterface::class,
         PollMediaInterface::class,
         PollOptionInterface::class,
         InputPollOptionInterface::class,
@@ -329,8 +412,6 @@ class Serializer implements SerializerInterface
         ChecklistInterface::class,
         InputChecklistTaskInterface::class,
         InputChecklistInterface::class,
-        ChecklistTasksDoneInterface::class,
-        ChecklistTasksAddedInterface::class,
         LocationInterface::class,
         VenueInterface::class,
         WebAppDataInterface::class,
@@ -338,6 +419,7 @@ class Serializer implements SerializerInterface
         MessageAutoDeleteTimerChangedInterface::class,
         ManagedBotCreatedInterface::class,
         ManagedBotUpdatedInterface::class,
+        BotSubscriptionUpdatedInterface::class,
         PollOptionAddedInterface::class,
         PollOptionDeletedInterface::class,
         ChatBoostAddedInterface::class,
@@ -349,6 +431,10 @@ class Serializer implements SerializerInterface
         BackgroundTypePatternInterface::class,
         BackgroundTypeChatThemeInterface::class,
         ChatBackgroundInterface::class,
+        ChecklistTasksDoneInterface::class,
+        ChecklistTasksAddedInterface::class,
+        CommunityChatAddedInterface::class,
+        CommunityChatRemovedInterface::class,
         ForumTopicCreatedInterface::class,
         ForumTopicClosedInterface::class,
         ForumTopicEditedInterface::class,
@@ -397,6 +483,7 @@ class Serializer implements SerializerInterface
         CopyTextButtonInterface::class,
         CallbackQueryInterface::class,
         ForceReplyInterface::class,
+        CommunityInterface::class,
         ChatPhotoInterface::class,
         ChatInviteLinkInterface::class,
         ChatAdministratorRightsInterface::class,
@@ -482,12 +569,14 @@ class Serializer implements SerializerInterface
         InputMediaAnimationInterface::class,
         InputMediaAudioInterface::class,
         InputMediaDocumentInterface::class,
+        InputMediaLinkInterface::class,
         InputMediaLivePhotoInterface::class,
         InputMediaLocationInterface::class,
         InputMediaPhotoInterface::class,
         InputMediaStickerInterface::class,
         InputMediaVenueInterface::class,
         InputMediaVideoInterface::class,
+        InputMediaVoiceNoteInterface::class,
         InputPaidMediaLivePhotoInterface::class,
         InputPaidMediaPhotoInterface::class,
         InputPaidMediaVideoInterface::class,
@@ -499,6 +588,80 @@ class Serializer implements SerializerInterface
         StickerSetInterface::class,
         MaskPositionInterface::class,
         InputStickerInterface::class,
+        RichMessageInterface::class,
+        InputRichMessageInterface::class,
+        InputRichMessageMediaInterface::class,
+        RichTextBoldInterface::class,
+        RichTextItalicInterface::class,
+        RichTextUnderlineInterface::class,
+        RichTextStrikethroughInterface::class,
+        RichTextSpoilerInterface::class,
+        RichTextDateTimeInterface::class,
+        RichTextTextMentionInterface::class,
+        RichTextSubscriptInterface::class,
+        RichTextSuperscriptInterface::class,
+        RichTextMarkedInterface::class,
+        RichTextCodeInterface::class,
+        RichTextCustomEmojiInterface::class,
+        RichTextMathematicalExpressionInterface::class,
+        RichTextUrlInterface::class,
+        RichTextEmailAddressInterface::class,
+        RichTextPhoneNumberInterface::class,
+        RichTextBankCardNumberInterface::class,
+        RichTextMentionInterface::class,
+        RichTextHashtagInterface::class,
+        RichTextCashtagInterface::class,
+        RichTextBotCommandInterface::class,
+        RichTextAnchorInterface::class,
+        RichTextAnchorLinkInterface::class,
+        RichTextReferenceInterface::class,
+        RichTextReferenceLinkInterface::class,
+        RichBlockCaptionInterface::class,
+        RichBlockTableCellInterface::class,
+        RichBlockListItemInterface::class,
+        RichBlockParagraphInterface::class,
+        RichBlockSectionHeadingInterface::class,
+        RichBlockPreformattedInterface::class,
+        RichBlockFooterInterface::class,
+        RichBlockDividerInterface::class,
+        RichBlockMathematicalExpressionInterface::class,
+        RichBlockAnchorInterface::class,
+        RichBlockListInterface::class,
+        RichBlockBlockQuotationInterface::class,
+        RichBlockPullQuotationInterface::class,
+        RichBlockCollageInterface::class,
+        RichBlockSlideshowInterface::class,
+        RichBlockTableInterface::class,
+        RichBlockDetailsInterface::class,
+        RichBlockMapInterface::class,
+        RichBlockAnimationInterface::class,
+        RichBlockAudioInterface::class,
+        RichBlockPhotoInterface::class,
+        RichBlockVideoInterface::class,
+        RichBlockVoiceNoteInterface::class,
+        RichBlockThinkingInterface::class,
+        InputRichBlockListItemInterface::class,
+        InputRichBlockParagraphInterface::class,
+        InputRichBlockSectionHeadingInterface::class,
+        InputRichBlockPreformattedInterface::class,
+        InputRichBlockFooterInterface::class,
+        InputRichBlockDividerInterface::class,
+        InputRichBlockMathematicalExpressionInterface::class,
+        InputRichBlockAnchorInterface::class,
+        InputRichBlockListInterface::class,
+        InputRichBlockBlockQuotationInterface::class,
+        InputRichBlockPullQuotationInterface::class,
+        InputRichBlockCollageInterface::class,
+        InputRichBlockSlideshowInterface::class,
+        InputRichBlockTableInterface::class,
+        InputRichBlockDetailsInterface::class,
+        InputRichBlockMapInterface::class,
+        InputRichBlockAnimationInterface::class,
+        InputRichBlockAudioInterface::class,
+        InputRichBlockPhotoInterface::class,
+        InputRichBlockVideoInterface::class,
+        InputRichBlockVoiceNoteInterface::class,
+        InputRichBlockThinkingInterface::class,
         InlineQueryInterface::class,
         InlineQueryResultsButtonInterface::class,
         InlineQueryResultArticleInterface::class,
@@ -522,6 +685,7 @@ class Serializer implements SerializerInterface
         InlineQueryResultCachedVoiceInterface::class,
         InlineQueryResultCachedAudioInterface::class,
         InputTextMessageContentInterface::class,
+        InputRichMessageContentInterface::class,
         InputLocationMessageContentInterface::class,
         InputVenueMessageContentInterface::class,
         InputContactMessageContentInterface::class,
@@ -675,6 +839,9 @@ class Serializer implements SerializerInterface
             managedBot: isset($data['managed_bot'])
                 ? $this->denormalizeManagedBotUpdated($data['managed_bot'])
                 : null,
+            subscription: isset($data['subscription'])
+                ? $this->denormalizeBotSubscriptionUpdated($data['subscription'])
+                : null,
         );
     }
 
@@ -749,6 +916,7 @@ class Serializer implements SerializerInterface
             hasTopicsEnabled: $data['has_topics_enabled'] ?? null,
             allowsUsersToCreateTopics: $data['allows_users_to_create_topics'] ?? null,
             canManageBots: $data['can_manage_bots'] ?? null,
+            supportsJoinRequestQueries: $data['supports_join_request_queries'] ?? null,
         );
     }
 
@@ -885,6 +1053,12 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeUniqueGiftColors($data['unique_gift_colors'])
                 : null,
             paidMessageStarCount: $data['paid_message_star_count'] ?? null,
+            guardBot: isset($data['guard_bot'])
+                ? $this->denormalizeUser($data['guard_bot'])
+                : null,
+            community: isset($data['community'])
+                ? $this->denormalizeCommunity($data['community'])
+                : null,
         );
     }
 
@@ -927,6 +1101,10 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeUser($data['sender_business_bot'])
                 : null,
             senderTag: $data['sender_tag'] ?? null,
+            receiverUser: isset($data['receiver_user'])
+                ? $this->denormalizeUser($data['receiver_user'])
+                : null,
+            ephemeralMessageId: $data['ephemeral_message_id'] ?? null,
             guestQueryId: $data['guest_query_id'] ?? null,
             businessConnectionId: $data['business_connection_id'] ?? null,
             forwardOrigin: isset($data['forward_origin'])
@@ -975,6 +1153,9 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeSuggestedPostInfo($data['suggested_post_info'])
                 : null,
             effectId: $data['effect_id'] ?? null,
+            richMessage: isset($data['rich_message'])
+                ? $this->denormalizeRichMessage($data['rich_message'])
+                : null,
             animation: isset($data['animation'])
                 ? $this->denormalizeAnimation($data['animation'])
                 : null,
@@ -1108,6 +1289,12 @@ class Serializer implements SerializerInterface
                 : null,
             checklistTasksAdded: isset($data['checklist_tasks_added'])
                 ? $this->denormalizeChecklistTasksAdded($data['checklist_tasks_added'])
+                : null,
+            communityChatAdded: isset($data['community_chat_added'])
+                ? $this->denormalizeCommunityChatAdded($data['community_chat_added'])
+                : null,
+            communityChatRemoved: isset($data['community_chat_removed'])
+                ? $this->denormalizeCommunityChatRemoved($data['community_chat_removed'])
                 : null,
             directMessagePriceChanged: isset($data['direct_message_price_changed'])
                 ? $this->denormalizeDirectMessagePriceChanged($data['direct_message_price_changed'])
@@ -1409,25 +1596,10 @@ class Serializer implements SerializerInterface
 
     public function denormalizeReplyParameters(array $data): ReplyParametersInterface
     {
-        $requiredFields = [
-            'message_id',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class ReplyParameters missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
         return $this->factory->makeReplyParameters(
-            messageId: $data['message_id'],
+            messageId: $data['message_id'] ?? null,
             chatId: $data['chat_id'] ?? null,
+            ephemeralMessageId: $data['ephemeral_message_id'] ?? null,
             allowSendingWithoutReply: $data['allow_sending_without_reply'] ?? null,
             quote: $data['quote'] ?? null,
             quoteParseMode: $data['quote_parse_mode'] ?? null,
@@ -2084,6 +2256,29 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeLink(array $data): LinkInterface
+    {
+        $requiredFields = [
+            'url',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Link missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeLink(
+            url: $data['url'],
+        );
+    }
+
     public function denormalizePollMedia(array $data): PollMediaInterface
     {
         return $this->factory->makePollMedia(
@@ -2095,6 +2290,9 @@ class Serializer implements SerializerInterface
                 : null,
             document: isset($data['document'])
                 ? $this->denormalizeDocument($data['document'])
+                : null,
+            link: isset($data['link'])
+                ? $this->denormalizeLink($data['link'])
                 : null,
             livePhoto: isset($data['live_photo'])
                 ? $this->denormalizeLivePhoto($data['live_photo'])
@@ -2417,43 +2615,6 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChecklistTasksDone(array $data): ChecklistTasksDoneInterface
-    {
-        return $this->factory->makeChecklistTasksDone(
-            checklistMessage: isset($data['checklist_message'])
-                ? $this->denormalizeMessage($data['checklist_message'])
-                : null,
-            markedAsDoneTaskIds: $data['marked_as_done_task_ids'] ?? null,
-            markedAsNotDoneTaskIds: $data['marked_as_not_done_task_ids'] ?? null,
-        );
-    }
-
-    public function denormalizeChecklistTasksAdded(array $data): ChecklistTasksAddedInterface
-    {
-        $requiredFields = [
-            'tasks',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class ChecklistTasksAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
-        return $this->factory->makeChecklistTasksAdded(
-            tasks: array_map(fn (array $item) => $this->denormalizeChecklistTask($item), $data['tasks']),
-            checklistMessage: isset($data['checklist_message'])
-                ? $this->denormalizeMessage($data['checklist_message'])
-                : null,
-        );
-    }
-
     public function denormalizeLocation(array $data): LocationInterface
     {
         $requiredFields = [
@@ -2634,6 +2795,33 @@ class Serializer implements SerializerInterface
         return $this->factory->makeManagedBotUpdated(
             user: $this->denormalizeUser($data['user']),
             bot: $this->denormalizeUser($data['bot']),
+        );
+    }
+
+    public function denormalizeBotSubscriptionUpdated(array $data): BotSubscriptionUpdatedInterface
+    {
+        $requiredFields = [
+            'user',
+            'invoice_payload',
+            'state',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class BotSubscriptionUpdated missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeBotSubscriptionUpdated(
+            user: $this->denormalizeUser($data['user']),
+            invoicePayload: $data['invoice_payload'],
+            state: $data['state'],
         );
     }
 
@@ -2955,6 +3143,71 @@ class Serializer implements SerializerInterface
         return $this->factory->makeChatBackground(
             type: $this->denormalizeBackgroundType($data['type']),
         );
+    }
+
+    public function denormalizeChecklistTasksDone(array $data): ChecklistTasksDoneInterface
+    {
+        return $this->factory->makeChecklistTasksDone(
+            checklistMessage: isset($data['checklist_message'])
+                ? $this->denormalizeMessage($data['checklist_message'])
+                : null,
+            markedAsDoneTaskIds: $data['marked_as_done_task_ids'] ?? null,
+            markedAsNotDoneTaskIds: $data['marked_as_not_done_task_ids'] ?? null,
+        );
+    }
+
+    public function denormalizeChecklistTasksAdded(array $data): ChecklistTasksAddedInterface
+    {
+        $requiredFields = [
+            'tasks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChecklistTasksAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChecklistTasksAdded(
+            tasks: array_map(fn (array $item) => $this->denormalizeChecklistTask($item), $data['tasks']),
+            checklistMessage: isset($data['checklist_message'])
+                ? $this->denormalizeMessage($data['checklist_message'])
+                : null,
+        );
+    }
+
+    public function denormalizeCommunityChatAdded(array $data): CommunityChatAddedInterface
+    {
+        $requiredFields = [
+            'community',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class CommunityChatAdded missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeCommunityChatAdded(
+            community: $this->denormalizeCommunity($data['community']),
+        );
+    }
+
+    public function denormalizeCommunityChatRemoved(array $data): CommunityChatRemovedInterface
+    {
+        return $this->factory->makeCommunityChatRemoved();
     }
 
     public function denormalizeForumTopicCreated(array $data): ForumTopicCreatedInterface
@@ -4017,6 +4270,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeCommunity(array $data): CommunityInterface
+    {
+        $requiredFields = [
+            'id',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Community missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeCommunity(
+            id: $data['id'],
+            name: $data['name'],
+        );
+    }
+
     public function denormalizeChatPhoto(array $data): ChatPhotoInterface
     {
         $requiredFields = [
@@ -4436,6 +4714,7 @@ class Serializer implements SerializerInterface
             inviteLink: isset($data['invite_link'])
                 ? $this->denormalizeChatInviteLink($data['invite_link'])
                 : null,
+            queryId: $data['query_id'] ?? null,
         );
     }
 
@@ -5610,6 +5889,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeBotCommand(
             command: $data['command'],
             description: $data['description'],
+            isEphemeral: $data['is_ephemeral'] ?? null,
         );
     }
 
@@ -6355,6 +6635,30 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeInputMediaLink(array $data): InputMediaLinkInterface
+    {
+        $requiredFields = [
+            'url',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaLink missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaLink(
+            url: $data['url'],
+            type: $data['type'] ?? 'link',
+        );
+    }
+
     public function denormalizeInputMediaLivePhoto(array $data): InputMediaLivePhotoInterface
     {
         $requiredFields = [
@@ -6540,6 +6844,36 @@ class Serializer implements SerializerInterface
             duration: $data['duration'] ?? null,
             supportsStreaming: $data['supports_streaming'] ?? null,
             hasSpoiler: $data['has_spoiler'] ?? null,
+        );
+    }
+
+    public function denormalizeInputMediaVoiceNote(array $data): InputMediaVoiceNoteInterface
+    {
+        $requiredFields = [
+            'media',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputMediaVoiceNote missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputMediaVoiceNote(
+            media: $data['media'],
+            type: $data['type'] ?? 'voice_note',
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            duration: $data['duration'] ?? null,
         );
     }
 
@@ -6881,6 +7215,2010 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeMaskPosition($data['mask_position'])
                 : null,
             keywords: $data['keywords'] ?? null,
+        );
+    }
+
+    public function denormalizeRichMessage(array $data): RichMessageInterface
+    {
+        $requiredFields = [
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichMessage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichMessage(
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            isRtl: $data['is_rtl'] ?? null,
+        );
+    }
+
+    public function denormalizeInputRichMessage(array $data): InputRichMessageInterface
+    {
+        return $this->factory->makeInputRichMessage(
+            blocks: isset($data['blocks'])
+                ? array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks'])
+                : null,
+            html: $data['html'] ?? null,
+            markdown: $data['markdown'] ?? null,
+            media: isset($data['media'])
+                ? array_map(fn (array $item) => $this->denormalizeInputRichMessageMedia($item), $data['media'])
+                : null,
+            isRtl: $data['is_rtl'] ?? null,
+            skipEntityDetection: $data['skip_entity_detection'] ?? null,
+        );
+    }
+
+    public function denormalizeInputRichMessageMedia(array $data): InputRichMessageMediaInterface
+    {
+        $requiredFields = [
+            'id',
+            'media',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichMessageMedia missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichMessageMedia(
+            id: $data['id'],
+            media: $this->denormalizeInputMediaVoiceNote($data['media']),
+        );
+    }
+
+    public function denormalizeRichText(array $data): Types\Interfaces\RichTextInterface
+    {
+        throw new \RuntimeException('class RichText is abstract and not yet implemented');
+    }
+
+    public function denormalizeRichTextBold(array $data): RichTextBoldInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextBold missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextBold(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextItalic(array $data): RichTextItalicInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextItalic missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextItalic(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextUnderline(array $data): RichTextUnderlineInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextUnderline missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextUnderline(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextStrikethrough(array $data): RichTextStrikethroughInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextStrikethrough missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextStrikethrough(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextSpoiler(array $data): RichTextSpoilerInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextSpoiler missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextSpoiler(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextDateTime(array $data): RichTextDateTimeInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'unix_time',
+            'date_time_format',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextDateTime missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextDateTime(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            unixTime: $data['unix_time'],
+            dateTimeFormat: $data['date_time_format'],
+        );
+    }
+
+    public function denormalizeRichTextTextMention(array $data): RichTextTextMentionInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'user',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextTextMention missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextTextMention(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            user: $this->denormalizeUser($data['user']),
+        );
+    }
+
+    public function denormalizeRichTextSubscript(array $data): RichTextSubscriptInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextSubscript missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextSubscript(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextSuperscript(array $data): RichTextSuperscriptInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextSuperscript missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextSuperscript(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextMarked(array $data): RichTextMarkedInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextMarked missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextMarked(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextCode(array $data): RichTextCodeInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextCode missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextCode(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichTextCustomEmoji(array $data): RichTextCustomEmojiInterface
+    {
+        $requiredFields = [
+            'type',
+            'custom_emoji_id',
+            'alternative_text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextCustomEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextCustomEmoji(
+            type: $data['type'],
+            customEmojiId: $data['custom_emoji_id'],
+            alternativeText: $data['alternative_text'],
+        );
+    }
+
+    public function denormalizeRichTextMathematicalExpression(array $data): RichTextMathematicalExpressionInterface
+    {
+        $requiredFields = [
+            'type',
+            'expression',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextMathematicalExpression missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextMathematicalExpression(
+            type: $data['type'],
+            expression: $data['expression'],
+        );
+    }
+
+    public function denormalizeRichTextUrl(array $data): RichTextUrlInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'url',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextUrl missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextUrl(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            url: $data['url'],
+        );
+    }
+
+    public function denormalizeRichTextEmailAddress(array $data): RichTextEmailAddressInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'email_address',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextEmailAddress missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextEmailAddress(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            emailAddress: $data['email_address'],
+        );
+    }
+
+    public function denormalizeRichTextPhoneNumber(array $data): RichTextPhoneNumberInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'phone_number',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextPhoneNumber missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextPhoneNumber(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            phoneNumber: $data['phone_number'],
+        );
+    }
+
+    public function denormalizeRichTextBankCardNumber(array $data): RichTextBankCardNumberInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'bank_card_number',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextBankCardNumber missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextBankCardNumber(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            bankCardNumber: $data['bank_card_number'],
+        );
+    }
+
+    public function denormalizeRichTextMention(array $data): RichTextMentionInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'username',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextMention missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextMention(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            username: $data['username'],
+        );
+    }
+
+    public function denormalizeRichTextHashtag(array $data): RichTextHashtagInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'hashtag',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextHashtag missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextHashtag(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            hashtag: $data['hashtag'],
+        );
+    }
+
+    public function denormalizeRichTextCashtag(array $data): RichTextCashtagInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'cashtag',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextCashtag missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextCashtag(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            cashtag: $data['cashtag'],
+        );
+    }
+
+    public function denormalizeRichTextBotCommand(array $data): RichTextBotCommandInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'bot_command',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextBotCommand missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextBotCommand(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            botCommand: $data['bot_command'],
+        );
+    }
+
+    public function denormalizeRichTextAnchor(array $data): RichTextAnchorInterface
+    {
+        $requiredFields = [
+            'type',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextAnchor missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextAnchor(
+            type: $data['type'],
+            name: $data['name'],
+        );
+    }
+
+    public function denormalizeRichTextAnchorLink(array $data): RichTextAnchorLinkInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'anchor_name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextAnchorLink missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextAnchorLink(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            anchorName: $data['anchor_name'],
+        );
+    }
+
+    public function denormalizeRichTextReference(array $data): RichTextReferenceInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextReference missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextReference(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            name: $data['name'],
+        );
+    }
+
+    public function denormalizeRichTextReferenceLink(array $data): RichTextReferenceLinkInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'reference_name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextReferenceLink missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextReferenceLink(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            referenceName: $data['reference_name'],
+        );
+    }
+
+    public function denormalizeRichBlockCaption(array $data): RichBlockCaptionInterface
+    {
+        $requiredFields = [
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockCaption missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockCaption(
+            text: $this->denormalizeRichText($data['text']),
+            credit: isset($data['credit'])
+                ? $this->denormalizeRichText($data['credit'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockTableCell(array $data): RichBlockTableCellInterface
+    {
+        $requiredFields = [
+            'align',
+            'valign',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockTableCell missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockTableCell(
+            align: $data['align'],
+            valign: $data['valign'],
+            text: isset($data['text'])
+                ? $this->denormalizeRichText($data['text'])
+                : null,
+            isHeader: $data['is_header'] ?? null,
+            colspan: $data['colspan'] ?? null,
+            rowspan: $data['rowspan'] ?? null,
+        );
+    }
+
+    public function denormalizeRichBlockListItem(array $data): RichBlockListItemInterface
+    {
+        $requiredFields = [
+            'label',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockListItem missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockListItem(
+            label: $data['label'],
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            hasCheckbox: $data['has_checkbox'] ?? null,
+            isChecked: $data['is_checked'] ?? null,
+            value: $data['value'] ?? null,
+            type: $data['type'] ?? null,
+        );
+    }
+
+    public function denormalizeRichBlock(array $data): Types\Interfaces\RichBlockInterface
+    {
+        throw new \RuntimeException('class RichBlock is abstract and not yet implemented');
+    }
+
+    public function denormalizeRichBlockParagraph(array $data): RichBlockParagraphInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockParagraph missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockParagraph(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichBlockSectionHeading(array $data): RichBlockSectionHeadingInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'size',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockSectionHeading missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockSectionHeading(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            size: $data['size'],
+        );
+    }
+
+    public function denormalizeRichBlockPreformatted(array $data): RichBlockPreformattedInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockPreformatted missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockPreformatted(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            language: $data['language'] ?? null,
+        );
+    }
+
+    public function denormalizeRichBlockFooter(array $data): RichBlockFooterInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockFooter missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockFooter(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeRichBlockDivider(array $data): RichBlockDividerInterface
+    {
+        $requiredFields = [
+            'type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockDivider missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockDivider(
+            type: $data['type'],
+        );
+    }
+
+    public function denormalizeRichBlockMathematicalExpression(array $data): RichBlockMathematicalExpressionInterface
+    {
+        $requiredFields = [
+            'type',
+            'expression',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockMathematicalExpression missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockMathematicalExpression(
+            type: $data['type'],
+            expression: $data['expression'],
+        );
+    }
+
+    public function denormalizeRichBlockAnchor(array $data): RichBlockAnchorInterface
+    {
+        $requiredFields = [
+            'type',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockAnchor missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockAnchor(
+            type: $data['type'],
+            name: $data['name'],
+        );
+    }
+
+    public function denormalizeRichBlockList(array $data): RichBlockListInterface
+    {
+        $requiredFields = [
+            'type',
+            'items',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockList missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockList(
+            type: $data['type'],
+            items: array_map(fn (array $item) => $this->denormalizeRichBlockListItem($item), $data['items']),
+        );
+    }
+
+    public function denormalizeRichBlockBlockQuotation(array $data): RichBlockBlockQuotationInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockBlockQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockBlockQuotation(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            credit: isset($data['credit'])
+                ? $this->denormalizeRichText($data['credit'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockPullQuotation(array $data): RichBlockPullQuotationInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockPullQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockPullQuotation(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            credit: isset($data['credit'])
+                ? $this->denormalizeRichText($data['credit'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockCollage(array $data): RichBlockCollageInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockCollage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockCollage(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockSlideshow(array $data): RichBlockSlideshowInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockSlideshow missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockSlideshow(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockTable(array $data): RichBlockTableInterface
+    {
+        $requiredFields = [
+            'type',
+            'cells',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockTable missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockTable(
+            type: $data['type'],
+            cells: array_map(
+                fn (array $item0) => array_map(
+                    fn (array $item1) => $this->denormalizeRichBlockTableCell($item1),
+                    $item0
+                ),
+                $data['cells']
+            ),
+            isBordered: $data['is_bordered'] ?? null,
+            isStriped: $data['is_striped'] ?? null,
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichText($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockDetails(array $data): RichBlockDetailsInterface
+    {
+        $requiredFields = [
+            'type',
+            'summary',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockDetails missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockDetails(
+            type: $data['type'],
+            summary: $this->denormalizeRichText($data['summary']),
+            blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
+            isOpen: $data['is_open'] ?? null,
+        );
+    }
+
+    public function denormalizeRichBlockMap(array $data): RichBlockMapInterface
+    {
+        $requiredFields = [
+            'type',
+            'location',
+            'zoom',
+            'width',
+            'height',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockMap missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockMap(
+            type: $data['type'],
+            location: $this->denormalizeLocation($data['location']),
+            zoom: $data['zoom'],
+            width: $data['width'],
+            height: $data['height'],
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockAnimation(array $data): RichBlockAnimationInterface
+    {
+        $requiredFields = [
+            'type',
+            'animation',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockAnimation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockAnimation(
+            type: $data['type'],
+            animation: $this->denormalizeAnimation($data['animation']),
+            hasSpoiler: $data['has_spoiler'] ?? null,
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockAudio(array $data): RichBlockAudioInterface
+    {
+        $requiredFields = [
+            'type',
+            'audio',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockAudio missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockAudio(
+            type: $data['type'],
+            audio: $this->denormalizeAudio($data['audio']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockPhoto(array $data): RichBlockPhotoInterface
+    {
+        $requiredFields = [
+            'type',
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockPhoto(
+            type: $data['type'],
+            photo: array_map(fn (array $item) => $this->denormalizePhotoSize($item), $data['photo']),
+            hasSpoiler: $data['has_spoiler'] ?? null,
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockVideo(array $data): RichBlockVideoInterface
+    {
+        $requiredFields = [
+            'type',
+            'video',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockVideo(
+            type: $data['type'],
+            video: $this->denormalizeVideo($data['video']),
+            hasSpoiler: $data['has_spoiler'] ?? null,
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockVoiceNote(array $data): RichBlockVoiceNoteInterface
+    {
+        $requiredFields = [
+            'type',
+            'voice_note',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockVoiceNote missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockVoiceNote(
+            type: $data['type'],
+            voiceNote: $this->denormalizeVoice($data['voice_note']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockThinking(array $data): RichBlockThinkingInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockThinking missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockThinking(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeInputRichBlockListItem(array $data): InputRichBlockListItemInterface
+    {
+        $requiredFields = [
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockListItem missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockListItem(
+            blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
+            hasCheckbox: $data['has_checkbox'] ?? null,
+            isChecked: $data['is_checked'] ?? null,
+            value: $data['value'] ?? null,
+            type: $data['type'] ?? null,
+        );
+    }
+
+    public function denormalizeInputRichBlock(array $data): Types\Interfaces\InputRichBlockInterface
+    {
+        throw new \RuntimeException('class InputRichBlock is abstract and not yet implemented');
+    }
+
+    public function denormalizeInputRichBlockParagraph(array $data): InputRichBlockParagraphInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockParagraph missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockParagraph(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeInputRichBlockSectionHeading(array $data): InputRichBlockSectionHeadingInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'size',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockSectionHeading missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockSectionHeading(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            size: $data['size'],
+        );
+    }
+
+    public function denormalizeInputRichBlockPreformatted(array $data): InputRichBlockPreformattedInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockPreformatted missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockPreformatted(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            language: $data['language'] ?? null,
+        );
+    }
+
+    public function denormalizeInputRichBlockFooter(array $data): InputRichBlockFooterInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockFooter missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockFooter(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+        );
+    }
+
+    public function denormalizeInputRichBlockDivider(array $data): InputRichBlockDividerInterface
+    {
+        $requiredFields = [
+            'type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockDivider missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockDivider(
+            type: $data['type'],
+        );
+    }
+
+    public function denormalizeInputRichBlockMathematicalExpression(
+        array $data,
+    ): InputRichBlockMathematicalExpressionInterface {
+        $requiredFields = [
+            'type',
+            'expression',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockMathematicalExpression missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockMathematicalExpression(
+            type: $data['type'],
+            expression: $data['expression'],
+        );
+    }
+
+    public function denormalizeInputRichBlockAnchor(array $data): InputRichBlockAnchorInterface
+    {
+        $requiredFields = [
+            'type',
+            'name',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockAnchor missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockAnchor(
+            type: $data['type'],
+            name: $data['name'],
+        );
+    }
+
+    public function denormalizeInputRichBlockList(array $data): InputRichBlockListInterface
+    {
+        $requiredFields = [
+            'type',
+            'items',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockList missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockList(
+            type: $data['type'],
+            items: array_map(fn (array $item) => $this->denormalizeInputRichBlockListItem($item), $data['items']),
+        );
+    }
+
+    public function denormalizeInputRichBlockBlockQuotation(array $data): InputRichBlockBlockQuotationInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockBlockQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockBlockQuotation(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
+            credit: isset($data['credit'])
+                ? $this->denormalizeRichText($data['credit'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockPullQuotation(array $data): InputRichBlockPullQuotationInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockPullQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockPullQuotation(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            credit: isset($data['credit'])
+                ? $this->denormalizeRichText($data['credit'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockCollage(array $data): InputRichBlockCollageInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockCollage missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockCollage(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockSlideshow(array $data): InputRichBlockSlideshowInterface
+    {
+        $requiredFields = [
+            'type',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockSlideshow missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockSlideshow(
+            type: $data['type'],
+            blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockTable(array $data): InputRichBlockTableInterface
+    {
+        $requiredFields = [
+            'type',
+            'cells',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockTable missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockTable(
+            type: $data['type'],
+            cells: array_map(
+                fn (array $item0) => array_map(
+                    fn (array $item1) => $this->denormalizeRichBlockTableCell($item1),
+                    $item0
+                ),
+                $data['cells']
+            ),
+            isBordered: $data['is_bordered'] ?? null,
+            isStriped: $data['is_striped'] ?? null,
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichText($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockDetails(array $data): InputRichBlockDetailsInterface
+    {
+        $requiredFields = [
+            'type',
+            'summary',
+            'blocks',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockDetails missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockDetails(
+            type: $data['type'],
+            summary: $this->denormalizeRichText($data['summary']),
+            blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
+            isOpen: $data['is_open'] ?? null,
+        );
+    }
+
+    public function denormalizeInputRichBlockMap(array $data): InputRichBlockMapInterface
+    {
+        $requiredFields = [
+            'type',
+            'location',
+            'zoom',
+            'width',
+            'height',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockMap missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockMap(
+            type: $data['type'],
+            location: $this->denormalizeLocation($data['location']),
+            zoom: $data['zoom'],
+            width: $data['width'],
+            height: $data['height'],
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockAnimation(array $data): InputRichBlockAnimationInterface
+    {
+        $requiredFields = [
+            'type',
+            'animation',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockAnimation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockAnimation(
+            type: $data['type'],
+            animation: $this->denormalizeInputMediaAnimation($data['animation']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockAudio(array $data): InputRichBlockAudioInterface
+    {
+        $requiredFields = [
+            'type',
+            'audio',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockAudio missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockAudio(
+            type: $data['type'],
+            audio: $this->denormalizeInputMediaAudio($data['audio']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockPhoto(array $data): InputRichBlockPhotoInterface
+    {
+        $requiredFields = [
+            'type',
+            'photo',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockPhoto missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockPhoto(
+            type: $data['type'],
+            photo: $this->denormalizeInputMediaPhoto($data['photo']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockVideo(array $data): InputRichBlockVideoInterface
+    {
+        $requiredFields = [
+            'type',
+            'video',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockVideo missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockVideo(
+            type: $data['type'],
+            video: $this->denormalizeInputMediaVideo($data['video']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockVoiceNote(array $data): InputRichBlockVoiceNoteInterface
+    {
+        $requiredFields = [
+            'type',
+            'voice_note',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockVoiceNote missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockVoiceNote(
+            type: $data['type'],
+            voiceNote: $this->denormalizeInputMediaVoiceNote($data['voice_note']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockThinking(array $data): InputRichBlockThinkingInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockThinking missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockThinking(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
         );
     }
 
@@ -7810,6 +10148,29 @@ class Serializer implements SerializerInterface
             linkPreviewOptions: isset($data['link_preview_options'])
                 ? $this->denormalizeLinkPreviewOptions($data['link_preview_options'])
                 : null,
+        );
+    }
+
+    public function denormalizeInputRichMessageContent(array $data): InputRichMessageContentInterface
+    {
+        $requiredFields = [
+            'rich_message',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichMessageContent(
+            richMessage: $this->denormalizeInputRichMessage($data['rich_message']),
         );
     }
 
@@ -9170,6 +11531,7 @@ class Serializer implements SerializerInterface
             PaidMediaVideoInterface::class => $this->denormalizePaidMediaVideo($data),
             ContactInterface::class => $this->denormalizeContact($data),
             DiceInterface::class => $this->denormalizeDice($data),
+            LinkInterface::class => $this->denormalizeLink($data),
             PollMediaInterface::class => $this->denormalizePollMedia($data),
             PollOptionInterface::class => $this->denormalizePollOption($data),
             InputPollOptionInterface::class => $this->denormalizeInputPollOption($data),
@@ -9179,8 +11541,6 @@ class Serializer implements SerializerInterface
             ChecklistInterface::class => $this->denormalizeChecklist($data),
             InputChecklistTaskInterface::class => $this->denormalizeInputChecklistTask($data),
             InputChecklistInterface::class => $this->denormalizeInputChecklist($data),
-            ChecklistTasksDoneInterface::class => $this->denormalizeChecklistTasksDone($data),
-            ChecklistTasksAddedInterface::class => $this->denormalizeChecklistTasksAdded($data),
             LocationInterface::class => $this->denormalizeLocation($data),
             VenueInterface::class => $this->denormalizeVenue($data),
             WebAppDataInterface::class => $this->denormalizeWebAppData($data),
@@ -9188,6 +11548,7 @@ class Serializer implements SerializerInterface
             MessageAutoDeleteTimerChangedInterface::class => $this->denormalizeMessageAutoDeleteTimerChanged($data),
             ManagedBotCreatedInterface::class => $this->denormalizeManagedBotCreated($data),
             ManagedBotUpdatedInterface::class => $this->denormalizeManagedBotUpdated($data),
+            BotSubscriptionUpdatedInterface::class => $this->denormalizeBotSubscriptionUpdated($data),
             PollOptionAddedInterface::class => $this->denormalizePollOptionAdded($data),
             PollOptionDeletedInterface::class => $this->denormalizePollOptionDeleted($data),
             ChatBoostAddedInterface::class => $this->denormalizeChatBoostAdded($data),
@@ -9199,6 +11560,10 @@ class Serializer implements SerializerInterface
             BackgroundTypePatternInterface::class => $this->denormalizeBackgroundTypePattern($data),
             BackgroundTypeChatThemeInterface::class => $this->denormalizeBackgroundTypeChatTheme($data),
             ChatBackgroundInterface::class => $this->denormalizeChatBackground($data),
+            ChecklistTasksDoneInterface::class => $this->denormalizeChecklistTasksDone($data),
+            ChecklistTasksAddedInterface::class => $this->denormalizeChecklistTasksAdded($data),
+            CommunityChatAddedInterface::class => $this->denormalizeCommunityChatAdded($data),
+            CommunityChatRemovedInterface::class => $this->denormalizeCommunityChatRemoved($data),
             ForumTopicCreatedInterface::class => $this->denormalizeForumTopicCreated($data),
             ForumTopicClosedInterface::class => $this->denormalizeForumTopicClosed($data),
             ForumTopicEditedInterface::class => $this->denormalizeForumTopicEdited($data),
@@ -9247,6 +11612,7 @@ class Serializer implements SerializerInterface
             CopyTextButtonInterface::class => $this->denormalizeCopyTextButton($data),
             CallbackQueryInterface::class => $this->denormalizeCallbackQuery($data),
             ForceReplyInterface::class => $this->denormalizeForceReply($data),
+            CommunityInterface::class => $this->denormalizeCommunity($data),
             ChatPhotoInterface::class => $this->denormalizeChatPhoto($data),
             ChatInviteLinkInterface::class => $this->denormalizeChatInviteLink($data),
             ChatAdministratorRightsInterface::class => $this->denormalizeChatAdministratorRights($data),
@@ -9332,12 +11698,14 @@ class Serializer implements SerializerInterface
             InputMediaAnimationInterface::class => $this->denormalizeInputMediaAnimation($data),
             InputMediaAudioInterface::class => $this->denormalizeInputMediaAudio($data),
             InputMediaDocumentInterface::class => $this->denormalizeInputMediaDocument($data),
+            InputMediaLinkInterface::class => $this->denormalizeInputMediaLink($data),
             InputMediaLivePhotoInterface::class => $this->denormalizeInputMediaLivePhoto($data),
             InputMediaLocationInterface::class => $this->denormalizeInputMediaLocation($data),
             InputMediaPhotoInterface::class => $this->denormalizeInputMediaPhoto($data),
             InputMediaStickerInterface::class => $this->denormalizeInputMediaSticker($data),
             InputMediaVenueInterface::class => $this->denormalizeInputMediaVenue($data),
             InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
+            InputMediaVoiceNoteInterface::class => $this->denormalizeInputMediaVoiceNote($data),
             InputPaidMediaLivePhotoInterface::class => $this->denormalizeInputPaidMediaLivePhoto($data),
             InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
             InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
@@ -9349,6 +11717,80 @@ class Serializer implements SerializerInterface
             StickerSetInterface::class => $this->denormalizeStickerSet($data),
             MaskPositionInterface::class => $this->denormalizeMaskPosition($data),
             InputStickerInterface::class => $this->denormalizeInputSticker($data),
+            RichMessageInterface::class => $this->denormalizeRichMessage($data),
+            InputRichMessageInterface::class => $this->denormalizeInputRichMessage($data),
+            InputRichMessageMediaInterface::class => $this->denormalizeInputRichMessageMedia($data),
+            RichTextBoldInterface::class => $this->denormalizeRichTextBold($data),
+            RichTextItalicInterface::class => $this->denormalizeRichTextItalic($data),
+            RichTextUnderlineInterface::class => $this->denormalizeRichTextUnderline($data),
+            RichTextStrikethroughInterface::class => $this->denormalizeRichTextStrikethrough($data),
+            RichTextSpoilerInterface::class => $this->denormalizeRichTextSpoiler($data),
+            RichTextDateTimeInterface::class => $this->denormalizeRichTextDateTime($data),
+            RichTextTextMentionInterface::class => $this->denormalizeRichTextTextMention($data),
+            RichTextSubscriptInterface::class => $this->denormalizeRichTextSubscript($data),
+            RichTextSuperscriptInterface::class => $this->denormalizeRichTextSuperscript($data),
+            RichTextMarkedInterface::class => $this->denormalizeRichTextMarked($data),
+            RichTextCodeInterface::class => $this->denormalizeRichTextCode($data),
+            RichTextCustomEmojiInterface::class => $this->denormalizeRichTextCustomEmoji($data),
+            RichTextMathematicalExpressionInterface::class => $this->denormalizeRichTextMathematicalExpression($data),
+            RichTextUrlInterface::class => $this->denormalizeRichTextUrl($data),
+            RichTextEmailAddressInterface::class => $this->denormalizeRichTextEmailAddress($data),
+            RichTextPhoneNumberInterface::class => $this->denormalizeRichTextPhoneNumber($data),
+            RichTextBankCardNumberInterface::class => $this->denormalizeRichTextBankCardNumber($data),
+            RichTextMentionInterface::class => $this->denormalizeRichTextMention($data),
+            RichTextHashtagInterface::class => $this->denormalizeRichTextHashtag($data),
+            RichTextCashtagInterface::class => $this->denormalizeRichTextCashtag($data),
+            RichTextBotCommandInterface::class => $this->denormalizeRichTextBotCommand($data),
+            RichTextAnchorInterface::class => $this->denormalizeRichTextAnchor($data),
+            RichTextAnchorLinkInterface::class => $this->denormalizeRichTextAnchorLink($data),
+            RichTextReferenceInterface::class => $this->denormalizeRichTextReference($data),
+            RichTextReferenceLinkInterface::class => $this->denormalizeRichTextReferenceLink($data),
+            RichBlockCaptionInterface::class => $this->denormalizeRichBlockCaption($data),
+            RichBlockTableCellInterface::class => $this->denormalizeRichBlockTableCell($data),
+            RichBlockListItemInterface::class => $this->denormalizeRichBlockListItem($data),
+            RichBlockParagraphInterface::class => $this->denormalizeRichBlockParagraph($data),
+            RichBlockSectionHeadingInterface::class => $this->denormalizeRichBlockSectionHeading($data),
+            RichBlockPreformattedInterface::class => $this->denormalizeRichBlockPreformatted($data),
+            RichBlockFooterInterface::class => $this->denormalizeRichBlockFooter($data),
+            RichBlockDividerInterface::class => $this->denormalizeRichBlockDivider($data),
+            RichBlockMathematicalExpressionInterface::class => $this->denormalizeRichBlockMathematicalExpression($data),
+            RichBlockAnchorInterface::class => $this->denormalizeRichBlockAnchor($data),
+            RichBlockListInterface::class => $this->denormalizeRichBlockList($data),
+            RichBlockBlockQuotationInterface::class => $this->denormalizeRichBlockBlockQuotation($data),
+            RichBlockPullQuotationInterface::class => $this->denormalizeRichBlockPullQuotation($data),
+            RichBlockCollageInterface::class => $this->denormalizeRichBlockCollage($data),
+            RichBlockSlideshowInterface::class => $this->denormalizeRichBlockSlideshow($data),
+            RichBlockTableInterface::class => $this->denormalizeRichBlockTable($data),
+            RichBlockDetailsInterface::class => $this->denormalizeRichBlockDetails($data),
+            RichBlockMapInterface::class => $this->denormalizeRichBlockMap($data),
+            RichBlockAnimationInterface::class => $this->denormalizeRichBlockAnimation($data),
+            RichBlockAudioInterface::class => $this->denormalizeRichBlockAudio($data),
+            RichBlockPhotoInterface::class => $this->denormalizeRichBlockPhoto($data),
+            RichBlockVideoInterface::class => $this->denormalizeRichBlockVideo($data),
+            RichBlockVoiceNoteInterface::class => $this->denormalizeRichBlockVoiceNote($data),
+            RichBlockThinkingInterface::class => $this->denormalizeRichBlockThinking($data),
+            InputRichBlockListItemInterface::class => $this->denormalizeInputRichBlockListItem($data),
+            InputRichBlockParagraphInterface::class => $this->denormalizeInputRichBlockParagraph($data),
+            InputRichBlockSectionHeadingInterface::class => $this->denormalizeInputRichBlockSectionHeading($data),
+            InputRichBlockPreformattedInterface::class => $this->denormalizeInputRichBlockPreformatted($data),
+            InputRichBlockFooterInterface::class => $this->denormalizeInputRichBlockFooter($data),
+            InputRichBlockDividerInterface::class => $this->denormalizeInputRichBlockDivider($data),
+            InputRichBlockMathematicalExpressionInterface::class => $this->denormalizeInputRichBlockMathematicalExpression($data),
+            InputRichBlockAnchorInterface::class => $this->denormalizeInputRichBlockAnchor($data),
+            InputRichBlockListInterface::class => $this->denormalizeInputRichBlockList($data),
+            InputRichBlockBlockQuotationInterface::class => $this->denormalizeInputRichBlockBlockQuotation($data),
+            InputRichBlockPullQuotationInterface::class => $this->denormalizeInputRichBlockPullQuotation($data),
+            InputRichBlockCollageInterface::class => $this->denormalizeInputRichBlockCollage($data),
+            InputRichBlockSlideshowInterface::class => $this->denormalizeInputRichBlockSlideshow($data),
+            InputRichBlockTableInterface::class => $this->denormalizeInputRichBlockTable($data),
+            InputRichBlockDetailsInterface::class => $this->denormalizeInputRichBlockDetails($data),
+            InputRichBlockMapInterface::class => $this->denormalizeInputRichBlockMap($data),
+            InputRichBlockAnimationInterface::class => $this->denormalizeInputRichBlockAnimation($data),
+            InputRichBlockAudioInterface::class => $this->denormalizeInputRichBlockAudio($data),
+            InputRichBlockPhotoInterface::class => $this->denormalizeInputRichBlockPhoto($data),
+            InputRichBlockVideoInterface::class => $this->denormalizeInputRichBlockVideo($data),
+            InputRichBlockVoiceNoteInterface::class => $this->denormalizeInputRichBlockVoiceNote($data),
+            InputRichBlockThinkingInterface::class => $this->denormalizeInputRichBlockThinking($data),
             InlineQueryInterface::class => $this->denormalizeInlineQuery($data),
             InlineQueryResultsButtonInterface::class => $this->denormalizeInlineQueryResultsButton($data),
             InlineQueryResultArticleInterface::class => $this->denormalizeInlineQueryResultArticle($data),
@@ -9372,6 +11814,7 @@ class Serializer implements SerializerInterface
             InlineQueryResultCachedVoiceInterface::class => $this->denormalizeInlineQueryResultCachedVoice($data),
             InlineQueryResultCachedAudioInterface::class => $this->denormalizeInlineQueryResultCachedAudio($data),
             InputTextMessageContentInterface::class => $this->denormalizeInputTextMessageContent($data),
+            InputRichMessageContentInterface::class => $this->denormalizeInputRichMessageContent($data),
             InputLocationMessageContentInterface::class => $this->denormalizeInputLocationMessageContent($data),
             InputVenueMessageContentInterface::class => $this->denormalizeInputVenueMessageContent($data),
             InputContactMessageContentInterface::class => $this->denormalizeInputContactMessageContent($data),

@@ -5,7 +5,9 @@ namespace Phenogram\Bindings\Factories;
 use Phenogram\Bindings\Factories\AcceptedGiftTypesFactory as AcceptedGiftTypes;
 use Phenogram\Bindings\Factories\AudioFactory as Audio;
 use Phenogram\Bindings\Factories\ChatFactory as Chat;
+use Phenogram\Bindings\Factories\CommunityFactory as Community;
 use Phenogram\Bindings\Factories\MessageFactory as Message;
+use Phenogram\Bindings\Factories\UserFactory as User;
 use Phenogram\Bindings\Types\ChatFullInfo;
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
@@ -18,8 +20,10 @@ use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 
 class ChatFullInfoFactory extends AbstractFactory
@@ -78,6 +82,8 @@ class ChatFullInfoFactory extends AbstractFactory
      * @param AudioInterface|null                $firstProfileAudio                  Optional. Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
      * @param int|null                           $paidMessageStarCount               Optional. Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
+     * @param UserInterface|null                 $guardBot                           Optional. Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators.
+     * @param CommunityInterface|null            $community                          Optional. Optional. The Community to which the chat belongs
      */
     public static function make(
         ?int $id = null,
@@ -131,6 +137,8 @@ class ChatFullInfoFactory extends AbstractFactory
         ?AudioInterface $firstProfileAudio = null,
         ?UniqueGiftColorsInterface $uniqueGiftColors = null,
         ?int $paidMessageStarCount = null,
+        ?UserInterface $guardBot = null,
+        ?CommunityInterface $community = null,
     ): ChatFullInfoInterface {
         return self::factory()->makeChatFullInfo(
             id: $id ?? self::fake()->numberBetween(100000, 999999999),
@@ -184,6 +192,8 @@ class ChatFullInfoFactory extends AbstractFactory
             firstProfileAudio: $firstProfileAudio,
             uniqueGiftColors: $uniqueGiftColors,
             paidMessageStarCount: $paidMessageStarCount,
+            guardBot: $guardBot,
+            community: $community,
         );
     }
 }

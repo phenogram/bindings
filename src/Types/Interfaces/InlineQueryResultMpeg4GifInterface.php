@@ -43,7 +43,7 @@ interface InlineQueryResultMpeg4GifInterface extends TypeInterface
     /** @var array<MessageEntityInterface>|null $captionEntities Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode */
     public ?array $captionEntities { set; get; }
 
-    /** @var bool|null $showCaptionAboveMedia Optional. Pass True, if the caption must be shown above the message media */
+    /** @var bool|null $showCaptionAboveMedia Optional. Pass True if the caption must be shown above the message media */
     public ?bool $showCaptionAboveMedia { set; get; }
 
     /** @var InlineKeyboardMarkupInterface|null $replyMarkup Optional. Inline keyboard attached to the message */

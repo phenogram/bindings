@@ -57,4 +57,7 @@ interface UserInterface extends TypeInterface
 
     /** @var bool|null $canManageBots Optional. True, if other bots can be created to be controlled by the bot. Returned only in getMe. */
     public ?bool $canManageBots { set; get; }
+
+    /** @var bool|null $supportsJoinRequestQueries Optional. True, if the bot supports join request queries and can be assigned to process them. Returned only in getMe. */
+    public ?bool $supportsJoinRequestQueries { set; get; }
 }

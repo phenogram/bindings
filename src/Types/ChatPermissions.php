@@ -8,7 +8,7 @@ namespace Phenogram\Bindings\Types;
 class ChatPermissions implements Interfaces\ChatPermissionsInterface
 {
     /**
-     * @param bool|null $canSendMessages       Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
+     * @param bool|null $canSendMessages       Optional. True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues
      * @param bool|null $canSendAudios         Optional. True, if the user is allowed to send audios
      * @param bool|null $canSendDocuments      Optional. True, if the user is allowed to send documents
      * @param bool|null $canSendPhotos         Optional. True, if the user is allowed to send photos
@@ -23,7 +23,7 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
      * @param bool|null $canChangeInfo         Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups.
      * @param bool|null $canInviteUsers        Optional. True, if the user is allowed to invite new users to the chat
      * @param bool|null $canPinMessages        Optional. True, if the user is allowed to pin messages. Ignored in public supergroups.
-     * @param bool|null $canManageTopics       Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
+     * @param bool|null $canManageTopics       Optional. True, if the user is allowed to create forum topics. If omitted, defaults to the value of can_pin_messages.
      */
     public function __construct(
         public ?bool $canSendMessages = null,

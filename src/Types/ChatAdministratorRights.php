@@ -24,7 +24,7 @@ class ChatAdministratorRights implements Interfaces\ChatAdministratorRightsInter
      * @param bool|null $canPinMessages          Optional. True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|null $canManageTopics         Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|null $canManageDirectMessages Optional. True, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only
-     * @param bool|null $canManageTags           Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of can_pin_messages.
+     * @param bool|null $canManageTags           Optional. True, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of can_pin_messages.
      */
     public function __construct(
         public bool $isAnonymous,

@@ -13,10 +13,10 @@ interface UniqueGiftInfoInterface extends TypeInterface
     /** @var string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers. */
     public string $origin { set; get; }
 
-    /** @var string|null $lastResaleCurrency Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins. */
+    /** @var string|null $lastResaleCurrency Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams. */
     public ?string $lastResaleCurrency { set; get; }
 
-    /** @var int|null $lastResaleAmount Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins */
+    /** @var int|null $lastResaleAmount Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms */
     public ?int $lastResaleAmount { set; get; }
 
     /** @var string|null $ownedGiftId Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts */

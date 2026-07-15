@@ -26,6 +26,7 @@ use Phenogram\Bindings\Types\BotCommandScopeDefault;
 use Phenogram\Bindings\Types\BotDescription;
 use Phenogram\Bindings\Types\BotName;
 use Phenogram\Bindings\Types\BotShortDescription;
+use Phenogram\Bindings\Types\BotSubscriptionUpdated;
 use Phenogram\Bindings\Types\BusinessBotRights;
 use Phenogram\Bindings\Types\BusinessConnection;
 use Phenogram\Bindings\Types\BusinessIntro;
@@ -66,6 +67,9 @@ use Phenogram\Bindings\Types\ChecklistTask;
 use Phenogram\Bindings\Types\ChecklistTasksAdded;
 use Phenogram\Bindings\Types\ChecklistTasksDone;
 use Phenogram\Bindings\Types\ChosenInlineResult;
+use Phenogram\Bindings\Types\Community;
+use Phenogram\Bindings\Types\CommunityChatAdded;
+use Phenogram\Bindings\Types\CommunityChatRemoved;
 use Phenogram\Bindings\Types\Contact;
 use Phenogram\Bindings\Types\CopyTextButton;
 use Phenogram\Bindings\Types\Dice;
@@ -127,18 +131,45 @@ use Phenogram\Bindings\Types\InputLocationMessageContent;
 use Phenogram\Bindings\Types\InputMediaAnimation;
 use Phenogram\Bindings\Types\InputMediaAudio;
 use Phenogram\Bindings\Types\InputMediaDocument;
+use Phenogram\Bindings\Types\InputMediaLink;
 use Phenogram\Bindings\Types\InputMediaLivePhoto;
 use Phenogram\Bindings\Types\InputMediaLocation;
 use Phenogram\Bindings\Types\InputMediaPhoto;
 use Phenogram\Bindings\Types\InputMediaSticker;
 use Phenogram\Bindings\Types\InputMediaVenue;
 use Phenogram\Bindings\Types\InputMediaVideo;
+use Phenogram\Bindings\Types\InputMediaVoiceNote;
 use Phenogram\Bindings\Types\InputPaidMediaLivePhoto;
 use Phenogram\Bindings\Types\InputPaidMediaPhoto;
 use Phenogram\Bindings\Types\InputPaidMediaVideo;
 use Phenogram\Bindings\Types\InputPollOption;
 use Phenogram\Bindings\Types\InputProfilePhotoAnimated;
 use Phenogram\Bindings\Types\InputProfilePhotoStatic;
+use Phenogram\Bindings\Types\InputRichBlockAnchor;
+use Phenogram\Bindings\Types\InputRichBlockAnimation;
+use Phenogram\Bindings\Types\InputRichBlockAudio;
+use Phenogram\Bindings\Types\InputRichBlockBlockQuotation;
+use Phenogram\Bindings\Types\InputRichBlockCollage;
+use Phenogram\Bindings\Types\InputRichBlockDetails;
+use Phenogram\Bindings\Types\InputRichBlockDivider;
+use Phenogram\Bindings\Types\InputRichBlockFooter;
+use Phenogram\Bindings\Types\InputRichBlockList;
+use Phenogram\Bindings\Types\InputRichBlockListItem;
+use Phenogram\Bindings\Types\InputRichBlockMap;
+use Phenogram\Bindings\Types\InputRichBlockMathematicalExpression;
+use Phenogram\Bindings\Types\InputRichBlockParagraph;
+use Phenogram\Bindings\Types\InputRichBlockPhoto;
+use Phenogram\Bindings\Types\InputRichBlockPreformatted;
+use Phenogram\Bindings\Types\InputRichBlockPullQuotation;
+use Phenogram\Bindings\Types\InputRichBlockSectionHeading;
+use Phenogram\Bindings\Types\InputRichBlockSlideshow;
+use Phenogram\Bindings\Types\InputRichBlockTable;
+use Phenogram\Bindings\Types\InputRichBlockThinking;
+use Phenogram\Bindings\Types\InputRichBlockVideo;
+use Phenogram\Bindings\Types\InputRichBlockVoiceNote;
+use Phenogram\Bindings\Types\InputRichMessage;
+use Phenogram\Bindings\Types\InputRichMessageContent;
+use Phenogram\Bindings\Types\InputRichMessageMedia;
 use Phenogram\Bindings\Types\InputSticker;
 use Phenogram\Bindings\Types\InputStoryContentPhoto;
 use Phenogram\Bindings\Types\InputStoryContentVideo;
@@ -168,6 +199,7 @@ use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
 use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
 use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
+use Phenogram\Bindings\Types\Interfaces\BotSubscriptionUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessBotRightsInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessConnectionInterface;
 use Phenogram\Bindings\Types\Interfaces\BusinessIntroInterface;
@@ -208,6 +240,9 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
@@ -269,18 +304,45 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaVoiceNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoAnimatedInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoStaticInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockCollageInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDetailsInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockListInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockListItemInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockMapInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockParagraphInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPreformattedInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockPullQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockSectionHeadingInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockSlideshowInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockTableInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockThinkingInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
@@ -293,6 +355,7 @@ use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestChatInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestManagedBotInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonRequestUsersInterface;
 use Phenogram\Bindings\Types\Interfaces\LabeledPriceInterface;
+use Phenogram\Bindings\Types\Interfaces\LinkInterface;
 use Phenogram\Bindings\Types\Interfaces\LinkPreviewOptionsInterface;
 use Phenogram\Bindings\Types\Interfaces\LivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\LocationAddressInterface;
@@ -359,6 +422,56 @@ use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockAudioInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockCaptionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockCollageInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDetailsInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockListInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockListItemInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockMapInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockParagraphInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPreformattedInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockPullQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockSectionHeadingInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockSlideshowInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockTableCellInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockTableInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockThinkingInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockVideoInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\RichMessageInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextAnchorInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextAnchorLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBankCardNumberInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBoldInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextBotCommandInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCashtagInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCodeInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextDateTimeInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextEmailAddressInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextHashtagInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextItalicInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMarkedInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMathematicalExpressionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextPhoneNumberInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextReferenceInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextReferenceLinkInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSpoilerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextStrikethroughInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSubscriptInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextSuperscriptInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextUnderlineInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
@@ -430,6 +543,7 @@ use Phenogram\Bindings\Types\KeyboardButtonRequestChat;
 use Phenogram\Bindings\Types\KeyboardButtonRequestManagedBot;
 use Phenogram\Bindings\Types\KeyboardButtonRequestUsers;
 use Phenogram\Bindings\Types\LabeledPrice;
+use Phenogram\Bindings\Types\Link;
 use Phenogram\Bindings\Types\LinkPreviewOptions;
 use Phenogram\Bindings\Types\LivePhoto;
 use Phenogram\Bindings\Types\Location;
@@ -496,6 +610,56 @@ use Phenogram\Bindings\Types\ResponseParameters;
 use Phenogram\Bindings\Types\RevenueWithdrawalStateFailed;
 use Phenogram\Bindings\Types\RevenueWithdrawalStatePending;
 use Phenogram\Bindings\Types\RevenueWithdrawalStateSucceeded;
+use Phenogram\Bindings\Types\RichBlockAnchor;
+use Phenogram\Bindings\Types\RichBlockAnimation;
+use Phenogram\Bindings\Types\RichBlockAudio;
+use Phenogram\Bindings\Types\RichBlockBlockQuotation;
+use Phenogram\Bindings\Types\RichBlockCaption;
+use Phenogram\Bindings\Types\RichBlockCollage;
+use Phenogram\Bindings\Types\RichBlockDetails;
+use Phenogram\Bindings\Types\RichBlockDivider;
+use Phenogram\Bindings\Types\RichBlockFooter;
+use Phenogram\Bindings\Types\RichBlockList;
+use Phenogram\Bindings\Types\RichBlockListItem;
+use Phenogram\Bindings\Types\RichBlockMap;
+use Phenogram\Bindings\Types\RichBlockMathematicalExpression;
+use Phenogram\Bindings\Types\RichBlockParagraph;
+use Phenogram\Bindings\Types\RichBlockPhoto;
+use Phenogram\Bindings\Types\RichBlockPreformatted;
+use Phenogram\Bindings\Types\RichBlockPullQuotation;
+use Phenogram\Bindings\Types\RichBlockSectionHeading;
+use Phenogram\Bindings\Types\RichBlockSlideshow;
+use Phenogram\Bindings\Types\RichBlockTable;
+use Phenogram\Bindings\Types\RichBlockTableCell;
+use Phenogram\Bindings\Types\RichBlockThinking;
+use Phenogram\Bindings\Types\RichBlockVideo;
+use Phenogram\Bindings\Types\RichBlockVoiceNote;
+use Phenogram\Bindings\Types\RichMessage;
+use Phenogram\Bindings\Types\RichTextAnchor;
+use Phenogram\Bindings\Types\RichTextAnchorLink;
+use Phenogram\Bindings\Types\RichTextBankCardNumber;
+use Phenogram\Bindings\Types\RichTextBold;
+use Phenogram\Bindings\Types\RichTextBotCommand;
+use Phenogram\Bindings\Types\RichTextCashtag;
+use Phenogram\Bindings\Types\RichTextCode;
+use Phenogram\Bindings\Types\RichTextCustomEmoji;
+use Phenogram\Bindings\Types\RichTextDateTime;
+use Phenogram\Bindings\Types\RichTextEmailAddress;
+use Phenogram\Bindings\Types\RichTextHashtag;
+use Phenogram\Bindings\Types\RichTextItalic;
+use Phenogram\Bindings\Types\RichTextMarked;
+use Phenogram\Bindings\Types\RichTextMathematicalExpression;
+use Phenogram\Bindings\Types\RichTextMention;
+use Phenogram\Bindings\Types\RichTextPhoneNumber;
+use Phenogram\Bindings\Types\RichTextReference;
+use Phenogram\Bindings\Types\RichTextReferenceLink;
+use Phenogram\Bindings\Types\RichTextSpoiler;
+use Phenogram\Bindings\Types\RichTextStrikethrough;
+use Phenogram\Bindings\Types\RichTextSubscript;
+use Phenogram\Bindings\Types\RichTextSuperscript;
+use Phenogram\Bindings\Types\RichTextTextMention;
+use Phenogram\Bindings\Types\RichTextUnderline;
+use Phenogram\Bindings\Types\RichTextUrl;
 use Phenogram\Bindings\Types\SentGuestMessage;
 use Phenogram\Bindings\Types\SentWebAppMessage;
 use Phenogram\Bindings\Types\SharedUser;
@@ -590,6 +754,7 @@ class Factory implements FactoryInterface
         ?ChatBoostUpdatedInterface $chatBoost,
         ?ChatBoostRemovedInterface $removedChatBoost,
         ?ManagedBotUpdatedInterface $managedBot,
+        ?BotSubscriptionUpdatedInterface $subscription,
     ): UpdateInterface {
         return new Update(
             updateId: $updateId,
@@ -618,6 +783,7 @@ class Factory implements FactoryInterface
             chatBoost: $chatBoost,
             removedChatBoost: $removedChatBoost,
             managedBot: $managedBot,
+            subscription: $subscription,
         );
     }
 
@@ -663,6 +829,7 @@ class Factory implements FactoryInterface
         ?bool $hasTopicsEnabled,
         ?bool $allowsUsersToCreateTopics,
         ?bool $canManageBots,
+        ?bool $supportsJoinRequestQueries,
     ): UserInterface {
         return new User(
             id: $id,
@@ -682,6 +849,7 @@ class Factory implements FactoryInterface
             hasTopicsEnabled: $hasTopicsEnabled,
             allowsUsersToCreateTopics: $allowsUsersToCreateTopics,
             canManageBots: $canManageBots,
+            supportsJoinRequestQueries: $supportsJoinRequestQueries,
         );
     }
 
@@ -759,6 +927,8 @@ class Factory implements FactoryInterface
         ?AudioInterface $firstProfileAudio,
         ?UniqueGiftColorsInterface $uniqueGiftColors,
         ?int $paidMessageStarCount,
+        ?UserInterface $guardBot,
+        ?CommunityInterface $community,
     ): ChatFullInfoInterface {
         return new ChatFullInfo(
             id: $id,
@@ -812,6 +982,8 @@ class Factory implements FactoryInterface
             firstProfileAudio: $firstProfileAudio,
             uniqueGiftColors: $uniqueGiftColors,
             paidMessageStarCount: $paidMessageStarCount,
+            guardBot: $guardBot,
+            community: $community,
         );
     }
 
@@ -826,6 +998,8 @@ class Factory implements FactoryInterface
         ?int $senderBoostCount,
         ?UserInterface $senderBusinessBot,
         ?string $senderTag,
+        ?UserInterface $receiverUser,
+        ?int $ephemeralMessageId,
         ?string $guestQueryId,
         ?string $businessConnectionId,
         ?Types\Interfaces\MessageOriginInterface $forwardOrigin,
@@ -852,6 +1026,7 @@ class Factory implements FactoryInterface
         ?LinkPreviewOptionsInterface $linkPreviewOptions,
         ?SuggestedPostInfoInterface $suggestedPostInfo,
         ?string $effectId,
+        ?RichMessageInterface $richMessage,
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
@@ -904,6 +1079,8 @@ class Factory implements FactoryInterface
         ?ChatBackgroundInterface $chatBackgroundSet,
         ?ChecklistTasksDoneInterface $checklistTasksDone,
         ?ChecklistTasksAddedInterface $checklistTasksAdded,
+        ?CommunityChatAddedInterface $communityChatAdded,
+        ?CommunityChatRemovedInterface $communityChatRemoved,
         ?DirectMessagePriceChangedInterface $directMessagePriceChanged,
         ?ForumTopicCreatedInterface $forumTopicCreated,
         ?ForumTopicEditedInterface $forumTopicEdited,
@@ -942,6 +1119,8 @@ class Factory implements FactoryInterface
             senderBoostCount: $senderBoostCount,
             senderBusinessBot: $senderBusinessBot,
             senderTag: $senderTag,
+            receiverUser: $receiverUser,
+            ephemeralMessageId: $ephemeralMessageId,
             guestQueryId: $guestQueryId,
             businessConnectionId: $businessConnectionId,
             forwardOrigin: $forwardOrigin,
@@ -968,6 +1147,7 @@ class Factory implements FactoryInterface
             linkPreviewOptions: $linkPreviewOptions,
             suggestedPostInfo: $suggestedPostInfo,
             effectId: $effectId,
+            richMessage: $richMessage,
             animation: $animation,
             audio: $audio,
             document: $document,
@@ -1020,6 +1200,8 @@ class Factory implements FactoryInterface
             chatBackgroundSet: $chatBackgroundSet,
             checklistTasksDone: $checklistTasksDone,
             checklistTasksAdded: $checklistTasksAdded,
+            communityChatAdded: $communityChatAdded,
+            communityChatRemoved: $communityChatRemoved,
             directMessagePriceChanged: $directMessagePriceChanged,
             forumTopicCreated: $forumTopicCreated,
             forumTopicEdited: $forumTopicEdited,
@@ -1158,8 +1340,9 @@ class Factory implements FactoryInterface
     }
 
     public function makeReplyParameters(
-        int $messageId,
+        ?int $messageId,
         int|string|null $chatId,
+        ?int $ephemeralMessageId,
         ?bool $allowSendingWithoutReply,
         ?string $quote,
         ?string $quoteParseMode,
@@ -1171,6 +1354,7 @@ class Factory implements FactoryInterface
         return new ReplyParameters(
             messageId: $messageId,
             chatId: $chatId,
+            ephemeralMessageId: $ephemeralMessageId,
             allowSendingWithoutReply: $allowSendingWithoutReply,
             quote: $quote,
             quoteParseMode: $quoteParseMode,
@@ -1496,10 +1680,18 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeLink(string $url): LinkInterface
+    {
+        return new Link(
+            url: $url,
+        );
+    }
+
     public function makePollMedia(
         ?AnimationInterface $animation,
         ?AudioInterface $audio,
         ?DocumentInterface $document,
+        ?LinkInterface $link,
         ?LivePhotoInterface $livePhoto,
         ?LocationInterface $location,
         ?array $photo,
@@ -1511,6 +1703,7 @@ class Factory implements FactoryInterface
             animation: $animation,
             audio: $audio,
             document: $document,
+            link: $link,
             livePhoto: $livePhoto,
             location: $location,
             photo: $photo,
@@ -1686,28 +1879,6 @@ class Factory implements FactoryInterface
         );
     }
 
-    public function makeChecklistTasksDone(
-        ?MessageInterface $checklistMessage,
-        ?array $markedAsDoneTaskIds,
-        ?array $markedAsNotDoneTaskIds,
-    ): ChecklistTasksDoneInterface {
-        return new ChecklistTasksDone(
-            checklistMessage: $checklistMessage,
-            markedAsDoneTaskIds: $markedAsDoneTaskIds,
-            markedAsNotDoneTaskIds: $markedAsNotDoneTaskIds,
-        );
-    }
-
-    public function makeChecklistTasksAdded(
-        array $tasks,
-        ?MessageInterface $checklistMessage,
-    ): ChecklistTasksAddedInterface {
-        return new ChecklistTasksAdded(
-            tasks: $tasks,
-            checklistMessage: $checklistMessage,
-        );
-    }
-
     public function makeLocation(
         float $latitude,
         float $longitude,
@@ -1785,6 +1956,18 @@ class Factory implements FactoryInterface
         return new ManagedBotUpdated(
             user: $user,
             bot: $bot,
+        );
+    }
+
+    public function makeBotSubscriptionUpdated(
+        UserInterface $user,
+        string $invoicePayload,
+        string $state,
+    ): BotSubscriptionUpdatedInterface {
+        return new BotSubscriptionUpdated(
+            user: $user,
+            invoicePayload: $invoicePayload,
+            state: $state,
         );
     }
 
@@ -1914,6 +2097,40 @@ class Factory implements FactoryInterface
         return new ChatBackground(
             type: $type,
         );
+    }
+
+    public function makeChecklistTasksDone(
+        ?MessageInterface $checklistMessage,
+        ?array $markedAsDoneTaskIds,
+        ?array $markedAsNotDoneTaskIds,
+    ): ChecklistTasksDoneInterface {
+        return new ChecklistTasksDone(
+            checklistMessage: $checklistMessage,
+            markedAsDoneTaskIds: $markedAsDoneTaskIds,
+            markedAsNotDoneTaskIds: $markedAsNotDoneTaskIds,
+        );
+    }
+
+    public function makeChecklistTasksAdded(
+        array $tasks,
+        ?MessageInterface $checklistMessage,
+    ): ChecklistTasksAddedInterface {
+        return new ChecklistTasksAdded(
+            tasks: $tasks,
+            checklistMessage: $checklistMessage,
+        );
+    }
+
+    public function makeCommunityChatAdded(CommunityInterface $community): CommunityChatAddedInterface
+    {
+        return new CommunityChatAdded(
+            community: $community,
+        );
+    }
+
+    public function makeCommunityChatRemoved(): CommunityChatRemovedInterface
+    {
+        return new CommunityChatRemoved();
     }
 
     public function makeForumTopicCreated(
@@ -2498,6 +2715,14 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeCommunity(int $id, string $name): CommunityInterface
+    {
+        return new Community(
+            id: $id,
+            name: $name,
+        );
+    }
+
     public function makeChatPhoto(
         string $smallFileId,
         string $smallFileUniqueId,
@@ -2750,6 +2975,7 @@ class Factory implements FactoryInterface
         int $date,
         ?string $bio,
         ?ChatInviteLinkInterface $inviteLink,
+        ?string $queryId,
     ): ChatJoinRequestInterface {
         return new ChatJoinRequest(
             chat: $chat,
@@ -2758,6 +2984,7 @@ class Factory implements FactoryInterface
             date: $date,
             bio: $bio,
             inviteLink: $inviteLink,
+            queryId: $queryId,
         );
     }
 
@@ -3346,11 +3573,12 @@ class Factory implements FactoryInterface
         );
     }
 
-    public function makeBotCommand(string $command, string $description): BotCommandInterface
+    public function makeBotCommand(string $command, string $description, ?bool $isEphemeral): BotCommandInterface
     {
         return new BotCommand(
             command: $command,
             description: $description,
+            isEphemeral: $isEphemeral,
         );
     }
 
@@ -3721,6 +3949,14 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makeInputMediaLink(string $url, string $type): InputMediaLinkInterface
+    {
+        return new InputMediaLink(
+            url: $url,
+            type: $type,
+        );
+    }
+
     public function makeInputMediaLivePhoto(
         string $media,
         string $photo,
@@ -3841,6 +4077,24 @@ class Factory implements FactoryInterface
             duration: $duration,
             supportsStreaming: $supportsStreaming,
             hasSpoiler: $hasSpoiler,
+        );
+    }
+
+    public function makeInputMediaVoiceNote(
+        string $media,
+        string $type,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?int $duration,
+    ): InputMediaVoiceNoteInterface {
+        return new InputMediaVoiceNote(
+            media: $media,
+            type: $type,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            duration: $duration,
         );
     }
 
@@ -4007,6 +4261,862 @@ class Factory implements FactoryInterface
             emojiList: $emojiList,
             maskPosition: $maskPosition,
             keywords: $keywords,
+        );
+    }
+
+    public function makeRichMessage(array $blocks, ?bool $isRtl): RichMessageInterface
+    {
+        return new RichMessage(
+            blocks: $blocks,
+            isRtl: $isRtl,
+        );
+    }
+
+    public function makeInputRichMessage(
+        ?array $blocks,
+        ?string $html,
+        ?string $markdown,
+        ?array $media,
+        ?bool $isRtl,
+        ?bool $skipEntityDetection,
+    ): InputRichMessageInterface {
+        return new InputRichMessage(
+            blocks: $blocks,
+            html: $html,
+            markdown: $markdown,
+            media: $media,
+            isRtl: $isRtl,
+            skipEntityDetection: $skipEntityDetection,
+        );
+    }
+
+    public function makeInputRichMessageMedia(
+        string $id,
+        InputMediaAnimationInterface|InputMediaAudioInterface|InputMediaPhotoInterface|InputMediaVideoInterface|InputMediaVoiceNoteInterface $media,
+    ): InputRichMessageMediaInterface {
+        return new InputRichMessageMedia(
+            id: $id,
+            media: $media,
+        );
+    }
+
+    public function makeRichTextBold(string $type, Types\Interfaces\RichTextInterface $text): RichTextBoldInterface
+    {
+        return new RichTextBold(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextItalic(string $type, Types\Interfaces\RichTextInterface $text): RichTextItalicInterface
+    {
+        return new RichTextItalic(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextUnderline(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichTextUnderlineInterface {
+        return new RichTextUnderline(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextStrikethrough(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichTextStrikethroughInterface {
+        return new RichTextStrikethrough(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextSpoiler(string $type, Types\Interfaces\RichTextInterface $text): RichTextSpoilerInterface
+    {
+        return new RichTextSpoiler(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextDateTime(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        int $unixTime,
+        string $dateTimeFormat,
+    ): RichTextDateTimeInterface {
+        return new RichTextDateTime(
+            type: $type,
+            text: $text,
+            unixTime: $unixTime,
+            dateTimeFormat: $dateTimeFormat,
+        );
+    }
+
+    public function makeRichTextTextMention(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        UserInterface $user,
+    ): RichTextTextMentionInterface {
+        return new RichTextTextMention(
+            type: $type,
+            text: $text,
+            user: $user,
+        );
+    }
+
+    public function makeRichTextSubscript(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichTextSubscriptInterface {
+        return new RichTextSubscript(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextSuperscript(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichTextSuperscriptInterface {
+        return new RichTextSuperscript(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextMarked(string $type, Types\Interfaces\RichTextInterface $text): RichTextMarkedInterface
+    {
+        return new RichTextMarked(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextCode(string $type, Types\Interfaces\RichTextInterface $text): RichTextCodeInterface
+    {
+        return new RichTextCode(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichTextCustomEmoji(
+        string $type,
+        string $customEmojiId,
+        string $alternativeText,
+    ): RichTextCustomEmojiInterface {
+        return new RichTextCustomEmoji(
+            type: $type,
+            customEmojiId: $customEmojiId,
+            alternativeText: $alternativeText,
+        );
+    }
+
+    public function makeRichTextMathematicalExpression(
+        string $type,
+        string $expression,
+    ): RichTextMathematicalExpressionInterface {
+        return new RichTextMathematicalExpression(
+            type: $type,
+            expression: $expression,
+        );
+    }
+
+    public function makeRichTextUrl(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $url,
+    ): RichTextUrlInterface {
+        return new RichTextUrl(
+            type: $type,
+            text: $text,
+            url: $url,
+        );
+    }
+
+    public function makeRichTextEmailAddress(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $emailAddress,
+    ): RichTextEmailAddressInterface {
+        return new RichTextEmailAddress(
+            type: $type,
+            text: $text,
+            emailAddress: $emailAddress,
+        );
+    }
+
+    public function makeRichTextPhoneNumber(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $phoneNumber,
+    ): RichTextPhoneNumberInterface {
+        return new RichTextPhoneNumber(
+            type: $type,
+            text: $text,
+            phoneNumber: $phoneNumber,
+        );
+    }
+
+    public function makeRichTextBankCardNumber(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $bankCardNumber,
+    ): RichTextBankCardNumberInterface {
+        return new RichTextBankCardNumber(
+            type: $type,
+            text: $text,
+            bankCardNumber: $bankCardNumber,
+        );
+    }
+
+    public function makeRichTextMention(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $username,
+    ): RichTextMentionInterface {
+        return new RichTextMention(
+            type: $type,
+            text: $text,
+            username: $username,
+        );
+    }
+
+    public function makeRichTextHashtag(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $hashtag,
+    ): RichTextHashtagInterface {
+        return new RichTextHashtag(
+            type: $type,
+            text: $text,
+            hashtag: $hashtag,
+        );
+    }
+
+    public function makeRichTextCashtag(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $cashtag,
+    ): RichTextCashtagInterface {
+        return new RichTextCashtag(
+            type: $type,
+            text: $text,
+            cashtag: $cashtag,
+        );
+    }
+
+    public function makeRichTextBotCommand(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $botCommand,
+    ): RichTextBotCommandInterface {
+        return new RichTextBotCommand(
+            type: $type,
+            text: $text,
+            botCommand: $botCommand,
+        );
+    }
+
+    public function makeRichTextAnchor(string $type, string $name): RichTextAnchorInterface
+    {
+        return new RichTextAnchor(
+            type: $type,
+            name: $name,
+        );
+    }
+
+    public function makeRichTextAnchorLink(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $anchorName,
+    ): RichTextAnchorLinkInterface {
+        return new RichTextAnchorLink(
+            type: $type,
+            text: $text,
+            anchorName: $anchorName,
+        );
+    }
+
+    public function makeRichTextReference(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $name,
+    ): RichTextReferenceInterface {
+        return new RichTextReference(
+            type: $type,
+            text: $text,
+            name: $name,
+        );
+    }
+
+    public function makeRichTextReferenceLink(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        string $referenceName,
+    ): RichTextReferenceLinkInterface {
+        return new RichTextReferenceLink(
+            type: $type,
+            text: $text,
+            referenceName: $referenceName,
+        );
+    }
+
+    public function makeRichBlockCaption(
+        Types\Interfaces\RichTextInterface $text,
+        ?Types\Interfaces\RichTextInterface $credit,
+    ): RichBlockCaptionInterface {
+        return new RichBlockCaption(
+            text: $text,
+            credit: $credit,
+        );
+    }
+
+    public function makeRichBlockTableCell(
+        string $align,
+        string $valign,
+        ?Types\Interfaces\RichTextInterface $text,
+        ?bool $isHeader,
+        ?int $colspan,
+        ?int $rowspan,
+    ): RichBlockTableCellInterface {
+        return new RichBlockTableCell(
+            align: $align,
+            valign: $valign,
+            text: $text,
+            isHeader: $isHeader,
+            colspan: $colspan,
+            rowspan: $rowspan,
+        );
+    }
+
+    public function makeRichBlockListItem(
+        string $label,
+        array $blocks,
+        ?bool $hasCheckbox,
+        ?bool $isChecked,
+        ?int $value,
+        ?string $type,
+    ): RichBlockListItemInterface {
+        return new RichBlockListItem(
+            label: $label,
+            blocks: $blocks,
+            hasCheckbox: $hasCheckbox,
+            isChecked: $isChecked,
+            value: $value,
+            type: $type,
+        );
+    }
+
+    public function makeRichBlockParagraph(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichBlockParagraphInterface {
+        return new RichBlockParagraph(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichBlockSectionHeading(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        int $size,
+    ): RichBlockSectionHeadingInterface {
+        return new RichBlockSectionHeading(
+            type: $type,
+            text: $text,
+            size: $size,
+        );
+    }
+
+    public function makeRichBlockPreformatted(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        ?string $language,
+    ): RichBlockPreformattedInterface {
+        return new RichBlockPreformatted(
+            type: $type,
+            text: $text,
+            language: $language,
+        );
+    }
+
+    public function makeRichBlockFooter(string $type, Types\Interfaces\RichTextInterface $text): RichBlockFooterInterface
+    {
+        return new RichBlockFooter(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeRichBlockDivider(string $type): RichBlockDividerInterface
+    {
+        return new RichBlockDivider(
+            type: $type,
+        );
+    }
+
+    public function makeRichBlockMathematicalExpression(
+        string $type,
+        string $expression,
+    ): RichBlockMathematicalExpressionInterface {
+        return new RichBlockMathematicalExpression(
+            type: $type,
+            expression: $expression,
+        );
+    }
+
+    public function makeRichBlockAnchor(string $type, string $name): RichBlockAnchorInterface
+    {
+        return new RichBlockAnchor(
+            type: $type,
+            name: $name,
+        );
+    }
+
+    public function makeRichBlockList(string $type, array $items): RichBlockListInterface
+    {
+        return new RichBlockList(
+            type: $type,
+            items: $items,
+        );
+    }
+
+    public function makeRichBlockBlockQuotation(
+        string $type,
+        array $blocks,
+        ?Types\Interfaces\RichTextInterface $credit,
+    ): RichBlockBlockQuotationInterface {
+        return new RichBlockBlockQuotation(
+            type: $type,
+            blocks: $blocks,
+            credit: $credit,
+        );
+    }
+
+    public function makeRichBlockPullQuotation(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        ?Types\Interfaces\RichTextInterface $credit,
+    ): RichBlockPullQuotationInterface {
+        return new RichBlockPullQuotation(
+            type: $type,
+            text: $text,
+            credit: $credit,
+        );
+    }
+
+    public function makeRichBlockCollage(
+        string $type,
+        array $blocks,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockCollageInterface {
+        return new RichBlockCollage(
+            type: $type,
+            blocks: $blocks,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockSlideshow(
+        string $type,
+        array $blocks,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockSlideshowInterface {
+        return new RichBlockSlideshow(
+            type: $type,
+            blocks: $blocks,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockTable(
+        string $type,
+        array $cells,
+        ?bool $isBordered,
+        ?bool $isStriped,
+        ?Types\Interfaces\RichTextInterface $caption,
+    ): RichBlockTableInterface {
+        return new RichBlockTable(
+            type: $type,
+            cells: $cells,
+            isBordered: $isBordered,
+            isStriped: $isStriped,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockDetails(
+        string $type,
+        Types\Interfaces\RichTextInterface $summary,
+        array $blocks,
+        ?bool $isOpen,
+    ): RichBlockDetailsInterface {
+        return new RichBlockDetails(
+            type: $type,
+            summary: $summary,
+            blocks: $blocks,
+            isOpen: $isOpen,
+        );
+    }
+
+    public function makeRichBlockMap(
+        string $type,
+        LocationInterface $location,
+        int $zoom,
+        int $width,
+        int $height,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockMapInterface {
+        return new RichBlockMap(
+            type: $type,
+            location: $location,
+            zoom: $zoom,
+            width: $width,
+            height: $height,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockAnimation(
+        string $type,
+        AnimationInterface $animation,
+        ?bool $hasSpoiler,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockAnimationInterface {
+        return new RichBlockAnimation(
+            type: $type,
+            animation: $animation,
+            hasSpoiler: $hasSpoiler,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockAudio(
+        string $type,
+        AudioInterface $audio,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockAudioInterface {
+        return new RichBlockAudio(
+            type: $type,
+            audio: $audio,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockPhoto(
+        string $type,
+        array $photo,
+        ?bool $hasSpoiler,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockPhotoInterface {
+        return new RichBlockPhoto(
+            type: $type,
+            photo: $photo,
+            hasSpoiler: $hasSpoiler,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockVideo(
+        string $type,
+        VideoInterface $video,
+        ?bool $hasSpoiler,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockVideoInterface {
+        return new RichBlockVideo(
+            type: $type,
+            video: $video,
+            hasSpoiler: $hasSpoiler,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockVoiceNote(
+        string $type,
+        VoiceInterface $voiceNote,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockVoiceNoteInterface {
+        return new RichBlockVoiceNote(
+            type: $type,
+            voiceNote: $voiceNote,
+            caption: $caption,
+        );
+    }
+
+    public function makeRichBlockThinking(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): RichBlockThinkingInterface {
+        return new RichBlockThinking(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeInputRichBlockListItem(
+        array $blocks,
+        ?bool $hasCheckbox,
+        ?bool $isChecked,
+        ?int $value,
+        ?string $type,
+    ): InputRichBlockListItemInterface {
+        return new InputRichBlockListItem(
+            blocks: $blocks,
+            hasCheckbox: $hasCheckbox,
+            isChecked: $isChecked,
+            value: $value,
+            type: $type,
+        );
+    }
+
+    public function makeInputRichBlockParagraph(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): InputRichBlockParagraphInterface {
+        return new InputRichBlockParagraph(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeInputRichBlockSectionHeading(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        int $size,
+    ): InputRichBlockSectionHeadingInterface {
+        return new InputRichBlockSectionHeading(
+            type: $type,
+            text: $text,
+            size: $size,
+        );
+    }
+
+    public function makeInputRichBlockPreformatted(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        ?string $language,
+    ): InputRichBlockPreformattedInterface {
+        return new InputRichBlockPreformatted(
+            type: $type,
+            text: $text,
+            language: $language,
+        );
+    }
+
+    public function makeInputRichBlockFooter(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): InputRichBlockFooterInterface {
+        return new InputRichBlockFooter(
+            type: $type,
+            text: $text,
+        );
+    }
+
+    public function makeInputRichBlockDivider(string $type): InputRichBlockDividerInterface
+    {
+        return new InputRichBlockDivider(
+            type: $type,
+        );
+    }
+
+    public function makeInputRichBlockMathematicalExpression(
+        string $type,
+        string $expression,
+    ): InputRichBlockMathematicalExpressionInterface {
+        return new InputRichBlockMathematicalExpression(
+            type: $type,
+            expression: $expression,
+        );
+    }
+
+    public function makeInputRichBlockAnchor(string $type, string $name): InputRichBlockAnchorInterface
+    {
+        return new InputRichBlockAnchor(
+            type: $type,
+            name: $name,
+        );
+    }
+
+    public function makeInputRichBlockList(string $type, array $items): InputRichBlockListInterface
+    {
+        return new InputRichBlockList(
+            type: $type,
+            items: $items,
+        );
+    }
+
+    public function makeInputRichBlockBlockQuotation(
+        string $type,
+        array $blocks,
+        ?Types\Interfaces\RichTextInterface $credit,
+    ): InputRichBlockBlockQuotationInterface {
+        return new InputRichBlockBlockQuotation(
+            type: $type,
+            blocks: $blocks,
+            credit: $credit,
+        );
+    }
+
+    public function makeInputRichBlockPullQuotation(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+        ?Types\Interfaces\RichTextInterface $credit,
+    ): InputRichBlockPullQuotationInterface {
+        return new InputRichBlockPullQuotation(
+            type: $type,
+            text: $text,
+            credit: $credit,
+        );
+    }
+
+    public function makeInputRichBlockCollage(
+        string $type,
+        array $blocks,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockCollageInterface {
+        return new InputRichBlockCollage(
+            type: $type,
+            blocks: $blocks,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockSlideshow(
+        string $type,
+        array $blocks,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockSlideshowInterface {
+        return new InputRichBlockSlideshow(
+            type: $type,
+            blocks: $blocks,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockTable(
+        string $type,
+        array $cells,
+        ?bool $isBordered,
+        ?bool $isStriped,
+        ?Types\Interfaces\RichTextInterface $caption,
+    ): InputRichBlockTableInterface {
+        return new InputRichBlockTable(
+            type: $type,
+            cells: $cells,
+            isBordered: $isBordered,
+            isStriped: $isStriped,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockDetails(
+        string $type,
+        Types\Interfaces\RichTextInterface $summary,
+        array $blocks,
+        ?bool $isOpen,
+    ): InputRichBlockDetailsInterface {
+        return new InputRichBlockDetails(
+            type: $type,
+            summary: $summary,
+            blocks: $blocks,
+            isOpen: $isOpen,
+        );
+    }
+
+    public function makeInputRichBlockMap(
+        string $type,
+        LocationInterface $location,
+        int $zoom,
+        int $width,
+        int $height,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockMapInterface {
+        return new InputRichBlockMap(
+            type: $type,
+            location: $location,
+            zoom: $zoom,
+            width: $width,
+            height: $height,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockAnimation(
+        string $type,
+        InputMediaAnimationInterface $animation,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockAnimationInterface {
+        return new InputRichBlockAnimation(
+            type: $type,
+            animation: $animation,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockAudio(
+        string $type,
+        InputMediaAudioInterface $audio,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockAudioInterface {
+        return new InputRichBlockAudio(
+            type: $type,
+            audio: $audio,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockPhoto(
+        string $type,
+        InputMediaPhotoInterface $photo,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockPhotoInterface {
+        return new InputRichBlockPhoto(
+            type: $type,
+            photo: $photo,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockVideo(
+        string $type,
+        InputMediaVideoInterface $video,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockVideoInterface {
+        return new InputRichBlockVideo(
+            type: $type,
+            video: $video,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockVoiceNote(
+        string $type,
+        InputMediaVoiceNoteInterface $voiceNote,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockVoiceNoteInterface {
+        return new InputRichBlockVoiceNote(
+            type: $type,
+            voiceNote: $voiceNote,
+            caption: $caption,
+        );
+    }
+
+    public function makeInputRichBlockThinking(
+        string $type,
+        Types\Interfaces\RichTextInterface $text,
+    ): InputRichBlockThinkingInterface {
+        return new InputRichBlockThinking(
+            type: $type,
+            text: $text,
         );
     }
 
@@ -4617,6 +5727,13 @@ class Factory implements FactoryInterface
             parseMode: $parseMode,
             entities: $entities,
             linkPreviewOptions: $linkPreviewOptions,
+        );
+    }
+
+    public function makeInputRichMessageContent(InputRichMessageInterface $richMessage): InputRichMessageContentInterface
+    {
+        return new InputRichMessageContent(
+            richMessage: $richMessage,
         );
     }
 

@@ -31,6 +31,8 @@ use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
@@ -65,6 +67,7 @@ use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionDeletedInterface;
 use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
+use Phenogram\Bindings\Types\Interfaces\RichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryInterface;
 use Phenogram\Bindings\Types\Interfaces\SuccessfulPaymentInterface;
@@ -95,7 +98,7 @@ class MessageFactory extends AbstractFactory
     /**
      * Creates a new Message instance with default fake data.
      *
-     * @param int|null                                                                    $messageId                     Optional. Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
+     * @param int|null                                                                    $messageId                     Optional. Unique message identifier inside this chat; 0 for ephemeral messages. In specific instances (e.g., a message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
      * @param int|null                                                                    $messageThreadId               Optional. Optional. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only
      * @param DirectMessagesTopicInterface|null                                           $directMessagesTopic           Optional. Optional. Information about the direct messages chat topic that contains the message
      * @param UserInterface|null                                                          $from                          Optional. Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats.
@@ -103,6 +106,8 @@ class MessageFactory extends AbstractFactory
      * @param int|null                                                                    $senderBoostCount              Optional. Optional. If the sender of the message boosted the chat, the number of boosts added by the user
      * @param UserInterface|null                                                          $senderBusinessBot             Optional. Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
      * @param string|null                                                                 $senderTag                     Optional. Optional. Tag or custom title of the sender of the message; for supergroups only
+     * @param UserInterface|null                                                          $receiverUser                  Optional. Optional. For ephemeral messages, the user who received the message
+     * @param int|null                                                                    $ephemeralMessageId            Optional. Optional. For ephemeral messages, identifier of the ephemeral message inside this chat. The identifier may be reused for another ephemeral message after the message is deleted or expires.
      * @param int|null                                                                    $date                          Optional. Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param string|null                                                                 $guestQueryId                  Optional. Optional. The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to send a response message. If non-empty, the message belongs to the chat where the guest bot was summoned, which may not coincide with other existing bot chats sharing the same identifier.
      * @param string|null                                                                 $businessConnectionId          Optional. Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
@@ -110,7 +115,7 @@ class MessageFactory extends AbstractFactory
      * @param \Phenogram\Bindings\Types\Interfaces\MessageOriginInterface|null            $forwardOrigin                 Optional. Optional. Information about the original message for forwarded messages
      * @param bool|null                                                                   $isTopicMessage                Optional. Optional. True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
      * @param bool|null                                                                   $isAutomaticForward            Optional. Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
-     * @param MessageInterface|null                                                       $replyToMessage                Optional. Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+     * @param MessageInterface|null                                                       $replyToMessage                Optional. Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply. If the message is a reply to an ephemeral message, then this field may be omitted.
      * @param ExternalReplyInfoInterface|null                                             $externalReply                 Optional. Optional. Information about the message that is being replied to, which may come from another chat or forum topic
      * @param TextQuoteInterface|null                                                     $quote                         Optional. Optional. For replies that quote part of the original message, the quoted part of the message
      * @param StoryInterface|null                                                         $replyToStory                  Optional. Optional. For replies to a story, the original story
@@ -131,6 +136,7 @@ class MessageFactory extends AbstractFactory
      * @param LinkPreviewOptionsInterface|null                                            $linkPreviewOptions            Optional. Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
      * @param SuggestedPostInfoInterface|null                                             $suggestedPostInfo             Optional. Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|null                                                                 $effectId                      Optional. Optional. Unique identifier of the message effect added to the message
+     * @param RichMessageInterface|null                                                   $richMessage                   Optional. Optional. Message is a rich formatted message
      * @param AnimationInterface|null                                                     $animation                     Optional. Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set.
      * @param AudioInterface|null                                                         $audio                         Optional. Optional. Message is an audio file, information about the file
      * @param DocumentInterface|null                                                      $document                      Optional. Optional. Message is a general file, information about the file
@@ -183,6 +189,8 @@ class MessageFactory extends AbstractFactory
      * @param ChatBackgroundInterface|null                                                $chatBackgroundSet             Optional. Optional. Service message: chat background set
      * @param ChecklistTasksDoneInterface|null                                            $checklistTasksDone            Optional. Optional. Service message: some tasks in a checklist were marked as done or not done
      * @param ChecklistTasksAddedInterface|null                                           $checklistTasksAdded           Optional. Optional. Service message: tasks were added to a checklist
+     * @param CommunityChatAddedInterface|null                                            $communityChatAdded            Optional. Optional. Service message: chat added to a Community
+     * @param CommunityChatRemovedInterface|null                                          $communityChatRemoved          Optional. Optional. Service message: chat removed from a Community
      * @param DirectMessagePriceChangedInterface|null                                     $directMessagePriceChanged     Optional. Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
      * @param ForumTopicCreatedInterface|null                                             $forumTopicCreated             Optional. Optional. Service message: forum topic created
      * @param ForumTopicEditedInterface|null                                              $forumTopicEdited              Optional. Optional. Service message: forum topic edited
@@ -219,6 +227,8 @@ class MessageFactory extends AbstractFactory
         ?int $senderBoostCount = null,
         ?UserInterface $senderBusinessBot = null,
         ?string $senderTag = null,
+        ?UserInterface $receiverUser = null,
+        ?int $ephemeralMessageId = null,
         ?int $date = null,
         ?string $guestQueryId = null,
         ?string $businessConnectionId = null,
@@ -247,6 +257,7 @@ class MessageFactory extends AbstractFactory
         ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
         ?SuggestedPostInfoInterface $suggestedPostInfo = null,
         ?string $effectId = null,
+        ?RichMessageInterface $richMessage = null,
         ?AnimationInterface $animation = null,
         ?AudioInterface $audio = null,
         ?DocumentInterface $document = null,
@@ -299,6 +310,8 @@ class MessageFactory extends AbstractFactory
         ?ChatBackgroundInterface $chatBackgroundSet = null,
         ?ChecklistTasksDoneInterface $checklistTasksDone = null,
         ?ChecklistTasksAddedInterface $checklistTasksAdded = null,
+        ?CommunityChatAddedInterface $communityChatAdded = null,
+        ?CommunityChatRemovedInterface $communityChatRemoved = null,
         ?DirectMessagePriceChangedInterface $directMessagePriceChanged = null,
         ?ForumTopicCreatedInterface $forumTopicCreated = null,
         ?ForumTopicEditedInterface $forumTopicEdited = null,
@@ -335,6 +348,8 @@ class MessageFactory extends AbstractFactory
             senderBoostCount: $senderBoostCount,
             senderBusinessBot: $senderBusinessBot,
             senderTag: $senderTag,
+            receiverUser: $receiverUser,
+            ephemeralMessageId: $ephemeralMessageId,
             date: $date ?? self::fake()->unixTime(),
             guestQueryId: $guestQueryId,
             businessConnectionId: $businessConnectionId,
@@ -363,6 +378,7 @@ class MessageFactory extends AbstractFactory
             linkPreviewOptions: $linkPreviewOptions,
             suggestedPostInfo: $suggestedPostInfo,
             effectId: $effectId,
+            richMessage: $richMessage,
             animation: $animation,
             audio: $audio,
             document: $document,
@@ -415,6 +431,8 @@ class MessageFactory extends AbstractFactory
             chatBackgroundSet: $chatBackgroundSet,
             checklistTasksDone: $checklistTasksDone,
             checklistTasksAdded: $checklistTasksAdded,
+            communityChatAdded: $communityChatAdded,
+            communityChatRemoved: $communityChatRemoved,
             directMessagePriceChanged: $directMessagePriceChanged,
             forumTopicCreated: $forumTopicCreated,
             forumTopicEdited: $forumTopicEdited,

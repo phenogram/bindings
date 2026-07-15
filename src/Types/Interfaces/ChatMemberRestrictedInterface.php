@@ -19,7 +19,7 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var bool $isMember True, if the user is a member of the chat at the moment of the request */
     public bool $isMember { set; get; }
 
-    /** @var bool $canSendMessages True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues */
+    /** @var bool $canSendMessages True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues */
     public bool $canSendMessages { set; get; }
 
     /** @var bool $canSendAudios True, if the user is allowed to send audios */

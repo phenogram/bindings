@@ -10,7 +10,7 @@ class InputMediaVenueFactory extends AbstractFactory
     /**
      * Creates a new InputMediaVenue instance with default fake data.
      *
-     * @param string|null $type            Optional. Type of the result, must be venue
+     * @param string|null $type            Optional. Type of the media, must be venue
      * @param float|null  $latitude        Optional. Latitude of the location
      * @param float|null  $longitude       Optional. Longitude of the location
      * @param string|null $title           Optional. Name of the venue

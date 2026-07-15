@@ -7,7 +7,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InputMediaVenueInterface extends TypeInterface
 {
-    /** @var string $type Type of the result, must be venue */
+    /** @var string $type Type of the media, must be venue */
     public string $type { set; get; }
 
     /** @var float $latitude Latitude of the location */

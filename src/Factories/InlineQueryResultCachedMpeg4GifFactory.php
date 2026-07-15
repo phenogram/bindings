@@ -18,7 +18,7 @@ class InlineQueryResultCachedMpeg4GifFactory extends AbstractFactory
      * @param string|null                                                            $caption               Optional. Optional. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
      * @param string|null                                                            $parseMode             Optional. Optional. Mode for parsing entities in the caption. See formatting options for more details.
      * @param array|null                                                             $captionEntities       Optional. Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                              $showCaptionAboveMedia Optional. Optional. Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                              $showCaptionAboveMedia Optional. Optional. Pass True if the caption must be shown above the message media
      * @param InlineKeyboardMarkupInterface|null                                     $replyMarkup           Optional. Optional. Inline keyboard attached to the message
      * @param \Phenogram\Bindings\Types\Interfaces\InputMessageContentInterface|null $inputMessageContent   Optional. Optional. Content of the message to be sent instead of the video animation
      */

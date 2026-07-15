@@ -21,6 +21,7 @@ class ChatJoinRequestFactory extends AbstractFactory
      * @param int|null                     $date       Optional. Date the request was sent in Unix time
      * @param string|null                  $bio        Optional. Optional. Bio of the user
      * @param ChatInviteLinkInterface|null $inviteLink Optional. Optional. Chat invite link that was used by the user to send the join request
+     * @param string|null                  $queryId    Optional. Optional. Identifier of the join request query; for bots assigned to process join requests only. If present, then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within 10 seconds.
      */
     public static function make(
         ?ChatInterface $chat = null,
@@ -29,6 +30,7 @@ class ChatJoinRequestFactory extends AbstractFactory
         ?int $date = null,
         ?string $bio = null,
         ?ChatInviteLinkInterface $inviteLink = null,
+        ?string $queryId = null,
     ): ChatJoinRequestInterface {
         return self::factory()->makeChatJoinRequest(
             chat: $chat ?? Chat::make(),
@@ -37,6 +39,7 @@ class ChatJoinRequestFactory extends AbstractFactory
             date: $date ?? self::fake()->unixTime(),
             bio: $bio,
             inviteLink: $inviteLink,
+            queryId: $queryId,
         );
     }
 }

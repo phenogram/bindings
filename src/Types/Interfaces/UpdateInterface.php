@@ -84,4 +84,7 @@ interface UpdateInterface extends TypeInterface
 
     /** @var ManagedBotUpdatedInterface|null $managedBot Optional. A new bot was created to be managed by the bot, or token or owner of a managed bot was changed */
     public ?ManagedBotUpdatedInterface $managedBot { set; get; }
+
+    /** @var BotSubscriptionUpdatedInterface|null $subscription Optional. User payment subscription has changed */
+    public ?BotSubscriptionUpdatedInterface $subscription { set; get; }
 }

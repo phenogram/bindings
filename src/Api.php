@@ -35,6 +35,7 @@ use Phenogram\Bindings\Types\Interfaces\InputPaidMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPollOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\InputProfilePhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
@@ -227,6 +228,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the message text. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $entities                A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
      * @param LinkPreviewOptionsInterface|null                                                                                 $linkPreviewOptions      Link preview generation options for the message
@@ -244,6 +247,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $parseMode = null,
         ?array $entities = null,
         ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
@@ -296,7 +301,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the sent messages is returned.
+     * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages. On success, an Array of MessageId of the sent messages is returned.
      *
      * @param int|string $chatId                Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
      * @param int|string $fromChatId            Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format @username)
@@ -337,7 +342,7 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $caption                 New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept.
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the new caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media. Ignored if a new caption isn't specified.
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
      * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.
@@ -373,7 +378,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+     * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an Array of MessageId of the sent messages is returned.
      *
      * @param int|string $chatId                Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
      * @param int|string $fromChatId            Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format @username)
@@ -412,10 +417,12 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $caption                 Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the photo caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media
      * @param bool|null                                                                                                        $hasSpoiler              Pass True if the photo needs to be covered with a spoiler animation
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
@@ -431,6 +438,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -460,10 +469,12 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $caption                 Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media
      * @param bool|null                                                                                                        $hasSpoiler              Pass True if the video needs to be covered with a spoiler animation
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
@@ -480,6 +491,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -509,6 +522,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $caption                 Audio caption, 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the audio caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -530,6 +545,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -560,6 +577,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId        Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId             Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId       Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId              For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId             For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param InputFileInterface|string|null                                                                                   $thumbnail                   Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
      * @param string|null                                                                                                      $caption                     Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode                   Mode for parsing entities in the document caption. See formatting options for more details.
@@ -579,6 +598,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         InputFileInterface|string|null $thumbnail = null,
         ?string $caption = null,
         ?string $parseMode = null,
@@ -607,6 +628,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param int|null                                                                                                         $duration                Duration of sent video in seconds
      * @param int|null                                                                                                         $width                   Video width
      * @param int|null                                                                                                         $height                  Video height
@@ -616,7 +639,7 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $caption                 Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media
      * @param bool|null                                                                                                        $hasSpoiler              Pass True if the video needs to be covered with a spoiler animation
      * @param bool|null                                                                                                        $supportsStreaming       Pass True if the uploaded video is suitable for streaming
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
@@ -633,6 +656,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?int $duration = null,
         ?int $width = null,
         ?int $height = null,
@@ -668,6 +693,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param int|null                                                                                                         $duration                Duration of sent animation in seconds
      * @param int|null                                                                                                         $width                   Animation width
      * @param int|null                                                                                                         $height                  Animation height
@@ -675,7 +702,7 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $caption                 Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the animation caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media
      * @param bool|null                                                                                                        $hasSpoiler              Pass True if the animation needs to be covered with a spoiler animation
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
@@ -691,6 +718,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?int $duration = null,
         ?int $width = null,
         ?int $height = null,
@@ -723,6 +752,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $caption                 Voice message caption, 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the voice message caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -741,6 +772,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $caption = null,
         ?string $parseMode = null,
         ?array $captionEntities = null,
@@ -768,6 +801,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param int|null                                                                                                         $duration                Duration of sent video in seconds
      * @param int|null                                                                                                         $length                  Video width and height, i.e. diameter of the video message
      * @param InputFileInterface|string|null                                                                                   $thumbnail               Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -785,6 +820,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?int $duration = null,
         ?int $length = null,
         InputFileInterface|string|null $thumbnail = null,
@@ -808,7 +845,7 @@ class Api implements ApiInterface
      *
      * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username. If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
      * @param int                                                                                                              $starCount               The number of Telegram Stars that must be paid to buy access to the media; 1-25000
-     * @param array<InputPaidMediaInterface>                                                                                   $media                   A JSON-serialized array describing the media to be sent; up to 10 items
+     * @param array<InputPaidMediaInterface>                                                                                   $media                   A JSON-serialized Array describing the media to be sent; up to 10 items
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
@@ -816,7 +853,7 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $caption                 Media caption, 0-1024 characters after entities parsing
      * @param string|null                                                                                                      $parseMode               Mode for parsing entities in the media caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null                                                                               $captionEntities         A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True, if the caption must be shown above the message media
+     * @param bool|null                                                                                                        $showCaptionAboveMedia   Pass True if the caption must be shown above the message media
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
      * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.
@@ -851,10 +888,10 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Message objects that were sent is returned.
+     * Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an Array of Message objects that were sent is returned.
      *
      * @param int|string                                                                                                                                 $chatId                Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
-     * @param array<InputMediaAudioInterface|InputMediaDocumentInterface|InputMediaLivePhotoInterface|InputMediaPhotoInterface|InputMediaVideoInterface> $media                 A JSON-serialized array describing messages to be sent, must include 2-10 items
+     * @param array<InputMediaAudioInterface|InputMediaDocumentInterface|InputMediaLivePhotoInterface|InputMediaPhotoInterface|InputMediaVideoInterface> $media                 A JSON-serialized Array describing messages to be sent, must include 2-10 items
      * @param string|null                                                                                                                                $businessConnectionId  Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                                                   $messageThreadId       Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                                                   $directMessagesTopicId Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat
@@ -895,8 +932,10 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param float|null                                                                                                       $horizontalAccuracy      The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|null                                                                                                         $livePeriod              Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely
+     * @param int|null                                                                                                         $livePeriod              Period in seconds during which the location will be updated (see Live Locations), must be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely. Must be 0 for ephemeral messages.
      * @param int|null                                                                                                         $heading                 For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
      * @param int|null                                                                                                         $proximityAlertRadius    For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
@@ -914,6 +953,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?float $horizontalAccuracy = null,
         ?int $livePeriod = null,
         ?int $heading = null,
@@ -944,6 +985,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $foursquareId            Foursquare identifier of the venue
      * @param string|null                                                                                                      $foursquareType          Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
      * @param string|null                                                                                                      $googlePlaceId           Google Places identifier of the venue
@@ -965,6 +1008,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $foursquareId = null,
         ?string $foursquareType = null,
         ?string $googlePlaceId = null,
@@ -993,6 +1038,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $lastName                Contact's last name
      * @param string|null                                                                                                      $vcard                   Additional data about the contact in the form of a vCard, 0-2048 bytes
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
@@ -1010,6 +1057,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $lastName = null,
         ?string $vcard = null,
         ?bool $disableNotification = null,
@@ -1039,12 +1088,12 @@ class Api implements ApiInterface
      * @param array<MessageEntityInterface>|null                                                                               $questionEntities       A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode.
      * @param bool|null                                                                                                        $isAnonymous            True, if the poll needs to be anonymous, defaults to True
      * @param string|null                                                                                                      $type                   Poll type, “quiz” or “regular”, defaults to “regular”
-     * @param bool|null                                                                                                        $allowsMultipleAnswers  Pass True, if the poll allows multiple answers, defaults to False
-     * @param bool|null                                                                                                        $allowsRevoting         Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
-     * @param bool|null                                                                                                        $shuffleOptions         Pass True, if the poll options must be shown in random order
-     * @param bool|null                                                                                                        $allowAddingOptions     Pass True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
-     * @param bool|null                                                                                                        $hideResultsUntilCloses Pass True, if poll results must be shown only after the poll closes
-     * @param bool|null                                                                                                        $membersOnly            Pass True, if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only
+     * @param bool|null                                                                                                        $allowsMultipleAnswers  Pass True if the poll allows multiple answers, defaults to False
+     * @param bool|null                                                                                                        $allowsRevoting         Pass True if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls
+     * @param bool|null                                                                                                        $shuffleOptions         Pass True if the poll options must be shown in random order
+     * @param bool|null                                                                                                        $allowAddingOptions     Pass True if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes
+     * @param bool|null                                                                                                        $hideResultsUntilCloses Pass True if poll results must be shown only after the poll closes
+     * @param bool|null                                                                                                        $membersOnly            Pass True if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only
      * @param array<string>|null                                                                                               $countryCodes           A JSON-serialized list of 0-12 two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote in the poll; for channel chats only. Use “FT” as a country code to allow users with anonymous numbers to vote. If omitted or empty, then users from any country can participate in the poll.
      * @param array<int>|null                                                                                                  $correctOptionIds       A JSON-serialized list of monotonically increasing 0-based identifiers of the correct answer options, required for polls in quiz mode
      * @param string|null                                                                                                      $explanation            Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
@@ -1178,7 +1227,7 @@ class Api implements ApiInterface
      * Use this method to stream a partial message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendMessage with the complete message to persist it in the user's chat. Returns True on success.
      *
      * @param int                                $chatId          Unique identifier for the target private chat
-     * @param int                                $draftId         Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+     * @param int                                $draftId         Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
      * @param int|null                           $messageThreadId Unique identifier for the target message thread
      * @param string|null                        $text            Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
      * @param string|null                        $parseMode       Mode for parsing entities in the message text. See formatting options for more details.
@@ -1647,6 +1696,36 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to process a received chat join request query. Returns True on success.
+     *
+     * @param string $chatJoinRequestQueryId Unique identifier of the join request query
+     * @param string $result                 Result of the query. Must be either “approve” to allow the user to join the chat, “decline” to disallow the user to join the chat, or “queue” to leave the decision to other administrators.
+     */
+    public function answerChatJoinRequestQuery(string $chatJoinRequestQueryId, string $result): bool
+    {
+        return $this->doRequest(
+            method: 'answerChatJoinRequestQuery',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based on the user interaction with the Mini App. Returns True on success.
+     *
+     * @param string $chatJoinRequestQueryId Unique identifier of the join request query
+     * @param string $webAppUrl              An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
+     */
+    public function sendChatJoinRequestWebApp(string $chatJoinRequestQueryId, string $webAppUrl): bool
+    {
+        return $this->doRequest(
+            method: 'sendChatJoinRequestWebApp',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
      * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
      *
      * @param int|string         $chatId Unique identifier for the target chat or username of the target channel in the format @username
@@ -1806,7 +1885,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to get the number of members in a chat. Returns Int on success.
+     * Use this method to get the number of members in a chat. Returns Integer on success.
      *
      * @param int|string $chatId Unique identifier for the target chat or username of the target supergroup or channel in the format @username
      */
@@ -1835,7 +1914,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to get the last messages from the personal chat (i.e., the chat currently added to their profile) of a given user. On success, an array of Message objects is returned.
+     * Use this method to get the last messages from the personal chat (i.e., the chat currently added to their profile) of a given user. On success, an Array of Message objects is returned.
      *
      * @param int $userId Unique identifier for the target user
      * @param int $limit  The maximum number of messages to return; 1-20
@@ -2088,7 +2167,7 @@ class Api implements ApiInterface
      *
      * @param string      $callbackQueryId Unique identifier for the query to be answered
      * @param string|null $text            Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters.
-     * @param bool|null   $showAlert       If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
+     * @param bool|null   $showAlert       If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to False.
      * @param string|null $url             URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button.Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
      * @param int|null    $cacheTime       The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
      */
@@ -2196,8 +2275,8 @@ class Api implements ApiInterface
      * Use this method to change the access settings of a managed bot. Returns True on success.
      *
      * @param int             $userId             User identifier of the managed bot whose access settings will be changed
-     * @param bool            $isAccessRestricted Pass True, if only selected users can access the bot. The bot's owner can always access it.
-     * @param array<int>|null $addedUserIds       A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is false.
+     * @param bool            $isAccessRestricted Pass True if only selected users can access the bot. The bot's owner can always access it.
+     * @param array<int>|null $addedUserIds       A JSON-serialized list of up to 10 identifiers of users who will have access to the bot in addition to its owner. Ignored if is_access_restricted is False.
      */
     public function setManagedBotAccessSettings(int $userId, bool $isAccessRestricted, ?array $addedUserIds = null): bool
     {
@@ -2673,7 +2752,7 @@ class Api implements ApiInterface
      * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires the can_change_gift_settings business bot right. Returns True on success.
      *
      * @param string                     $businessConnectionId Unique identifier of the business connection
-     * @param bool                       $showGiftButton       Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field
+     * @param bool                       $showGiftButton       Pass True if a button for sending a gift to the user or by the business account must always be shown in the input field
      * @param AcceptedGiftTypesInterface $acceptedGiftTypes    Types of gifts accepted by the business account
      */
     public function setBusinessAccountGiftSettings(
@@ -3033,27 +3112,29 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     * Use this method to edit text, rich and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
      *
-     * @param string                             $text                 New text of the message, 1-4096 characters after entities parsing
      * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username.
      * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit.
      * @param string|null                        $inlineMessageId      Required if chat_id and message_id are not specified. Identifier of the inline message.
+     * @param string|null                        $text                 New text of the message, 1-4096 characters after entity parsing; required if rich_message isn't specified
      * @param string|null                        $parseMode            Mode for parsing entities in the message text. See formatting options for more details.
      * @param array<MessageEntityInterface>|null $entities             A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
      * @param LinkPreviewOptionsInterface|null   $linkPreviewOptions   Link preview generation options for the message
+     * @param InputRichMessageInterface|null     $richMessage          New rich content of the message; required if text isn't specified. Direct upload of new files isn't supported when an inline message is edited.
      * @param InlineKeyboardMarkupInterface|null $replyMarkup          A JSON-serialized object for an inline keyboard
      */
     public function editMessageText(
-        string $text,
         ?string $businessConnectionId = null,
         int|string|null $chatId = null,
         ?int $messageId = null,
         ?string $inlineMessageId = null,
+        ?string $text = null,
         ?string $parseMode = null,
         ?array $entities = null,
         ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
+        ?InputRichMessageInterface $richMessage = null,
         ?InlineKeyboardMarkupInterface $replyMarkup = null,
     ): MessageInterface|bool {
         return $this->doRequest(
@@ -3073,7 +3154,7 @@ class Api implements ApiInterface
      * @param string|null                        $caption               New caption of the message, 0-1024 characters after entities parsing
      * @param string|null                        $parseMode             Mode for parsing entities in the message caption. See formatting options for more details.
      * @param array<MessageEntityInterface>|null $captionEntities       A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|null                          $showCaptionAboveMedia Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+     * @param bool|null                          $showCaptionAboveMedia Pass True if the caption must be shown above the message media. Supported only for animation, photo and video messages.
      * @param InlineKeyboardMarkupInterface|null $replyMarkup           A JSON-serialized object for an inline keyboard
      */
     public function editMessageCaption(
@@ -3095,9 +3176,9 @@ class Api implements ApiInterface
     }
 
     /**
-     * Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+     * Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
      *
-     * @param InputMediaInterface                $media                A JSON-serialized object for a new media content of the message
+     * @param InputMediaInterface                $media                A JSON-serialized object for the new media content of the message
      * @param string|null                        $businessConnectionId Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|null                    $chatId               Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username.
      * @param int|null                           $messageId            Required if inline_message_id is not specified. Identifier of the message to edit.
@@ -3245,6 +3326,106 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+     *
+     * @param int|string                         $chatId             Unique identifier for the target chat or username of the target supergroup in the format @username
+     * @param int                                $receiverUserId     Identifier of the user who received the message
+     * @param int                                $ephemeralMessageId Identifier of the ephemeral message to edit
+     * @param string                             $text               New text of the message, 1-4096 characters after entity parsing
+     * @param string|null                        $parseMode          Mode for parsing entities in the message text. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $entities           A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+     * @param LinkPreviewOptionsInterface|null   $linkPreviewOptions Link preview generation options for the message
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup        A JSON-serialized object for an inline keyboard
+     */
+    public function editEphemeralMessageText(
+        int|string $chatId,
+        int $receiverUserId,
+        int $ephemeralMessageId,
+        string $text,
+        ?string $parseMode = null,
+        ?array $entities = null,
+        ?LinkPreviewOptionsInterface $linkPreviewOptions = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): bool {
+        return $this->doRequest(
+            method: 'editEphemeralMessageText',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to edit the media of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+     *
+     * @param int|string                         $chatId             Unique identifier for the target chat or username of the target supergroup in the format @username
+     * @param int                                $receiverUserId     Identifier of the user who received the message
+     * @param int                                $ephemeralMessageId Identifier of the ephemeral message to edit
+     * @param InputMediaInterface                $media              A JSON-serialized object for the new media content of the message. A new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL.
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup        A JSON-serialized object for an inline keyboard
+     */
+    public function editEphemeralMessageMedia(
+        int|string $chatId,
+        int $receiverUserId,
+        int $ephemeralMessageId,
+        InputMediaInterface $media,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): bool {
+        return $this->doRequest(
+            method: 'editEphemeralMessageMedia',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to edit the caption of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+     *
+     * @param int|string                         $chatId             Unique identifier for the target chat or username of the target supergroup in the format @username
+     * @param int                                $receiverUserId     Identifier of the user who received the message
+     * @param int                                $ephemeralMessageId Identifier of the ephemeral message to edit
+     * @param string|null                        $caption            New caption of the message, 0-1024 characters after entities parsing
+     * @param string|null                        $parseMode          Mode for parsing entities in the message caption. See formatting options for more details.
+     * @param array<MessageEntityInterface>|null $captionEntities    A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup        A JSON-serialized object for an inline keyboard
+     */
+    public function editEphemeralMessageCaption(
+        int|string $chatId,
+        int $receiverUserId,
+        int $ephemeralMessageId,
+        ?string $caption = null,
+        ?string $parseMode = null,
+        ?array $captionEntities = null,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): bool {
+        return $this->doRequest(
+            method: 'editEphemeralMessageCaption',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
+     * Use this method to edit only the reply markup of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline. On success, True is returned.
+     *
+     * @param int|string                         $chatId             Unique identifier for the target chat or username of the target supergroup in the format @username
+     * @param int                                $receiverUserId     Identifier of the user who received the message
+     * @param int                                $ephemeralMessageId Identifier of the ephemeral message to edit
+     * @param InlineKeyboardMarkupInterface|null $replyMarkup        A JSON-serialized object for an inline keyboard
+     */
+    public function editEphemeralMessageReplyMarkup(
+        int|string $chatId,
+        int $receiverUserId,
+        int $ephemeralMessageId,
+        ?InlineKeyboardMarkupInterface $replyMarkup = null,
+    ): bool {
+        return $this->doRequest(
+            method: 'editEphemeralMessageReplyMarkup',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
      * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.
      *
      * @param int      $chatId    Unique identifier for the target direct messages chat
@@ -3307,6 +3488,22 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to delete an ephemeral message. Note that it is not guaranteed that the user will receive the message deletion event, especially if they are offline. Returns True on success.
+     *
+     * @param int|string $chatId             Unique identifier for the target chat or username of the target supergroup in the format @username
+     * @param int        $receiverUserId     Identifier of the user who received the message
+     * @param int        $ephemeralMessageId Identifier of the ephemeral message to delete
+     */
+    public function deleteEphemeralMessage(int|string $chatId, int $receiverUserId, int $ephemeralMessageId): bool
+    {
+        return $this->doRequest(
+            method: 'deleteEphemeralMessage',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
      * Use this method to remove a reaction from a message in a group or a supergroup chat. The bot must have the 'can_delete_messages' administrator right in the chat. Returns True on success.
      *
      * @param int|string $chatId      Unique identifier for the target chat or username of the target supergroup in the format @username
@@ -3351,6 +3548,8 @@ class Api implements ApiInterface
      * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
      * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param int|null                                                                                                         $receiverUserId          For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See ephemeral message sending for more details.
+     * @param string|null                                                                                                      $callbackQueryId         For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any
      * @param string|null                                                                                                      $emoji                   Emoji associated with the sticker; only for just uploaded stickers
      * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
@@ -3366,6 +3565,8 @@ class Api implements ApiInterface
         ?string $businessConnectionId = null,
         ?int $messageThreadId = null,
         ?int $directMessagesTopicId = null,
+        ?int $receiverUserId = null,
+        ?string $callbackQueryId = null,
         ?string $emoji = null,
         ?bool $disableNotification = null,
         ?bool $protectContent = null,
@@ -3631,10 +3832,68 @@ class Api implements ApiInterface
     }
 
     /**
+     * Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat. On success, the sent Message is returned.
+     *
+     * @param int|string                                                                                                       $chatId                  Unique identifier for the target chat or username of the target bot, supergroup or channel in the format @username
+     * @param InputRichMessageInterface                                                                                        $richMessage             The message to be sent
+     * @param string|null                                                                                                      $businessConnectionId    Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages.
+     * @param int|null                                                                                                         $messageThreadId         Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only
+     * @param int|null                                                                                                         $directMessagesTopicId   Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+     * @param bool|null                                                                                                        $disableNotification     Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null                                                                                                        $protectContent          Protects the contents of the sent message from forwarding and saving
+     * @param bool|null                                                                                                        $allowPaidBroadcast      Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.
+     * @param string|null                                                                                                      $messageEffectId         Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParametersInterface|null                                                                            $suggestedPostParameters A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+     * @param ReplyParametersInterface|null                                                                                    $replyParameters         Description of the message to reply to
+     * @param InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup             Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user.
+     */
+    public function sendRichMessage(
+        int|string $chatId,
+        InputRichMessageInterface $richMessage,
+        ?string $businessConnectionId = null,
+        ?int $messageThreadId = null,
+        ?int $directMessagesTopicId = null,
+        ?bool $disableNotification = null,
+        ?bool $protectContent = null,
+        ?bool $allowPaidBroadcast = null,
+        ?string $messageEffectId = null,
+        ?SuggestedPostParametersInterface $suggestedPostParameters = null,
+        ?ReplyParametersInterface $replyParameters = null,
+        InlineKeyboardMarkupInterface|ReplyKeyboardMarkupInterface|ReplyKeyboardRemoveInterface|ForceReplyInterface|null $replyMarkup = null,
+    ): MessageInterface {
+        return $this->doRequest(
+            method: 'sendRichMessage',
+            args: get_defined_vars(),
+            returnType: MessageInterface::class,
+        );
+    }
+
+    /**
+     * Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendRichMessage with the complete message to persist it in the user's chat. Returns True on success.
+     *
+     * @param int                       $chatId          Unique identifier for the target private chat
+     * @param int                       $draftId         Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.
+     * @param InputRichMessageInterface $richMessage     The partial message to be streamed. Direct upload of new files isn't supported.
+     * @param int|null                  $messageThreadId Unique identifier for the target message thread
+     */
+    public function sendRichMessageDraft(
+        int $chatId,
+        int $draftId,
+        InputRichMessageInterface $richMessage,
+        ?int $messageThreadId = null,
+    ): bool {
+        return $this->doRequest(
+            method: 'sendRichMessageDraft',
+            args: get_defined_vars(),
+            returnType: 'bool',
+        );
+    }
+
+    /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
      *
      * @param string                                 $inlineQueryId Unique identifier for the answered query
-     * @param array<InlineQueryResultInterface>      $results       A JSON-serialized array of results for the inline query
+     * @param array<InlineQueryResultInterface>      $results       A JSON-serialized Array of results for the inline query
      * @param int|null                               $cacheTime     The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
      * @param bool|null                              $isPersonal    Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query.
      * @param string|null                            $nextOffset    Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.
@@ -3668,7 +3927,7 @@ class Api implements ApiInterface
      * @param int|null                              $directMessagesTopicId     Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
      * @param string|null                           $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
      * @param int|null                              $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
-     * @param array<int>|null                       $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+     * @param array<int>|null                       $suggestedTipAmounts       A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
      * @param string|null                           $startParameter            Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter.
      * @param string|null                           $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
      * @param string|null                           $photoUrl                  URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
@@ -3742,7 +4001,7 @@ class Api implements ApiInterface
      * @param string|null                  $providerToken             Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
      * @param int|null                     $subscriptionPeriod        The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 10000 Telegram Stars.
      * @param int|null                     $maxTipAmount              The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
-     * @param array<int>|null              $suggestedTipAmounts       A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
+     * @param array<int>|null              $suggestedTipAmounts       A JSON-serialized Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
      * @param string|null                  $providerData              JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
      * @param string|null                  $photoUrl                  URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
      * @param int|null                     $photoSize                 Photo size in bytes
@@ -3792,7 +4051,7 @@ class Api implements ApiInterface
      *
      * @param string                              $shippingQueryId Unique identifier for the query to be answered
      * @param bool                                $ok              Pass True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
-     * @param array<ShippingOptionInterface>|null $shippingOptions Required if ok is True. A JSON-serialized array of available shipping options.
+     * @param array<ShippingOptionInterface>|null $shippingOptions Required if ok is True. A JSON-serialized Array of available shipping options.
      * @param string|null                         $errorMessage    Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.
      */
     public function answerShippingQuery(
@@ -3887,7 +4146,7 @@ class Api implements ApiInterface
      * Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
      *
      * @param int                                  $userId User identifier
-     * @param array<PassportElementErrorInterface> $errors A JSON-serialized array describing the errors
+     * @param array<PassportElementErrorInterface> $errors A JSON-serialized Array describing the errors
      */
     public function setPassportDataErrors(int $userId, array $errors): bool
     {

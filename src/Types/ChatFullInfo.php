@@ -12,9 +12,11 @@ use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
+use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
 
 /**
@@ -74,6 +76,8 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param AudioInterface|null                $firstProfileAudio                  Optional. For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColorsInterface|null     $uniqueGiftColors                   Optional. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews
      * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
+     * @param UserInterface|null                 $guardBot                           Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators.
+     * @param CommunityInterface|null            $community                          Optional. The Community to which the chat belongs
      */
     public function __construct(
         public int $id,
@@ -127,6 +131,8 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?AudioInterface $firstProfileAudio = null,
         public ?UniqueGiftColorsInterface $uniqueGiftColors = null,
         public ?int $paidMessageStarCount = null,
+        public ?UserInterface $guardBot = null,
+        public ?CommunityInterface $community = null,
     ) {
     }
 }
