@@ -1,35 +1,35 @@
-# Executable examples
+# Исполняемые примеры
 
-[Русский](README.ru.md)
+[English](README.en.md)
 
-Each example runs without a bot token.
-Each example uses fixed data.
-The test suite runs all examples.
+Каждый пример работает без токена бота.
+Каждый пример использует фиксированные данные.
+Тесты запускают все примеры.
 
-These commands use files from a source checkout.
-Run `composer install` in the package root before you run an example.
+Для этих команд нужны файлы из клона репозитория.
+Выполните `composer install` в корне пакета перед запуском примера.
 
-Run one example from the package root:
+Запустите один пример из корня пакета:
 
 ```bash
 php examples/01-serialize-keyboard.php
 ```
 
-Run all examples:
+Запустите все примеры:
 
 ```bash
 for file in examples/[0-9][0-9]-*.php; do php "$file"; done
 ```
 
-| File | Purpose |
+| Файл | Назначение |
 |---|---|
-| [`01-serialize-keyboard.php`](01-serialize-keyboard.php) | Convert PHP objects and camel-case keys to a Telegram payload. |
-| [`02-deserialize-update.php`](02-deserialize-update.php) | Convert an update payload to typed PHP objects. |
-| [`03-call-api.php`](03-call-api.php) | Call `Api` with a deterministic client. |
-| [`04-custom-type.php`](04-custom-type.php) | Replace one result type with a custom implementation. |
-| [`05-test-factories.php`](05-test-factories.php) | Create a deterministic test fixture. |
-| [`06-handle-api-error.php`](06-handle-api-error.php) | Inspect a failed Telegram response. |
+| [`01-serialize-keyboard.php`](01-serialize-keyboard.php) | Преобразует PHP-объекты и ключи `camelCase` в данные Telegram. |
+| [`02-deserialize-update.php`](02-deserialize-update.php) | Преобразует данные обновления в типизированные PHP-объекты. |
+| [`03-call-api.php`](03-call-api.php) | Вызывает `Api` с детерминированным клиентом. |
+| [`04-custom-type.php`](04-custom-type.php) | Заменяет тип результата своей реализацией. |
+| [`05-test-factories.php`](05-test-factories.php) | Создаёт детерминированную тестовую фикстуру. |
+| [`06-handle-api-error.php`](06-handle-api-error.php) | Проверяет ошибочный ответ Telegram. |
 
-The `RecordingClient` is only a test double.
-It does not send HTTP requests.
-Read the [client integration guide](../docs/en/client-integration.md) before you add a production client.
+`RecordingClient` предназначен только для тестов.
+Он не отправляет HTTP-запросы.
+Прочитайте [руководство по интеграции клиента](../docs/ru/client-integration.md) перед созданием рабочего клиента.

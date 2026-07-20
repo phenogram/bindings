@@ -5,7 +5,7 @@
 ## Get help
 
 Read the [English documentation](docs/en/getting-started.md).
-Run the [offline examples](examples/README.md).
+Run the [offline examples](examples/README.en.md).
 Search the [existing issues](https://github.com/phenogram/bindings/issues).
 
 Open an issue when you find a reproducible package defect.
@@ -28,7 +28,7 @@ Do not disclose a vulnerability in a public support issue.
 ## Получение помощи
 
 Прочитайте [русскую документацию](docs/ru/getting-started.md).
-Запустите [примеры без сети](examples/README.ru.md).
+Запустите [примеры без сети](examples/README.md).
 Проверьте [существующие issues](https://github.com/phenogram/bindings/issues).
 
 Создайте issue, если нашли воспроизводимую ошибку пакета.
