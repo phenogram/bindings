@@ -1,342 +1,168 @@
-[🇬🇧 ENGLISH](README.en.md) | 🇷🇺 РУССКИЙ
+[Русский](README.ru.md) | **English**
 
-# PHP SDK для Telegram Bot API
+# Phenogram Bindings
 
-Строго типизированные PHP классы для Telegram Bot API, основанные на [официальной документации](https://core.telegram.org/bots/api),
-для использования в [Фреймворке Phenogram](https://github.com/phenogram/framework)
+[![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/releases/8.4/en.php)
+[![Telegram Bot API 10.2](https://img.shields.io/badge/Telegram_Bot_API-10.2-26A5E4?logo=telegram&logoColor=white)](https://core.telegram.org/bots/api)
+[![CI](https://github.com/phenogram/bindings/actions/workflows/ci.yaml/badge.svg)](https://github.com/phenogram/bindings/actions/workflows/ci.yaml)
+[![Packagist](https://img.shields.io/packagist/v/phenogram/bindings?label=Packagist)](https://packagist.org/packages/phenogram/bindings)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Этот пакет подойдёт тем, кому нужна только отправка запросов в апи, без работы с апдейтами.
+Zero-dependency, strictly typed PHP bindings for the Telegram Bot API.
 
-В основном сгенерированы с помощью [scrapper](https://github.com/phenogram/scraper)
+The package gives you typed API methods, request serialization, response deserialization, and replaceable object factories.
+The package does not select an HTTP client.
+The package does not run a bot loop.
 
-Работа всё ещё в процессе, и не каждый класс протестирован или использовался.
-Если вы обнаружите какие-либо несоответствия с документацией, не стесняйтесь создать ишью.
-Всё, что не описано в официальной документации Telegram Bot Api, выходит за рамки этого проекта.
+Use [Phenogram Framework](https://github.com/phenogram/framework) when you need routing, middleware, and update processing.
 
-Текущая поддерживаемая версия Telegram bot API - **v10.2.0**
+## Compatibility
 
-Это только SDK для вашего Telegram-бота, а не полноценный фреймворк,
-вы можете использовать его целиком, либо только нужные вам куски.
+| Item | Supported version |
+|---|---|
+| Package | `9.x` |
+| Telegram Bot API | `10.2` |
+| PHP | `^8.4` |
+| Runtime packages | None |
 
-Если вам нужен фреймворк, посмотрите на [Phenogram](https://github.com/phenogram/framework)
+The code uses [PHP property hooks](https://www.php.net/manual/en/language.oop5.property-hooks.php).
+PHP 8.4 is therefore required.
 
-# Установка
+## Install
 
 ```bash
 composer require phenogram/bindings
 ```
 
-# Использование
-Этот пакет состоит из 3 основных частей: api, сериализатор и фабрика.
+## Quick start
 
-Через [Api](src/Api.php) вы будете отправлять запросы к api ботов
+Use `Serializer` to create a Telegram payload:
 
-[Сериализатор](src/Serializer.php) отвечает за преобразование объектов в массивы для отправки клиентов и
-за преобразование ответов от api обратно в строго типизированные объекты.
-
-Все типы реализованы в виде интерфейсов с пропертями
-(благодаря [новой фиче PHP 8.4](https://www.php.net/manual/ru/migration84.new-features.php#migration84.new-features.core.property-hooks)),
-что позволяет вам с лёгкостью их переопределить при необходимости.
-
-[Фабрика](src/Factory.php) существует как раз для облегчения переопределения типов,
-именно она используется в сериализациторе и отвечает за создание конкретных объектов.
-
-## Сериализатор
-Пример использования можно увидеть в классе [Api](src/Api.php).
-
-Вот простой пример:
-```php
-use Phenogram\Bindings\Serializer;
-
-$serializer = new Serializer();
-$inlineKeyboardMarkup = new InlineKeyboardMarkup(
-    inlineKeyboard: [[
-        new InlineKeyboardButton(text: 'Кнопка 1', callbackData: 'data1')
-    ]],
-);
-
-$data = $serializer->serialize([
-    'reply_markup' => $inlineKeyboardMarkup,
-]);
-
-$arrayKeyboard = [
-    'reply_markup' => [
-        'inline_keyboard' => [[
-            ['text' => 'Кнопка 1', 'callback_data' => 'data1']
-        ]],
-    ],
-];
-
-assert($arrayKeyboard === $data);
-```
-
-Его также можно использовать для десериализации запросов Telegram в типизированные PHP-классы.
-Единственное не совсем очевидное - вам нужно передать JSON-закодированную строку
-из поля `result` запроса Telegram, а не весь запрос.
-
-```php
-use Phenogram\Bindings\Serializer;
-use Phenogram\Bindings\Types\Update;
-use Phenogram\Bindings\Types\Message;
-use Phenogram\Bindings\Types\Chat;
-
-$updatesData = [[
-    'update_id' => 1,
-    'message' => [
-        'message_id' => 2,
-        'chat' => [
-            'id' => 3,
-            'type' => 'private',
-        ],
-        'date' => 1600000000,
-    ],
-]];
-
-$serializer = new Serializer();
-$updates = $serializer->deserialize(
-    data: $updatesData,
-    type: UpdateInterface::class,
-    isArray: true,
-);
-
-assert($updates[0] instanceof UpdateInterface);
-assert($updates[0]->message instanceof MessageInterface);
-assert($updates[0]->message->chat instanceof ChatInterface);
-```
-
-## Использование API
-
-### Клиент
-Чтобы использовать API, вам сначала нужно реализовать интерфейс ClientInterface,
-в котором есть только один метод - `sendRequest`.
-
-> Обратите особое внимание на обработку файлов.
-> В библиотеке отсутствует реализация InputFileInterface,
-> как вы читаете и отправляете файлы зависит от вашего клиента.
-
-Реализация клиента выходит за рамки этого проекта,
-но вот пример реализации с использованием ext-curl:
-
-> Можете посмотреть его в действии в [тестах](tests/Readme/ReadmeClientTest.php))
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace Phenogram\Bindings\Tests\Readme;
+use Phenogram\Bindings\Serializer;
+use Phenogram\Bindings\Types\InlineKeyboardButton;
+use Phenogram\Bindings\Types\InlineKeyboardMarkup;
 
-use Phenogram\Bindings\ClientInterface;
-use Phenogram\Bindings\Types;
+require __DIR__ . '/vendor/autoload.php';
 
-final readonly class ReadmeLocalFile implements Types\Interfaces\InputFileInterface
-{
-    public function __construct(
-        public string $filePath
-    ) {}
-}
-
-final readonly class ReadmeClient implements ClientInterface
-{
-    public function __construct(
-        private string $token,
-        private string $apiUrl = 'https://api.telegram.org',
-    ) {
-    }
-
-    public function sendRequest(string $method, array $data): Types\Interfaces\ResponseInterface
-    {
-        $ch = curl_init("{$this->apiUrl}/bot{$this->token}/{$method}");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        foreach ($data as $key => $value) {
-            if ($value instanceof ReadmeLocalFile) {
-                if (!file_exists($value->filePath)) {
-                    throw new \RuntimeException("File not found: {$value->filePath}");
-                }
-
-                $data[$key] = new \CURLFile($value->filePath);
-            }
-        }
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            throw new \RuntimeException('Request Error: ' . curl_error($ch));
-        }
-
-        curl_close($ch);
-
-        $responseData = json_decode($response, true);
-
-        if (!isset($responseData['ok']) || !isset($responseData['result'])) {
-            return new Types\Response(
-                ok: false,
-                errorCode: $responseData['error_code'] ?? null,
-                description: $responseData['description'] ?? null,
-                parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(
-                    migrateToChatId: $responseData['parameters']['migrate_to_chat_id'] ?? null,
-                    retryAfter: $responseData['parameters']['retry_after'] ?? null,
-                ) : null,
-            );
-        }
-
-        return new Types\Response(
-            ok: $responseData['ok'],
-            result: $responseData['result'],
-            errorCode: $responseData['error_code'] ?? null,
-            description: $responseData['description'] ?? null,
-            parameters: isset($responseData['parameters']) ? new Types\ResponseParameters(
-                migrateToChatId: $responseData['parameters']['migrate_to_chat_id'] ?? null,
-                retryAfter: $responseData['parameters']['retry_after'] ?? null,
-            ) : null,
-        );
-    }
-}
-```
-
-Но я, конечно, рекомендую использовать какую-нибудь библиотеку, например Guzzle или amphp/http-client.
-Пример реализации с amphp/http-client есть в [Фреймворке Phenogram](https://github.com/phenogram/framework/blob/mother/src/TelegramBotApiClient.php)
-
-### Выполнение запросов
-
-```php
-$api = new Api(
-    client: new TelegramBotApiClient($token),
-    serializer: new Serializer(),
-);
-
-$me = $api->getMe();
-
-assert($me instanceof User::class);
-```
-
-### Переопределение типов
-Скажем, вы хотите использовать свою реализацию ChatLocationInterface вместо стандартной,
-чтобы адрес всегда был в верхнем регистре.
-
-Первое, что вам нужно - это новый класс, реализующий интерфейс ChatLocationInterface. 
-Для простоты мы унаследуемся от нашего класса ChatLocation.
-
-```php
-class MyChatLocation extends \Phenogram\Bindings\Types\ChatLocation
-{
-    public string $address {
-        get => $this->normalizeAddress($this->address);
-    }
-
-    private function normalizeAddress(string $address): string
-    {
-        return mb_strtoupper($address);
-    }
-}
-```
-
-Далее нам нужно переопределить фабрику, чтобы она создавала наш новый класс вместо стандартного.
-
-```php
-use Phenogram\Bindings\Factory;
-use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
-use Phenogram\Bindings\Types\Interfaces\LocationInterface;
-
-class MyFactory extends Factory
-{
-    public function makeChatLocation(
-        LocationInterface $location,
-        string $address
-    ): ChatLocationInterface
-    {
-        return new MyChatLocation(
-            location: $location,
-            address: $address,
-        );
-    }
-}
-```
-
-И последнее - создать и использовать объект Api с сериализатором, который использует нашу фабрику: 
-```php
-$api = new Api(
-    client: new TelegramBotApiClient($token),
-    serializer: new Serializer(
-        factory: new MyFactory()
+$payload = (new Serializer())->serialize([
+    'chatId' => 42,
+    'text' => 'Select an action.',
+    'replyMarkup' => new InlineKeyboardMarkup(
+        inlineKeyboard: [[
+            new InlineKeyboardButton(
+                text: 'Open documentation',
+                url: 'https://core.telegram.org/bots/api',
+            ),
+        ]],
     ),
-);
+]);
 ```
 
-> Посмотреть на это можно в [тесте](tests/Readme/ReadmeFactoryTest.php)
+The serializer changes `chatId` to `chat_id`.
+It changes typed objects to nested arrays.
+It removes values that are `null`.
 
-## Тестовые фабрики
+Use `Api` when your application has a `ClientInterface` implementation.
+The client sends the HTTP request.
+The client returns the complete Telegram response envelope.
 
-Для упрощения написания тестов, этот пакет также включает набор **Тестовых Фабрик**.
-Они используют [FakerPHP](https://github.com/FakerPHP/Faker) для генерации объектов типов Telegram API со случайными данными.
+The example commands below require a source checkout and `composer install`.
+Run the verified API example:
 
-Каждому *конкретному* типу API (например, `User`, `Chat`, `Message`) соответствует своя фабрика: `UserFactory`, `ChatFactory`, `MessageFactory` и т.д.
-
-**Пример использования:**
-
-```php
-<?php
-
-use Phenogram\Bindings\Factories\UserFactory;
-use Phenogram\Bindings\Factories\MessageFactory;
-use Phenogram\Bindings\Types\Interfaces\UserInterface;
-use Phenogram\Bindings\Types\Interfaces\MessageInterface;
-
-// Создать пользователя со случайными данными
-$randomUser = UserFactory::make();
-assert($randomUser instanceof UserInterface);
-echo "Создан пользователь: ID=" . $randomUser->id . ", Имя=" . $randomUser->firstName . "\n";
-
-// Создать другого пользователя, указав ID и флаг бота
-$specificBot = UserFactory::make(id: 12345, isBot: true);
-echo "Создан бот: ID=" . $specificBot->id . ", Имя=" . $specificBot->firstName . "\n";
-
-// Создать сообщение, указав некоторые параметры и оставив остальные случайными
-$messageFromBot = MessageFactory::make(
-    from: UserFactory::make(
-        isBot: true,
-        firstName: 'MyTestBot'
-    ), // Вложенный вызов фабрики
-    text: 'Привет из теста!'
-);
-assert($messageFromBot instanceof MessageInterface);
-echo "ID сообщения: " . $messageFromBot->messageId . "\n";
-echo "Текст: " . $messageFromBot->text . "\n";
-echo "Отправитель: " . $messageFromBot->from->firstName . "\n";
-echo "ID чата: " . $messageFromBot->chat->id . "\n"; // Chat также сгенерирован автоматически
-
-// Создать массив случайных сущностей сообщения (MessageEntity)
-use Phenogram\Bindings\Factories\MessageEntityFactory;
-use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
-
-$entities = array_map(fn() => MessageEntityFactory::make(), range(1, 3));
-assert(is_array($entities));
-assert($entities[0] instanceof MessageEntityInterface);
-echo "Сгенерировано сущностей: " . count($entities) . "\n";
-echo "Тип первой сущности: " . $entities[0]->type . "\n";
-
+```bash
+php examples/03-call-api.php
 ```
 
-* Все тестовые фабрики наследуются от `Phenogram\Bindings\Factories\AbstractFactory`.
-* Вы можете передать конкретные значения в статический метод `make()` фабрики, чтобы переопределить сгенерированные Faker данные для нужных полей.
-* Если для какого-либо параметра метода `make()` значение не передано (`null`), фабрика сгенерирует для него случайное значение, подходящее по типу и (иногда) по названию поля.
-* Фабрики генерируются только для *конкретных* типов Telegram API (например, `User`, `Chat`, `ChatMemberOwner`).
-Для создания экземпляров, представляющих абстрактные типы в ваших тестах (например, `ChatMember`), 
-вам нужно будет вызвать фабрику одного из его конкретных наследников
-(например, `ChatMemberOwnerFactory::make()` или `ChatMemberAdministratorFactory::make()`).
-* Необязательные параметры не генерируются автоматически и по умолчанию будут `null`
+Run the verified offline examples:
 
-Также вы можете использовать свою фабрику классов для создания тестовые объектов,
-для этого перед созданием первого тестового объекта, переопределите фабрику через:
-```php
-\Phenogram\Bindings\Factories\AbstractFactory::setFactory(new MyFactory());
+```bash
+for file in examples/[0-9][0-9]-*.php; do php "$file"; done
 ```
 
-# Заключение
-Хоть я уже и во всю использую и эти классы и [фреймворк](https://github.com/phenogram/framework) в продакшене в своих проектах
-[систент](https://t.me/sistent_bot), [мистаро](https://t.me/mystaro_bot) и [генерач](https://t.me/genera4_bot),
-но этот проект всё равно находится в активно разработке и предоставляется как есть.
+## Package map
 
-Тестируйте самостоятельно!
+| Part | Purpose |
+|---|---|
+| [`ApiInterface`](src/ApiInterface.php) | Defines all supported Telegram methods. |
+| [`Api`](src/Api.php) | Serializes requests and creates typed results. |
+| [`ClientInterface`](src/ClientInterface.php) | Connects the bindings to an HTTP transport. |
+| [`SerializerInterface`](src/SerializerInterface.php) | Defines serialization and deserialization. |
+| [`Serializer`](src/Serializer.php) | Maps Telegram data to PHP types. |
+| [`FactoryInterface`](src/FactoryInterface.php) | Defines constructors for all result types. |
+| [`Factory`](src/Factory.php) | Creates the default result objects. |
+| [`Types`](src/Types) | Contains concrete types and their interfaces. |
+| [`Factories`](src/Factories) | Creates test fixtures with Faker. |
+
+The test factories need `fakerphp/faker`.
+An application does not install this package from the library development dependencies.
+Install it in an application that uses the factories:
+
+```bash
+composer require --dev fakerphp/faker
+```
+
+## Documentation
+
+| Guide | Contents |
+|---|---|
+| [Getting started](docs/en/getting-started.md) | Scope, installation, and first use |
+| [Architecture](docs/en/architecture.md) | Request flow, extension points, and package layout |
+| [Client integration](docs/en/client-integration.md) | Transport contract, files, errors, and security |
+| [Testing](docs/en/testing.md) | Offline examples, fixtures, and live tests |
+| [Executable examples](examples/README.md) | Six scripts that run without a bot token |
+
+The [official Telegram Bot API documentation](https://core.telegram.org/bots/api) is the source of truth for Telegram behavior.
+Use `ApiInterface` as the local source of truth for supported PHP method signatures.
+
+## Error handling
+
+`Api` throws `ResponseException` when `ok` is `false` or `result` is `null`.
+The exception contains the full `ResponseInterface` object.
+
+```bash
+php examples/06-handle-api-error.php
+```
+
+## Development
+
+Install the package development dependencies:
+
+```bash
+composer install
+composer tools:install
+```
+
+The repository does not track the root `composer.lock` file.
+Composer resolves the root development dependencies from the version constraints.
+The separate tool projects track lock files for PHPStan and PHP CS Fixer.
+
+Run the offline test suite:
+
+```bash
+vendor/bin/phpunit
+```
+
+Run static analysis:
+
+```bash
+composer phpstan
+```
+
+Run all repository checks:
+
+```bash
+composer check
+```
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before you send a change.
+Report security problems as described in [SECURITY.md](SECURITY.md).
+Use [SUPPORT.md](SUPPORT.md) for support requests.
+
+## License
+
+Phenogram Bindings is available under the [MIT License](LICENSE).

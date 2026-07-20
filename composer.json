@@ -1,9 +1,24 @@
 {
     "name": "phenogram/bindings",
-    "description": "Zero deps low level type-safe PHP bindings for the Telegram Bot API",
-    "version": "9.0.0",
+    "description": "Zero-dependency, low-level, type-safe PHP bindings for the Telegram Bot API",
+    "version": "9.0.1",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "api-client",
+        "bindings",
+        "bot",
+        "sdk",
+        "telegram",
+        "telegram-bot",
+        "telegram-bot-api",
+        "type-safe"
+    ],
+    "homepage": "https://github.com/phenogram/bindings",
+    "support": {
+        "issues": "https://github.com/phenogram/bindings/issues",
+        "source": "https://github.com/phenogram/bindings"
+    },
     "autoload": {
         "psr-4": {
             "Phenogram\\Bindings\\": "src/"
@@ -31,12 +46,39 @@
         "ext-curl": "*",
         "fakerphp/faker": "^1.24"
     },
+    "suggest": {
+        "fakerphp/faker": "Required when an application uses the generated fixture factories."
+    },
     "scripts": {
         "fix": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --config=.php-cs-fixer.php --allow-risky=yes"
+            "./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --sequential --config=.php-cs-fixer.php --allow-risky=yes"
+        ],
+        "test": [
+            "php -d xdebug.mode=off ./vendor/bin/phpunit"
+        ],
+        "lint:composer": [
+            "@composer validate --strict --no-check-version"
+        ],
+        "lint:tools": [
+            "@composer --working-dir=tools/phpstan validate --strict",
+            "@composer --working-dir=tools/php-cs-fixer validate --strict"
+        ],
+        "cs:check": [
+            "./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff --sequential --config=.php-cs-fixer.php --allow-risky=yes"
         ],
         "phpstan": [
-            "php -d xdebug.mode=off ./tools/phpstan/vendor/bin/phpstan analyse --memory-limit=2G -c phpstan.neon"
+            "php -d xdebug.mode=off ./tools/phpstan/vendor/bin/phpstan analyse --memory-limit=2G --debug --quiet -c phpstan.neon || php -d xdebug.mode=off ./tools/phpstan/vendor/bin/phpstan analyse --memory-limit=2G --debug -c phpstan.neon"
+        ],
+        "tools:install": [
+            "@composer install --working-dir=tools/phpstan --no-interaction --prefer-dist --no-progress",
+            "@composer install --working-dir=tools/php-cs-fixer --no-interaction --prefer-dist --no-progress"
+        ],
+        "check": [
+            "@lint:composer",
+            "@lint:tools",
+            "@test",
+            "@phpstan",
+            "@cs:check"
         ]
     }
 }

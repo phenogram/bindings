@@ -11479,7 +11479,7 @@ class Serializer implements SerializerInterface
 
     public function supports(string $type): bool
     {
-        return interface_exists($type) && is_subclass_of($type, TypeInterface::class);
+        return in_array($type, self::KNOWN_INTERFACES, true);
     }
 
     public function denormalize(array $data, string $type, bool $isArray = false): mixed

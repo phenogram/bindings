@@ -3,16 +3,33 @@
 namespace Phenogram\Bindings\Tests\Unit;
 
 use Phenogram\Bindings\Serializer;
+use Phenogram\Bindings\Tests\Fixtures\Foreign\UpdateInterface as ForeignUpdateInterface;
 use Phenogram\Bindings\Tests\TestCase;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
+use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
+use Phenogram\Bindings\Types\Interfaces\TypeInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
 use Phenogram\Bindings\Types\Message;
 use Phenogram\Bindings\Types\MessageOriginUser;
 
+interface UnsupportedTypeInterface extends TypeInterface
+{
+}
+
 class SerializerTest extends TestCase
 {
+    public function testSupportsOnlyKnownResultTypes(): void
+    {
+        $serializer = new Serializer();
+
+        self::assertTrue($serializer->supports(UpdateInterface::class));
+        self::assertFalse($serializer->supports(InputFileInterface::class));
+        self::assertFalse($serializer->supports(UnsupportedTypeInterface::class));
+        self::assertFalse($serializer->supports(ForeignUpdateInterface::class));
+    }
+
     public function testInlineKeyboardMarkupIsAValidJson()
     {
         $serializer = new Serializer();

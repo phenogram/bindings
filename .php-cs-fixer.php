@@ -12,6 +12,7 @@ return (new PhpCsFixer\Config())
     ->registerCustomFixers(new \ErickSkrauch\PhpCsFixer\Fixers())
     ->setRules([
         '@Symfony' => true,
+        'no_useless_else' => false,
         'yoda_style' => false,
         'concat_space' => false,
         'ErickSkrauch/blank_line_before_return' => true,

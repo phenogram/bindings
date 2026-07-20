@@ -5,26 +5,36 @@ declare(strict_types=1);
 namespace Phenogram\Bindings\Tests\Readme;
 
 use Phenogram\Bindings\Api;
+use Phenogram\Bindings\Tests\Support\Environment;
 use Phenogram\Bindings\Tests\TestCase;
 
 class ReadmeClientTest extends TestCase
 {
     private Api $api;
+    private string $testChatId;
+    private string $token;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->token = $_ENV['TELEGRAM_BOT_TOKEN'];
-        $this->testChatId = $_ENV['TEST_CHAT_ID'];
+        if ('1' !== Environment::get('RUN_TELEGRAM_INTEGRATION')) {
+            $this->markTestSkipped('Set RUN_TELEGRAM_INTEGRATION=1 to run live Telegram tests.');
+        }
 
-        if ($this->token === null) {
+        $token = Environment::get('TELEGRAM_BOT_TOKEN');
+        $testChatId = Environment::get('TEST_CHAT_ID');
+
+        if ($token === null || '' === $token) {
             $this->markTestSkipped('TELEGRAM_BOT_TOKEN not set');
         }
 
-        if ($this->testChatId === null) {
+        if ($testChatId === null || '' === $testChatId) {
             $this->markTestSkipped('TEST_CHAT_ID not set');
         }
+
+        $this->token = $token;
+        $this->testChatId = $testChatId;
 
         $this->api = new Api(
             client: new ReadmeClient(
@@ -43,6 +53,7 @@ class ReadmeClientTest extends TestCase
     public function testSendDocument(): void
     {
         $path = realpath(__DIR__ . '/../../README.md');
+        self::assertNotFalse($path);
 
         $message = $this->api->sendDocument(
             chatId: $this->testChatId,

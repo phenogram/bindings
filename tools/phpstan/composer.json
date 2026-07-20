@@ -1,4 +1,8 @@
 {
+    "name": "phenogram/bindings-phpstan-tools",
+    "description": "PHPStan tool project for Phenogram Bindings",
+    "type": "project",
+    "license": "MIT",
     "require": {
         "phpstan/phpstan": "^2"
     }
