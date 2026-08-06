@@ -8,6 +8,7 @@ use Phenogram\Bindings\Tests\TestCase;
 use Phenogram\Bindings\Types\ChatMemberMember;
 use Phenogram\Bindings\Types\InlineKeyboardButton;
 use Phenogram\Bindings\Types\InlineKeyboardMarkup;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\InputFileInterface;
 use Phenogram\Bindings\Types\Interfaces\TypeInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
@@ -127,6 +128,24 @@ class SerializerTest extends TestCase
         );
 
         self::assertInstanceOf(ChatMemberMember::class, $updates[0]->myChatMember->newChatMember);
+    }
+
+    public function testDirectChatMemberResponseDeserializeIntoConcreteClass(): void
+    {
+        $serializer = new Serializer();
+        $chatMember = $serializer->deserialize(
+            data: [
+                'status' => 'member',
+                'user' => [
+                    'id' => 88888888,
+                    'is_bot' => false,
+                    'first_name' => 'Alice',
+                ],
+            ],
+            type: ChatMemberInterface::class,
+        );
+
+        self::assertInstanceOf(ChatMemberMember::class, $chatMember);
     }
 
     public function testAbstractMaybeInaccessibleMessageDeserializeIntoConcreteClass()

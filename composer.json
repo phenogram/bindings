@@ -1,7 +1,7 @@
 {
     "name": "phenogram/bindings",
     "description": "Zero-dependency, low-level, type-safe PHP bindings for the Telegram Bot API",
-    "version": "9.0.1",
+    "version": "9.0.2",
     "type": "library",
     "license": "MIT",
     "keywords": [

@@ -8,9 +8,11 @@ use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillGradientInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundFillInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillSolidInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeChatThemeInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeFillInterface;
+use Phenogram\Bindings\Types\Interfaces\BackgroundTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypePatternInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundTypeWallpaperInterface;
 use Phenogram\Bindings\Types\Interfaces\BirthdateInterface;
@@ -23,6 +25,7 @@ use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatAdministratorsInterfa
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeChatMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\BotCommandScopeDefaultInterface;
+use Phenogram\Bindings\Types\Interfaces\BotCommandScopeInterface;
 use Phenogram\Bindings\Types\Interfaces\BotDescriptionInterface;
 use Phenogram\Bindings\Types\Interfaces\BotNameInterface;
 use Phenogram\Bindings\Types\Interfaces\BotShortDescriptionInterface;
@@ -43,6 +46,7 @@ use Phenogram\Bindings\Types\Interfaces\ChatBoostInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostRemovedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostSourceGiftCodeInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostSourceGiveawayInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatBoostSourceInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostSourcePremiumInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBoostUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatFullInfoInterface;
@@ -52,6 +56,7 @@ use Phenogram\Bindings\Types\Interfaces\ChatJoinRequestInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberAdministratorInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberBannedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberMemberInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatMemberOwnerInterface;
@@ -116,6 +121,7 @@ use Phenogram\Bindings\Types\Interfaces\InlineQueryResultContactInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultDocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultGameInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultGifInterface;
+use Phenogram\Bindings\Types\Interfaces\InlineQueryResultInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultMpeg4GifInterface;
 use Phenogram\Bindings\Types\Interfaces\InlineQueryResultPhotoInterface;
@@ -132,6 +138,7 @@ use Phenogram\Bindings\Types\Interfaces\InputLocationMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaLocationInterface;
@@ -140,6 +147,7 @@ use Phenogram\Bindings\Types\Interfaces\InputMediaStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVenueInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputMediaVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\InputPaidMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputPaidMediaVideoInterface;
@@ -192,8 +200,10 @@ use Phenogram\Bindings\Types\Interfaces\LoginUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\ManagedBotCreatedInterface;
 use Phenogram\Bindings\Types\Interfaces\ManagedBotUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MaskPositionInterface;
+use Phenogram\Bindings\Types\Interfaces\MaybeInaccessibleMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonCommandsInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
+use Phenogram\Bindings\Types\Interfaces\MenuButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonWebAppInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
@@ -202,6 +212,7 @@ use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginChannelInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginChatInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginHiddenUserInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageOriginInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginUserInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionCountUpdatedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageReactionUpdatedInterface;
@@ -210,6 +221,7 @@ use Phenogram\Bindings\Types\Interfaces\OwnedGiftRegularInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftsInterface;
 use Phenogram\Bindings\Types\Interfaces\OwnedGiftUniqueInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMediaInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaLivePhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
@@ -221,6 +233,7 @@ use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFilesInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFrontSideInterface;
+use Phenogram\Bindings\Types\Interfaces\PassportElementErrorInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorReverseSideInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorSelfieInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorTranslationFileInterface;
@@ -241,6 +254,7 @@ use Phenogram\Bindings\Types\Interfaces\ProximityAlertTriggeredInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionCountInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeCustomEmojiInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ReactionTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypePaidInterface;
 use Phenogram\Bindings\Types\Interfaces\RefundedPaymentInterface;
 use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardMarkupInterface;
@@ -248,6 +262,7 @@ use Phenogram\Bindings\Types\Interfaces\ReplyKeyboardRemoveInterface;
 use Phenogram\Bindings\Types\Interfaces\ReplyParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\ResponseParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateFailedInterface;
+use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStatePendingInterface;
 use Phenogram\Bindings\Types\Interfaces\RevenueWithdrawalStateSucceededInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockAnchorInterface;
@@ -333,6 +348,7 @@ use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
+use Phenogram\Bindings\Types\Interfaces\TransactionPartnerInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerOtherInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramAdsInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerTelegramApiInterface;
@@ -377,10 +393,12 @@ class Serializer implements SerializerInterface
         MessageInterface::class,
         MessageIdInterface::class,
         InaccessibleMessageInterface::class,
+        MaybeInaccessibleMessageInterface::class,
         MessageEntityInterface::class,
         TextQuoteInterface::class,
         ExternalReplyInfoInterface::class,
         ReplyParametersInterface::class,
+        MessageOriginInterface::class,
         MessageOriginUserInterface::class,
         MessageOriginHiddenUserInterface::class,
         MessageOriginChatInterface::class,
@@ -396,6 +414,7 @@ class Serializer implements SerializerInterface
         VideoNoteInterface::class,
         VoiceInterface::class,
         PaidMediaInfoInterface::class,
+        PaidMediaInterface::class,
         PaidMediaLivePhotoInterface::class,
         PaidMediaPhotoInterface::class,
         PaidMediaPreviewInterface::class,
@@ -423,9 +442,11 @@ class Serializer implements SerializerInterface
         PollOptionAddedInterface::class,
         PollOptionDeletedInterface::class,
         ChatBoostAddedInterface::class,
+        BackgroundFillInterface::class,
         BackgroundFillSolidInterface::class,
         BackgroundFillGradientInterface::class,
         BackgroundFillFreeformGradientInterface::class,
+        BackgroundTypeInterface::class,
         BackgroundTypeFillInterface::class,
         BackgroundTypeWallpaperInterface::class,
         BackgroundTypePatternInterface::class,
@@ -488,6 +509,7 @@ class Serializer implements SerializerInterface
         ChatInviteLinkInterface::class,
         ChatAdministratorRightsInterface::class,
         ChatMemberUpdatedInterface::class,
+        ChatMemberInterface::class,
         ChatMemberOwnerInterface::class,
         ChatMemberAdministratorInterface::class,
         ChatMemberMemberInterface::class,
@@ -511,6 +533,7 @@ class Serializer implements SerializerInterface
         StoryAreaTypeUniqueGiftInterface::class,
         StoryAreaInterface::class,
         ChatLocationInterface::class,
+        ReactionTypeInterface::class,
         ReactionTypeEmojiInterface::class,
         ReactionTypeCustomEmojiInterface::class,
         ReactionTypePaidInterface::class,
@@ -536,6 +559,7 @@ class Serializer implements SerializerInterface
         AcceptedGiftTypesInterface::class,
         StarAmountInterface::class,
         BotCommandInterface::class,
+        BotCommandScopeInterface::class,
         BotCommandScopeDefaultInterface::class,
         BotCommandScopeAllPrivateChatsInterface::class,
         BotCommandScopeAllGroupChatsInterface::class,
@@ -546,9 +570,11 @@ class Serializer implements SerializerInterface
         BotNameInterface::class,
         BotDescriptionInterface::class,
         BotShortDescriptionInterface::class,
+        MenuButtonInterface::class,
         MenuButtonCommandsInterface::class,
         MenuButtonWebAppInterface::class,
         MenuButtonDefaultInterface::class,
+        ChatBoostSourceInterface::class,
         ChatBoostSourcePremiumInterface::class,
         ChatBoostSourceGiftCodeInterface::class,
         ChatBoostSourceGiveawayInterface::class,
@@ -566,6 +592,7 @@ class Serializer implements SerializerInterface
         PreparedInlineMessageInterface::class,
         PreparedKeyboardButtonInterface::class,
         ResponseParametersInterface::class,
+        InputMediaInterface::class,
         InputMediaAnimationInterface::class,
         InputMediaAudioInterface::class,
         InputMediaDocumentInterface::class,
@@ -577,6 +604,7 @@ class Serializer implements SerializerInterface
         InputMediaVenueInterface::class,
         InputMediaVideoInterface::class,
         InputMediaVoiceNoteInterface::class,
+        InputPaidMediaInterface::class,
         InputPaidMediaLivePhotoInterface::class,
         InputPaidMediaPhotoInterface::class,
         InputPaidMediaVideoInterface::class,
@@ -664,6 +692,7 @@ class Serializer implements SerializerInterface
         InputRichBlockThinkingInterface::class,
         InlineQueryInterface::class,
         InlineQueryResultsButtonInterface::class,
+        InlineQueryResultInterface::class,
         InlineQueryResultArticleInterface::class,
         InlineQueryResultPhotoInterface::class,
         InlineQueryResultGifInterface::class,
@@ -701,10 +730,12 @@ class Serializer implements SerializerInterface
         ShippingQueryInterface::class,
         PreCheckoutQueryInterface::class,
         PaidMediaPurchasedInterface::class,
+        RevenueWithdrawalStateInterface::class,
         RevenueWithdrawalStatePendingInterface::class,
         RevenueWithdrawalStateSucceededInterface::class,
         RevenueWithdrawalStateFailedInterface::class,
         AffiliateInfoInterface::class,
+        TransactionPartnerInterface::class,
         TransactionPartnerUserInterface::class,
         TransactionPartnerChatInterface::class,
         TransactionPartnerAffiliateProgramInterface::class,
@@ -718,6 +749,7 @@ class Serializer implements SerializerInterface
         PassportFileInterface::class,
         EncryptedPassportElementInterface::class,
         EncryptedCredentialsInterface::class,
+        PassportElementErrorInterface::class,
         PassportElementErrorDataFieldInterface::class,
         PassportElementErrorFrontSideInterface::class,
         PassportElementErrorReverseSideInterface::class,
@@ -1427,7 +1459,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMaybeInaccessibleMessage(array $data): Types\Interfaces\MaybeInaccessibleMessageInterface
+    public function denormalizeMaybeInaccessibleMessage(array $data): MaybeInaccessibleMessageInterface
     {
         if ($data['date'] === 0) {
             return $this->denormalizeInaccessibleMessage($data);
@@ -1612,7 +1644,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMessageOrigin(array $data): Types\Interfaces\MessageOriginInterface
+    public function denormalizeMessageOrigin(array $data): MessageOriginInterface
     {
         return match ($data['type']) {
             'user' => $this->denormalizeMessageOriginUser($data),
@@ -2092,7 +2124,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePaidMedia(array $data): Types\Interfaces\PaidMediaInterface
+    public function denormalizePaidMedia(array $data): PaidMediaInterface
     {
         return match ($data['type']) {
             'preview' => $this->denormalizePaidMediaPreview($data),
@@ -2910,7 +2942,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundFill(array $data): Types\Interfaces\BackgroundFillInterface
+    public function denormalizeBackgroundFill(array $data): BackgroundFillInterface
     {
         return match ($data['type']) {
             'solid' => $this->denormalizeBackgroundFillSolid($data),
@@ -2999,7 +3031,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBackgroundType(array $data): Types\Interfaces\BackgroundTypeInterface
+    public function denormalizeBackgroundType(array $data): BackgroundTypeInterface
     {
         return match ($data['type']) {
             'fill' => $this->denormalizeBackgroundTypeFill($data),
@@ -4446,7 +4478,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatMember(array $data): Types\Interfaces\ChatMemberInterface
+    public function denormalizeChatMember(array $data): ChatMemberInterface
     {
         return match ($data['status']) {
             'creator' => $this->denormalizeChatMemberOwner($data),
@@ -5131,7 +5163,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeReactionType(array $data): Types\Interfaces\ReactionTypeInterface
+    public function denormalizeReactionType(array $data): ReactionTypeInterface
     {
         return match ($data['type']) {
             'emoji' => $this->denormalizeReactionTypeEmoji($data),
@@ -5893,7 +5925,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeBotCommandScope(array $data): Types\Interfaces\BotCommandScopeInterface
+    public function denormalizeBotCommandScope(array $data): BotCommandScopeInterface
     {
         return match ($data['type']) {
             'default' => $this->denormalizeBotCommandScopeDefault($data),
@@ -6079,7 +6111,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeMenuButton(array $data): Types\Interfaces\MenuButtonInterface
+    public function denormalizeMenuButton(array $data): MenuButtonInterface
     {
         return match ($data['type']) {
             'commands' => $this->denormalizeMenuButtonCommands($data),
@@ -6129,7 +6161,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeChatBoostSource(array $data): Types\Interfaces\ChatBoostSourceInterface
+    public function denormalizeChatBoostSource(array $data): ChatBoostSourceInterface
     {
         return match ($data['source']) {
             'premium' => $this->denormalizeChatBoostSourcePremium($data),
@@ -6524,7 +6556,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputMedia(array $data): Types\Interfaces\InputMediaInterface
+    public function denormalizeInputMedia(array $data): InputMediaInterface
     {
         return match ($data['type']) {
             'photo' => $this->denormalizeInputMediaPhoto($data),
@@ -6877,7 +6909,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputPaidMedia(array $data): Types\Interfaces\InputPaidMediaInterface
+    public function denormalizeInputPaidMedia(array $data): InputPaidMediaInterface
     {
         return match ($data['type']) {
             'photo' => $this->denormalizeInputPaidMediaPhoto($data),
@@ -9282,7 +9314,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInlineQueryResult(array $data): Types\Interfaces\InlineQueryResultInterface
+    public function denormalizeInlineQueryResult(array $data): InlineQueryResultInterface
     {
         return match ($data['type']) {
             'article' => $this->denormalizeInlineQueryResultArticle($data),
@@ -10625,7 +10657,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeRevenueWithdrawalState(array $data): Types\Interfaces\RevenueWithdrawalStateInterface
+    public function denormalizeRevenueWithdrawalState(array $data): RevenueWithdrawalStateInterface
     {
         return match ($data['type']) {
             'pending' => $this->denormalizeRevenueWithdrawalStatePending($data),
@@ -10740,7 +10772,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeTransactionPartner(array $data): Types\Interfaces\TransactionPartnerInterface
+    public function denormalizeTransactionPartner(array $data): TransactionPartnerInterface
     {
         return match ($data['type']) {
             'user' => $this->denormalizeTransactionPartnerUser($data),
@@ -11127,7 +11159,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizePassportElementError(array $data): Types\Interfaces\PassportElementErrorInterface
+    public function denormalizePassportElementError(array $data): PassportElementErrorInterface
     {
         return match ($data['source']) {
             'data' => $this->denormalizePassportElementErrorDataField($data),
@@ -11506,10 +11538,12 @@ class Serializer implements SerializerInterface
             MessageInterface::class => $this->denormalizeMessage($data),
             MessageIdInterface::class => $this->denormalizeMessageId($data),
             InaccessibleMessageInterface::class => $this->denormalizeInaccessibleMessage($data),
+            MaybeInaccessibleMessageInterface::class => $this->denormalizeMaybeInaccessibleMessage($data),
             MessageEntityInterface::class => $this->denormalizeMessageEntity($data),
             TextQuoteInterface::class => $this->denormalizeTextQuote($data),
             ExternalReplyInfoInterface::class => $this->denormalizeExternalReplyInfo($data),
             ReplyParametersInterface::class => $this->denormalizeReplyParameters($data),
+            MessageOriginInterface::class => $this->denormalizeMessageOrigin($data),
             MessageOriginUserInterface::class => $this->denormalizeMessageOriginUser($data),
             MessageOriginHiddenUserInterface::class => $this->denormalizeMessageOriginHiddenUser($data),
             MessageOriginChatInterface::class => $this->denormalizeMessageOriginChat($data),
@@ -11525,6 +11559,7 @@ class Serializer implements SerializerInterface
             VideoNoteInterface::class => $this->denormalizeVideoNote($data),
             VoiceInterface::class => $this->denormalizeVoice($data),
             PaidMediaInfoInterface::class => $this->denormalizePaidMediaInfo($data),
+            PaidMediaInterface::class => $this->denormalizePaidMedia($data),
             PaidMediaLivePhotoInterface::class => $this->denormalizePaidMediaLivePhoto($data),
             PaidMediaPhotoInterface::class => $this->denormalizePaidMediaPhoto($data),
             PaidMediaPreviewInterface::class => $this->denormalizePaidMediaPreview($data),
@@ -11552,9 +11587,11 @@ class Serializer implements SerializerInterface
             PollOptionAddedInterface::class => $this->denormalizePollOptionAdded($data),
             PollOptionDeletedInterface::class => $this->denormalizePollOptionDeleted($data),
             ChatBoostAddedInterface::class => $this->denormalizeChatBoostAdded($data),
+            BackgroundFillInterface::class => $this->denormalizeBackgroundFill($data),
             BackgroundFillSolidInterface::class => $this->denormalizeBackgroundFillSolid($data),
             BackgroundFillGradientInterface::class => $this->denormalizeBackgroundFillGradient($data),
             BackgroundFillFreeformGradientInterface::class => $this->denormalizeBackgroundFillFreeformGradient($data),
+            BackgroundTypeInterface::class => $this->denormalizeBackgroundType($data),
             BackgroundTypeFillInterface::class => $this->denormalizeBackgroundTypeFill($data),
             BackgroundTypeWallpaperInterface::class => $this->denormalizeBackgroundTypeWallpaper($data),
             BackgroundTypePatternInterface::class => $this->denormalizeBackgroundTypePattern($data),
@@ -11617,6 +11654,7 @@ class Serializer implements SerializerInterface
             ChatInviteLinkInterface::class => $this->denormalizeChatInviteLink($data),
             ChatAdministratorRightsInterface::class => $this->denormalizeChatAdministratorRights($data),
             ChatMemberUpdatedInterface::class => $this->denormalizeChatMemberUpdated($data),
+            ChatMemberInterface::class => $this->denormalizeChatMember($data),
             ChatMemberOwnerInterface::class => $this->denormalizeChatMemberOwner($data),
             ChatMemberAdministratorInterface::class => $this->denormalizeChatMemberAdministrator($data),
             ChatMemberMemberInterface::class => $this->denormalizeChatMemberMember($data),
@@ -11640,6 +11678,7 @@ class Serializer implements SerializerInterface
             StoryAreaTypeUniqueGiftInterface::class => $this->denormalizeStoryAreaTypeUniqueGift($data),
             StoryAreaInterface::class => $this->denormalizeStoryArea($data),
             ChatLocationInterface::class => $this->denormalizeChatLocation($data),
+            ReactionTypeInterface::class => $this->denormalizeReactionType($data),
             ReactionTypeEmojiInterface::class => $this->denormalizeReactionTypeEmoji($data),
             ReactionTypeCustomEmojiInterface::class => $this->denormalizeReactionTypeCustomEmoji($data),
             ReactionTypePaidInterface::class => $this->denormalizeReactionTypePaid($data),
@@ -11665,6 +11704,7 @@ class Serializer implements SerializerInterface
             AcceptedGiftTypesInterface::class => $this->denormalizeAcceptedGiftTypes($data),
             StarAmountInterface::class => $this->denormalizeStarAmount($data),
             BotCommandInterface::class => $this->denormalizeBotCommand($data),
+            BotCommandScopeInterface::class => $this->denormalizeBotCommandScope($data),
             BotCommandScopeDefaultInterface::class => $this->denormalizeBotCommandScopeDefault($data),
             BotCommandScopeAllPrivateChatsInterface::class => $this->denormalizeBotCommandScopeAllPrivateChats($data),
             BotCommandScopeAllGroupChatsInterface::class => $this->denormalizeBotCommandScopeAllGroupChats($data),
@@ -11675,9 +11715,11 @@ class Serializer implements SerializerInterface
             BotNameInterface::class => $this->denormalizeBotName($data),
             BotDescriptionInterface::class => $this->denormalizeBotDescription($data),
             BotShortDescriptionInterface::class => $this->denormalizeBotShortDescription($data),
+            MenuButtonInterface::class => $this->denormalizeMenuButton($data),
             MenuButtonCommandsInterface::class => $this->denormalizeMenuButtonCommands($data),
             MenuButtonWebAppInterface::class => $this->denormalizeMenuButtonWebApp($data),
             MenuButtonDefaultInterface::class => $this->denormalizeMenuButtonDefault($data),
+            ChatBoostSourceInterface::class => $this->denormalizeChatBoostSource($data),
             ChatBoostSourcePremiumInterface::class => $this->denormalizeChatBoostSourcePremium($data),
             ChatBoostSourceGiftCodeInterface::class => $this->denormalizeChatBoostSourceGiftCode($data),
             ChatBoostSourceGiveawayInterface::class => $this->denormalizeChatBoostSourceGiveaway($data),
@@ -11695,6 +11737,7 @@ class Serializer implements SerializerInterface
             PreparedInlineMessageInterface::class => $this->denormalizePreparedInlineMessage($data),
             PreparedKeyboardButtonInterface::class => $this->denormalizePreparedKeyboardButton($data),
             ResponseParametersInterface::class => $this->denormalizeResponseParameters($data),
+            InputMediaInterface::class => $this->denormalizeInputMedia($data),
             InputMediaAnimationInterface::class => $this->denormalizeInputMediaAnimation($data),
             InputMediaAudioInterface::class => $this->denormalizeInputMediaAudio($data),
             InputMediaDocumentInterface::class => $this->denormalizeInputMediaDocument($data),
@@ -11706,6 +11749,7 @@ class Serializer implements SerializerInterface
             InputMediaVenueInterface::class => $this->denormalizeInputMediaVenue($data),
             InputMediaVideoInterface::class => $this->denormalizeInputMediaVideo($data),
             InputMediaVoiceNoteInterface::class => $this->denormalizeInputMediaVoiceNote($data),
+            InputPaidMediaInterface::class => $this->denormalizeInputPaidMedia($data),
             InputPaidMediaLivePhotoInterface::class => $this->denormalizeInputPaidMediaLivePhoto($data),
             InputPaidMediaPhotoInterface::class => $this->denormalizeInputPaidMediaPhoto($data),
             InputPaidMediaVideoInterface::class => $this->denormalizeInputPaidMediaVideo($data),
@@ -11793,6 +11837,7 @@ class Serializer implements SerializerInterface
             InputRichBlockThinkingInterface::class => $this->denormalizeInputRichBlockThinking($data),
             InlineQueryInterface::class => $this->denormalizeInlineQuery($data),
             InlineQueryResultsButtonInterface::class => $this->denormalizeInlineQueryResultsButton($data),
+            InlineQueryResultInterface::class => $this->denormalizeInlineQueryResult($data),
             InlineQueryResultArticleInterface::class => $this->denormalizeInlineQueryResultArticle($data),
             InlineQueryResultPhotoInterface::class => $this->denormalizeInlineQueryResultPhoto($data),
             InlineQueryResultGifInterface::class => $this->denormalizeInlineQueryResultGif($data),
@@ -11830,10 +11875,12 @@ class Serializer implements SerializerInterface
             ShippingQueryInterface::class => $this->denormalizeShippingQuery($data),
             PreCheckoutQueryInterface::class => $this->denormalizePreCheckoutQuery($data),
             PaidMediaPurchasedInterface::class => $this->denormalizePaidMediaPurchased($data),
+            RevenueWithdrawalStateInterface::class => $this->denormalizeRevenueWithdrawalState($data),
             RevenueWithdrawalStatePendingInterface::class => $this->denormalizeRevenueWithdrawalStatePending($data),
             RevenueWithdrawalStateSucceededInterface::class => $this->denormalizeRevenueWithdrawalStateSucceeded($data),
             RevenueWithdrawalStateFailedInterface::class => $this->denormalizeRevenueWithdrawalStateFailed($data),
             AffiliateInfoInterface::class => $this->denormalizeAffiliateInfo($data),
+            TransactionPartnerInterface::class => $this->denormalizeTransactionPartner($data),
             TransactionPartnerUserInterface::class => $this->denormalizeTransactionPartnerUser($data),
             TransactionPartnerChatInterface::class => $this->denormalizeTransactionPartnerChat($data),
             TransactionPartnerAffiliateProgramInterface::class => $this->denormalizeTransactionPartnerAffiliateProgram($data),
@@ -11847,6 +11894,7 @@ class Serializer implements SerializerInterface
             PassportFileInterface::class => $this->denormalizePassportFile($data),
             EncryptedPassportElementInterface::class => $this->denormalizeEncryptedPassportElement($data),
             EncryptedCredentialsInterface::class => $this->denormalizeEncryptedCredentials($data),
+            PassportElementErrorInterface::class => $this->denormalizePassportElementError($data),
             PassportElementErrorDataFieldInterface::class => $this->denormalizePassportElementErrorDataField($data),
             PassportElementErrorFrontSideInterface::class => $this->denormalizePassportElementErrorFrontSide($data),
             PassportElementErrorReverseSideInterface::class => $this->denormalizePassportElementErrorReverseSide($data),
