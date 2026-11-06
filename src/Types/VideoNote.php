@@ -5,7 +5,7 @@ namespace Phenogram\Bindings\Types;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 
 /**
- * This object represents a video message (available in Telegram apps as of v.4.0).
+ * This object represents a video message.
  */
 class VideoNote implements Interfaces\VideoNoteInterface
 {

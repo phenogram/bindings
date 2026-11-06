@@ -19,6 +19,9 @@ interface InputRichBlockTableInterface extends TypeInterface
     /** @var bool|null $isStriped Optional. Pass True if the table is striped */
     public ?bool $isStriped { set; get; }
 
-    /** @var RichTextInterface|null $caption Optional. Caption of the table */
-    public ?RichTextInterface $caption { set; get; }
+    /** @var bool|null $isCompact Optional. Pass True if table cells must have smaller indents */
+    public ?bool $isCompact { set; get; }
+
+    /** @var RichTextInterface|string|array<mixed>|null $caption Optional. Caption of the table */
+    public RichTextInterface|string|array|null $caption { set; get; }
 }

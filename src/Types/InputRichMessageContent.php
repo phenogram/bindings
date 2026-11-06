@@ -10,7 +10,7 @@ use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
 class InputRichMessageContent extends InputMessageContent implements Interfaces\InputRichMessageContentInterface
 {
     /**
-     * @param InputRichMessageInterface $richMessage The message to be sent
+     * @param InputRichMessageInterface $richMessage The message to be sent. Only previously uploaded files may be used in the message.
      */
     public function __construct(
         public InputRichMessageInterface $richMessage,

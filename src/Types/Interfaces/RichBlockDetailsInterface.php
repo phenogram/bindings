@@ -10,8 +10,8 @@ interface RichBlockDetailsInterface extends TypeInterface
     /** @var string $type Type of the block, always “details” */
     public string $type { set; get; }
 
-    /** @var RichTextInterface $summary Always shown summary of the block */
-    public RichTextInterface $summary { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $summary Always shown summary of the block */
+    public RichTextInterface|string|array $summary { set; get; }
 
     /** @var array<RichBlockInterface> $blocks Content of the block */
     public array $blocks { set; get; }

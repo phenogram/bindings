@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichBlockCaption implements Interfaces\RichBlockCaptionInterface
 {
     /**
-     * @param RichTextInterface      $text   Block caption
-     * @param RichTextInterface|null $credit Optional. Block credit which corresponds to the HTML tag <cite>
+     * @param RichTextInterface|string|array<mixed>      $text   Block caption
+     * @param RichTextInterface|string|array<mixed>|null $credit Optional. Block credit which corresponds to the HTML tag <cite>
      */
     public function __construct(
-        public RichTextInterface $text,
-        public ?RichTextInterface $credit = null,
+        public RichTextInterface|string|array $text,
+        public RichTextInterface|string|array|null $credit = null,
     ) {
     }
 }

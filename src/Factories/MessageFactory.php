@@ -32,6 +32,7 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatJoinedInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
@@ -184,13 +185,14 @@ class MessageFactory extends AbstractFactory
      * @param string|null                                                                 $connectedWebsite              Optional. Optional. The domain name of the website on which the user has logged in. More about Telegram Login »
      * @param WriteAccessAllowedInterface|null                                            $writeAccessAllowed            Optional. Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
      * @param PassportDataInterface|null                                                  $passportData                  Optional. Optional. Telegram Passport data
-     * @param ProximityAlertTriggeredInterface|null                                       $proximityAlertTriggered       Optional. Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+     * @param ProximityAlertTriggeredInterface|null                                       $proximityAlertTriggered       Optional. Optional. Service message: a user in the chat triggered another user's proximity alert while sharing Live Location
      * @param ChatBoostAddedInterface|null                                                $boostAdded                    Optional. Optional. Service message: user boosted the chat
      * @param ChatBackgroundInterface|null                                                $chatBackgroundSet             Optional. Optional. Service message: chat background set
      * @param ChecklistTasksDoneInterface|null                                            $checklistTasksDone            Optional. Optional. Service message: some tasks in a checklist were marked as done or not done
      * @param ChecklistTasksAddedInterface|null                                           $checklistTasksAdded           Optional. Optional. Service message: tasks were added to a checklist
-     * @param CommunityChatAddedInterface|null                                            $communityChatAdded            Optional. Optional. Service message: chat added to a Community
-     * @param CommunityChatRemovedInterface|null                                          $communityChatRemoved          Optional. Optional. Service message: chat removed from a Community
+     * @param CommunityChatAddedInterface|null                                            $communityChatAdded            Optional. Optional. Service message: chat or bot added to a Community
+     * @param CommunityChatJoinedInterface|null                                           $communityChatJoined           Optional. Optional. Service message: chat was joined by a user from a Community
+     * @param CommunityChatRemovedInterface|null                                          $communityChatRemoved          Optional. Optional. Service message: chat or bot removed from a Community
      * @param DirectMessagePriceChangedInterface|null                                     $directMessagePriceChanged     Optional. Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
      * @param ForumTopicCreatedInterface|null                                             $forumTopicCreated             Optional. Optional. Service message: forum topic created
      * @param ForumTopicEditedInterface|null                                              $forumTopicEdited              Optional. Optional. Service message: forum topic edited
@@ -311,6 +313,7 @@ class MessageFactory extends AbstractFactory
         ?ChecklistTasksDoneInterface $checklistTasksDone = null,
         ?ChecklistTasksAddedInterface $checklistTasksAdded = null,
         ?CommunityChatAddedInterface $communityChatAdded = null,
+        ?CommunityChatJoinedInterface $communityChatJoined = null,
         ?CommunityChatRemovedInterface $communityChatRemoved = null,
         ?DirectMessagePriceChangedInterface $directMessagePriceChanged = null,
         ?ForumTopicCreatedInterface $forumTopicCreated = null,
@@ -432,6 +435,7 @@ class MessageFactory extends AbstractFactory
             checklistTasksDone: $checklistTasksDone,
             checklistTasksAdded: $checklistTasksAdded,
             communityChatAdded: $communityChatAdded,
+            communityChatJoined: $communityChatJoined,
             communityChatRemoved: $communityChatRemoved,
             directMessagePriceChanged: $directMessagePriceChanged,
             forumTopicCreated: $forumTopicCreated,

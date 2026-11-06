@@ -11,24 +11,27 @@ class InputRichBlockTableFactory extends AbstractFactory
     /**
      * Creates a new InputRichBlockTable instance with default fake data.
      *
-     * @param string|null                                                 $type       Optional. Type of the block, always “table”
-     * @param array|null                                                  $cells      Optional. Cells of the table
-     * @param bool|null                                                   $isBordered Optional. Optional. Pass True if the table has borders
-     * @param bool|null                                                   $isStriped  Optional. Optional. Pass True if the table is striped
-     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|null $caption    Optional. Optional. Caption of the table
+     * @param string|null                                                              $type       Optional. Type of the block, always “table”
+     * @param array|null                                                               $cells      Optional. Cells of the table
+     * @param bool|null                                                                $isBordered Optional. Optional. Pass True if the table has borders
+     * @param bool|null                                                                $isStriped  Optional. Optional. Pass True if the table is striped
+     * @param bool|null                                                                $isCompact  Optional. Optional. Pass True if table cells must have smaller indents
+     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $caption    Optional. Optional. Caption of the table
      */
     public static function make(
         ?string $type = null,
         ?array $cells = null,
         ?bool $isBordered = null,
         ?bool $isStriped = null,
-        ?\Phenogram\Bindings\Types\Interfaces\RichTextInterface $caption = null,
+        ?bool $isCompact = null,
+        \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $caption = null,
     ): InputRichBlockTableInterface {
         return self::factory()->makeInputRichBlockTable(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'table',
             cells: $cells ?? array_map(fn () => array_map(fn () => RichBlockTableCell::make(), range(0, self::fake()->numberBetween(0, 1))), range(0, self::fake()->numberBetween(0, 2))),
             isBordered: $isBordered,
             isStriped: $isStriped,
+            isCompact: $isCompact,
             caption: $caption,
         );
     }

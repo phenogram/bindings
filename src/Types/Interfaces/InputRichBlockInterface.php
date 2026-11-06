@@ -14,14 +14,17 @@ namespace Phenogram\Bindings\Types\Interfaces;
  * @see InputRichBlockAnchorInterface
  * @see InputRichBlockListInterface
  * @see InputRichBlockBlockQuotationInterface
+ * @see InputRichBlockExpandableBlockQuotationInterface
  * @see InputRichBlockPullQuotationInterface
  * @see InputRichBlockCollageInterface
  * @see InputRichBlockSlideshowInterface
  * @see InputRichBlockTableInterface
  * @see InputRichBlockDetailsInterface
  * @see InputRichBlockMapInterface
+ * @see InputRichBlockButtonsInterface
  * @see InputRichBlockAnimationInterface
  * @see InputRichBlockAudioInterface
+ * @see InputRichBlockDocumentInterface
  * @see InputRichBlockPhotoInterface
  * @see InputRichBlockVideoInterface
  * @see InputRichBlockVoiceNoteInterface

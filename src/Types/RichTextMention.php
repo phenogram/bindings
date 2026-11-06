@@ -10,13 +10,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextMention extends RichText implements Interfaces\RichTextMentionInterface
 {
     /**
-     * @param string            $type     Type of the rich text, always “mention”
-     * @param RichTextInterface $text     The text
-     * @param string            $username The username
+     * @param string                                $type     Type of the rich text, always “mention”
+     * @param RichTextInterface|string|array<mixed> $text     The text
+     * @param string                                $username The username
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
         public string $username,
     ) {
     }

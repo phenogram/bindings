@@ -20,7 +20,7 @@ class RichTextCustomEmojiFactory extends AbstractFactory
         ?string $alternativeText = null,
     ): RichTextCustomEmojiInterface {
         return self::factory()->makeRichTextCustomEmoji(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'custom_emoji',
             customEmojiId: $customEmojiId ?? self::fake()->bothify('?#?#?#?#?#?#?#???'),
             alternativeText: $alternativeText ?? self::fake()->text(50),
         );

@@ -16,7 +16,7 @@ class InputRichBlockAnchorFactory extends AbstractFactory
     public static function make(?string $type = null, ?string $name = null): InputRichBlockAnchorInterface
     {
         return self::factory()->makeInputRichBlockAnchor(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'anchor',
             name: $name ?? self::fake()->text(50),
         );
     }

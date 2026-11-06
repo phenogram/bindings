@@ -26,6 +26,7 @@ namespace Phenogram\Bindings\Types;
  * @see RichTextHashtag
  * @see RichTextCashtag
  * @see RichTextBotCommand
+ * @see RichTextButton
  * @see RichTextAnchor
  * @see RichTextAnchorLink
  * @see RichTextReference

@@ -23,7 +23,7 @@ class InputRichBlockPhotoFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): InputRichBlockPhotoInterface {
         return self::factory()->makeInputRichBlockPhoto(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'photo',
             photo: $photo ?? InputMediaPhoto::make(),
             caption: $caption,
         );

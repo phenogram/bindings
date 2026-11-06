@@ -13,7 +13,7 @@ interface RichBlockMapInterface extends TypeInterface
     /** @var LocationInterface $location Location of the center of the map */
     public LocationInterface $location { set; get; }
 
-    /** @var int $zoom Map zoom level; 13-20 */
+    /** @var int $zoom Map zoom level */
     public int $zoom { set; get; }
 
     /** @var int $width Expected width of the map */

@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextBold extends RichText implements Interfaces\RichTextBoldInterface
 {
     /**
-     * @param string            $type Type of the rich text, always “bold”
-     * @param RichTextInterface $text The text
+     * @param string                                $type Type of the rich text, always “bold”
+     * @param RichTextInterface|string|array<mixed> $text The text
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
     ) {
     }
 }

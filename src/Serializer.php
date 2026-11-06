@@ -73,6 +73,7 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatJoinedInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
@@ -80,9 +81,11 @@ use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
+use Phenogram\Bindings\Types\Interfaces\DisabledButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
+use Phenogram\Bindings\Types\Interfaces\EphemeralMessageParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\FileInterface;
 use Phenogram\Bindings\Types\Interfaces\ForceReplyInterface;
@@ -158,10 +161,14 @@ use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockButtonsInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockCollageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockDetailsInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockExpandableBlockQuotationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockListInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockListItemInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockMapInterface;
@@ -207,6 +214,7 @@ use Phenogram\Bindings\Types\Interfaces\MenuButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonWebAppInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageGenerationStoppedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageIdInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginChannelInterface;
@@ -269,11 +277,15 @@ use Phenogram\Bindings\Types\Interfaces\RichBlockAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockButtonsInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockCaptionInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockCollageInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockDetailsInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockExpandableBlockQuotationInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockFooterInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockListInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockListItemInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockMapInterface;
@@ -289,18 +301,21 @@ use Phenogram\Bindings\Types\Interfaces\RichBlockTableInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockThinkingInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\RichMessageButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\RichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextAnchorLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBankCardNumberInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBoldInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBotCommandInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCashtagInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCodeInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCustomEmojiInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextDateTimeInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextEmailAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextHashtagInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextItalicInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextMarkedInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextMathematicalExpressionInterface;
@@ -398,6 +413,7 @@ class Serializer implements SerializerInterface
         TextQuoteInterface::class,
         ExternalReplyInfoInterface::class,
         ReplyParametersInterface::class,
+        EphemeralMessageParametersInterface::class,
         MessageOriginInterface::class,
         MessageOriginUserInterface::class,
         MessageOriginHiddenUserInterface::class,
@@ -439,6 +455,7 @@ class Serializer implements SerializerInterface
         ManagedBotCreatedInterface::class,
         ManagedBotUpdatedInterface::class,
         BotSubscriptionUpdatedInterface::class,
+        MessageGenerationStoppedInterface::class,
         PollOptionAddedInterface::class,
         PollOptionDeletedInterface::class,
         ChatBoostAddedInterface::class,
@@ -455,6 +472,7 @@ class Serializer implements SerializerInterface
         ChecklistTasksDoneInterface::class,
         ChecklistTasksAddedInterface::class,
         CommunityChatAddedInterface::class,
+        CommunityChatJoinedInterface::class,
         CommunityChatRemovedInterface::class,
         ForumTopicCreatedInterface::class,
         ForumTopicClosedInterface::class,
@@ -502,6 +520,7 @@ class Serializer implements SerializerInterface
         LoginUrlInterface::class,
         SwitchInlineQueryChosenChatInterface::class,
         CopyTextButtonInterface::class,
+        DisabledButtonInterface::class,
         CallbackQueryInterface::class,
         ForceReplyInterface::class,
         CommunityInterface::class,
@@ -619,6 +638,8 @@ class Serializer implements SerializerInterface
         RichMessageInterface::class,
         InputRichMessageInterface::class,
         InputRichMessageMediaInterface::class,
+        RichMessageButtonInterface::class,
+        RichTextInterface::class,
         RichTextBoldInterface::class,
         RichTextItalicInterface::class,
         RichTextUnderlineInterface::class,
@@ -640,6 +661,7 @@ class Serializer implements SerializerInterface
         RichTextHashtagInterface::class,
         RichTextCashtagInterface::class,
         RichTextBotCommandInterface::class,
+        RichTextButtonInterface::class,
         RichTextAnchorInterface::class,
         RichTextAnchorLinkInterface::class,
         RichTextReferenceInterface::class,
@@ -647,6 +669,7 @@ class Serializer implements SerializerInterface
         RichBlockCaptionInterface::class,
         RichBlockTableCellInterface::class,
         RichBlockListItemInterface::class,
+        RichBlockInterface::class,
         RichBlockParagraphInterface::class,
         RichBlockSectionHeadingInterface::class,
         RichBlockPreformattedInterface::class,
@@ -656,19 +679,23 @@ class Serializer implements SerializerInterface
         RichBlockAnchorInterface::class,
         RichBlockListInterface::class,
         RichBlockBlockQuotationInterface::class,
+        RichBlockExpandableBlockQuotationInterface::class,
         RichBlockPullQuotationInterface::class,
         RichBlockCollageInterface::class,
         RichBlockSlideshowInterface::class,
         RichBlockTableInterface::class,
         RichBlockDetailsInterface::class,
         RichBlockMapInterface::class,
+        RichBlockButtonsInterface::class,
         RichBlockAnimationInterface::class,
         RichBlockAudioInterface::class,
+        RichBlockDocumentInterface::class,
         RichBlockPhotoInterface::class,
         RichBlockVideoInterface::class,
         RichBlockVoiceNoteInterface::class,
         RichBlockThinkingInterface::class,
         InputRichBlockListItemInterface::class,
+        InputRichBlockInterface::class,
         InputRichBlockParagraphInterface::class,
         InputRichBlockSectionHeadingInterface::class,
         InputRichBlockPreformattedInterface::class,
@@ -678,14 +705,17 @@ class Serializer implements SerializerInterface
         InputRichBlockAnchorInterface::class,
         InputRichBlockListInterface::class,
         InputRichBlockBlockQuotationInterface::class,
+        InputRichBlockExpandableBlockQuotationInterface::class,
         InputRichBlockPullQuotationInterface::class,
         InputRichBlockCollageInterface::class,
         InputRichBlockSlideshowInterface::class,
         InputRichBlockTableInterface::class,
         InputRichBlockDetailsInterface::class,
         InputRichBlockMapInterface::class,
+        InputRichBlockButtonsInterface::class,
         InputRichBlockAnimationInterface::class,
         InputRichBlockAudioInterface::class,
+        InputRichBlockDocumentInterface::class,
         InputRichBlockPhotoInterface::class,
         InputRichBlockVideoInterface::class,
         InputRichBlockVoiceNoteInterface::class,
@@ -873,6 +903,9 @@ class Serializer implements SerializerInterface
                 : null,
             subscription: isset($data['subscription'])
                 ? $this->denormalizeBotSubscriptionUpdated($data['subscription'])
+                : null,
+            stoppedMessageGeneration: isset($data['stopped_message_generation'])
+                ? $this->denormalizeMessageGenerationStopped($data['stopped_message_generation'])
                 : null,
         );
     }
@@ -1325,6 +1358,9 @@ class Serializer implements SerializerInterface
             communityChatAdded: isset($data['community_chat_added'])
                 ? $this->denormalizeCommunityChatAdded($data['community_chat_added'])
                 : null,
+            communityChatJoined: isset($data['community_chat_joined'])
+                ? $this->denormalizeCommunityChatJoined($data['community_chat_joined'])
+                : null,
             communityChatRemoved: isset($data['community_chat_removed'])
                 ? $this->denormalizeCommunityChatRemoved($data['community_chat_removed'])
                 : null,
@@ -1641,6 +1677,31 @@ class Serializer implements SerializerInterface
             quotePosition: $data['quote_position'] ?? null,
             checklistTaskId: $data['checklist_task_id'] ?? null,
             pollOptionId: $data['poll_option_id'] ?? null,
+        );
+    }
+
+    public function denormalizeEphemeralMessageParameters(array $data): EphemeralMessageParametersInterface
+    {
+        $requiredFields = [
+            'receiver_user_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class EphemeralMessageParameters missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeEphemeralMessageParameters(
+            receiverUserId: $data['receiver_user_id'],
+            callbackQueryId: $data['callback_query_id'] ?? null,
+            replaceCallbackQueryMessage: $data['replace_callback_query_message'] ?? null,
         );
     }
 
@@ -2857,6 +2918,32 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeMessageGenerationStopped(array $data): MessageGenerationStoppedInterface
+    {
+        $requiredFields = [
+            'chat',
+            'draft_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class MessageGenerationStopped missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeMessageGenerationStopped(
+            chat: $this->denormalizeChat($data['chat']),
+            draftId: $data['draft_id'],
+            messageThreadId: $data['message_thread_id'] ?? null,
+        );
+    }
+
     public function denormalizePollOptionAdded(array $data): PollOptionAddedInterface
     {
         $requiredFields = [
@@ -3233,6 +3320,29 @@ class Serializer implements SerializerInterface
         }
 
         return $this->factory->makeCommunityChatAdded(
+            community: $this->denormalizeCommunity($data['community']),
+        );
+    }
+
+    public function denormalizeCommunityChatJoined(array $data): CommunityChatJoinedInterface
+    {
+        $requiredFields = [
+            'community',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class CommunityChatJoined missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeCommunityChatJoined(
             community: $this->denormalizeCommunity($data['community']),
         );
     }
@@ -3974,6 +4084,7 @@ class Serializer implements SerializerInterface
             oneTimeKeyboard: $data['one_time_keyboard'] ?? null,
             inputFieldPlaceholder: $data['input_field_placeholder'] ?? null,
             selective: $data['selective'] ?? null,
+            forceReply: $data['force_reply'] ?? null,
         );
     }
 
@@ -4152,6 +4263,7 @@ class Serializer implements SerializerInterface
                 ),
                 $data['inline_keyboard']
             ),
+            forceReply: $data['force_reply'] ?? null,
         );
     }
 
@@ -4197,6 +4309,9 @@ class Serializer implements SerializerInterface
                 ? $this->denormalizeCallbackGame($data['callback_game'])
                 : null,
             pay: $data['pay'] ?? null,
+            disabled: isset($data['disabled'])
+                ? $this->denormalizeDisabledButton($data['disabled'])
+                : null,
         );
     }
 
@@ -4258,6 +4373,11 @@ class Serializer implements SerializerInterface
         return $this->factory->makeCopyTextButton(
             text: $data['text'],
         );
+    }
+
+    public function denormalizeDisabledButton(array $data): DisabledButtonInterface
+    {
+        return $this->factory->makeDisabledButton();
     }
 
     public function denormalizeCallbackQuery(array $data): CallbackQueryInterface
@@ -4407,6 +4527,7 @@ class Serializer implements SerializerInterface
             'can_post_stories',
             'can_edit_stories',
             'can_delete_stories',
+            'can_send_welcome_messages',
         ];
 
         $missingFields = [];
@@ -4433,6 +4554,7 @@ class Serializer implements SerializerInterface
             canPostStories: $data['can_post_stories'],
             canEditStories: $data['can_edit_stories'],
             canDeleteStories: $data['can_delete_stories'],
+            canSendWelcomeMessages: $data['can_send_welcome_messages'],
             canPostMessages: $data['can_post_messages'] ?? null,
             canEditMessages: $data['can_edit_messages'] ?? null,
             canPinMessages: $data['can_pin_messages'] ?? null,
@@ -4536,6 +4658,7 @@ class Serializer implements SerializerInterface
             'can_post_stories',
             'can_edit_stories',
             'can_delete_stories',
+            'can_send_welcome_messages',
         ];
 
         $missingFields = [];
@@ -4565,6 +4688,7 @@ class Serializer implements SerializerInterface
             canPostStories: $data['can_post_stories'],
             canEditStories: $data['can_edit_stories'],
             canDeleteStories: $data['can_delete_stories'],
+            canSendWelcomeMessages: $data['can_send_welcome_messages'],
             canPostMessages: $data['can_post_messages'] ?? null,
             canEditMessages: $data['can_edit_messages'] ?? null,
             canPinMessages: $data['can_pin_messages'] ?? null,
@@ -5701,6 +5825,11 @@ class Serializer implements SerializerInterface
         return $this->factory->makeUniqueGiftInfo(
             gift: $this->denormalizeUniqueGift($data['gift']),
             origin: $data['origin'],
+            text: $data['text'] ?? null,
+            entities: isset($data['entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
+                : null,
+            isPrivate: $data['is_private'] ?? null,
             lastResaleCurrency: $data['last_resale_currency'] ?? null,
             lastResaleAmount: $data['last_resale_amount'] ?? null,
             ownedGiftId: $data['owned_gift_id'] ?? null,
@@ -7311,13 +7440,100 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeInputRichMessageMedia(
             id: $data['id'],
-            media: $this->denormalizeInputMediaVoiceNote($data['media']),
+            media: match ($data['media']['type'] ?? null) {
+                'animation' => $this->denormalizeInputMediaAnimation($data['media']),
+                'audio' => $this->denormalizeInputMediaAudio($data['media']),
+                'document' => $this->denormalizeInputMediaDocument($data['media']),
+                'photo' => $this->denormalizeInputMediaPhoto($data['media']),
+                'video' => $this->denormalizeInputMediaVideo($data['media']),
+                'voice_note' => $this->denormalizeInputMediaVoiceNote($data['media']),
+                default => throw new \InvalidArgumentException('Unknown InputRichMessageMedia media type'),
+            },
         );
     }
 
-    public function denormalizeRichText(array $data): Types\Interfaces\RichTextInterface
+    public function denormalizeRichMessageButton(array $data): RichMessageButtonInterface
     {
-        throw new \RuntimeException('class RichText is abstract and not yet implemented');
+        $requiredFields = [
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichMessageButton missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichMessageButton(
+            text: $this->denormalizeRichText($data['text']),
+            style: $data['style'] ?? null,
+            url: $data['url'] ?? null,
+            callbackData: $data['callback_data'] ?? null,
+            webApp: isset($data['web_app'])
+                ? $this->denormalizeWebAppInfo($data['web_app'])
+                : null,
+            loginUrl: isset($data['login_url'])
+                ? $this->denormalizeLoginUrl($data['login_url'])
+                : null,
+            switchInlineQuery: $data['switch_inline_query'] ?? null,
+            switchInlineQueryCurrentChat: $data['switch_inline_query_current_chat'] ?? null,
+            switchInlineQueryChosenChat: isset($data['switch_inline_query_chosen_chat'])
+                ? $this->denormalizeSwitchInlineQueryChosenChat($data['switch_inline_query_chosen_chat'])
+                : null,
+            copyText: isset($data['copy_text'])
+                ? $this->denormalizeCopyTextButton($data['copy_text'])
+                : null,
+            disabled: isset($data['disabled'])
+                ? $this->denormalizeDisabledButton($data['disabled'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichText(string|array $data): RichTextInterface|string|array
+    {
+        if (is_string($data)) {
+            return $data;
+        }
+
+        if (array_is_list($data)) {
+            return array_map(fn (string|array $item) => $this->denormalizeRichText($item), $data);
+        }
+
+        return match ($data['type'] ?? null) {
+            'bold' => $this->denormalizeRichTextBold($data),
+            'italic' => $this->denormalizeRichTextItalic($data),
+            'underline' => $this->denormalizeRichTextUnderline($data),
+            'strikethrough' => $this->denormalizeRichTextStrikethrough($data),
+            'spoiler' => $this->denormalizeRichTextSpoiler($data),
+            'date_time' => $this->denormalizeRichTextDateTime($data),
+            'text_mention' => $this->denormalizeRichTextTextMention($data),
+            'subscript' => $this->denormalizeRichTextSubscript($data),
+            'superscript' => $this->denormalizeRichTextSuperscript($data),
+            'marked' => $this->denormalizeRichTextMarked($data),
+            'code' => $this->denormalizeRichTextCode($data),
+            'custom_emoji' => $this->denormalizeRichTextCustomEmoji($data),
+            'mathematical_expression' => $this->denormalizeRichTextMathematicalExpression($data),
+            'url' => $this->denormalizeRichTextUrl($data),
+            'email_address' => $this->denormalizeRichTextEmailAddress($data),
+            'phone_number' => $this->denormalizeRichTextPhoneNumber($data),
+            'bank_card_number' => $this->denormalizeRichTextBankCardNumber($data),
+            'mention' => $this->denormalizeRichTextMention($data),
+            'hashtag' => $this->denormalizeRichTextHashtag($data),
+            'cashtag' => $this->denormalizeRichTextCashtag($data),
+            'bot_command' => $this->denormalizeRichTextBotCommand($data),
+            'button' => $this->denormalizeRichTextButton($data),
+            'anchor' => $this->denormalizeRichTextAnchor($data),
+            'anchor_link' => $this->denormalizeRichTextAnchorLink($data),
+            'reference' => $this->denormalizeRichTextReference($data),
+            'reference_link' => $this->denormalizeRichTextReferenceLink($data),
+            default => throw new \InvalidArgumentException('Unknown RichText type'),
+        };
     }
 
     public function denormalizeRichTextBold(array $data): RichTextBoldInterface
@@ -7869,6 +8085,31 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeRichTextButton(array $data): RichTextButtonInterface
+    {
+        $requiredFields = [
+            'type',
+            'button',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextButton missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextButton(
+            type: $data['type'],
+            button: $this->denormalizeRichMessageButton($data['button']),
+        );
+    }
+
     public function denormalizeRichTextAnchor(array $data): RichTextAnchorInterface
     {
         $requiredFields = [
@@ -7995,9 +8236,7 @@ class Serializer implements SerializerInterface
 
         return $this->factory->makeRichBlockCaption(
             text: $this->denormalizeRichText($data['text']),
-            credit: isset($data['credit'])
-                ? $this->denormalizeRichText($data['credit'])
-                : null,
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
         );
     }
 
@@ -8023,9 +8262,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeRichBlockTableCell(
             align: $data['align'],
             valign: $data['valign'],
-            text: isset($data['text'])
-                ? $this->denormalizeRichText($data['text'])
-                : null,
+            text: isset($data['text']) ? $this->denormalizeRichText($data['text']) : null,
             isHeader: $data['is_header'] ?? null,
             colspan: $data['colspan'] ?? null,
             rowspan: $data['rowspan'] ?? null,
@@ -8061,9 +8298,35 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeRichBlock(array $data): Types\Interfaces\RichBlockInterface
+    public function denormalizeRichBlock(array $data): RichBlockInterface
     {
-        throw new \RuntimeException('class RichBlock is abstract and not yet implemented');
+        return match ($data['type'] ?? null) {
+            'paragraph' => $this->denormalizeRichBlockParagraph($data),
+            'heading' => $this->denormalizeRichBlockSectionHeading($data),
+            'pre' => $this->denormalizeRichBlockPreformatted($data),
+            'footer' => $this->denormalizeRichBlockFooter($data),
+            'divider' => $this->denormalizeRichBlockDivider($data),
+            'mathematical_expression' => $this->denormalizeRichBlockMathematicalExpression($data),
+            'anchor' => $this->denormalizeRichBlockAnchor($data),
+            'list' => $this->denormalizeRichBlockList($data),
+            'blockquote' => $this->denormalizeRichBlockBlockQuotation($data),
+            'expandable_blockquote' => $this->denormalizeRichBlockExpandableBlockQuotation($data),
+            'pullquote' => $this->denormalizeRichBlockPullQuotation($data),
+            'collage' => $this->denormalizeRichBlockCollage($data),
+            'slideshow' => $this->denormalizeRichBlockSlideshow($data),
+            'table' => $this->denormalizeRichBlockTable($data),
+            'details' => $this->denormalizeRichBlockDetails($data),
+            'map' => $this->denormalizeRichBlockMap($data),
+            'buttons' => $this->denormalizeRichBlockButtons($data),
+            'animation' => $this->denormalizeRichBlockAnimation($data),
+            'audio' => $this->denormalizeRichBlockAudio($data),
+            'document' => $this->denormalizeRichBlockDocument($data),
+            'photo' => $this->denormalizeRichBlockPhoto($data),
+            'video' => $this->denormalizeRichBlockVideo($data),
+            'voice_note' => $this->denormalizeRichBlockVoiceNote($data),
+            'thinking' => $this->denormalizeRichBlockThinking($data),
+            default => throw new \InvalidArgumentException('Unknown RichBlock type'),
+        };
     }
 
     public function denormalizeRichBlockParagraph(array $data): RichBlockParagraphInterface
@@ -8289,9 +8552,33 @@ class Serializer implements SerializerInterface
         return $this->factory->makeRichBlockBlockQuotation(
             type: $data['type'],
             blocks: array_map(fn (array $item) => $this->denormalizeRichBlock($item), $data['blocks']),
-            credit: isset($data['credit'])
-                ? $this->denormalizeRichText($data['credit'])
-                : null,
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
+        );
+    }
+
+    public function denormalizeRichBlockExpandableBlockQuotation(array $data): RichBlockExpandableBlockQuotationInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockExpandableBlockQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockExpandableBlockQuotation(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
         );
     }
 
@@ -8317,9 +8604,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeRichBlockPullQuotation(
             type: $data['type'],
             text: $this->denormalizeRichText($data['text']),
-            credit: isset($data['credit'])
-                ? $this->denormalizeRichText($data['credit'])
-                : null,
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
         );
     }
 
@@ -8409,9 +8694,8 @@ class Serializer implements SerializerInterface
             ),
             isBordered: $data['is_bordered'] ?? null,
             isStriped: $data['is_striped'] ?? null,
-            caption: isset($data['caption'])
-                ? $this->denormalizeRichText($data['caption'])
-                : null,
+            isCompact: $data['is_compact'] ?? null,
+            caption: isset($data['caption']) ? $this->denormalizeRichText($data['caption']) : null,
         );
     }
 
@@ -8477,6 +8761,32 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeRichBlockButtons(array $data): RichBlockButtonsInterface
+    {
+        $requiredFields = [
+            'type',
+            'buttons',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockButtons missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockButtons(
+            type: $data['type'],
+            buttons: array_map(fn (array $item) => $this->denormalizeRichMessageButton($item), $data['buttons']),
+            align: $data['align'] ?? null,
+        );
+    }
+
     public function denormalizeRichBlockAnimation(array $data): RichBlockAnimationInterface
     {
         $requiredFields = [
@@ -8528,6 +8838,34 @@ class Serializer implements SerializerInterface
         return $this->factory->makeRichBlockAudio(
             type: $data['type'],
             audio: $this->denormalizeAudio($data['audio']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeRichBlockDocument(array $data): RichBlockDocumentInterface
+    {
+        $requiredFields = [
+            'type',
+            'document',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichBlockDocument missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichBlockDocument(
+            type: $data['type'],
+            document: $this->denormalizeDocument($data['document']),
             caption: isset($data['caption'])
                 ? $this->denormalizeRichBlockCaption($data['caption'])
                 : null,
@@ -8672,9 +9010,35 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeInputRichBlock(array $data): Types\Interfaces\InputRichBlockInterface
+    public function denormalizeInputRichBlock(array $data): InputRichBlockInterface
     {
-        throw new \RuntimeException('class InputRichBlock is abstract and not yet implemented');
+        return match ($data['type'] ?? null) {
+            'paragraph' => $this->denormalizeInputRichBlockParagraph($data),
+            'heading' => $this->denormalizeInputRichBlockSectionHeading($data),
+            'pre' => $this->denormalizeInputRichBlockPreformatted($data),
+            'footer' => $this->denormalizeInputRichBlockFooter($data),
+            'divider' => $this->denormalizeInputRichBlockDivider($data),
+            'mathematical_expression' => $this->denormalizeInputRichBlockMathematicalExpression($data),
+            'anchor' => $this->denormalizeInputRichBlockAnchor($data),
+            'list' => $this->denormalizeInputRichBlockList($data),
+            'blockquote' => $this->denormalizeInputRichBlockBlockQuotation($data),
+            'expandable_blockquote' => $this->denormalizeInputRichBlockExpandableBlockQuotation($data),
+            'pullquote' => $this->denormalizeInputRichBlockPullQuotation($data),
+            'collage' => $this->denormalizeInputRichBlockCollage($data),
+            'slideshow' => $this->denormalizeInputRichBlockSlideshow($data),
+            'table' => $this->denormalizeInputRichBlockTable($data),
+            'details' => $this->denormalizeInputRichBlockDetails($data),
+            'map' => $this->denormalizeInputRichBlockMap($data),
+            'buttons' => $this->denormalizeInputRichBlockButtons($data),
+            'animation' => $this->denormalizeInputRichBlockAnimation($data),
+            'audio' => $this->denormalizeInputRichBlockAudio($data),
+            'document' => $this->denormalizeInputRichBlockDocument($data),
+            'photo' => $this->denormalizeInputRichBlockPhoto($data),
+            'video' => $this->denormalizeInputRichBlockVideo($data),
+            'voice_note' => $this->denormalizeInputRichBlockVoiceNote($data),
+            'thinking' => $this->denormalizeInputRichBlockThinking($data),
+            default => throw new \InvalidArgumentException('Unknown InputRichBlock type'),
+        };
     }
 
     public function denormalizeInputRichBlockParagraph(array $data): InputRichBlockParagraphInterface
@@ -8901,9 +9265,34 @@ class Serializer implements SerializerInterface
         return $this->factory->makeInputRichBlockBlockQuotation(
             type: $data['type'],
             blocks: array_map(fn (array $item) => $this->denormalizeInputRichBlock($item), $data['blocks']),
-            credit: isset($data['credit'])
-                ? $this->denormalizeRichText($data['credit'])
-                : null,
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockExpandableBlockQuotation(
+        array $data,
+    ): InputRichBlockExpandableBlockQuotationInterface {
+        $requiredFields = [
+            'type',
+            'text',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockExpandableBlockQuotation missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockExpandableBlockQuotation(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
         );
     }
 
@@ -8929,9 +9318,7 @@ class Serializer implements SerializerInterface
         return $this->factory->makeInputRichBlockPullQuotation(
             type: $data['type'],
             text: $this->denormalizeRichText($data['text']),
-            credit: isset($data['credit'])
-                ? $this->denormalizeRichText($data['credit'])
-                : null,
+            credit: isset($data['credit']) ? $this->denormalizeRichText($data['credit']) : null,
         );
     }
 
@@ -9021,9 +9408,8 @@ class Serializer implements SerializerInterface
             ),
             isBordered: $data['is_bordered'] ?? null,
             isStriped: $data['is_striped'] ?? null,
-            caption: isset($data['caption'])
-                ? $this->denormalizeRichText($data['caption'])
-                : null,
+            isCompact: $data['is_compact'] ?? null,
+            caption: isset($data['caption']) ? $this->denormalizeRichText($data['caption']) : null,
         );
     }
 
@@ -9060,9 +9446,6 @@ class Serializer implements SerializerInterface
         $requiredFields = [
             'type',
             'location',
-            'zoom',
-            'width',
-            'height',
         ];
 
         $missingFields = [];
@@ -9080,12 +9463,38 @@ class Serializer implements SerializerInterface
         return $this->factory->makeInputRichBlockMap(
             type: $data['type'],
             location: $this->denormalizeLocation($data['location']),
-            zoom: $data['zoom'],
-            width: $data['width'],
-            height: $data['height'],
+            zoom: $data['zoom'] ?? null,
+            width: $data['width'] ?? null,
+            height: $data['height'] ?? null,
             caption: isset($data['caption'])
                 ? $this->denormalizeRichBlockCaption($data['caption'])
                 : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockButtons(array $data): InputRichBlockButtonsInterface
+    {
+        $requiredFields = [
+            'type',
+            'buttons',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockButtons missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockButtons(
+            type: $data['type'],
+            buttons: array_map(fn (array $item) => $this->denormalizeRichMessageButton($item), $data['buttons']),
+            align: $data['align'] ?? null,
         );
     }
 
@@ -9139,6 +9548,34 @@ class Serializer implements SerializerInterface
         return $this->factory->makeInputRichBlockAudio(
             type: $data['type'],
             audio: $this->denormalizeInputMediaAudio($data['audio']),
+            caption: isset($data['caption'])
+                ? $this->denormalizeRichBlockCaption($data['caption'])
+                : null,
+        );
+    }
+
+    public function denormalizeInputRichBlockDocument(array $data): InputRichBlockDocumentInterface
+    {
+        $requiredFields = [
+            'type',
+            'document',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputRichBlockDocument missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputRichBlockDocument(
+            type: $data['type'],
+            document: $this->denormalizeInputMediaDocument($data['document']),
             caption: isset($data['caption'])
                 ? $this->denormalizeRichBlockCaption($data['caption'])
                 : null,
@@ -11504,6 +11941,12 @@ class Serializer implements SerializerInterface
 
     public function deserialize(mixed $data, string $type, bool $isArray = false): mixed
     {
+        if ($type === RichTextInterface::class) {
+            return $isArray
+                ? array_map(fn (string|array $item) => $this->denormalizeRichText($item), $data)
+                : $this->denormalizeRichText($data);
+        }
+
         return is_array($data)
             ? $this->denormalize($data, $type, $isArray)
             : $data;
@@ -11516,6 +11959,12 @@ class Serializer implements SerializerInterface
 
     public function denormalize(array $data, string $type, bool $isArray = false): mixed
     {
+        if ($type === RichTextInterface::class) {
+            return $isArray
+                ? array_map(fn (string|array $item) => $this->denormalizeRichText($item), $data)
+                : $this->denormalizeRichText($data);
+        }
+
         if (!$this->supports($type)) {
             throw new \UnexpectedValueException(sprintf('Failed to decode response to the expected type: %s', $type));
         }
@@ -11527,7 +11976,7 @@ class Serializer implements SerializerInterface
         return array_map(fn (array $item) => $this->denormalizeType($item, $type), $data);
     }
 
-    private function denormalizeType(array $data, string $type): TypeInterface
+    private function denormalizeType(array $data, string $type): TypeInterface|string|array
     {
         return match ($type) {
             UpdateInterface::class => $this->denormalizeUpdate($data),
@@ -11543,6 +11992,7 @@ class Serializer implements SerializerInterface
             TextQuoteInterface::class => $this->denormalizeTextQuote($data),
             ExternalReplyInfoInterface::class => $this->denormalizeExternalReplyInfo($data),
             ReplyParametersInterface::class => $this->denormalizeReplyParameters($data),
+            EphemeralMessageParametersInterface::class => $this->denormalizeEphemeralMessageParameters($data),
             MessageOriginInterface::class => $this->denormalizeMessageOrigin($data),
             MessageOriginUserInterface::class => $this->denormalizeMessageOriginUser($data),
             MessageOriginHiddenUserInterface::class => $this->denormalizeMessageOriginHiddenUser($data),
@@ -11584,6 +12034,7 @@ class Serializer implements SerializerInterface
             ManagedBotCreatedInterface::class => $this->denormalizeManagedBotCreated($data),
             ManagedBotUpdatedInterface::class => $this->denormalizeManagedBotUpdated($data),
             BotSubscriptionUpdatedInterface::class => $this->denormalizeBotSubscriptionUpdated($data),
+            MessageGenerationStoppedInterface::class => $this->denormalizeMessageGenerationStopped($data),
             PollOptionAddedInterface::class => $this->denormalizePollOptionAdded($data),
             PollOptionDeletedInterface::class => $this->denormalizePollOptionDeleted($data),
             ChatBoostAddedInterface::class => $this->denormalizeChatBoostAdded($data),
@@ -11600,6 +12051,7 @@ class Serializer implements SerializerInterface
             ChecklistTasksDoneInterface::class => $this->denormalizeChecklistTasksDone($data),
             ChecklistTasksAddedInterface::class => $this->denormalizeChecklistTasksAdded($data),
             CommunityChatAddedInterface::class => $this->denormalizeCommunityChatAdded($data),
+            CommunityChatJoinedInterface::class => $this->denormalizeCommunityChatJoined($data),
             CommunityChatRemovedInterface::class => $this->denormalizeCommunityChatRemoved($data),
             ForumTopicCreatedInterface::class => $this->denormalizeForumTopicCreated($data),
             ForumTopicClosedInterface::class => $this->denormalizeForumTopicClosed($data),
@@ -11647,6 +12099,7 @@ class Serializer implements SerializerInterface
             LoginUrlInterface::class => $this->denormalizeLoginUrl($data),
             SwitchInlineQueryChosenChatInterface::class => $this->denormalizeSwitchInlineQueryChosenChat($data),
             CopyTextButtonInterface::class => $this->denormalizeCopyTextButton($data),
+            DisabledButtonInterface::class => $this->denormalizeDisabledButton($data),
             CallbackQueryInterface::class => $this->denormalizeCallbackQuery($data),
             ForceReplyInterface::class => $this->denormalizeForceReply($data),
             CommunityInterface::class => $this->denormalizeCommunity($data),
@@ -11764,6 +12217,8 @@ class Serializer implements SerializerInterface
             RichMessageInterface::class => $this->denormalizeRichMessage($data),
             InputRichMessageInterface::class => $this->denormalizeInputRichMessage($data),
             InputRichMessageMediaInterface::class => $this->denormalizeInputRichMessageMedia($data),
+            RichMessageButtonInterface::class => $this->denormalizeRichMessageButton($data),
+            RichTextInterface::class => $this->denormalizeRichText($data),
             RichTextBoldInterface::class => $this->denormalizeRichTextBold($data),
             RichTextItalicInterface::class => $this->denormalizeRichTextItalic($data),
             RichTextUnderlineInterface::class => $this->denormalizeRichTextUnderline($data),
@@ -11785,6 +12240,7 @@ class Serializer implements SerializerInterface
             RichTextHashtagInterface::class => $this->denormalizeRichTextHashtag($data),
             RichTextCashtagInterface::class => $this->denormalizeRichTextCashtag($data),
             RichTextBotCommandInterface::class => $this->denormalizeRichTextBotCommand($data),
+            RichTextButtonInterface::class => $this->denormalizeRichTextButton($data),
             RichTextAnchorInterface::class => $this->denormalizeRichTextAnchor($data),
             RichTextAnchorLinkInterface::class => $this->denormalizeRichTextAnchorLink($data),
             RichTextReferenceInterface::class => $this->denormalizeRichTextReference($data),
@@ -11792,6 +12248,7 @@ class Serializer implements SerializerInterface
             RichBlockCaptionInterface::class => $this->denormalizeRichBlockCaption($data),
             RichBlockTableCellInterface::class => $this->denormalizeRichBlockTableCell($data),
             RichBlockListItemInterface::class => $this->denormalizeRichBlockListItem($data),
+            RichBlockInterface::class => $this->denormalizeRichBlock($data),
             RichBlockParagraphInterface::class => $this->denormalizeRichBlockParagraph($data),
             RichBlockSectionHeadingInterface::class => $this->denormalizeRichBlockSectionHeading($data),
             RichBlockPreformattedInterface::class => $this->denormalizeRichBlockPreformatted($data),
@@ -11801,19 +12258,23 @@ class Serializer implements SerializerInterface
             RichBlockAnchorInterface::class => $this->denormalizeRichBlockAnchor($data),
             RichBlockListInterface::class => $this->denormalizeRichBlockList($data),
             RichBlockBlockQuotationInterface::class => $this->denormalizeRichBlockBlockQuotation($data),
+            RichBlockExpandableBlockQuotationInterface::class => $this->denormalizeRichBlockExpandableBlockQuotation($data),
             RichBlockPullQuotationInterface::class => $this->denormalizeRichBlockPullQuotation($data),
             RichBlockCollageInterface::class => $this->denormalizeRichBlockCollage($data),
             RichBlockSlideshowInterface::class => $this->denormalizeRichBlockSlideshow($data),
             RichBlockTableInterface::class => $this->denormalizeRichBlockTable($data),
             RichBlockDetailsInterface::class => $this->denormalizeRichBlockDetails($data),
             RichBlockMapInterface::class => $this->denormalizeRichBlockMap($data),
+            RichBlockButtonsInterface::class => $this->denormalizeRichBlockButtons($data),
             RichBlockAnimationInterface::class => $this->denormalizeRichBlockAnimation($data),
             RichBlockAudioInterface::class => $this->denormalizeRichBlockAudio($data),
+            RichBlockDocumentInterface::class => $this->denormalizeRichBlockDocument($data),
             RichBlockPhotoInterface::class => $this->denormalizeRichBlockPhoto($data),
             RichBlockVideoInterface::class => $this->denormalizeRichBlockVideo($data),
             RichBlockVoiceNoteInterface::class => $this->denormalizeRichBlockVoiceNote($data),
             RichBlockThinkingInterface::class => $this->denormalizeRichBlockThinking($data),
             InputRichBlockListItemInterface::class => $this->denormalizeInputRichBlockListItem($data),
+            InputRichBlockInterface::class => $this->denormalizeInputRichBlock($data),
             InputRichBlockParagraphInterface::class => $this->denormalizeInputRichBlockParagraph($data),
             InputRichBlockSectionHeadingInterface::class => $this->denormalizeInputRichBlockSectionHeading($data),
             InputRichBlockPreformattedInterface::class => $this->denormalizeInputRichBlockPreformatted($data),
@@ -11823,14 +12284,17 @@ class Serializer implements SerializerInterface
             InputRichBlockAnchorInterface::class => $this->denormalizeInputRichBlockAnchor($data),
             InputRichBlockListInterface::class => $this->denormalizeInputRichBlockList($data),
             InputRichBlockBlockQuotationInterface::class => $this->denormalizeInputRichBlockBlockQuotation($data),
+            InputRichBlockExpandableBlockQuotationInterface::class => $this->denormalizeInputRichBlockExpandableBlockQuotation($data),
             InputRichBlockPullQuotationInterface::class => $this->denormalizeInputRichBlockPullQuotation($data),
             InputRichBlockCollageInterface::class => $this->denormalizeInputRichBlockCollage($data),
             InputRichBlockSlideshowInterface::class => $this->denormalizeInputRichBlockSlideshow($data),
             InputRichBlockTableInterface::class => $this->denormalizeInputRichBlockTable($data),
             InputRichBlockDetailsInterface::class => $this->denormalizeInputRichBlockDetails($data),
             InputRichBlockMapInterface::class => $this->denormalizeInputRichBlockMap($data),
+            InputRichBlockButtonsInterface::class => $this->denormalizeInputRichBlockButtons($data),
             InputRichBlockAnimationInterface::class => $this->denormalizeInputRichBlockAnimation($data),
             InputRichBlockAudioInterface::class => $this->denormalizeInputRichBlockAudio($data),
+            InputRichBlockDocumentInterface::class => $this->denormalizeInputRichBlockDocument($data),
             InputRichBlockPhotoInterface::class => $this->denormalizeInputRichBlockPhoto($data),
             InputRichBlockVideoInterface::class => $this->denormalizeInputRichBlockVideo($data),
             InputRichBlockVoiceNoteInterface::class => $this->denormalizeInputRichBlockVoiceNote($data),

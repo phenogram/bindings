@@ -16,7 +16,7 @@ interface InputRichMessageInterface extends TypeInterface
     /** @var string|null $markdown Optional. Content of the rich message to send described using Markdown formatting. See rich message formatting options for more details. Use media field to specify the media used in the message. */
     public ?string $markdown { set; get; }
 
-    /** @var array<InputRichMessageMediaInterface>|null $media Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, and tg://audio?id= links */
+    /** @var array<InputRichMessageMediaInterface>|null $media Optional. List of media that are specified in the markdown or html fields using tg://photo?id=, tg://video?id=, tg://document?id=, and tg://audio?id= links */
     public ?array $media { set; get; }
 
     /** @var bool|null $isRtl Optional. Pass True if the rich message must be shown right-to-left */

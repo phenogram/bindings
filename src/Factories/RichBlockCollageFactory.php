@@ -21,7 +21,7 @@ class RichBlockCollageFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockCollageInterface {
         return self::factory()->makeRichBlockCollage(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'collage',
             blocks: $blocks ?? [],
             caption: $caption,
         );

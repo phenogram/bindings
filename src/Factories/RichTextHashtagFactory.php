@@ -10,18 +10,18 @@ class RichTextHashtagFactory extends AbstractFactory
     /**
      * Creates a new RichTextHashtag instance with default fake data.
      *
-     * @param string|null                                                 $type    Optional. Type of the rich text, always “hashtag”
-     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|null $text    Optional. The text
-     * @param string|null                                                 $hashtag Optional. The hashtag
+     * @param string|null                                                              $type    Optional. Type of the rich text, always “hashtag”
+     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $text    Optional. The text
+     * @param string|null                                                              $hashtag Optional. The hashtag
      */
     public static function make(
         ?string $type = null,
-        ?\Phenogram\Bindings\Types\Interfaces\RichTextInterface $text = null,
+        \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $text = null,
         ?string $hashtag = null,
     ): RichTextHashtagInterface {
         return self::factory()->makeRichTextHashtag(
-            type: $type ?? self::fake()->word(),
-            text: $text ?? '[Abstract type: RichText]',
+            type: $type ?? 'hashtag',
+            text: $text ?? self::fake()->sentence(),
             hashtag: $hashtag ?? self::fake()->text(50),
         );
     }

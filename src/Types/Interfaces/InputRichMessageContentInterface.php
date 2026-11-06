@@ -7,6 +7,6 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface InputRichMessageContentInterface extends TypeInterface
 {
-    /** @var InputRichMessageInterface $richMessage The message to be sent */
+    /** @var InputRichMessageInterface $richMessage The message to be sent. Only previously uploaded files may be used in the message. */
     public InputRichMessageInterface $richMessage { set; get; }
 }

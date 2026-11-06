@@ -3,7 +3,7 @@
 namespace Phenogram\Bindings\Types\Interfaces;
 
 /**
- * This object represents a video message (available in Telegram apps as of v.4.0).
+ * This object represents a video message.
  */
 interface VideoNoteInterface extends TypeInterface
 {

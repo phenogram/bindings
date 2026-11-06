@@ -24,7 +24,7 @@ class RichBlockPhotoFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockPhotoInterface {
         return self::factory()->makeRichBlockPhoto(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'photo',
             photo: $photo ?? array_map(fn () => PhotoSize::make(), range(0, self::fake()->numberBetween(0, 2))),
             hasSpoiler: $hasSpoiler,
             caption: $caption,

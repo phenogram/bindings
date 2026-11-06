@@ -15,9 +15,9 @@ class InputRichBlockMapFactory extends AbstractFactory
      *
      * @param string|null                    $type     Optional. Type of the block, always “map”
      * @param LocationInterface|null         $location Optional. Location of the center of the map
-     * @param int|null                       $zoom     Optional. Map zoom level; 0-24
-     * @param int|null                       $width    Optional. Map width; 0-10000
-     * @param int|null                       $height   Optional. Map height; 0-10000
+     * @param int|null                       $zoom     Optional. Optional. Map zoom level; 0-24
+     * @param int|null                       $width    Optional. Optional. Map width; 0-10000
+     * @param int|null                       $height   Optional. Optional. Map height; 0-10000
      * @param RichBlockCaptionInterface|null $caption  Optional. Optional. Caption of the block
      */
     public static function make(
@@ -29,11 +29,11 @@ class InputRichBlockMapFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): InputRichBlockMapInterface {
         return self::factory()->makeInputRichBlockMap(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'map',
             location: $location ?? Location::make(),
-            zoom: $zoom ?? self::fake()->randomNumber(),
-            width: $width ?? self::fake()->numberBetween(10, 1000),
-            height: $height ?? self::fake()->numberBetween(10, 1000),
+            zoom: $zoom,
+            width: $width,
+            height: $height,
             caption: $caption,
         );
     }

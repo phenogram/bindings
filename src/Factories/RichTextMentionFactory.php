@@ -10,18 +10,18 @@ class RichTextMentionFactory extends AbstractFactory
     /**
      * Creates a new RichTextMention instance with default fake data.
      *
-     * @param string|null                                                 $type     Optional. Type of the rich text, always “mention”
-     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|null $text     Optional. The text
-     * @param string|null                                                 $username Optional. The username
+     * @param string|null                                                              $type     Optional. Type of the rich text, always “mention”
+     * @param \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $text     Optional. The text
+     * @param string|null                                                              $username Optional. The username
      */
     public static function make(
         ?string $type = null,
-        ?\Phenogram\Bindings\Types\Interfaces\RichTextInterface $text = null,
+        \Phenogram\Bindings\Types\Interfaces\RichTextInterface|string|array|null $text = null,
         ?string $username = null,
     ): RichTextMentionInterface {
         return self::factory()->makeRichTextMention(
-            type: $type ?? self::fake()->word(),
-            text: $text ?? '[Abstract type: RichText]',
+            type: $type ?? 'mention',
+            text: $text ?? self::fake()->sentence(),
             username: $username ?? self::fake()->userName(),
         );
     }

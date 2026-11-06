@@ -10,8 +10,8 @@ interface RichTextReferenceLinkInterface extends TypeInterface
     /** @var string $type Type of the rich text, always “reference_link” */
     public string $type { set; get; }
 
-    /** @var RichTextInterface $text The link text */
-    public RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $text The link text */
+    public RichTextInterface|string|array $text { set; get; }
 
     /** @var string $referenceName The name of the reference */
     public string $referenceName { set; get; }

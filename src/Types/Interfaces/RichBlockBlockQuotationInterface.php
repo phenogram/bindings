@@ -13,6 +13,6 @@ interface RichBlockBlockQuotationInterface extends TypeInterface
     /** @var array<RichBlockInterface> $blocks Content of the block */
     public array $blocks { set; get; }
 
-    /** @var RichTextInterface|null $credit Optional. Credit of the block */
-    public ?RichTextInterface $credit { set; get; }
+    /** @var RichTextInterface|string|array<mixed>|null $credit Optional. Credit of the block */
+    public RichTextInterface|string|array|null $credit { set; get; }
 }

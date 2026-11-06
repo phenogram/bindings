@@ -10,13 +10,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextBankCardNumber extends RichText implements Interfaces\RichTextBankCardNumberInterface
 {
     /**
-     * @param string            $type           Type of the rich text, always “bank_card_number”
-     * @param RichTextInterface $text           The text
-     * @param string            $bankCardNumber The bank card number
+     * @param string                                $type           Type of the rich text, always “bank_card_number”
+     * @param RichTextInterface|string|array<mixed> $text           The text
+     * @param string                                $bankCardNumber The bank card number
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
         public string $bankCardNumber,
     ) {
     }

@@ -87,4 +87,7 @@ interface UpdateInterface extends TypeInterface
 
     /** @var BotSubscriptionUpdatedInterface|null $subscription Optional. User payment subscription has changed */
     public ?BotSubscriptionUpdatedInterface $subscription { set; get; }
+
+    /** @var MessageGenerationStoppedInterface|null $stoppedMessageGeneration Optional. A user asked the bot to stop the generation of a message */
+    public ?MessageGenerationStoppedInterface $stoppedMessageGeneration { set; get; }
 }

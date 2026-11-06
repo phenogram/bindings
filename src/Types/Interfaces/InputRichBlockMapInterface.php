@@ -13,14 +13,14 @@ interface InputRichBlockMapInterface extends TypeInterface
     /** @var LocationInterface $location Location of the center of the map */
     public LocationInterface $location { set; get; }
 
-    /** @var int $zoom Map zoom level; 0-24 */
-    public int $zoom { set; get; }
+    /** @var int|null $zoom Optional. Map zoom level; 0-24 */
+    public ?int $zoom { set; get; }
 
-    /** @var int $width Map width; 0-10000 */
-    public int $width { set; get; }
+    /** @var int|null $width Optional. Map width; 0-10000 */
+    public ?int $width { set; get; }
 
-    /** @var int $height Map height; 0-10000 */
-    public int $height { set; get; }
+    /** @var int|null $height Optional. Map height; 0-10000 */
+    public ?int $height { set; get; }
 
     /** @var RichBlockCaptionInterface|null $caption Optional. Caption of the block */
     public ?RichBlockCaptionInterface $caption { set; get; }

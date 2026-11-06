@@ -13,17 +13,17 @@ class InputRichBlockMap extends InputRichBlock implements Interfaces\InputRichBl
     /**
      * @param string                         $type     Type of the block, always “map”
      * @param LocationInterface              $location Location of the center of the map
-     * @param int                            $zoom     Map zoom level; 0-24
-     * @param int                            $width    Map width; 0-10000
-     * @param int                            $height   Map height; 0-10000
+     * @param int|null                       $zoom     Optional. Map zoom level; 0-24
+     * @param int|null                       $width    Optional. Map width; 0-10000
+     * @param int|null                       $height   Optional. Map height; 0-10000
      * @param RichBlockCaptionInterface|null $caption  Optional. Caption of the block
      */
     public function __construct(
         public string $type,
         public LocationInterface $location,
-        public int $zoom,
-        public int $width,
-        public int $height,
+        public ?int $zoom = null,
+        public ?int $width = null,
+        public ?int $height = null,
         public ?RichBlockCaptionInterface $caption = null,
     ) {
     }

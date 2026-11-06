@@ -7,9 +7,9 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface RichBlockCaptionInterface extends TypeInterface
 {
-    /** @var RichTextInterface $text Block caption */
-    public RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $text Block caption */
+    public RichTextInterface|string|array $text { set; get; }
 
-    /** @var RichTextInterface|null $credit Optional. Block credit which corresponds to the HTML tag <cite> */
-    public ?RichTextInterface $credit { set; get; }
+    /** @var RichTextInterface|string|array<mixed>|null $credit Optional. Block credit which corresponds to the HTML tag <cite> */
+    public RichTextInterface|string|array|null $credit { set; get; }
 }

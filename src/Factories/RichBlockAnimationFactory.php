@@ -25,7 +25,7 @@ class RichBlockAnimationFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockAnimationInterface {
         return self::factory()->makeRichBlockAnimation(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'animation',
             animation: $animation ?? Animation::make(),
             hasSpoiler: $hasSpoiler,
             caption: $caption,

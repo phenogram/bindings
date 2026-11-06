@@ -17,7 +17,7 @@ class InputRichBlockListFactory extends AbstractFactory
     public static function make(?string $type = null, ?array $items = null): InputRichBlockListInterface
     {
         return self::factory()->makeInputRichBlockList(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'list',
             items: $items ?? array_map(fn () => InputRichBlockListItem::make(), range(0, self::fake()->numberBetween(0, 2))),
         );
     }

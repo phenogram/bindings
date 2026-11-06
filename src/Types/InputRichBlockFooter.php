@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class InputRichBlockFooter extends InputRichBlock implements Interfaces\InputRichBlockFooterInterface
 {
     /**
-     * @param string            $type Type of the block, always “footer”
-     * @param RichTextInterface $text Text of the block
+     * @param string                                $type Type of the block, always “footer”
+     * @param RichTextInterface|string|array<mixed> $text Text of the block
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
     ) {
     }
 }

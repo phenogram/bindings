@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichBlockThinking extends RichBlock implements Interfaces\RichBlockThinkingInterface
 {
     /**
-     * @param string            $type Type of the block, always “thinking”
-     * @param RichTextInterface $text Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
+     * @param string                                $type Type of the block, always “thinking”
+     * @param RichTextInterface|string|array<mixed> $text Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block.
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
     ) {
     }
 }

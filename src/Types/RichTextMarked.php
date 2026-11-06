@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextMarked extends RichText implements Interfaces\RichTextMarkedInterface
 {
     /**
-     * @param string            $type Type of the rich text, always “marked”
-     * @param RichTextInterface $text The text
+     * @param string                                $type Type of the rich text, always “marked”
+     * @param RichTextInterface|string|array<mixed> $text The text
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
     ) {
     }
 }

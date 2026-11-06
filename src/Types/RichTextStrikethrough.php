@@ -10,12 +10,12 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextStrikethrough extends RichText implements Interfaces\RichTextStrikethroughInterface
 {
     /**
-     * @param string            $type Type of the rich text, always “strikethrough”
-     * @param RichTextInterface $text The text
+     * @param string                                $type Type of the rich text, always “strikethrough”
+     * @param RichTextInterface|string|array<mixed> $text The text
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
     ) {
     }
 }

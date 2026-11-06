@@ -3,7 +3,7 @@
 # Phenogram Bindings
 
 [![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/releases/8.4/en.php)
-[![Telegram Bot API 10.2](https://img.shields.io/badge/Telegram_Bot_API-10.2-26A5E4?logo=telegram&logoColor=white)](https://core.telegram.org/bots/api)
+[![Telegram Bot API 10.3](https://img.shields.io/badge/Telegram_Bot_API-10.3-26A5E4?logo=telegram&logoColor=white)](https://core.telegram.org/bots/api)
 [![CI](https://github.com/phenogram/bindings/actions/workflows/ci.yaml/badge.svg)](https://github.com/phenogram/bindings/actions/workflows/ci.yaml)
 [![Packagist](https://img.shields.io/packagist/v/phenogram/bindings?label=Packagist)](https://packagist.org/packages/phenogram/bindings)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -20,13 +20,20 @@ Use [Phenogram Framework](https://github.com/phenogram/framework) when you need 
 
 | Item | Supported version |
 |---|---|
-| Package | `9.x` |
-| Telegram Bot API | `10.2` |
+| Package | `10.x` |
+| Telegram Bot API | `10.3` |
 | PHP | `^8.4` |
 | Runtime packages | None |
 
 The code uses [PHP property hooks](https://www.php.net/manual/en/language.oop5.property-hooks.php).
 PHP 8.4 is therefore required.
+
+## Upgrade from 9.x
+
+Version 10.0.0 supports Telegram Bot API 10.3 and includes breaking changes.
+In message-sending methods, replace the `receiverUserId` and `callbackQueryId` arguments with an `EphemeralMessageParameters` object passed as `ephemeralMessageParameters`.
+When you create `ChatAdministratorRights` or `ChatMemberAdministrator`, supply the new required `canSendWelcomeMessages` argument.
+Use named arguments: the order of positional arguments changed in several methods and constructors.
 
 ## Install
 

@@ -13,7 +13,7 @@ class RichBlockMap extends RichBlock implements Interfaces\RichBlockMapInterface
     /**
      * @param string                         $type     Type of the block, always “map”
      * @param LocationInterface              $location Location of the center of the map
-     * @param int                            $zoom     Map zoom level; 13-20
+     * @param int                            $zoom     Map zoom level
      * @param int                            $width    Expected width of the map
      * @param int                            $height   Expected height of the map
      * @param RichBlockCaptionInterface|null $caption  Optional. Caption of the block

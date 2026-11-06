@@ -13,6 +13,15 @@ interface UniqueGiftInfoInterface extends TypeInterface
     /** @var string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers. */
     public string $origin { set; get; }
 
+    /** @var string|null $text Optional. Text of the message that was added to the gift */
+    public ?string $text { set; get; }
+
+    /** @var array<MessageEntityInterface>|null $entities Optional. Special entities that appear in the text */
+    public ?array $entities { set; get; }
+
+    /** @var bool|null $isPrivate Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them */
+    public ?bool $isPrivate { set; get; }
+
     /** @var string|null $lastResaleCurrency Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams. */
     public ?string $lastResaleCurrency { set; get; }
 

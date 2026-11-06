@@ -14,14 +14,17 @@ namespace Phenogram\Bindings\Types;
  * @see InputRichBlockAnchor
  * @see InputRichBlockList
  * @see InputRichBlockBlockQuotation
+ * @see InputRichBlockExpandableBlockQuotation
  * @see InputRichBlockPullQuotation
  * @see InputRichBlockCollage
  * @see InputRichBlockSlideshow
  * @see InputRichBlockTable
  * @see InputRichBlockDetails
  * @see InputRichBlockMap
+ * @see InputRichBlockButtons
  * @see InputRichBlockAnimation
  * @see InputRichBlockAudio
+ * @see InputRichBlockDocument
  * @see InputRichBlockPhoto
  * @see InputRichBlockVideo
  * @see InputRichBlockVoiceNote

@@ -7,8 +7,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface RichBlockTableCellInterface extends TypeInterface
 {
-    /** @var RichTextInterface|null $text Optional. Text in the cell. If omitted, then the cell is invisible. */
-    public ?RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed>|null $text Optional. Text in the cell. If omitted, then the cell is invisible. */
+    public RichTextInterface|string|array|null $text { set; get; }
 
     /** @var bool|null $isHeader Optional. True, if the cell is a header cell */
     public ?bool $isHeader { set; get; }

@@ -18,7 +18,7 @@ class RichTextMathematicalExpressionFactory extends AbstractFactory
         ?string $expression = null,
     ): RichTextMathematicalExpressionInterface {
         return self::factory()->makeRichTextMathematicalExpression(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'mathematical_expression',
             expression: $expression ?? self::fake()->text(50),
         );
     }

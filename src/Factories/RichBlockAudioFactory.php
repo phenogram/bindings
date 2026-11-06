@@ -23,7 +23,7 @@ class RichBlockAudioFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockAudioInterface {
         return self::factory()->makeRichBlockAudio(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'audio',
             audio: $audio ?? Audio::make(),
             caption: $caption,
         );

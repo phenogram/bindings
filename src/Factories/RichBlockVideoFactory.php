@@ -25,7 +25,7 @@ class RichBlockVideoFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockVideoInterface {
         return self::factory()->makeRichBlockVideo(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'video',
             video: $video ?? Video::make(),
             hasSpoiler: $hasSpoiler,
             caption: $caption,

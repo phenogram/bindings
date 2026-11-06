@@ -10,6 +10,6 @@ interface InputRichBlockParagraphInterface extends TypeInterface
     /** @var string $type Type of the block, always “paragraph” */
     public string $type { set; get; }
 
-    /** @var RichTextInterface $text Text of the block */
-    public RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $text Text of the block */
+    public RichTextInterface|string|array $text { set; get; }
 }

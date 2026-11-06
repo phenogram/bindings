@@ -15,7 +15,7 @@ class RichBlockMapFactory extends AbstractFactory
      *
      * @param string|null                    $type     Optional. Type of the block, always “map”
      * @param LocationInterface|null         $location Optional. Location of the center of the map
-     * @param int|null                       $zoom     Optional. Map zoom level; 13-20
+     * @param int|null                       $zoom     Optional. Map zoom level
      * @param int|null                       $width    Optional. Expected width of the map
      * @param int|null                       $height   Optional. Expected height of the map
      * @param RichBlockCaptionInterface|null $caption  Optional. Optional. Caption of the block
@@ -29,7 +29,7 @@ class RichBlockMapFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): RichBlockMapInterface {
         return self::factory()->makeRichBlockMap(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'map',
             location: $location ?? Location::make(),
             zoom: $zoom ?? self::fake()->randomNumber(),
             width: $width ?? self::fake()->numberBetween(10, 1000),

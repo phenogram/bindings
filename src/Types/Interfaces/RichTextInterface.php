@@ -26,6 +26,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  * @see RichTextHashtagInterface
  * @see RichTextCashtagInterface
  * @see RichTextBotCommandInterface
+ * @see RichTextButtonInterface
  * @see RichTextAnchorInterface
  * @see RichTextAnchorLinkInterface
  * @see RichTextReferenceInterface

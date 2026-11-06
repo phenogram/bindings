@@ -23,7 +23,7 @@ class InputRichBlockVoiceNoteFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): InputRichBlockVoiceNoteInterface {
         return self::factory()->makeInputRichBlockVoiceNote(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'voice_note',
             voiceNote: $voiceNote ?? InputMediaVoiceNote::make(),
             caption: $caption,
         );

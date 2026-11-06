@@ -10,6 +10,6 @@ interface RichBlockThinkingInterface extends TypeInterface
     /** @var string $type Type of the block, always “thinking” */
     public string $type { set; get; }
 
-    /** @var RichTextInterface $text Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block. */
-    public RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $text Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji that are recommended for usage in the block. */
+    public RichTextInterface|string|array $text { set; get; }
 }

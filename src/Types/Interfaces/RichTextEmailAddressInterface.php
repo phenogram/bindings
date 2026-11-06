@@ -10,8 +10,8 @@ interface RichTextEmailAddressInterface extends TypeInterface
     /** @var string $type Type of the rich text, always “email_address” */
     public string $type { set; get; }
 
-    /** @var RichTextInterface $text The text */
-    public RichTextInterface $text { set; get; }
+    /** @var RichTextInterface|string|array<mixed> $text The text */
+    public RichTextInterface|string|array $text { set; get; }
 
     /** @var string $emailAddress The email address */
     public string $emailAddress { set; get; }

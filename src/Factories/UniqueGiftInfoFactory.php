@@ -14,6 +14,9 @@ class UniqueGiftInfoFactory extends AbstractFactory
      *
      * @param UniqueGiftInterface|null $gift               Optional. Information about the gift
      * @param string|null              $origin             Optional. Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers.
+     * @param string|null              $text               Optional. Optional. Text of the message that was added to the gift
+     * @param array|null               $entities           Optional. Optional. Special entities that appear in the text
+     * @param bool|null                $isPrivate          Optional. Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
      * @param string|null              $lastResaleCurrency Optional. Optional. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.
      * @param int|null                 $lastResaleAmount   Optional. Optional. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms
      * @param string|null              $ownedGiftId        Optional. Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
@@ -23,6 +26,9 @@ class UniqueGiftInfoFactory extends AbstractFactory
     public static function make(
         ?UniqueGiftInterface $gift = null,
         ?string $origin = null,
+        ?string $text = null,
+        ?array $entities = null,
+        ?bool $isPrivate = null,
         ?string $lastResaleCurrency = null,
         ?int $lastResaleAmount = null,
         ?string $ownedGiftId = null,
@@ -32,6 +38,9 @@ class UniqueGiftInfoFactory extends AbstractFactory
         return self::factory()->makeUniqueGiftInfo(
             gift: $gift ?? UniqueGift::make(),
             origin: $origin ?? self::fake()->text(50),
+            text: $text,
+            entities: $entities,
+            isPrivate: $isPrivate,
             lastResaleCurrency: $lastResaleCurrency,
             lastResaleAmount: $lastResaleAmount,
             ownedGiftId: $ownedGiftId,

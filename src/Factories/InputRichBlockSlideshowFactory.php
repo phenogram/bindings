@@ -21,7 +21,7 @@ class InputRichBlockSlideshowFactory extends AbstractFactory
         ?RichBlockCaptionInterface $caption = null,
     ): InputRichBlockSlideshowInterface {
         return self::factory()->makeInputRichBlockSlideshow(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'slideshow',
             blocks: $blocks ?? [],
             caption: $caption,
         );

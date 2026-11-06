@@ -68,6 +68,7 @@ use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksDoneInterface;
 use Phenogram\Bindings\Types\Interfaces\ChosenInlineResultInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatAddedInterface;
+use Phenogram\Bindings\Types\Interfaces\CommunityChatJoinedInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityChatRemovedInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\ContactInterface;
@@ -75,9 +76,11 @@ use Phenogram\Bindings\Types\Interfaces\CopyTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DiceInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
+use Phenogram\Bindings\Types\Interfaces\DisabledButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
+use Phenogram\Bindings\Types\Interfaces\EphemeralMessageParametersInterface;
 use Phenogram\Bindings\Types\Interfaces\ExternalReplyInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\FileInterface;
 use Phenogram\Bindings\Types\Interfaces\ForceReplyInterface;
@@ -149,9 +152,12 @@ use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockButtonsInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockCollageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockDetailsInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputRichBlockExpandableBlockQuotationInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockFooterInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockListInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichBlockListItemInterface;
@@ -196,6 +202,7 @@ use Phenogram\Bindings\Types\Interfaces\MenuButtonDefaultInterface;
 use Phenogram\Bindings\Types\Interfaces\MenuButtonWebAppInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+use Phenogram\Bindings\Types\Interfaces\MessageGenerationStoppedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageIdInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginChannelInterface;
@@ -253,10 +260,13 @@ use Phenogram\Bindings\Types\Interfaces\RichBlockAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockAnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockAudioInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockBlockQuotationInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockButtonsInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockCaptionInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockCollageInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockDetailsInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockDividerInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockDocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\RichBlockExpandableBlockQuotationInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockFooterInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockListInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockListItemInterface;
@@ -273,12 +283,14 @@ use Phenogram\Bindings\Types\Interfaces\RichBlockTableInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockThinkingInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\RichBlockVoiceNoteInterface;
+use Phenogram\Bindings\Types\Interfaces\RichMessageButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\RichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextAnchorInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextAnchorLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBankCardNumberInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBoldInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextBotCommandInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCashtagInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCodeInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextCustomEmojiInterface;
@@ -394,6 +406,7 @@ interface FactoryInterface
         ?ChatBoostRemovedInterface $removedChatBoost,
         ?ManagedBotUpdatedInterface $managedBot,
         ?BotSubscriptionUpdatedInterface $subscription,
+        ?MessageGenerationStoppedInterface $stoppedMessageGeneration,
     ): UpdateInterface;
 
     public function makeWebhookInfo(
@@ -589,6 +602,7 @@ interface FactoryInterface
         ?ChecklistTasksDoneInterface $checklistTasksDone,
         ?ChecklistTasksAddedInterface $checklistTasksAdded,
         ?CommunityChatAddedInterface $communityChatAdded,
+        ?CommunityChatJoinedInterface $communityChatJoined,
         ?CommunityChatRemovedInterface $communityChatRemoved,
         ?DirectMessagePriceChangedInterface $directMessagePriceChanged,
         ?ForumTopicCreatedInterface $forumTopicCreated,
@@ -677,6 +691,12 @@ interface FactoryInterface
         ?int $checklistTaskId,
         ?string $pollOptionId,
     ): ReplyParametersInterface;
+
+    public function makeEphemeralMessageParameters(
+        int $receiverUserId,
+        ?string $callbackQueryId,
+        ?bool $replaceCallbackQueryMessage,
+    ): EphemeralMessageParametersInterface;
 
     public function makeMessageOriginUser(string $type, int $date, UserInterface $senderUser): MessageOriginUserInterface;
 
@@ -958,6 +978,12 @@ interface FactoryInterface
         string $state,
     ): BotSubscriptionUpdatedInterface;
 
+    public function makeMessageGenerationStopped(
+        ChatInterface $chat,
+        int $draftId,
+        ?int $messageThreadId,
+    ): MessageGenerationStoppedInterface;
+
     public function makePollOptionAdded(
         string $optionPersistentId,
         string $optionText,
@@ -1027,6 +1053,8 @@ interface FactoryInterface
     ): ChecklistTasksAddedInterface;
 
     public function makeCommunityChatAdded(CommunityInterface $community): CommunityChatAddedInterface;
+
+    public function makeCommunityChatJoined(CommunityInterface $community): CommunityChatJoinedInterface;
 
     public function makeCommunityChatRemoved(): CommunityChatRemovedInterface;
 
@@ -1188,6 +1216,7 @@ interface FactoryInterface
         ?bool $oneTimeKeyboard,
         ?string $inputFieldPlaceholder,
         ?bool $selective,
+        ?bool $forceReply,
     ): ReplyKeyboardMarkupInterface;
 
     public function makeKeyboardButton(
@@ -1237,7 +1266,7 @@ interface FactoryInterface
 
     public function makeReplyKeyboardRemove(bool $removeKeyboard, ?bool $selective): ReplyKeyboardRemoveInterface;
 
-    public function makeInlineKeyboardMarkup(array $inlineKeyboard): InlineKeyboardMarkupInterface;
+    public function makeInlineKeyboardMarkup(array $inlineKeyboard, ?bool $forceReply): InlineKeyboardMarkupInterface;
 
     public function makeInlineKeyboardButton(
         string $text,
@@ -1253,6 +1282,7 @@ interface FactoryInterface
         ?CopyTextButtonInterface $copyText,
         ?CallbackGameInterface $callbackGame,
         ?bool $pay,
+        ?DisabledButtonInterface $disabled,
     ): InlineKeyboardButtonInterface;
 
     public function makeLoginUrl(
@@ -1271,6 +1301,8 @@ interface FactoryInterface
     ): SwitchInlineQueryChosenChatInterface;
 
     public function makeCopyTextButton(string $text): CopyTextButtonInterface;
+
+    public function makeDisabledButton(): DisabledButtonInterface;
 
     public function makeCallbackQuery(
         string $id,
@@ -1323,6 +1355,7 @@ interface FactoryInterface
         bool $canPostStories,
         bool $canEditStories,
         bool $canDeleteStories,
+        bool $canSendWelcomeMessages,
         ?bool $canPostMessages,
         ?bool $canEditMessages,
         ?bool $canPinMessages,
@@ -1364,6 +1397,7 @@ interface FactoryInterface
         bool $canPostStories,
         bool $canEditStories,
         bool $canDeleteStories,
+        bool $canSendWelcomeMessages,
         ?bool $canPostMessages,
         ?bool $canEditMessages,
         ?bool $canPinMessages,
@@ -1631,6 +1665,9 @@ interface FactoryInterface
     public function makeUniqueGiftInfo(
         UniqueGiftInterface $gift,
         string $origin,
+        ?string $text,
+        ?array $entities,
+        ?bool $isPrivate,
         ?string $lastResaleCurrency,
         ?int $lastResaleAmount,
         ?string $ownedGiftId,
@@ -1990,51 +2027,80 @@ interface FactoryInterface
 
     public function makeInputRichMessageMedia(
         string $id,
-        InputMediaAnimationInterface|InputMediaAudioInterface|InputMediaPhotoInterface|InputMediaVideoInterface|InputMediaVoiceNoteInterface $media,
+        InputMediaAnimationInterface|InputMediaAudioInterface|InputMediaDocumentInterface|InputMediaPhotoInterface|InputMediaVideoInterface|InputMediaVoiceNoteInterface $media,
     ): InputRichMessageMediaInterface;
 
-    public function makeRichTextBold(string $type, Types\Interfaces\RichTextInterface $text): RichTextBoldInterface;
+    public function makeRichMessageButton(
+        Types\Interfaces\RichTextInterface|string|array $text,
+        ?string $style,
+        ?string $url,
+        ?string $callbackData,
+        ?WebAppInfoInterface $webApp,
+        ?LoginUrlInterface $loginUrl,
+        ?string $switchInlineQuery,
+        ?string $switchInlineQueryCurrentChat,
+        ?SwitchInlineQueryChosenChatInterface $switchInlineQueryChosenChat,
+        ?CopyTextButtonInterface $copyText,
+        ?DisabledButtonInterface $disabled,
+    ): RichMessageButtonInterface;
 
-    public function makeRichTextItalic(string $type, Types\Interfaces\RichTextInterface $text): RichTextItalicInterface;
+    public function makeRichTextBold(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichTextBoldInterface;
+
+    public function makeRichTextItalic(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichTextItalicInterface;
 
     public function makeRichTextUnderline(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichTextUnderlineInterface;
 
     public function makeRichTextStrikethrough(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichTextStrikethroughInterface;
 
-    public function makeRichTextSpoiler(string $type, Types\Interfaces\RichTextInterface $text): RichTextSpoilerInterface;
+    public function makeRichTextSpoiler(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichTextSpoilerInterface;
 
     public function makeRichTextDateTime(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         int $unixTime,
         string $dateTimeFormat,
     ): RichTextDateTimeInterface;
 
     public function makeRichTextTextMention(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         UserInterface $user,
     ): RichTextTextMentionInterface;
 
     public function makeRichTextSubscript(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichTextSubscriptInterface;
 
     public function makeRichTextSuperscript(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichTextSuperscriptInterface;
 
-    public function makeRichTextMarked(string $type, Types\Interfaces\RichTextInterface $text): RichTextMarkedInterface;
+    public function makeRichTextMarked(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichTextMarkedInterface;
 
-    public function makeRichTextCode(string $type, Types\Interfaces\RichTextInterface $text): RichTextCodeInterface;
+    public function makeRichTextCode(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichTextCodeInterface;
 
     public function makeRichTextCustomEmoji(
         string $type,
@@ -2049,81 +2115,83 @@ interface FactoryInterface
 
     public function makeRichTextUrl(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $url,
     ): RichTextUrlInterface;
 
     public function makeRichTextEmailAddress(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $emailAddress,
     ): RichTextEmailAddressInterface;
 
     public function makeRichTextPhoneNumber(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $phoneNumber,
     ): RichTextPhoneNumberInterface;
 
     public function makeRichTextBankCardNumber(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $bankCardNumber,
     ): RichTextBankCardNumberInterface;
 
     public function makeRichTextMention(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $username,
     ): RichTextMentionInterface;
 
     public function makeRichTextHashtag(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $hashtag,
     ): RichTextHashtagInterface;
 
     public function makeRichTextCashtag(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $cashtag,
     ): RichTextCashtagInterface;
 
     public function makeRichTextBotCommand(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $botCommand,
     ): RichTextBotCommandInterface;
+
+    public function makeRichTextButton(string $type, RichMessageButtonInterface $button): RichTextButtonInterface;
 
     public function makeRichTextAnchor(string $type, string $name): RichTextAnchorInterface;
 
     public function makeRichTextAnchorLink(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $anchorName,
     ): RichTextAnchorLinkInterface;
 
     public function makeRichTextReference(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $name,
     ): RichTextReferenceInterface;
 
     public function makeRichTextReferenceLink(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         string $referenceName,
     ): RichTextReferenceLinkInterface;
 
     public function makeRichBlockCaption(
-        Types\Interfaces\RichTextInterface $text,
-        ?Types\Interfaces\RichTextInterface $credit,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
     ): RichBlockCaptionInterface;
 
     public function makeRichBlockTableCell(
         string $align,
         string $valign,
-        ?Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array|null $text,
         ?bool $isHeader,
         ?int $colspan,
         ?int $rowspan,
@@ -2140,22 +2208,25 @@ interface FactoryInterface
 
     public function makeRichBlockParagraph(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichBlockParagraphInterface;
 
     public function makeRichBlockSectionHeading(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         int $size,
     ): RichBlockSectionHeadingInterface;
 
     public function makeRichBlockPreformatted(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         ?string $language,
     ): RichBlockPreformattedInterface;
 
-    public function makeRichBlockFooter(string $type, Types\Interfaces\RichTextInterface $text): RichBlockFooterInterface;
+    public function makeRichBlockFooter(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+    ): RichBlockFooterInterface;
 
     public function makeRichBlockDivider(string $type): RichBlockDividerInterface;
 
@@ -2171,13 +2242,19 @@ interface FactoryInterface
     public function makeRichBlockBlockQuotation(
         string $type,
         array $blocks,
-        ?Types\Interfaces\RichTextInterface $credit,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
     ): RichBlockBlockQuotationInterface;
+
+    public function makeRichBlockExpandableBlockQuotation(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
+    ): RichBlockExpandableBlockQuotationInterface;
 
     public function makeRichBlockPullQuotation(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
-        ?Types\Interfaces\RichTextInterface $credit,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
     ): RichBlockPullQuotationInterface;
 
     public function makeRichBlockCollage(
@@ -2197,12 +2274,13 @@ interface FactoryInterface
         array $cells,
         ?bool $isBordered,
         ?bool $isStriped,
-        ?Types\Interfaces\RichTextInterface $caption,
+        ?bool $isCompact,
+        Types\Interfaces\RichTextInterface|string|array|null $caption,
     ): RichBlockTableInterface;
 
     public function makeRichBlockDetails(
         string $type,
-        Types\Interfaces\RichTextInterface $summary,
+        Types\Interfaces\RichTextInterface|string|array $summary,
         array $blocks,
         ?bool $isOpen,
     ): RichBlockDetailsInterface;
@@ -2216,6 +2294,8 @@ interface FactoryInterface
         ?RichBlockCaptionInterface $caption,
     ): RichBlockMapInterface;
 
+    public function makeRichBlockButtons(string $type, array $buttons, ?string $align): RichBlockButtonsInterface;
+
     public function makeRichBlockAnimation(
         string $type,
         AnimationInterface $animation,
@@ -2228,6 +2308,12 @@ interface FactoryInterface
         AudioInterface $audio,
         ?RichBlockCaptionInterface $caption,
     ): RichBlockAudioInterface;
+
+    public function makeRichBlockDocument(
+        string $type,
+        DocumentInterface $document,
+        ?RichBlockCaptionInterface $caption,
+    ): RichBlockDocumentInterface;
 
     public function makeRichBlockPhoto(
         string $type,
@@ -2251,7 +2337,7 @@ interface FactoryInterface
 
     public function makeRichBlockThinking(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): RichBlockThinkingInterface;
 
     public function makeInputRichBlockListItem(
@@ -2264,24 +2350,24 @@ interface FactoryInterface
 
     public function makeInputRichBlockParagraph(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): InputRichBlockParagraphInterface;
 
     public function makeInputRichBlockSectionHeading(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         int $size,
     ): InputRichBlockSectionHeadingInterface;
 
     public function makeInputRichBlockPreformatted(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
         ?string $language,
     ): InputRichBlockPreformattedInterface;
 
     public function makeInputRichBlockFooter(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): InputRichBlockFooterInterface;
 
     public function makeInputRichBlockDivider(string $type): InputRichBlockDividerInterface;
@@ -2298,13 +2384,19 @@ interface FactoryInterface
     public function makeInputRichBlockBlockQuotation(
         string $type,
         array $blocks,
-        ?Types\Interfaces\RichTextInterface $credit,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
     ): InputRichBlockBlockQuotationInterface;
+
+    public function makeInputRichBlockExpandableBlockQuotation(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
+    ): InputRichBlockExpandableBlockQuotationInterface;
 
     public function makeInputRichBlockPullQuotation(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
-        ?Types\Interfaces\RichTextInterface $credit,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        Types\Interfaces\RichTextInterface|string|array|null $credit,
     ): InputRichBlockPullQuotationInterface;
 
     public function makeInputRichBlockCollage(
@@ -2324,12 +2416,13 @@ interface FactoryInterface
         array $cells,
         ?bool $isBordered,
         ?bool $isStriped,
-        ?Types\Interfaces\RichTextInterface $caption,
+        ?bool $isCompact,
+        Types\Interfaces\RichTextInterface|string|array|null $caption,
     ): InputRichBlockTableInterface;
 
     public function makeInputRichBlockDetails(
         string $type,
-        Types\Interfaces\RichTextInterface $summary,
+        Types\Interfaces\RichTextInterface|string|array $summary,
         array $blocks,
         ?bool $isOpen,
     ): InputRichBlockDetailsInterface;
@@ -2337,11 +2430,17 @@ interface FactoryInterface
     public function makeInputRichBlockMap(
         string $type,
         LocationInterface $location,
-        int $zoom,
-        int $width,
-        int $height,
+        ?int $zoom,
+        ?int $width,
+        ?int $height,
         ?RichBlockCaptionInterface $caption,
     ): InputRichBlockMapInterface;
+
+    public function makeInputRichBlockButtons(
+        string $type,
+        array $buttons,
+        ?string $align,
+    ): InputRichBlockButtonsInterface;
 
     public function makeInputRichBlockAnimation(
         string $type,
@@ -2354,6 +2453,12 @@ interface FactoryInterface
         InputMediaAudioInterface $audio,
         ?RichBlockCaptionInterface $caption,
     ): InputRichBlockAudioInterface;
+
+    public function makeInputRichBlockDocument(
+        string $type,
+        InputMediaDocumentInterface $document,
+        ?RichBlockCaptionInterface $caption,
+    ): InputRichBlockDocumentInterface;
 
     public function makeInputRichBlockPhoto(
         string $type,
@@ -2375,7 +2480,7 @@ interface FactoryInterface
 
     public function makeInputRichBlockThinking(
         string $type,
-        Types\Interfaces\RichTextInterface $text,
+        Types\Interfaces\RichTextInterface|string|array $text,
     ): InputRichBlockThinkingInterface;
 
     public function makeInlineQuery(

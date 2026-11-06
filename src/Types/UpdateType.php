@@ -14,6 +14,7 @@ enum UpdateType: string
     case BUSINESS_MESSAGE = 'business_message';
     case EDITED_BUSINESS_MESSAGE = 'edited_business_message';
     case DELETED_BUSINESS_MESSAGES = 'deleted_business_messages';
+    case GUEST_MESSAGE = 'guest_message';
     case MESSAGE_REACTION = 'message_reaction';
     case MESSAGE_REACTION_COUNT = 'message_reaction_count';
     case INLINE_QUERY = 'inline_query';
@@ -29,4 +30,7 @@ enum UpdateType: string
     case CHAT_JOIN_REQUEST = 'chat_join_request';
     case CHAT_BOOST = 'chat_boost';
     case REMOVED_CHAT_BOOST = 'removed_chat_boost';
+    case MANAGED_BOT = 'managed_bot';
+    case SUBSCRIPTION = 'subscription';
+    case STOPPED_MESSAGE_GENERATION = 'stopped_message_generation';
 }

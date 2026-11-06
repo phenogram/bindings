@@ -265,7 +265,7 @@ interface MessageInterface extends TypeInterface
     /** @var PassportDataInterface|null $passportData Optional. Telegram Passport data */
     public ?PassportDataInterface $passportData { set; get; }
 
-    /** @var ProximityAlertTriggeredInterface|null $proximityAlertTriggered Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location. */
+    /** @var ProximityAlertTriggeredInterface|null $proximityAlertTriggered Optional. Service message: a user in the chat triggered another user's proximity alert while sharing Live Location */
     public ?ProximityAlertTriggeredInterface $proximityAlertTriggered { set; get; }
 
     /** @var ChatBoostAddedInterface|null $boostAdded Optional. Service message: user boosted the chat */
@@ -280,10 +280,13 @@ interface MessageInterface extends TypeInterface
     /** @var ChecklistTasksAddedInterface|null $checklistTasksAdded Optional. Service message: tasks were added to a checklist */
     public ?ChecklistTasksAddedInterface $checklistTasksAdded { set; get; }
 
-    /** @var CommunityChatAddedInterface|null $communityChatAdded Optional. Service message: chat added to a Community */
+    /** @var CommunityChatAddedInterface|null $communityChatAdded Optional. Service message: chat or bot added to a Community */
     public ?CommunityChatAddedInterface $communityChatAdded { set; get; }
 
-    /** @var CommunityChatRemovedInterface|null $communityChatRemoved Optional. Service message: chat removed from a Community */
+    /** @var CommunityChatJoinedInterface|null $communityChatJoined Optional. Service message: chat was joined by a user from a Community */
+    public ?CommunityChatJoinedInterface $communityChatJoined { set; get; }
+
+    /** @var CommunityChatRemovedInterface|null $communityChatRemoved Optional. Service message: chat or bot removed from a Community */
     public ?CommunityChatRemovedInterface $communityChatRemoved { set; get; }
 
     /** @var DirectMessagePriceChangedInterface|null $directMessagePriceChanged Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed */

@@ -12,7 +12,7 @@ class InputRichMessageContentFactory extends AbstractFactory
     /**
      * Creates a new InputRichMessageContent instance with default fake data.
      *
-     * @param InputRichMessageInterface|null $richMessage Optional. The message to be sent
+     * @param InputRichMessageInterface|null $richMessage Optional. The message to be sent. Only previously uploaded files may be used in the message.
      */
     public static function make(?InputRichMessageInterface $richMessage = null): InputRichMessageContentInterface
     {

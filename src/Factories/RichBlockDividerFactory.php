@@ -15,7 +15,7 @@ class RichBlockDividerFactory extends AbstractFactory
     public static function make(?string $type = null): RichBlockDividerInterface
     {
         return self::factory()->makeRichBlockDivider(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'divider',
         );
     }
 }

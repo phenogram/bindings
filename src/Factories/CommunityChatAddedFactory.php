@@ -12,7 +12,7 @@ class CommunityChatAddedFactory extends AbstractFactory
     /**
      * Creates a new CommunityChatAdded instance with default fake data.
      *
-     * @param CommunityInterface|null $community Optional. The new community to which the chat belongs
+     * @param CommunityInterface|null $community Optional. The new community to which the chat or the bot belongs
      */
     public static function make(?CommunityInterface $community = null): CommunityChatAddedInterface
     {

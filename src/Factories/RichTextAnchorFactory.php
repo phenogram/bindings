@@ -16,7 +16,7 @@ class RichTextAnchorFactory extends AbstractFactory
     public static function make(?string $type = null, ?string $name = null): RichTextAnchorInterface
     {
         return self::factory()->makeRichTextAnchor(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'anchor',
             name: $name ?? self::fake()->text(50),
         );
     }

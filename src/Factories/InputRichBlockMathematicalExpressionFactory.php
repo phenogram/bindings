@@ -18,7 +18,7 @@ class InputRichBlockMathematicalExpressionFactory extends AbstractFactory
         ?string $expression = null,
     ): InputRichBlockMathematicalExpressionInterface {
         return self::factory()->makeInputRichBlockMathematicalExpression(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'mathematical_expression',
             expression: $expression ?? self::fake()->text(50),
         );
     }

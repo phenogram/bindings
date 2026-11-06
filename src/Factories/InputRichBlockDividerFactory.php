@@ -15,7 +15,7 @@ class InputRichBlockDividerFactory extends AbstractFactory
     public static function make(?string $type = null): InputRichBlockDividerInterface
     {
         return self::factory()->makeInputRichBlockDivider(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'divider',
         );
     }
 }

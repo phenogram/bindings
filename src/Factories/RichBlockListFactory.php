@@ -17,7 +17,7 @@ class RichBlockListFactory extends AbstractFactory
     public static function make(?string $type = null, ?array $items = null): RichBlockListInterface
     {
         return self::factory()->makeRichBlockList(
-            type: $type ?? self::fake()->word(),
+            type: $type ?? 'list',
             items: $items ?? array_map(fn () => RichBlockListItem::make(), range(0, self::fake()->numberBetween(0, 2))),
         );
     }

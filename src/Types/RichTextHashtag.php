@@ -10,13 +10,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 class RichTextHashtag extends RichText implements Interfaces\RichTextHashtagInterface
 {
     /**
-     * @param string            $type    Type of the rich text, always “hashtag”
-     * @param RichTextInterface $text    The text
-     * @param string            $hashtag The hashtag
+     * @param string                                $type    Type of the rich text, always “hashtag”
+     * @param RichTextInterface|string|array<mixed> $text    The text
+     * @param string                                $hashtag The hashtag
      */
     public function __construct(
         public string $type,
-        public RichTextInterface $text,
+        public RichTextInterface|string|array $text,
         public string $hashtag,
     ) {
     }
