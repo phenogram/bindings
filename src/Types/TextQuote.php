@@ -3,6 +3,7 @@
 namespace Phenogram\Bindings\Types;
 
 use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextInterface;
 
 /**
  * This object contains information about the quoted part of a message that is replied to by the given message.
@@ -10,15 +11,17 @@ use Phenogram\Bindings\Types\Interfaces\MessageEntityInterface;
 class TextQuote implements Interfaces\TextQuoteInterface
 {
     /**
-     * @param string                             $text     Text of the quoted part of a message that is replied to by the given message
-     * @param int                                $position Approximate quote position in the original message in UTF-16 code units as specified by the sender
-     * @param array<MessageEntityInterface>|null $entities Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are kept in quotes.
-     * @param bool|null                          $isManual Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.
+     * @param string                                            $text      Text of the quoted part of a message that is replied to by the given message; may be empty if the quote was chosen from a rich message
+     * @param int                                               $position  Approximate quote position in the original message in UTF-16 code units as specified by the sender. For quotes from rich messages, it is the position in the text formed by joining plain texts of all quotable texts of the message, separated by line feeds.
+     * @param array<MessageEntityInterface>|null                $entities  Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time entities are kept in quotes.
+     * @param array<RichTextInterface|string|array<mixed>>|null $richTexts Optional. Rich text of the quote if it was chosen from a rich message. May contain only plain text, RichTextBold, RichTextItalic, RichTextUnderline, RichTextStrikethrough, RichTextSpoiler, RichTextSubscript, RichTextSuperscript, RichTextDateTime, RichTextCustomEmoji, RichTextMathematicalExpression, and arrays of them.
+     * @param bool|null                                         $isManual  Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.
      */
     public function __construct(
         public string $text,
         public int $position,
         public ?array $entities = null,
+        public ?array $richTexts = null,
         public ?bool $isManual = null,
     ) {
     }

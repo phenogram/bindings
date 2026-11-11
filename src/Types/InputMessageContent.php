@@ -11,6 +11,8 @@ namespace Phenogram\Bindings\Types;
  * @see InputVenueMessageContent
  * @see InputContactMessageContent
  * @see InputInvoiceMessageContent
+ * @see InputWidgetMessageContent
+ * @see InputSharedWidgetMessageContent
  */
 abstract class InputMessageContent implements Interfaces\InputMessageContentInterface
 {

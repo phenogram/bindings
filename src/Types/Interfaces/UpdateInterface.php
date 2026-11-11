@@ -52,6 +52,12 @@ interface UpdateInterface extends TypeInterface
     /** @var CallbackQueryInterface|null $callbackQuery Optional. New incoming callback query */
     public ?CallbackQueryInterface $callbackQuery { set; get; }
 
+    /** @var WidgetQueryInterface|null $widgetQuery Optional. New incoming query from a widget in a message sent by the bot or via the bot */
+    public ?WidgetQueryInterface $widgetQuery { set; get; }
+
+    /** @var SharedWidgetQueryInterface|null $sharedWidgetQuery Optional. New incoming query from a forwarded message with a shared widget */
+    public ?SharedWidgetQueryInterface $sharedWidgetQuery { set; get; }
+
     /** @var ShippingQueryInterface|null $shippingQuery Optional. New incoming shipping query. Only for invoices with flexible price. */
     public ?ShippingQueryInterface $shippingQuery { set; get; }
 

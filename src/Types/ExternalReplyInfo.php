@@ -26,6 +26,7 @@ use Phenogram\Bindings\Types\Interfaces\VenueInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
 
 /**
  * This object contains information about a message that is being replied to, which may come from another chat or forum topic.
@@ -48,6 +49,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
      * @param VideoInterface|null              $video              Optional. Message is a video, information about the video
      * @param VideoNoteInterface|null          $videoNote          Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null              $voice              Optional. Message is a voice message, information about the file
+     * @param WidgetInterface|null             $widget             Optional. Message is an HTML widget, information about the widget
      * @param bool|null                        $hasMediaSpoiler    Optional. True, if the message media is covered by a spoiler animation
      * @param ChecklistInterface|null          $checklist          Optional. Message is a checklist
      * @param ContactInterface|null            $contact            Optional. Message is a shared contact, information about the contact
@@ -76,6 +78,7 @@ class ExternalReplyInfo implements Interfaces\ExternalReplyInfoInterface
         public ?VideoInterface $video = null,
         public ?VideoNoteInterface $videoNote = null,
         public ?VoiceInterface $voice = null,
+        public ?WidgetInterface $widget = null,
         public ?bool $hasMediaSpoiler = null,
         public ?ChecklistInterface $checklist = null,
         public ?ContactInterface $contact = null,

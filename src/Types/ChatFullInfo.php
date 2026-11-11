@@ -12,9 +12,11 @@ use Phenogram\Bindings\Types\Interfaces\ChatInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeInterface;
 use Phenogram\Bindings\Types\Interfaces\CommunityInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\ReactionTypeInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftColorsInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UserRatingInterface;
@@ -78,6 +80,8 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
      * @param int|null                           $paidMessageStarCount               Optional. The number of Telegram Stars a general user has to pay to send a message to the chat
      * @param UserInterface|null                 $guardBot                           Optional. The bot that processes join request queries in the chat. The field is only available to chat administrators.
      * @param CommunityInterface|null            $community                          Optional. The Community to which the chat belongs
+     * @param TonWalletCardInterface|null        $tonWalletCard                      Optional. For private chats, the TON wallet card of the user, which is shown on their profile page
+     * @param ChatShareThemeInterface|null       $shareTheme                         Optional. For private chats, supergroups and channels, the theme of the screen for sharing a link to the user or the chat; omitted if the default theme is used
      */
     public function __construct(
         public int $id,
@@ -133,6 +137,8 @@ class ChatFullInfo implements Interfaces\ChatFullInfoInterface
         public ?int $paidMessageStarCount = null,
         public ?UserInterface $guardBot = null,
         public ?CommunityInterface $community = null,
+        public ?TonWalletCardInterface $tonWalletCard = null,
+        public ?ChatShareThemeInterface $shareTheme = null,
     ) {
     }
 }

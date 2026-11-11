@@ -20,6 +20,7 @@ use Phenogram\Bindings\Factories\UserFactory as User;
 use Phenogram\Bindings\Factories\VenueFactory as Venue;
 use Phenogram\Bindings\Factories\VideoFactory as Video;
 use Phenogram\Bindings\Factories\VoiceFactory as Voice;
+use Phenogram\Bindings\Factories\WidgetFactory as Widget;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatBackgroundInterface;
@@ -62,6 +63,7 @@ use Phenogram\Bindings\Types\Interfaces\MessageAutoDeleteTimerChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagesWaivedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
 use Phenogram\Bindings\Types\Interfaces\PollOptionAddedInterface;
@@ -79,6 +81,7 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletTransferInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
@@ -91,6 +94,7 @@ use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
 use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 use Phenogram\Bindings\Types\Message;
 
@@ -149,9 +153,10 @@ class MessageFactory extends AbstractFactory
      * @param VideoInterface|null                                                         $video                         Optional. Optional. Message is a video, information about the video
      * @param VideoNoteInterface|null                                                     $videoNote                     Optional. Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null                                                         $voice                         Optional. Optional. Message is a voice message, information about the file
-     * @param string|null                                                                 $caption                       Optional. Optional. Caption for the animation, audio, document, paid media, photo, video or voice
+     * @param WidgetInterface|null                                                        $widget                        Optional. Optional. Message is an HTML widget, information about the widget
+     * @param string|null                                                                 $caption                       Optional. Optional. Caption for the animation, audio, document, live photo, paid media, photo, video, voice, or widget
      * @param array|null                                                                  $captionEntities               Optional. Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
-     * @param bool|null                                                                   $showCaptionAboveMedia         Optional. Optional. True, if the caption must be shown above the message media
+     * @param bool|null                                                                   $showCaptionAboveMedia         Optional. Optional. True, if the caption must be shown above the message media or the widget
      * @param bool|null                                                                   $hasMediaSpoiler               Optional. Optional. True, if the message media is covered by a spoiler animation
      * @param ChecklistInterface|null                                                     $checklist                     Optional. Optional. Message is a checklist
      * @param ContactInterface|null                                                       $contact                       Optional. Optional. Message is a shared contact, information about the contact
@@ -206,6 +211,7 @@ class MessageFactory extends AbstractFactory
      * @param GiveawayCompletedInterface|null                                             $giveawayCompleted             Optional. Optional. Service message: a giveaway without public winners was completed
      * @param ManagedBotCreatedInterface|null                                             $managedBotCreated             Optional. Optional. Service message: user created a bot that will be managed by the current bot
      * @param PaidMessagePriceChangedInterface|null                                       $paidMessagePriceChanged       Optional. Optional. Service message: the price for paid messages has changed in the chat
+     * @param PaidMessagesWaivedInterface|null                                            $paidMessagesWaived            Optional. Optional. Service message: the sender of the message used a link of the other user, which allows sending messages to the user without paying Telegram Stars
      * @param PollOptionAddedInterface|null                                               $pollOptionAdded               Optional. Optional. Service message: answer option was added to a poll
      * @param PollOptionDeletedInterface|null                                             $pollOptionDeleted             Optional. Optional. Service message: answer option was deleted from a poll
      * @param SuggestedPostApprovedInterface|null                                         $suggestedPostApproved         Optional. Optional. Service message: a suggested post was approved
@@ -213,6 +219,7 @@ class MessageFactory extends AbstractFactory
      * @param SuggestedPostDeclinedInterface|null                                         $suggestedPostDeclined         Optional. Optional. Service message: a suggested post was declined
      * @param SuggestedPostPaidInterface|null                                             $suggestedPostPaid             Optional. Optional. Service message: payment for a suggested post was received
      * @param SuggestedPostRefundedInterface|null                                         $suggestedPostRefunded         Optional. Optional. Service message: payment for a suggested post was refunded
+     * @param TonWalletTransferInterface|null                                             $tonWalletTransfer             Optional. Optional. Service message: a transfer with a TON wallet
      * @param VideoChatScheduledInterface|null                                            $videoChatScheduled            Optional. Optional. Service message: video chat scheduled
      * @param VideoChatStartedInterface|null                                              $videoChatStarted              Optional. Optional. Service message: video chat started
      * @param VideoChatEndedInterface|null                                                $videoChatEnded                Optional. Optional. Service message: video chat ended
@@ -271,6 +278,7 @@ class MessageFactory extends AbstractFactory
         ?VideoInterface $video = null,
         ?VideoNoteInterface $videoNote = null,
         ?VoiceInterface $voice = null,
+        ?WidgetInterface $widget = null,
         ?string $caption = null,
         ?array $captionEntities = null,
         ?bool $showCaptionAboveMedia = null,
@@ -328,6 +336,7 @@ class MessageFactory extends AbstractFactory
         ?GiveawayCompletedInterface $giveawayCompleted = null,
         ?ManagedBotCreatedInterface $managedBotCreated = null,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        ?PaidMessagesWaivedInterface $paidMessagesWaived = null,
         ?PollOptionAddedInterface $pollOptionAdded = null,
         ?PollOptionDeletedInterface $pollOptionDeleted = null,
         ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
@@ -335,6 +344,7 @@ class MessageFactory extends AbstractFactory
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,
         ?SuggestedPostPaidInterface $suggestedPostPaid = null,
         ?SuggestedPostRefundedInterface $suggestedPostRefunded = null,
+        ?TonWalletTransferInterface $tonWalletTransfer = null,
         ?VideoChatScheduledInterface $videoChatScheduled = null,
         ?VideoChatStartedInterface $videoChatStarted = null,
         ?VideoChatEndedInterface $videoChatEnded = null,
@@ -393,6 +403,7 @@ class MessageFactory extends AbstractFactory
             video: $video,
             videoNote: $videoNote,
             voice: $voice,
+            widget: $widget,
             caption: $caption,
             captionEntities: $captionEntities,
             showCaptionAboveMedia: $showCaptionAboveMedia,
@@ -450,6 +461,7 @@ class MessageFactory extends AbstractFactory
             giveawayCompleted: $giveawayCompleted,
             managedBotCreated: $managedBotCreated,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            paidMessagesWaived: $paidMessagesWaived,
             pollOptionAdded: $pollOptionAdded,
             pollOptionDeleted: $pollOptionDeleted,
             suggestedPostApproved: $suggestedPostApproved,
@@ -457,6 +469,7 @@ class MessageFactory extends AbstractFactory
             suggestedPostDeclined: $suggestedPostDeclined,
             suggestedPostPaid: $suggestedPostPaid,
             suggestedPostRefunded: $suggestedPostRefunded,
+            tonWalletTransfer: $tonWalletTransfer,
             videoChatScheduled: $videoChatScheduled,
             videoChatStarted: $videoChatStarted,
             videoChatEnded: $videoChatEnded,

@@ -165,4 +165,10 @@ interface ChatFullInfoInterface extends TypeInterface
 
     /** @var CommunityInterface|null $community Optional. The Community to which the chat belongs */
     public ?CommunityInterface $community { set; get; }
+
+    /** @var TonWalletCardInterface|null $tonWalletCard Optional. For private chats, the TON wallet card of the user, which is shown on their profile page */
+    public ?TonWalletCardInterface $tonWalletCard { set; get; }
+
+    /** @var ChatShareThemeInterface|null $shareTheme Optional. For private chats, supergroups and channels, the theme of the screen for sharing a link to the user or the chat; omitted if the default theme is used */
+    public ?ChatShareThemeInterface $shareTheme { set; get; }
 }

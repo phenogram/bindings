@@ -5,6 +5,7 @@ namespace Phenogram\Bindings;
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\AreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillGradientInterface;
@@ -67,6 +68,11 @@ use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropsInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
@@ -83,6 +89,9 @@ use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DisabledButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
 use Phenogram\Bindings\Types\Interfaces\EphemeralMessageParametersInterface;
@@ -186,11 +195,13 @@ use Phenogram\Bindings\Types\Interfaces\InputRichBlockVoiceNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageMediaInterface;
+use Phenogram\Bindings\Types\Interfaces\InputSharedWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
@@ -236,6 +247,7 @@ use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagesWaivedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
@@ -328,11 +340,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextStrikethroughInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSubscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSuperscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextTonAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUnderlineInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedWidgetQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
@@ -342,7 +356,6 @@ use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
-use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeSuggestedReactionInterface;
@@ -360,6 +373,11 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftAttributeInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletTransferInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
@@ -395,6 +413,13 @@ use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\WebhookInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSentTransactionInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSignDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryWalletInterface;
 use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 
 class Serializer implements SerializerInterface
@@ -429,6 +454,7 @@ class Serializer implements SerializerInterface
         VideoInterface::class,
         VideoNoteInterface::class,
         VoiceInterface::class,
+        WidgetInterface::class,
         PaidMediaInfoInterface::class,
         PaidMediaInterface::class,
         PaidMediaLivePhotoInterface::class,
@@ -495,6 +521,8 @@ class Serializer implements SerializerInterface
         SuggestedPostDeclinedInterface::class,
         SuggestedPostPaidInterface::class,
         SuggestedPostRefundedInterface::class,
+        PaidMessagesWaivedInterface::class,
+        TonWalletTransferInterface::class,
         GiveawayCreatedInterface::class,
         GiveawayInterface::class,
         GiveawayWinnersInterface::class,
@@ -522,6 +550,13 @@ class Serializer implements SerializerInterface
         CopyTextButtonInterface::class,
         DisabledButtonInterface::class,
         CallbackQueryInterface::class,
+        WidgetQueryTypeInterface::class,
+        WidgetQueryTypeDataInterface::class,
+        WidgetQueryTypeSignDataInterface::class,
+        WidgetQueryTypeSentTransactionInterface::class,
+        WidgetQueryWalletInterface::class,
+        WidgetQueryInterface::class,
+        SharedWidgetQueryInterface::class,
         ForceReplyInterface::class,
         CommunityInterface::class,
         ChatPhotoInterface::class,
@@ -543,7 +578,19 @@ class Serializer implements SerializerInterface
         BusinessOpeningHoursIntervalInterface::class,
         BusinessOpeningHoursInterface::class,
         UserRatingInterface::class,
-        StoryAreaPositionInterface::class,
+        AreaPositionInterface::class,
+        TonNftInterface::class,
+        TonNftAttributeInterface::class,
+        TonWalletCardStickerInterface::class,
+        TonWalletCardInterface::class,
+        EmojiTypeInterface::class,
+        EmojiTypeEmojiInterface::class,
+        EmojiTypeCustomEmojiInterface::class,
+        ChatShareThemeInterface::class,
+        ChatShareThemeEmojiInterface::class,
+        ChatShareThemeUniqueGiftInterface::class,
+        ChatShareThemeBackdropsInterface::class,
+        ChatShareThemeBackdropInterface::class,
         LocationAddressInterface::class,
         StoryAreaTypeLocationInterface::class,
         StoryAreaTypeSuggestedReactionInterface::class,
@@ -657,6 +704,7 @@ class Serializer implements SerializerInterface
         RichTextEmailAddressInterface::class,
         RichTextPhoneNumberInterface::class,
         RichTextBankCardNumberInterface::class,
+        RichTextTonAddressInterface::class,
         RichTextMentionInterface::class,
         RichTextHashtagInterface::class,
         RichTextCashtagInterface::class,
@@ -749,6 +797,8 @@ class Serializer implements SerializerInterface
         InputVenueMessageContentInterface::class,
         InputContactMessageContentInterface::class,
         InputInvoiceMessageContentInterface::class,
+        InputWidgetMessageContentInterface::class,
+        InputSharedWidgetMessageContentInterface::class,
         ChosenInlineResultInterface::class,
         LabeledPriceInterface::class,
         InvoiceInterface::class,
@@ -867,6 +917,12 @@ class Serializer implements SerializerInterface
                 : null,
             callbackQuery: isset($data['callback_query'])
                 ? $this->denormalizeCallbackQuery($data['callback_query'])
+                : null,
+            widgetQuery: isset($data['widget_query'])
+                ? $this->denormalizeWidgetQuery($data['widget_query'])
+                : null,
+            sharedWidgetQuery: isset($data['shared_widget_query'])
+                ? $this->denormalizeSharedWidgetQuery($data['shared_widget_query'])
                 : null,
             shippingQuery: isset($data['shipping_query'])
                 ? $this->denormalizeShippingQuery($data['shipping_query'])
@@ -1124,6 +1180,12 @@ class Serializer implements SerializerInterface
             community: isset($data['community'])
                 ? $this->denormalizeCommunity($data['community'])
                 : null,
+            tonWalletCard: isset($data['ton_wallet_card'])
+                ? $this->denormalizeTonWalletCard($data['ton_wallet_card'])
+                : null,
+            shareTheme: isset($data['share_theme'])
+                ? $this->denormalizeChatShareTheme($data['share_theme'])
+                : null,
         );
     }
 
@@ -1253,6 +1315,9 @@ class Serializer implements SerializerInterface
                 : null,
             voice: isset($data['voice'])
                 ? $this->denormalizeVoice($data['voice'])
+                : null,
+            widget: isset($data['widget'])
+                ? $this->denormalizeWidget($data['widget'])
                 : null,
             caption: $data['caption'] ?? null,
             captionEntities: isset($data['caption_entities'])
@@ -1403,6 +1468,9 @@ class Serializer implements SerializerInterface
             paidMessagePriceChanged: isset($data['paid_message_price_changed'])
                 ? $this->denormalizePaidMessagePriceChanged($data['paid_message_price_changed'])
                 : null,
+            paidMessagesWaived: isset($data['paid_messages_waived'])
+                ? $this->denormalizePaidMessagesWaived($data['paid_messages_waived'])
+                : null,
             pollOptionAdded: isset($data['poll_option_added'])
                 ? $this->denormalizePollOptionAdded($data['poll_option_added'])
                 : null,
@@ -1423,6 +1491,9 @@ class Serializer implements SerializerInterface
                 : null,
             suggestedPostRefunded: isset($data['suggested_post_refunded'])
                 ? $this->denormalizeSuggestedPostRefunded($data['suggested_post_refunded'])
+                : null,
+            tonWalletTransfer: isset($data['ton_wallet_transfer'])
+                ? $this->denormalizeTonWalletTransfer($data['ton_wallet_transfer'])
                 : null,
             videoChatScheduled: isset($data['video_chat_scheduled'])
                 ? $this->denormalizeVideoChatScheduled($data['video_chat_scheduled'])
@@ -1564,6 +1635,9 @@ class Serializer implements SerializerInterface
             entities: isset($data['entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['entities'])
                 : null,
+            richTexts: isset($data['rich_texts'])
+                ? array_map(fn (string|array $item) => $this->denormalizeRichText($item), $data['rich_texts'])
+                : null,
             isManual: $data['is_manual'] ?? null,
         );
     }
@@ -1628,6 +1702,9 @@ class Serializer implements SerializerInterface
             voice: isset($data['voice'])
                 ? $this->denormalizeVoice($data['voice'])
                 : null,
+            widget: isset($data['widget'])
+                ? $this->denormalizeWidget($data['widget'])
+                : null,
             hasMediaSpoiler: $data['has_media_spoiler'] ?? null,
             checklist: isset($data['checklist'])
                 ? $this->denormalizeChecklist($data['checklist'])
@@ -1674,6 +1751,9 @@ class Serializer implements SerializerInterface
             quoteEntities: isset($data['quote_entities'])
                 ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['quote_entities'])
                 : null,
+            quoteRichTexts: isset($data['quote_rich_texts'])
+                ? array_map(fn (string|array $item) => $this->denormalizeRichText($item), $data['quote_rich_texts'])
+                : null,
             quotePosition: $data['quote_position'] ?? null,
             checklistTaskId: $data['checklist_task_id'] ?? null,
             pollOptionId: $data['poll_option_id'] ?? null,
@@ -1682,24 +1762,8 @@ class Serializer implements SerializerInterface
 
     public function denormalizeEphemeralMessageParameters(array $data): EphemeralMessageParametersInterface
     {
-        $requiredFields = [
-            'receiver_user_id',
-        ];
-
-        $missingFields = [];
-
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class EphemeralMessageParameters missing some fields from the data array: %s', implode(', ', $missingFields)));
-        }
-
         return $this->factory->makeEphemeralMessageParameters(
-            receiverUserId: $data['receiver_user_id'],
+            receiverUserId: $data['receiver_user_id'] ?? null,
             callbackQueryId: $data['callback_query_id'] ?? null,
             replaceCallbackQueryMessage: $data['replace_callback_query_message'] ?? null,
         );
@@ -2157,6 +2221,34 @@ class Serializer implements SerializerInterface
             duration: $data['duration'],
             mimeType: $data['mime_type'] ?? null,
             fileSize: $data['file_size'] ?? null,
+        );
+    }
+
+    public function denormalizeWidget(array $data): WidgetInterface
+    {
+        $requiredFields = [
+            'html',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class Widget missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidget(
+            html: $data['html'],
+            id: $data['id'] ?? null,
+            width: $data['width'] ?? null,
+            height: $data['height'] ?? null,
+            publicData: $data['public_data'] ?? null,
+            chatData: $data['chat_data'] ?? null,
         );
     }
 
@@ -3742,6 +3834,39 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizePaidMessagesWaived(array $data): PaidMessagesWaivedInterface
+    {
+        return $this->factory->makePaidMessagesWaived();
+    }
+
+    public function denormalizeTonWalletTransfer(array $data): TonWalletTransferInterface
+    {
+        $requiredFields = [
+            'transaction_id',
+            'peer_address',
+            'amount',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TonWalletTransfer missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTonWalletTransfer(
+            transactionId: $data['transaction_id'],
+            peerAddress: $data['peer_address'],
+            amount: $data['amount'],
+            comment: $data['comment'] ?? null,
+        );
+    }
+
     public function denormalizeGiveawayCreated(array $data): GiveawayCreatedInterface
     {
         return $this->factory->makeGiveawayCreated(
@@ -4413,6 +4538,192 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeWidgetQueryType(array $data): WidgetQueryTypeInterface
+    {
+        return match ($data['type'] ?? null) {
+            'data' => $this->denormalizeWidgetQueryTypeData($data),
+            'sign_data' => $this->denormalizeWidgetQueryTypeSignData($data),
+            'sent_transaction' => $this->denormalizeWidgetQueryTypeSentTransaction($data),
+            default => throw new \InvalidArgumentException('Unknown WidgetQueryType type'),
+        };
+    }
+
+    public function denormalizeWidgetQueryTypeData(array $data): WidgetQueryTypeDataInterface
+    {
+        $requiredFields = [
+            'type',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class WidgetQueryTypeData missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidgetQueryTypeData(
+            type: $data['type'],
+            walletCard: isset($data['wallet_card'])
+                ? $this->denormalizeTonWalletCard($data['wallet_card'])
+                : null,
+        );
+    }
+
+    public function denormalizeWidgetQueryTypeSignData(array $data): WidgetQueryTypeSignDataInterface
+    {
+        $requiredFields = [
+            'type',
+            'wallet',
+            'sign_data',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class WidgetQueryTypeSignData missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidgetQueryTypeSignData(
+            type: $data['type'],
+            wallet: $this->denormalizeWidgetQueryWallet($data['wallet']),
+            signData: $data['sign_data'],
+        );
+    }
+
+    public function denormalizeWidgetQueryTypeSentTransaction(array $data): WidgetQueryTypeSentTransactionInterface
+    {
+        $requiredFields = [
+            'type',
+            'wallet',
+            'msg_hash',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class WidgetQueryTypeSentTransaction missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidgetQueryTypeSentTransaction(
+            type: $data['type'],
+            wallet: $this->denormalizeWidgetQueryWallet($data['wallet']),
+            msgHash: $data['msg_hash'],
+        );
+    }
+
+    public function denormalizeWidgetQueryWallet(array $data): WidgetQueryWalletInterface
+    {
+        $requiredFields = [
+            'address',
+            'amount',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class WidgetQueryWallet missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidgetQueryWallet(
+            address: $data['address'],
+            amount: $data['amount'],
+            publicKey: $data['public_key'] ?? null,
+            stateInit: $data['state_init'] ?? null,
+        );
+    }
+
+    public function denormalizeWidgetQuery(array $data): WidgetQueryInterface
+    {
+        $requiredFields = [
+            'id',
+            'from',
+            'chat_instance',
+            'type',
+            'data',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class WidgetQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeWidgetQuery(
+            id: $data['id'],
+            from: $this->denormalizeUser($data['from']),
+            chatInstance: $data['chat_instance'],
+            type: $this->denormalizeWidgetQueryType($data['type']),
+            data: $data['data'],
+            chat: isset($data['chat'])
+                ? $this->denormalizeChat($data['chat'])
+                : null,
+            messageId: $data['message_id'] ?? null,
+            inlineMessageId: $data['inline_message_id'] ?? null,
+            chatType: $data['chat_type'] ?? null,
+            widgetId: $data['widget_id'] ?? null,
+        );
+    }
+
+    public function denormalizeSharedWidgetQuery(array $data): SharedWidgetQueryInterface
+    {
+        $requiredFields = [
+            'id',
+            'from',
+            'type',
+            'data',
+            'widget_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class SharedWidgetQuery missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeSharedWidgetQuery(
+            id: $data['id'],
+            from: $this->denormalizeUser($data['from']),
+            type: $this->denormalizeWidgetQueryType($data['type']),
+            data: $data['data'],
+            widgetId: $data['widget_id'],
+        );
+    }
+
     public function denormalizeForceReply(array $data): ForceReplyInterface
     {
         return $this->factory->makeForceReply(
@@ -5037,7 +5348,7 @@ class Serializer implements SerializerInterface
         );
     }
 
-    public function denormalizeStoryAreaPosition(array $data): StoryAreaPositionInterface
+    public function denormalizeAreaPosition(array $data): AreaPositionInterface
     {
         $requiredFields = [
             'x_percentage',
@@ -5057,16 +5368,299 @@ class Serializer implements SerializerInterface
         }
 
         if (count($missingFields) > 0) {
-            throw new \InvalidArgumentException(sprintf('Class StoryAreaPosition missing some fields from the data array: %s', implode(', ', $missingFields)));
+            throw new \InvalidArgumentException(sprintf('Class AreaPosition missing some fields from the data array: %s', implode(', ', $missingFields)));
         }
 
-        return $this->factory->makeStoryAreaPosition(
+        return $this->factory->makeAreaPosition(
             xPercentage: $data['x_percentage'],
             yPercentage: $data['y_percentage'],
             widthPercentage: $data['width_percentage'],
             heightPercentage: $data['height_percentage'],
             rotationAngle: $data['rotation_angle'],
             cornerRadiusPercentage: $data['corner_radius_percentage'],
+        );
+    }
+
+    public function denormalizeTonNft(array $data): TonNftInterface
+    {
+        $requiredFields = [
+            'address',
+            'index',
+            'name',
+            'description',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TonNft missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTonNft(
+            address: $data['address'],
+            index: $data['index'],
+            name: $data['name'],
+            description: $data['description'],
+            collectionAddress: $data['collection_address'] ?? null,
+            attributes: isset($data['attributes'])
+                ? array_map(fn (array $item) => $this->denormalizeTonNftAttribute($item), $data['attributes'])
+                : null,
+            gift: isset($data['gift'])
+                ? $this->denormalizeUniqueGift($data['gift'])
+                : null,
+        );
+    }
+
+    public function denormalizeTonNftAttribute(array $data): TonNftAttributeInterface
+    {
+        $requiredFields = [
+            'trait_type',
+            'value',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TonNftAttribute missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTonNftAttribute(
+            traitType: $data['trait_type'],
+            value: $data['value'],
+        );
+    }
+
+    public function denormalizeTonWalletCardSticker(array $data): TonWalletCardStickerInterface
+    {
+        $requiredFields = [
+            'position',
+            'nft',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TonWalletCardSticker missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTonWalletCardSticker(
+            position: $this->denormalizeAreaPosition($data['position']),
+            nft: $this->denormalizeTonNft($data['nft']),
+        );
+    }
+
+    public function denormalizeTonWalletCard(array $data): TonWalletCardInterface
+    {
+        $requiredFields = [
+            'address',
+            'amount',
+            'stickers',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class TonWalletCard missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeTonWalletCard(
+            address: $data['address'],
+            amount: $data['amount'],
+            stickers: array_map(fn (array $item) => $this->denormalizeTonWalletCardSticker($item), $data['stickers']),
+            backgroundNftAddress: $data['background_nft_address'] ?? null,
+        );
+    }
+
+    public function denormalizeEmojiType(array $data): EmojiTypeInterface
+    {
+        return match ($data['type'] ?? null) {
+            'emoji' => $this->denormalizeEmojiTypeEmoji($data),
+            'custom_emoji' => $this->denormalizeEmojiTypeCustomEmoji($data),
+            default => throw new \InvalidArgumentException('Unknown EmojiType type'),
+        };
+    }
+
+    public function denormalizeEmojiTypeEmoji(array $data): EmojiTypeEmojiInterface
+    {
+        $requiredFields = [
+            'type',
+            'emoji',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class EmojiTypeEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeEmojiTypeEmoji(
+            type: $data['type'],
+            emoji: $data['emoji'],
+        );
+    }
+
+    public function denormalizeEmojiTypeCustomEmoji(array $data): EmojiTypeCustomEmojiInterface
+    {
+        $requiredFields = [
+            'type',
+            'custom_emoji_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class EmojiTypeCustomEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeEmojiTypeCustomEmoji(
+            type: $data['type'],
+            customEmojiId: $data['custom_emoji_id'],
+        );
+    }
+
+    public function denormalizeChatShareTheme(array $data): ChatShareThemeInterface
+    {
+        return match ($data['type'] ?? null) {
+            'emoji' => $this->denormalizeChatShareThemeEmoji($data),
+            'unique_gift' => $this->denormalizeChatShareThemeUniqueGift($data),
+            default => throw new \InvalidArgumentException('Unknown ChatShareTheme type'),
+        };
+    }
+
+    public function denormalizeChatShareThemeEmoji(array $data): ChatShareThemeEmojiInterface
+    {
+        $requiredFields = [
+            'type',
+            'emojis',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChatShareThemeEmoji missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChatShareThemeEmoji(
+            type: $data['type'],
+            emojis: array_map(fn (array $item) => $this->denormalizeEmojiType($item), $data['emojis']),
+            backgroundBackdropId: $data['background_backdrop_id'] ?? null,
+        );
+    }
+
+    public function denormalizeChatShareThemeUniqueGift(array $data): ChatShareThemeUniqueGiftInterface
+    {
+        $requiredFields = [
+            'type',
+            'gift',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChatShareThemeUniqueGift missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChatShareThemeUniqueGift(
+            type: $data['type'],
+            gift: $this->denormalizeUniqueGift($data['gift']),
+        );
+    }
+
+    public function denormalizeChatShareThemeBackdrops(array $data): ChatShareThemeBackdropsInterface
+    {
+        $requiredFields = [
+            'backdrops',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChatShareThemeBackdrops missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChatShareThemeBackdrops(
+            backdrops: array_map(fn (array $item) => $this->denormalizeChatShareThemeBackdrop($item), $data['backdrops']),
+        );
+    }
+
+    public function denormalizeChatShareThemeBackdrop(array $data): ChatShareThemeBackdropInterface
+    {
+        $requiredFields = [
+            'id',
+            'name',
+            'colors',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class ChatShareThemeBackdrop missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeChatShareThemeBackdrop(
+            id: $data['id'],
+            name: $data['name'],
+            colors: $this->denormalizeUniqueGiftBackdropColors($data['colors']),
         );
     }
 
@@ -5257,7 +5851,7 @@ class Serializer implements SerializerInterface
         }
 
         return $this->factory->makeStoryArea(
-            position: $this->denormalizeStoryAreaPosition($data['position']),
+            position: $this->denormalizeAreaPosition($data['position']),
             type: $this->denormalizeStoryAreaType($data['type']),
         );
     }
@@ -7523,6 +8117,7 @@ class Serializer implements SerializerInterface
             'email_address' => $this->denormalizeRichTextEmailAddress($data),
             'phone_number' => $this->denormalizeRichTextPhoneNumber($data),
             'bank_card_number' => $this->denormalizeRichTextBankCardNumber($data),
+            'ton_address' => $this->denormalizeRichTextTonAddress($data),
             'mention' => $this->denormalizeRichTextMention($data),
             'hashtag' => $this->denormalizeRichTextHashtag($data),
             'cashtag' => $this->denormalizeRichTextCashtag($data),
@@ -7974,6 +8569,33 @@ class Serializer implements SerializerInterface
             type: $data['type'],
             text: $this->denormalizeRichText($data['text']),
             bankCardNumber: $data['bank_card_number'],
+        );
+    }
+
+    public function denormalizeRichTextTonAddress(array $data): RichTextTonAddressInterface
+    {
+        $requiredFields = [
+            'type',
+            'text',
+            'address',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class RichTextTonAddress missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeRichTextTonAddress(
+            type: $data['type'],
+            text: $this->denormalizeRichText($data['text']),
+            address: $data['address'],
         );
     }
 
@@ -10778,6 +11400,71 @@ class Serializer implements SerializerInterface
         );
     }
 
+    public function denormalizeInputWidgetMessageContent(array $data): InputWidgetMessageContentInterface
+    {
+        $requiredFields = [
+            'html',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputWidgetMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputWidgetMessageContent(
+            html: $data['html'],
+            width: $data['width'] ?? null,
+            height: $data['height'] ?? null,
+            publicData: $data['public_data'] ?? null,
+            chatData: $data['chat_data'] ?? null,
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
+            allowQueries: $data['allow_queries'] ?? null,
+            isShared: $data['is_shared'] ?? null,
+        );
+    }
+
+    public function denormalizeInputSharedWidgetMessageContent(array $data): InputSharedWidgetMessageContentInterface
+    {
+        $requiredFields = [
+            'widget_id',
+        ];
+
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            throw new \InvalidArgumentException(sprintf('Class InputSharedWidgetMessageContent missing some fields from the data array: %s', implode(', ', $missingFields)));
+        }
+
+        return $this->factory->makeInputSharedWidgetMessageContent(
+            widgetId: $data['widget_id'],
+            chatData: $data['chat_data'] ?? null,
+            caption: $data['caption'] ?? null,
+            parseMode: $data['parse_mode'] ?? null,
+            captionEntities: isset($data['caption_entities'])
+                ? array_map(fn (array $item) => $this->denormalizeMessageEntity($item), $data['caption_entities'])
+                : null,
+            showCaptionAboveMedia: $data['show_caption_above_media'] ?? null,
+        );
+    }
+
     public function denormalizeChosenInlineResult(array $data): ChosenInlineResultInterface
     {
         $requiredFields = [
@@ -12008,6 +12695,7 @@ class Serializer implements SerializerInterface
             VideoInterface::class => $this->denormalizeVideo($data),
             VideoNoteInterface::class => $this->denormalizeVideoNote($data),
             VoiceInterface::class => $this->denormalizeVoice($data),
+            WidgetInterface::class => $this->denormalizeWidget($data),
             PaidMediaInfoInterface::class => $this->denormalizePaidMediaInfo($data),
             PaidMediaInterface::class => $this->denormalizePaidMedia($data),
             PaidMediaLivePhotoInterface::class => $this->denormalizePaidMediaLivePhoto($data),
@@ -12074,6 +12762,8 @@ class Serializer implements SerializerInterface
             SuggestedPostDeclinedInterface::class => $this->denormalizeSuggestedPostDeclined($data),
             SuggestedPostPaidInterface::class => $this->denormalizeSuggestedPostPaid($data),
             SuggestedPostRefundedInterface::class => $this->denormalizeSuggestedPostRefunded($data),
+            PaidMessagesWaivedInterface::class => $this->denormalizePaidMessagesWaived($data),
+            TonWalletTransferInterface::class => $this->denormalizeTonWalletTransfer($data),
             GiveawayCreatedInterface::class => $this->denormalizeGiveawayCreated($data),
             GiveawayInterface::class => $this->denormalizeGiveaway($data),
             GiveawayWinnersInterface::class => $this->denormalizeGiveawayWinners($data),
@@ -12101,6 +12791,13 @@ class Serializer implements SerializerInterface
             CopyTextButtonInterface::class => $this->denormalizeCopyTextButton($data),
             DisabledButtonInterface::class => $this->denormalizeDisabledButton($data),
             CallbackQueryInterface::class => $this->denormalizeCallbackQuery($data),
+            WidgetQueryTypeInterface::class => $this->denormalizeWidgetQueryType($data),
+            WidgetQueryTypeDataInterface::class => $this->denormalizeWidgetQueryTypeData($data),
+            WidgetQueryTypeSignDataInterface::class => $this->denormalizeWidgetQueryTypeSignData($data),
+            WidgetQueryTypeSentTransactionInterface::class => $this->denormalizeWidgetQueryTypeSentTransaction($data),
+            WidgetQueryWalletInterface::class => $this->denormalizeWidgetQueryWallet($data),
+            WidgetQueryInterface::class => $this->denormalizeWidgetQuery($data),
+            SharedWidgetQueryInterface::class => $this->denormalizeSharedWidgetQuery($data),
             ForceReplyInterface::class => $this->denormalizeForceReply($data),
             CommunityInterface::class => $this->denormalizeCommunity($data),
             ChatPhotoInterface::class => $this->denormalizeChatPhoto($data),
@@ -12122,7 +12819,19 @@ class Serializer implements SerializerInterface
             BusinessOpeningHoursIntervalInterface::class => $this->denormalizeBusinessOpeningHoursInterval($data),
             BusinessOpeningHoursInterface::class => $this->denormalizeBusinessOpeningHours($data),
             UserRatingInterface::class => $this->denormalizeUserRating($data),
-            StoryAreaPositionInterface::class => $this->denormalizeStoryAreaPosition($data),
+            AreaPositionInterface::class => $this->denormalizeAreaPosition($data),
+            TonNftInterface::class => $this->denormalizeTonNft($data),
+            TonNftAttributeInterface::class => $this->denormalizeTonNftAttribute($data),
+            TonWalletCardStickerInterface::class => $this->denormalizeTonWalletCardSticker($data),
+            TonWalletCardInterface::class => $this->denormalizeTonWalletCard($data),
+            EmojiTypeInterface::class => $this->denormalizeEmojiType($data),
+            EmojiTypeEmojiInterface::class => $this->denormalizeEmojiTypeEmoji($data),
+            EmojiTypeCustomEmojiInterface::class => $this->denormalizeEmojiTypeCustomEmoji($data),
+            ChatShareThemeInterface::class => $this->denormalizeChatShareTheme($data),
+            ChatShareThemeEmojiInterface::class => $this->denormalizeChatShareThemeEmoji($data),
+            ChatShareThemeUniqueGiftInterface::class => $this->denormalizeChatShareThemeUniqueGift($data),
+            ChatShareThemeBackdropsInterface::class => $this->denormalizeChatShareThemeBackdrops($data),
+            ChatShareThemeBackdropInterface::class => $this->denormalizeChatShareThemeBackdrop($data),
             LocationAddressInterface::class => $this->denormalizeLocationAddress($data),
             StoryAreaTypeLocationInterface::class => $this->denormalizeStoryAreaTypeLocation($data),
             StoryAreaTypeSuggestedReactionInterface::class => $this->denormalizeStoryAreaTypeSuggestedReaction($data),
@@ -12236,6 +12945,7 @@ class Serializer implements SerializerInterface
             RichTextEmailAddressInterface::class => $this->denormalizeRichTextEmailAddress($data),
             RichTextPhoneNumberInterface::class => $this->denormalizeRichTextPhoneNumber($data),
             RichTextBankCardNumberInterface::class => $this->denormalizeRichTextBankCardNumber($data),
+            RichTextTonAddressInterface::class => $this->denormalizeRichTextTonAddress($data),
             RichTextMentionInterface::class => $this->denormalizeRichTextMention($data),
             RichTextHashtagInterface::class => $this->denormalizeRichTextHashtag($data),
             RichTextCashtagInterface::class => $this->denormalizeRichTextCashtag($data),
@@ -12328,6 +13038,8 @@ class Serializer implements SerializerInterface
             InputVenueMessageContentInterface::class => $this->denormalizeInputVenueMessageContent($data),
             InputContactMessageContentInterface::class => $this->denormalizeInputContactMessageContent($data),
             InputInvoiceMessageContentInterface::class => $this->denormalizeInputInvoiceMessageContent($data),
+            InputWidgetMessageContentInterface::class => $this->denormalizeInputWidgetMessageContent($data),
+            InputSharedWidgetMessageContentInterface::class => $this->denormalizeInputSharedWidgetMessageContent($data),
             ChosenInlineResultInterface::class => $this->denormalizeChosenInlineResult($data),
             LabeledPriceInterface::class => $this->denormalizeLabeledPrice($data),
             InvoiceInterface::class => $this->denormalizeInvoice($data),

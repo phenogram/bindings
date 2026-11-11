@@ -33,4 +33,6 @@ enum UpdateType: string
     case MANAGED_BOT = 'managed_bot';
     case SUBSCRIPTION = 'subscription';
     case STOPPED_MESSAGE_GENERATION = 'stopped_message_generation';
+    case WIDGET_QUERY = 'widget_query';
+    case SHARED_WIDGET_QUERY = 'shared_widget_query';
 }

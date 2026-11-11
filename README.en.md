@@ -3,7 +3,7 @@
 # Phenogram Bindings
 
 [![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/releases/8.4/en.php)
-[![Telegram Bot API 10.3](https://img.shields.io/badge/Telegram_Bot_API-10.3-26A5E4?logo=telegram&logoColor=white)](https://core.telegram.org/bots/api)
+[![Telegram Bot API 10.4](https://img.shields.io/badge/Telegram_Bot_API-10.4-26A5E4?logo=telegram&logoColor=white)](https://core.telegram.org/bots/api)
 [![CI](https://github.com/phenogram/bindings/actions/workflows/ci.yaml/badge.svg)](https://github.com/phenogram/bindings/actions/workflows/ci.yaml)
 [![Packagist](https://img.shields.io/packagist/v/phenogram/bindings?label=Packagist)](https://packagist.org/packages/phenogram/bindings)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -20,13 +20,23 @@ Use [Phenogram Framework](https://github.com/phenogram/framework) when you need 
 
 | Item | Supported version |
 |---|---|
-| Package | `10.x` |
-| Telegram Bot API | `10.3` |
+| Package | `11.x` |
+| Telegram Bot API | `10.4` |
 | PHP | `^8.4` |
 | Runtime packages | None |
 
 The code uses [PHP property hooks](https://www.php.net/manual/en/language.oop5.property-hooks.php).
 PHP 8.4 is therefore required.
+
+## Upgrade from 10.x
+
+Version 11.0.0 supports Telegram Bot API 10.4 and includes breaking changes.
+Replace `StoryAreaPosition`, `StoryAreaPositionInterface`, and `StoryAreaPositionFactory` with `AreaPosition`, `AreaPositionInterface`, and `AreaPositionFactory`.
+In custom factory implementations, rename `makeStoryAreaPosition` to `makeAreaPosition` and update the `position` parameter type in `makeStoryArea`.
+The `chatId` parameter is now optional in 14 message-sending methods. The generator moved it after the required parameters.
+Use named arguments, for example `$api->sendMessage(chatId: 42, text: 'Hello');`.
+For an ephemeral reply to a callback query, you can omit `chatId` and `receiverUserId`: set `callbackQueryId` in the `EphemeralMessageParameters` object.
+Update custom API, type, and factory interface implementations to match the new signatures.
 
 ## Upgrade from 9.x
 

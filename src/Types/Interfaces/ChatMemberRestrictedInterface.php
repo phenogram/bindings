@@ -43,7 +43,7 @@ interface ChatMemberRestrictedInterface extends TypeInterface
     /** @var bool $canSendPolls True, if the user is allowed to send polls and checklists */
     public bool $canSendPolls { set; get; }
 
-    /** @var bool $canSendOtherMessages True, if the user is allowed to send animations, games, stickers and use inline bots */
+    /** @var bool $canSendOtherMessages True, if the user is allowed to send animations, games, stickers, widgets and use inline bots */
     public bool $canSendOtherMessages { set; get; }
 
     /** @var bool $canAddWebPagePreviews True, if the user is allowed to add web page previews to their messages */

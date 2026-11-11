@@ -52,6 +52,9 @@ interface ExternalReplyInfoInterface extends TypeInterface
     /** @var VoiceInterface|null $voice Optional. Message is a voice message, information about the file */
     public ?VoiceInterface $voice { set; get; }
 
+    /** @var WidgetInterface|null $widget Optional. Message is an HTML widget, information about the widget */
+    public ?WidgetInterface $widget { set; get; }
+
     /** @var bool|null $hasMediaSpoiler Optional. True, if the message media is covered by a spoiler animation */
     public ?bool $hasMediaSpoiler { set; get; }
 

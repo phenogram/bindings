@@ -11,6 +11,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
  * @see InputVenueMessageContentInterface
  * @see InputContactMessageContentInterface
  * @see InputInvoiceMessageContentInterface
+ * @see InputWidgetMessageContentInterface
+ * @see InputSharedWidgetMessageContentInterface
  */
 interface InputMessageContentInterface extends TypeInterface
 {

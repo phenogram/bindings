@@ -21,7 +21,7 @@ class ChatMemberRestricted extends ChatMember implements Interfaces\ChatMemberRe
      * @param bool          $canSendVideoNotes     True, if the user is allowed to send video notes
      * @param bool          $canSendVoiceNotes     True, if the user is allowed to send voice notes
      * @param bool          $canSendPolls          True, if the user is allowed to send polls and checklists
-     * @param bool          $canSendOtherMessages  True, if the user is allowed to send animations, games, stickers and use inline bots
+     * @param bool          $canSendOtherMessages  True, if the user is allowed to send animations, games, stickers, widgets and use inline bots
      * @param bool          $canAddWebPagePreviews True, if the user is allowed to add web page previews to their messages
      * @param bool          $canReactToMessages    True, if the user is allowed to react to messages
      * @param bool          $canEditTag            True, if the user is allowed to edit their own tag

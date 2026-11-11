@@ -22,6 +22,7 @@ namespace Phenogram\Bindings\Types\Interfaces;
  * @see RichTextEmailAddressInterface
  * @see RichTextPhoneNumberInterface
  * @see RichTextBankCardNumberInterface
+ * @see RichTextTonAddressInterface
  * @see RichTextMentionInterface
  * @see RichTextHashtagInterface
  * @see RichTextCashtagInterface

@@ -21,7 +21,9 @@ use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
 use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedWidgetQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryInterface;
 
 /**
  * This object represents an incoming update.At most one of the optional fields can be present in any given update.
@@ -44,6 +46,8 @@ class Update implements Interfaces\UpdateInterface
      * @param InlineQueryInterface|null                 $inlineQuery              Optional. New incoming inline query
      * @param ChosenInlineResultInterface|null          $chosenInlineResult       Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot.
      * @param CallbackQueryInterface|null               $callbackQuery            Optional. New incoming callback query
+     * @param WidgetQueryInterface|null                 $widgetQuery              Optional. New incoming query from a widget in a message sent by the bot or via the bot
+     * @param SharedWidgetQueryInterface|null           $sharedWidgetQuery        Optional. New incoming query from a forwarded message with a shared widget
      * @param ShippingQueryInterface|null               $shippingQuery            Optional. New incoming shipping query. Only for invoices with flexible price.
      * @param PreCheckoutQueryInterface|null            $preCheckoutQuery         Optional. New incoming pre-checkout query. Contains full information about checkout.
      * @param PaidMediaPurchasedInterface|null          $purchasedPaidMedia       Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
@@ -74,6 +78,8 @@ class Update implements Interfaces\UpdateInterface
         public ?InlineQueryInterface $inlineQuery = null,
         public ?ChosenInlineResultInterface $chosenInlineResult = null,
         public ?CallbackQueryInterface $callbackQuery = null,
+        public ?WidgetQueryInterface $widgetQuery = null,
+        public ?SharedWidgetQueryInterface $sharedWidgetQuery = null,
         public ?ShippingQueryInterface $shippingQuery = null,
         public ?PreCheckoutQueryInterface $preCheckoutQuery = null,
         public ?PaidMediaPurchasedInterface $purchasedPaidMedia = null,

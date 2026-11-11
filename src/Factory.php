@@ -5,6 +5,7 @@ namespace Phenogram\Bindings;
 use Phenogram\Bindings\Types\AcceptedGiftTypes;
 use Phenogram\Bindings\Types\AffiliateInfo;
 use Phenogram\Bindings\Types\Animation;
+use Phenogram\Bindings\Types\AreaPosition;
 use Phenogram\Bindings\Types\Audio;
 use Phenogram\Bindings\Types\BackgroundFillFreeformGradient;
 use Phenogram\Bindings\Types\BackgroundFillGradient;
@@ -62,6 +63,10 @@ use Phenogram\Bindings\Types\ChatOwnerLeft;
 use Phenogram\Bindings\Types\ChatPermissions;
 use Phenogram\Bindings\Types\ChatPhoto;
 use Phenogram\Bindings\Types\ChatShared;
+use Phenogram\Bindings\Types\ChatShareThemeBackdrop;
+use Phenogram\Bindings\Types\ChatShareThemeBackdrops;
+use Phenogram\Bindings\Types\ChatShareThemeEmoji;
+use Phenogram\Bindings\Types\ChatShareThemeUniqueGift;
 use Phenogram\Bindings\Types\Checklist;
 use Phenogram\Bindings\Types\ChecklistTask;
 use Phenogram\Bindings\Types\ChecklistTasksAdded;
@@ -78,6 +83,8 @@ use Phenogram\Bindings\Types\DirectMessagePriceChanged;
 use Phenogram\Bindings\Types\DirectMessagesTopic;
 use Phenogram\Bindings\Types\DisabledButton;
 use Phenogram\Bindings\Types\Document;
+use Phenogram\Bindings\Types\EmojiTypeCustomEmoji;
+use Phenogram\Bindings\Types\EmojiTypeEmoji;
 use Phenogram\Bindings\Types\EncryptedCredentials;
 use Phenogram\Bindings\Types\EncryptedPassportElement;
 use Phenogram\Bindings\Types\EphemeralMessageParameters;
@@ -176,14 +183,17 @@ use Phenogram\Bindings\Types\InputRichBlockVoiceNote;
 use Phenogram\Bindings\Types\InputRichMessage;
 use Phenogram\Bindings\Types\InputRichMessageContent;
 use Phenogram\Bindings\Types\InputRichMessageMedia;
+use Phenogram\Bindings\Types\InputSharedWidgetMessageContent;
 use Phenogram\Bindings\Types\InputSticker;
 use Phenogram\Bindings\Types\InputStoryContentPhoto;
 use Phenogram\Bindings\Types\InputStoryContentVideo;
 use Phenogram\Bindings\Types\InputTextMessageContent;
 use Phenogram\Bindings\Types\InputVenueMessageContent;
+use Phenogram\Bindings\Types\InputWidgetMessageContent;
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\AreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillGradientInterface;
@@ -241,6 +251,10 @@ use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropsInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
@@ -257,6 +271,8 @@ use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DisabledButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeEmojiInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
 use Phenogram\Bindings\Types\Interfaces\EphemeralMessageParametersInterface;
@@ -355,11 +371,13 @@ use Phenogram\Bindings\Types\Interfaces\InputRichBlockVoiceNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageMediaInterface;
+use Phenogram\Bindings\Types\Interfaces\InputSharedWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
@@ -401,6 +419,7 @@ use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagesWaivedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
@@ -488,11 +507,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextStrikethroughInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSubscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSuperscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextTonAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUnderlineInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedWidgetQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
@@ -502,7 +523,6 @@ use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
-use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeSuggestedReactionInterface;
@@ -520,6 +540,11 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftAttributeInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletTransferInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
@@ -553,6 +578,12 @@ use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\WebhookInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSentTransactionInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSignDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryWalletInterface;
 use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 use Phenogram\Bindings\Types\Invoice;
 use Phenogram\Bindings\Types\KeyboardButton;
@@ -595,6 +626,7 @@ use Phenogram\Bindings\Types\PaidMediaPreview;
 use Phenogram\Bindings\Types\PaidMediaPurchased;
 use Phenogram\Bindings\Types\PaidMediaVideo;
 use Phenogram\Bindings\Types\PaidMessagePriceChanged;
+use Phenogram\Bindings\Types\PaidMessagesWaived;
 use Phenogram\Bindings\Types\PassportData;
 use Phenogram\Bindings\Types\PassportElementErrorDataField;
 use Phenogram\Bindings\Types\PassportElementErrorFile;
@@ -682,11 +714,13 @@ use Phenogram\Bindings\Types\RichTextStrikethrough;
 use Phenogram\Bindings\Types\RichTextSubscript;
 use Phenogram\Bindings\Types\RichTextSuperscript;
 use Phenogram\Bindings\Types\RichTextTextMention;
+use Phenogram\Bindings\Types\RichTextTonAddress;
 use Phenogram\Bindings\Types\RichTextUnderline;
 use Phenogram\Bindings\Types\RichTextUrl;
 use Phenogram\Bindings\Types\SentGuestMessage;
 use Phenogram\Bindings\Types\SentWebAppMessage;
 use Phenogram\Bindings\Types\SharedUser;
+use Phenogram\Bindings\Types\SharedWidgetQuery;
 use Phenogram\Bindings\Types\ShippingAddress;
 use Phenogram\Bindings\Types\ShippingOption;
 use Phenogram\Bindings\Types\ShippingQuery;
@@ -697,7 +731,6 @@ use Phenogram\Bindings\Types\Sticker;
 use Phenogram\Bindings\Types\StickerSet;
 use Phenogram\Bindings\Types\Story;
 use Phenogram\Bindings\Types\StoryArea;
-use Phenogram\Bindings\Types\StoryAreaPosition;
 use Phenogram\Bindings\Types\StoryAreaTypeLink;
 use Phenogram\Bindings\Types\StoryAreaTypeLocation;
 use Phenogram\Bindings\Types\StoryAreaTypeSuggestedReaction;
@@ -714,6 +747,11 @@ use Phenogram\Bindings\Types\SuggestedPostPrice;
 use Phenogram\Bindings\Types\SuggestedPostRefunded;
 use Phenogram\Bindings\Types\SwitchInlineQueryChosenChat;
 use Phenogram\Bindings\Types\TextQuote;
+use Phenogram\Bindings\Types\TonNft;
+use Phenogram\Bindings\Types\TonNftAttribute;
+use Phenogram\Bindings\Types\TonWalletCard;
+use Phenogram\Bindings\Types\TonWalletCardSticker;
+use Phenogram\Bindings\Types\TonWalletTransfer;
 use Phenogram\Bindings\Types\TransactionPartnerAffiliateProgram;
 use Phenogram\Bindings\Types\TransactionPartnerChat;
 use Phenogram\Bindings\Types\TransactionPartnerFragment;
@@ -747,6 +785,12 @@ use Phenogram\Bindings\Types\Voice;
 use Phenogram\Bindings\Types\WebAppData;
 use Phenogram\Bindings\Types\WebAppInfo;
 use Phenogram\Bindings\Types\WebhookInfo;
+use Phenogram\Bindings\Types\Widget;
+use Phenogram\Bindings\Types\WidgetQuery;
+use Phenogram\Bindings\Types\WidgetQueryTypeData;
+use Phenogram\Bindings\Types\WidgetQueryTypeSentTransaction;
+use Phenogram\Bindings\Types\WidgetQueryTypeSignData;
+use Phenogram\Bindings\Types\WidgetQueryWallet;
 use Phenogram\Bindings\Types\WriteAccessAllowed;
 
 class Factory implements FactoryInterface
@@ -767,6 +811,8 @@ class Factory implements FactoryInterface
         ?InlineQueryInterface $inlineQuery,
         ?ChosenInlineResultInterface $chosenInlineResult,
         ?CallbackQueryInterface $callbackQuery,
+        ?WidgetQueryInterface $widgetQuery,
+        ?SharedWidgetQueryInterface $sharedWidgetQuery,
         ?ShippingQueryInterface $shippingQuery,
         ?PreCheckoutQueryInterface $preCheckoutQuery,
         ?PaidMediaPurchasedInterface $purchasedPaidMedia,
@@ -797,6 +843,8 @@ class Factory implements FactoryInterface
             inlineQuery: $inlineQuery,
             chosenInlineResult: $chosenInlineResult,
             callbackQuery: $callbackQuery,
+            widgetQuery: $widgetQuery,
+            sharedWidgetQuery: $sharedWidgetQuery,
             shippingQuery: $shippingQuery,
             preCheckoutQuery: $preCheckoutQuery,
             purchasedPaidMedia: $purchasedPaidMedia,
@@ -955,6 +1003,8 @@ class Factory implements FactoryInterface
         ?int $paidMessageStarCount,
         ?UserInterface $guardBot,
         ?CommunityInterface $community,
+        ?TonWalletCardInterface $tonWalletCard,
+        ?Types\Interfaces\ChatShareThemeInterface $shareTheme,
     ): ChatFullInfoInterface {
         return new ChatFullInfo(
             id: $id,
@@ -1010,6 +1060,8 @@ class Factory implements FactoryInterface
             paidMessageStarCount: $paidMessageStarCount,
             guardBot: $guardBot,
             community: $community,
+            tonWalletCard: $tonWalletCard,
+            shareTheme: $shareTheme,
         );
     }
 
@@ -1064,6 +1116,7 @@ class Factory implements FactoryInterface
         ?VideoInterface $video,
         ?VideoNoteInterface $videoNote,
         ?VoiceInterface $voice,
+        ?WidgetInterface $widget,
         ?string $caption,
         ?array $captionEntities,
         ?bool $showCaptionAboveMedia,
@@ -1121,6 +1174,7 @@ class Factory implements FactoryInterface
         ?GiveawayCompletedInterface $giveawayCompleted,
         ?ManagedBotCreatedInterface $managedBotCreated,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?PaidMessagesWaivedInterface $paidMessagesWaived,
         ?PollOptionAddedInterface $pollOptionAdded,
         ?PollOptionDeletedInterface $pollOptionDeleted,
         ?SuggestedPostApprovedInterface $suggestedPostApproved,
@@ -1128,6 +1182,7 @@ class Factory implements FactoryInterface
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
         ?SuggestedPostPaidInterface $suggestedPostPaid,
         ?SuggestedPostRefundedInterface $suggestedPostRefunded,
+        ?TonWalletTransferInterface $tonWalletTransfer,
         ?VideoChatScheduledInterface $videoChatScheduled,
         ?VideoChatStartedInterface $videoChatStarted,
         ?VideoChatEndedInterface $videoChatEnded,
@@ -1186,6 +1241,7 @@ class Factory implements FactoryInterface
             video: $video,
             videoNote: $videoNote,
             voice: $voice,
+            widget: $widget,
             caption: $caption,
             captionEntities: $captionEntities,
             showCaptionAboveMedia: $showCaptionAboveMedia,
@@ -1243,6 +1299,7 @@ class Factory implements FactoryInterface
             giveawayCompleted: $giveawayCompleted,
             managedBotCreated: $managedBotCreated,
             paidMessagePriceChanged: $paidMessagePriceChanged,
+            paidMessagesWaived: $paidMessagesWaived,
             pollOptionAdded: $pollOptionAdded,
             pollOptionDeleted: $pollOptionDeleted,
             suggestedPostApproved: $suggestedPostApproved,
@@ -1250,6 +1307,7 @@ class Factory implements FactoryInterface
             suggestedPostDeclined: $suggestedPostDeclined,
             suggestedPostPaid: $suggestedPostPaid,
             suggestedPostRefunded: $suggestedPostRefunded,
+            tonWalletTransfer: $tonWalletTransfer,
             videoChatScheduled: $videoChatScheduled,
             videoChatStarted: $videoChatStarted,
             videoChatEnded: $videoChatEnded,
@@ -1299,12 +1357,18 @@ class Factory implements FactoryInterface
         );
     }
 
-    public function makeTextQuote(string $text, int $position, ?array $entities, ?bool $isManual): TextQuoteInterface
-    {
+    public function makeTextQuote(
+        string $text,
+        int $position,
+        ?array $entities,
+        ?array $richTexts,
+        ?bool $isManual,
+    ): TextQuoteInterface {
         return new TextQuote(
             text: $text,
             position: $position,
             entities: $entities,
+            richTexts: $richTexts,
             isManual: $isManual,
         );
     }
@@ -1325,6 +1389,7 @@ class Factory implements FactoryInterface
         ?VideoInterface $video,
         ?VideoNoteInterface $videoNote,
         ?VoiceInterface $voice,
+        ?WidgetInterface $widget,
         ?bool $hasMediaSpoiler,
         ?ChecklistInterface $checklist,
         ?ContactInterface $contact,
@@ -1353,6 +1418,7 @@ class Factory implements FactoryInterface
             video: $video,
             videoNote: $videoNote,
             voice: $voice,
+            widget: $widget,
             hasMediaSpoiler: $hasMediaSpoiler,
             checklist: $checklist,
             contact: $contact,
@@ -1375,6 +1441,7 @@ class Factory implements FactoryInterface
         ?string $quote,
         ?string $quoteParseMode,
         ?array $quoteEntities,
+        ?array $quoteRichTexts,
         ?int $quotePosition,
         ?int $checklistTaskId,
         ?string $pollOptionId,
@@ -1387,6 +1454,7 @@ class Factory implements FactoryInterface
             quote: $quote,
             quoteParseMode: $quoteParseMode,
             quoteEntities: $quoteEntities,
+            quoteRichTexts: $quoteRichTexts,
             quotePosition: $quotePosition,
             checklistTaskId: $checklistTaskId,
             pollOptionId: $pollOptionId,
@@ -1394,7 +1462,7 @@ class Factory implements FactoryInterface
     }
 
     public function makeEphemeralMessageParameters(
-        int $receiverUserId,
+        ?int $receiverUserId,
         ?string $callbackQueryId,
         ?bool $replaceCallbackQueryMessage,
     ): EphemeralMessageParametersInterface {
@@ -1647,6 +1715,24 @@ class Factory implements FactoryInterface
             duration: $duration,
             mimeType: $mimeType,
             fileSize: $fileSize,
+        );
+    }
+
+    public function makeWidget(
+        string $html,
+        ?string $id,
+        ?int $width,
+        ?int $height,
+        ?string $publicData,
+        ?string $chatData,
+    ): WidgetInterface {
+        return new Widget(
+            html: $html,
+            id: $id,
+            width: $width,
+            height: $height,
+            publicData: $publicData,
+            chatData: $chatData,
         );
     }
 
@@ -2385,6 +2471,25 @@ class Factory implements FactoryInterface
         );
     }
 
+    public function makePaidMessagesWaived(): PaidMessagesWaivedInterface
+    {
+        return new PaidMessagesWaived();
+    }
+
+    public function makeTonWalletTransfer(
+        string $transactionId,
+        string $peerAddress,
+        string $amount,
+        ?string $comment,
+    ): TonWalletTransferInterface {
+        return new TonWalletTransfer(
+            transactionId: $transactionId,
+            peerAddress: $peerAddress,
+            amount: $amount,
+            comment: $comment,
+        );
+    }
+
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface
     {
         return new GiveawayCreated(
@@ -2769,6 +2874,96 @@ class Factory implements FactoryInterface
             inlineMessageId: $inlineMessageId,
             data: $data,
             gameShortName: $gameShortName,
+        );
+    }
+
+    public function makeWidgetQueryTypeData(
+        string $type,
+        ?TonWalletCardInterface $walletCard,
+    ): WidgetQueryTypeDataInterface {
+        return new WidgetQueryTypeData(
+            type: $type,
+            walletCard: $walletCard,
+        );
+    }
+
+    public function makeWidgetQueryTypeSignData(
+        string $type,
+        WidgetQueryWalletInterface $wallet,
+        string $signData,
+    ): WidgetQueryTypeSignDataInterface {
+        return new WidgetQueryTypeSignData(
+            type: $type,
+            wallet: $wallet,
+            signData: $signData,
+        );
+    }
+
+    public function makeWidgetQueryTypeSentTransaction(
+        string $type,
+        WidgetQueryWalletInterface $wallet,
+        string $msgHash,
+    ): WidgetQueryTypeSentTransactionInterface {
+        return new WidgetQueryTypeSentTransaction(
+            type: $type,
+            wallet: $wallet,
+            msgHash: $msgHash,
+        );
+    }
+
+    public function makeWidgetQueryWallet(
+        string $address,
+        string $amount,
+        ?string $publicKey,
+        ?string $stateInit,
+    ): WidgetQueryWalletInterface {
+        return new WidgetQueryWallet(
+            address: $address,
+            amount: $amount,
+            publicKey: $publicKey,
+            stateInit: $stateInit,
+        );
+    }
+
+    public function makeWidgetQuery(
+        string $id,
+        UserInterface $from,
+        string $chatInstance,
+        Types\Interfaces\WidgetQueryTypeInterface $type,
+        string $data,
+        ?ChatInterface $chat,
+        ?int $messageId,
+        ?string $inlineMessageId,
+        ?string $chatType,
+        ?string $widgetId,
+    ): WidgetQueryInterface {
+        return new WidgetQuery(
+            id: $id,
+            from: $from,
+            chatInstance: $chatInstance,
+            type: $type,
+            data: $data,
+            chat: $chat,
+            messageId: $messageId,
+            inlineMessageId: $inlineMessageId,
+            chatType: $chatType,
+            widgetId: $widgetId,
+        );
+    }
+
+    public function makeSharedWidgetQuery(
+        string $id,
+        UserInterface $from,
+        Types\Interfaces\WidgetQueryTypeInterface $type,
+        string $data,
+        string $widgetId,
+    ): SharedWidgetQueryInterface {
+        return new SharedWidgetQuery(
+            id: $id,
+            from: $from,
+            type: $type,
+            data: $data,
+            widgetId: $widgetId,
         );
     }
 
@@ -3160,21 +3355,130 @@ class Factory implements FactoryInterface
         );
     }
 
-    public function makeStoryAreaPosition(
+    public function makeAreaPosition(
         float $xPercentage,
         float $yPercentage,
         float $widthPercentage,
         float $heightPercentage,
         float $rotationAngle,
         float $cornerRadiusPercentage,
-    ): StoryAreaPositionInterface {
-        return new StoryAreaPosition(
+    ): AreaPositionInterface {
+        return new AreaPosition(
             xPercentage: $xPercentage,
             yPercentage: $yPercentage,
             widthPercentage: $widthPercentage,
             heightPercentage: $heightPercentage,
             rotationAngle: $rotationAngle,
             cornerRadiusPercentage: $cornerRadiusPercentage,
+        );
+    }
+
+    public function makeTonNft(
+        string $address,
+        string $index,
+        string $name,
+        string $description,
+        ?string $collectionAddress,
+        ?array $attributes,
+        ?UniqueGiftInterface $gift,
+    ): TonNftInterface {
+        return new TonNft(
+            address: $address,
+            index: $index,
+            name: $name,
+            description: $description,
+            collectionAddress: $collectionAddress,
+            attributes: $attributes,
+            gift: $gift,
+        );
+    }
+
+    public function makeTonNftAttribute(string $traitType, string $value): TonNftAttributeInterface
+    {
+        return new TonNftAttribute(
+            traitType: $traitType,
+            value: $value,
+        );
+    }
+
+    public function makeTonWalletCardSticker(
+        AreaPositionInterface $position,
+        TonNftInterface $nft,
+    ): TonWalletCardStickerInterface {
+        return new TonWalletCardSticker(
+            position: $position,
+            nft: $nft,
+        );
+    }
+
+    public function makeTonWalletCard(
+        string $address,
+        string $amount,
+        array $stickers,
+        ?string $backgroundNftAddress,
+    ): TonWalletCardInterface {
+        return new TonWalletCard(
+            address: $address,
+            amount: $amount,
+            stickers: $stickers,
+            backgroundNftAddress: $backgroundNftAddress,
+        );
+    }
+
+    public function makeEmojiTypeEmoji(string $type, string $emoji): EmojiTypeEmojiInterface
+    {
+        return new EmojiTypeEmoji(
+            type: $type,
+            emoji: $emoji,
+        );
+    }
+
+    public function makeEmojiTypeCustomEmoji(string $type, string $customEmojiId): EmojiTypeCustomEmojiInterface
+    {
+        return new EmojiTypeCustomEmoji(
+            type: $type,
+            customEmojiId: $customEmojiId,
+        );
+    }
+
+    public function makeChatShareThemeEmoji(
+        string $type,
+        array $emojis,
+        ?int $backgroundBackdropId,
+    ): ChatShareThemeEmojiInterface {
+        return new ChatShareThemeEmoji(
+            type: $type,
+            emojis: $emojis,
+            backgroundBackdropId: $backgroundBackdropId,
+        );
+    }
+
+    public function makeChatShareThemeUniqueGift(
+        string $type,
+        UniqueGiftInterface $gift,
+    ): ChatShareThemeUniqueGiftInterface {
+        return new ChatShareThemeUniqueGift(
+            type: $type,
+            gift: $gift,
+        );
+    }
+
+    public function makeChatShareThemeBackdrops(array $backdrops): ChatShareThemeBackdropsInterface
+    {
+        return new ChatShareThemeBackdrops(
+            backdrops: $backdrops,
+        );
+    }
+
+    public function makeChatShareThemeBackdrop(
+        int $id,
+        string $name,
+        UniqueGiftBackdropColorsInterface $colors,
+    ): ChatShareThemeBackdropInterface {
+        return new ChatShareThemeBackdrop(
+            id: $id,
+            name: $name,
+            colors: $colors,
         );
     }
 
@@ -3251,7 +3555,7 @@ class Factory implements FactoryInterface
     }
 
     public function makeStoryArea(
-        StoryAreaPositionInterface $position,
+        AreaPositionInterface $position,
         Types\Interfaces\StoryAreaTypeInterface $type,
     ): StoryAreaInterface {
         return new StoryArea(
@@ -4590,6 +4894,18 @@ class Factory implements FactoryInterface
             type: $type,
             text: $text,
             bankCardNumber: $bankCardNumber,
+        );
+    }
+
+    public function makeRichTextTonAddress(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        string $address,
+    ): RichTextTonAddressInterface {
+        return new RichTextTonAddress(
+            type: $type,
+            text: $text,
+            address: $address,
         );
     }
 
@@ -6034,6 +6350,52 @@ class Factory implements FactoryInterface
             sendPhoneNumberToProvider: $sendPhoneNumberToProvider,
             sendEmailToProvider: $sendEmailToProvider,
             isFlexible: $isFlexible,
+        );
+    }
+
+    public function makeInputWidgetMessageContent(
+        string $html,
+        ?int $width,
+        ?int $height,
+        ?string $publicData,
+        ?string $chatData,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $allowQueries,
+        ?bool $isShared,
+    ): InputWidgetMessageContentInterface {
+        return new InputWidgetMessageContent(
+            html: $html,
+            width: $width,
+            height: $height,
+            publicData: $publicData,
+            chatData: $chatData,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            showCaptionAboveMedia: $showCaptionAboveMedia,
+            allowQueries: $allowQueries,
+            isShared: $isShared,
+        );
+    }
+
+    public function makeInputSharedWidgetMessageContent(
+        string $widgetId,
+        ?string $chatData,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+    ): InputSharedWidgetMessageContentInterface {
+        return new InputSharedWidgetMessageContent(
+            widgetId: $widgetId,
+            chatData: $chatData,
+            caption: $caption,
+            parseMode: $parseMode,
+            captionEntities: $captionEntities,
+            showCaptionAboveMedia: $showCaptionAboveMedia,
         );
     }
 

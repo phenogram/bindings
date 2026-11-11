@@ -7,8 +7,8 @@ namespace Phenogram\Bindings\Types\Interfaces;
  */
 interface StoryAreaInterface extends TypeInterface
 {
-    /** @var StoryAreaPositionInterface $position Position of the area */
-    public StoryAreaPositionInterface $position { set; get; }
+    /** @var AreaPositionInterface $position Position of the area */
+    public AreaPositionInterface $position { set; get; }
 
     /** @var StoryAreaTypeInterface $type Type of the area */
     public StoryAreaTypeInterface $type { set; get; }

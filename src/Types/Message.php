@@ -47,6 +47,7 @@ use Phenogram\Bindings\Types\Interfaces\MessageInterface;
 use Phenogram\Bindings\Types\Interfaces\MessageOriginInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagesWaivedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PhotoSizeInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
@@ -65,6 +66,7 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostPaidInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletTransferInterface;
 use Phenogram\Bindings\Types\Interfaces\UniqueGiftInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\UserInterface;
 use Phenogram\Bindings\Types\Interfaces\UsersSharedInterface;
@@ -77,6 +79,7 @@ use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
 use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 
 /**
@@ -135,9 +138,10 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param VideoInterface|null                         $video                         Optional. Message is a video, information about the video
      * @param VideoNoteInterface|null                     $videoNote                     Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null                         $voice                         Optional. Message is a voice message, information about the file
-     * @param string|null                                 $caption                       Optional. Caption for the animation, audio, document, paid media, photo, video or voice
+     * @param WidgetInterface|null                        $widget                        Optional. Message is an HTML widget, information about the widget
+     * @param string|null                                 $caption                       Optional. Caption for the animation, audio, document, live photo, paid media, photo, video, voice, or widget
      * @param array<MessageEntityInterface>|null          $captionEntities               Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
-     * @param bool|null                                   $showCaptionAboveMedia         Optional. True, if the caption must be shown above the message media
+     * @param bool|null                                   $showCaptionAboveMedia         Optional. True, if the caption must be shown above the message media or the widget
      * @param bool|null                                   $hasMediaSpoiler               Optional. True, if the message media is covered by a spoiler animation
      * @param ChecklistInterface|null                     $checklist                     Optional. Message is a checklist
      * @param ContactInterface|null                       $contact                       Optional. Message is a shared contact, information about the contact
@@ -192,6 +196,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param GiveawayCompletedInterface|null             $giveawayCompleted             Optional. Service message: a giveaway without public winners was completed
      * @param ManagedBotCreatedInterface|null             $managedBotCreated             Optional. Service message: user created a bot that will be managed by the current bot
      * @param PaidMessagePriceChangedInterface|null       $paidMessagePriceChanged       Optional. Service message: the price for paid messages has changed in the chat
+     * @param PaidMessagesWaivedInterface|null            $paidMessagesWaived            Optional. Service message: the sender of the message used a link of the other user, which allows sending messages to the user without paying Telegram Stars
      * @param PollOptionAddedInterface|null               $pollOptionAdded               Optional. Service message: answer option was added to a poll
      * @param PollOptionDeletedInterface|null             $pollOptionDeleted             Optional. Service message: answer option was deleted from a poll
      * @param SuggestedPostApprovedInterface|null         $suggestedPostApproved         Optional. Service message: a suggested post was approved
@@ -199,6 +204,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
      * @param SuggestedPostDeclinedInterface|null         $suggestedPostDeclined         Optional. Service message: a suggested post was declined
      * @param SuggestedPostPaidInterface|null             $suggestedPostPaid             Optional. Service message: payment for a suggested post was received
      * @param SuggestedPostRefundedInterface|null         $suggestedPostRefunded         Optional. Service message: payment for a suggested post was refunded
+     * @param TonWalletTransferInterface|null             $tonWalletTransfer             Optional. Service message: a transfer with a TON wallet
      * @param VideoChatScheduledInterface|null            $videoChatScheduled            Optional. Service message: video chat scheduled
      * @param VideoChatStartedInterface|null              $videoChatStarted              Optional. Service message: video chat started
      * @param VideoChatEndedInterface|null                $videoChatEnded                Optional. Service message: video chat ended
@@ -257,6 +263,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?VideoInterface $video = null,
         public ?VideoNoteInterface $videoNote = null,
         public ?VoiceInterface $voice = null,
+        public ?WidgetInterface $widget = null,
         public ?string $caption = null,
         public ?array $captionEntities = null,
         public ?bool $showCaptionAboveMedia = null,
@@ -314,6 +321,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?GiveawayCompletedInterface $giveawayCompleted = null,
         public ?ManagedBotCreatedInterface $managedBotCreated = null,
         public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged = null,
+        public ?PaidMessagesWaivedInterface $paidMessagesWaived = null,
         public ?PollOptionAddedInterface $pollOptionAdded = null,
         public ?PollOptionDeletedInterface $pollOptionDeleted = null,
         public ?SuggestedPostApprovedInterface $suggestedPostApproved = null,
@@ -321,6 +329,7 @@ class Message extends MaybeInaccessibleMessage implements MessageInterface
         public ?SuggestedPostDeclinedInterface $suggestedPostDeclined = null,
         public ?SuggestedPostPaidInterface $suggestedPostPaid = null,
         public ?SuggestedPostRefundedInterface $suggestedPostRefunded = null,
+        public ?TonWalletTransferInterface $tonWalletTransfer = null,
         public ?VideoChatScheduledInterface $videoChatScheduled = null,
         public ?VideoChatStartedInterface $videoChatStarted = null,
         public ?VideoChatEndedInterface $videoChatEnded = null,

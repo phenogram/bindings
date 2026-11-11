@@ -5,6 +5,7 @@ namespace Phenogram\Bindings;
 use Phenogram\Bindings\Types\Interfaces\AcceptedGiftTypesInterface;
 use Phenogram\Bindings\Types\Interfaces\AffiliateInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
+use Phenogram\Bindings\Types\Interfaces\AreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillFreeformGradientInterface;
 use Phenogram\Bindings\Types\Interfaces\BackgroundFillGradientInterface;
@@ -62,6 +63,10 @@ use Phenogram\Bindings\Types\Interfaces\ChatOwnerLeftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPermissionsInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\ChatSharedInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeBackdropsInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\ChatShareThemeUniqueGiftInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTaskInterface;
 use Phenogram\Bindings\Types\Interfaces\ChecklistTasksAddedInterface;
@@ -78,6 +83,8 @@ use Phenogram\Bindings\Types\Interfaces\DirectMessagePriceChangedInterface;
 use Phenogram\Bindings\Types\Interfaces\DirectMessagesTopicInterface;
 use Phenogram\Bindings\Types\Interfaces\DisabledButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\DocumentInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeCustomEmojiInterface;
+use Phenogram\Bindings\Types\Interfaces\EmojiTypeEmojiInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedCredentialsInterface;
 use Phenogram\Bindings\Types\Interfaces\EncryptedPassportElementInterface;
 use Phenogram\Bindings\Types\Interfaces\EphemeralMessageParametersInterface;
@@ -176,11 +183,13 @@ use Phenogram\Bindings\Types\Interfaces\InputRichBlockVoiceNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\InputRichMessageMediaInterface;
+use Phenogram\Bindings\Types\Interfaces\InputSharedWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStickerInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentPhotoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputStoryContentVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\InputTextMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InputVenueMessageContentInterface;
+use Phenogram\Bindings\Types\Interfaces\InputWidgetMessageContentInterface;
 use Phenogram\Bindings\Types\Interfaces\InvoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonInterface;
 use Phenogram\Bindings\Types\Interfaces\KeyboardButtonPollTypeInterface;
@@ -222,6 +231,7 @@ use Phenogram\Bindings\Types\Interfaces\PaidMediaPreviewInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMediaVideoInterface;
 use Phenogram\Bindings\Types\Interfaces\PaidMessagePriceChangedInterface;
+use Phenogram\Bindings\Types\Interfaces\PaidMessagesWaivedInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportDataInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorDataFieldInterface;
 use Phenogram\Bindings\Types\Interfaces\PassportElementErrorFileInterface;
@@ -309,11 +319,13 @@ use Phenogram\Bindings\Types\Interfaces\RichTextStrikethroughInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSubscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextSuperscriptInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextTextMentionInterface;
+use Phenogram\Bindings\Types\Interfaces\RichTextTonAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUnderlineInterface;
 use Phenogram\Bindings\Types\Interfaces\RichTextUrlInterface;
 use Phenogram\Bindings\Types\Interfaces\SentGuestMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SentWebAppMessageInterface;
 use Phenogram\Bindings\Types\Interfaces\SharedUserInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedWidgetQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingAddressInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingOptionInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
@@ -323,7 +335,6 @@ use Phenogram\Bindings\Types\Interfaces\StarTransactionsInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerInterface;
 use Phenogram\Bindings\Types\Interfaces\StickerSetInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaInterface;
-use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLinkInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeLocationInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeSuggestedReactionInterface;
@@ -341,6 +352,11 @@ use Phenogram\Bindings\Types\Interfaces\SuggestedPostPriceInterface;
 use Phenogram\Bindings\Types\Interfaces\SuggestedPostRefundedInterface;
 use Phenogram\Bindings\Types\Interfaces\SwitchInlineQueryChosenChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TextQuoteInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftAttributeInterface;
+use Phenogram\Bindings\Types\Interfaces\TonNftInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletCardStickerInterface;
+use Phenogram\Bindings\Types\Interfaces\TonWalletTransferInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerAffiliateProgramInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerChatInterface;
 use Phenogram\Bindings\Types\Interfaces\TransactionPartnerFragmentInterface;
@@ -374,6 +390,12 @@ use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppDataInterface;
 use Phenogram\Bindings\Types\Interfaces\WebAppInfoInterface;
 use Phenogram\Bindings\Types\Interfaces\WebhookInfoInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSentTransactionInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryTypeSignDataInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryWalletInterface;
 use Phenogram\Bindings\Types\Interfaces\WriteAccessAllowedInterface;
 
 interface FactoryInterface
@@ -394,6 +416,8 @@ interface FactoryInterface
         ?InlineQueryInterface $inlineQuery,
         ?ChosenInlineResultInterface $chosenInlineResult,
         ?CallbackQueryInterface $callbackQuery,
+        ?WidgetQueryInterface $widgetQuery,
+        ?SharedWidgetQueryInterface $sharedWidgetQuery,
         ?ShippingQueryInterface $shippingQuery,
         ?PreCheckoutQueryInterface $preCheckoutQuery,
         ?PaidMediaPurchasedInterface $purchasedPaidMedia,
@@ -507,6 +531,8 @@ interface FactoryInterface
         ?int $paidMessageStarCount,
         ?UserInterface $guardBot,
         ?CommunityInterface $community,
+        ?TonWalletCardInterface $tonWalletCard,
+        ?Types\Interfaces\ChatShareThemeInterface $shareTheme,
     ): ChatFullInfoInterface;
 
     public function makeMessage(
@@ -560,6 +586,7 @@ interface FactoryInterface
         ?VideoInterface $video,
         ?VideoNoteInterface $videoNote,
         ?VoiceInterface $voice,
+        ?WidgetInterface $widget,
         ?string $caption,
         ?array $captionEntities,
         ?bool $showCaptionAboveMedia,
@@ -617,6 +644,7 @@ interface FactoryInterface
         ?GiveawayCompletedInterface $giveawayCompleted,
         ?ManagedBotCreatedInterface $managedBotCreated,
         ?PaidMessagePriceChangedInterface $paidMessagePriceChanged,
+        ?PaidMessagesWaivedInterface $paidMessagesWaived,
         ?PollOptionAddedInterface $pollOptionAdded,
         ?PollOptionDeletedInterface $pollOptionDeleted,
         ?SuggestedPostApprovedInterface $suggestedPostApproved,
@@ -624,6 +652,7 @@ interface FactoryInterface
         ?SuggestedPostDeclinedInterface $suggestedPostDeclined,
         ?SuggestedPostPaidInterface $suggestedPostPaid,
         ?SuggestedPostRefundedInterface $suggestedPostRefunded,
+        ?TonWalletTransferInterface $tonWalletTransfer,
         ?VideoChatScheduledInterface $videoChatScheduled,
         ?VideoChatStartedInterface $videoChatStarted,
         ?VideoChatEndedInterface $videoChatEnded,
@@ -648,7 +677,13 @@ interface FactoryInterface
         ?string $dateTimeFormat,
     ): MessageEntityInterface;
 
-    public function makeTextQuote(string $text, int $position, ?array $entities, ?bool $isManual): TextQuoteInterface;
+    public function makeTextQuote(
+        string $text,
+        int $position,
+        ?array $entities,
+        ?array $richTexts,
+        ?bool $isManual,
+    ): TextQuoteInterface;
 
     public function makeExternalReplyInfo(
         Types\Interfaces\MessageOriginInterface $origin,
@@ -666,6 +701,7 @@ interface FactoryInterface
         ?VideoInterface $video,
         ?VideoNoteInterface $videoNote,
         ?VoiceInterface $voice,
+        ?WidgetInterface $widget,
         ?bool $hasMediaSpoiler,
         ?ChecklistInterface $checklist,
         ?ContactInterface $contact,
@@ -687,13 +723,14 @@ interface FactoryInterface
         ?string $quote,
         ?string $quoteParseMode,
         ?array $quoteEntities,
+        ?array $quoteRichTexts,
         ?int $quotePosition,
         ?int $checklistTaskId,
         ?string $pollOptionId,
     ): ReplyParametersInterface;
 
     public function makeEphemeralMessageParameters(
-        int $receiverUserId,
+        ?int $receiverUserId,
         ?string $callbackQueryId,
         ?bool $replaceCallbackQueryMessage,
     ): EphemeralMessageParametersInterface;
@@ -815,6 +852,15 @@ interface FactoryInterface
         ?string $mimeType,
         ?int $fileSize,
     ): VoiceInterface;
+
+    public function makeWidget(
+        string $html,
+        ?string $id,
+        ?int $width,
+        ?int $height,
+        ?string $publicData,
+        ?string $chatData,
+    ): WidgetInterface;
 
     public function makePaidMediaInfo(int $starCount, array $paidMedia): PaidMediaInfoInterface;
 
@@ -1142,6 +1188,15 @@ interface FactoryInterface
         ?MessageInterface $suggestedPostMessage,
     ): SuggestedPostRefundedInterface;
 
+    public function makePaidMessagesWaived(): PaidMessagesWaivedInterface;
+
+    public function makeTonWalletTransfer(
+        string $transactionId,
+        string $peerAddress,
+        string $amount,
+        ?string $comment,
+    ): TonWalletTransferInterface;
+
     public function makeGiveawayCreated(?int $prizeStarCount): GiveawayCreatedInterface;
 
     public function makeGiveaway(
@@ -1313,6 +1368,51 @@ interface FactoryInterface
         ?string $data,
         ?string $gameShortName,
     ): CallbackQueryInterface;
+
+    public function makeWidgetQueryTypeData(
+        string $type,
+        ?TonWalletCardInterface $walletCard,
+    ): WidgetQueryTypeDataInterface;
+
+    public function makeWidgetQueryTypeSignData(
+        string $type,
+        WidgetQueryWalletInterface $wallet,
+        string $signData,
+    ): WidgetQueryTypeSignDataInterface;
+
+    public function makeWidgetQueryTypeSentTransaction(
+        string $type,
+        WidgetQueryWalletInterface $wallet,
+        string $msgHash,
+    ): WidgetQueryTypeSentTransactionInterface;
+
+    public function makeWidgetQueryWallet(
+        string $address,
+        string $amount,
+        ?string $publicKey,
+        ?string $stateInit,
+    ): WidgetQueryWalletInterface;
+
+    public function makeWidgetQuery(
+        string $id,
+        UserInterface $from,
+        string $chatInstance,
+        Types\Interfaces\WidgetQueryTypeInterface $type,
+        string $data,
+        ?ChatInterface $chat,
+        ?int $messageId,
+        ?string $inlineMessageId,
+        ?string $chatType,
+        ?string $widgetId,
+    ): WidgetQueryInterface;
+
+    public function makeSharedWidgetQuery(
+        string $id,
+        UserInterface $from,
+        Types\Interfaces\WidgetQueryTypeInterface $type,
+        string $data,
+        string $widgetId,
+    ): SharedWidgetQueryInterface;
 
     public function makeForceReply(
         bool $forceReply,
@@ -1495,14 +1595,61 @@ interface FactoryInterface
         ?int $nextLevelRating,
     ): UserRatingInterface;
 
-    public function makeStoryAreaPosition(
+    public function makeAreaPosition(
         float $xPercentage,
         float $yPercentage,
         float $widthPercentage,
         float $heightPercentage,
         float $rotationAngle,
         float $cornerRadiusPercentage,
-    ): StoryAreaPositionInterface;
+    ): AreaPositionInterface;
+
+    public function makeTonNft(
+        string $address,
+        string $index,
+        string $name,
+        string $description,
+        ?string $collectionAddress,
+        ?array $attributes,
+        ?UniqueGiftInterface $gift,
+    ): TonNftInterface;
+
+    public function makeTonNftAttribute(string $traitType, string $value): TonNftAttributeInterface;
+
+    public function makeTonWalletCardSticker(
+        AreaPositionInterface $position,
+        TonNftInterface $nft,
+    ): TonWalletCardStickerInterface;
+
+    public function makeTonWalletCard(
+        string $address,
+        string $amount,
+        array $stickers,
+        ?string $backgroundNftAddress,
+    ): TonWalletCardInterface;
+
+    public function makeEmojiTypeEmoji(string $type, string $emoji): EmojiTypeEmojiInterface;
+
+    public function makeEmojiTypeCustomEmoji(string $type, string $customEmojiId): EmojiTypeCustomEmojiInterface;
+
+    public function makeChatShareThemeEmoji(
+        string $type,
+        array $emojis,
+        ?int $backgroundBackdropId,
+    ): ChatShareThemeEmojiInterface;
+
+    public function makeChatShareThemeUniqueGift(
+        string $type,
+        UniqueGiftInterface $gift,
+    ): ChatShareThemeUniqueGiftInterface;
+
+    public function makeChatShareThemeBackdrops(array $backdrops): ChatShareThemeBackdropsInterface;
+
+    public function makeChatShareThemeBackdrop(
+        int $id,
+        string $name,
+        UniqueGiftBackdropColorsInterface $colors,
+    ): ChatShareThemeBackdropInterface;
 
     public function makeLocationAddress(
         string $countryCode,
@@ -1537,7 +1684,7 @@ interface FactoryInterface
     public function makeStoryAreaTypeUniqueGift(string $type, string $name): StoryAreaTypeUniqueGiftInterface;
 
     public function makeStoryArea(
-        StoryAreaPositionInterface $position,
+        AreaPositionInterface $position,
         Types\Interfaces\StoryAreaTypeInterface $type,
     ): StoryAreaInterface;
 
@@ -2136,6 +2283,12 @@ interface FactoryInterface
         Types\Interfaces\RichTextInterface|string|array $text,
         string $bankCardNumber,
     ): RichTextBankCardNumberInterface;
+
+    public function makeRichTextTonAddress(
+        string $type,
+        Types\Interfaces\RichTextInterface|string|array $text,
+        string $address,
+    ): RichTextTonAddressInterface;
 
     public function makeRichTextMention(
         string $type,
@@ -2839,6 +2992,29 @@ interface FactoryInterface
         ?bool $sendEmailToProvider,
         ?bool $isFlexible,
     ): InputInvoiceMessageContentInterface;
+
+    public function makeInputWidgetMessageContent(
+        string $html,
+        ?int $width,
+        ?int $height,
+        ?string $publicData,
+        ?string $chatData,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+        ?bool $allowQueries,
+        ?bool $isShared,
+    ): InputWidgetMessageContentInterface;
+
+    public function makeInputSharedWidgetMessageContent(
+        string $widgetId,
+        ?string $chatData,
+        ?string $caption,
+        ?string $parseMode,
+        ?array $captionEntities,
+        ?bool $showCaptionAboveMedia,
+    ): InputSharedWidgetMessageContentInterface;
 
     public function makeChosenInlineResult(
         string $resultId,

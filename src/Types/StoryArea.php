@@ -2,7 +2,7 @@
 
 namespace Phenogram\Bindings\Types;
 
-use Phenogram\Bindings\Types\Interfaces\StoryAreaPositionInterface;
+use Phenogram\Bindings\Types\Interfaces\AreaPositionInterface;
 use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeInterface;
 
 /**
@@ -11,11 +11,11 @@ use Phenogram\Bindings\Types\Interfaces\StoryAreaTypeInterface;
 class StoryArea implements Interfaces\StoryAreaInterface
 {
     /**
-     * @param StoryAreaPositionInterface $position Position of the area
-     * @param StoryAreaTypeInterface     $type     Type of the area
+     * @param AreaPositionInterface  $position Position of the area
+     * @param StoryAreaTypeInterface $type     Type of the area
      */
     public function __construct(
-        public StoryAreaPositionInterface $position,
+        public AreaPositionInterface $position,
         public StoryAreaTypeInterface $type,
     ) {
     }

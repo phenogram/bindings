@@ -16,7 +16,7 @@ class ChatPermissions implements Interfaces\ChatPermissionsInterface
      * @param bool|null $canSendVideoNotes     Optional. True, if the user is allowed to send video notes
      * @param bool|null $canSendVoiceNotes     Optional. True, if the user is allowed to send voice notes
      * @param bool|null $canSendPolls          Optional. True, if the user is allowed to send polls and checklists
-     * @param bool|null $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
+     * @param bool|null $canSendOtherMessages  Optional. True, if the user is allowed to send animations, games, stickers, widgets and use inline bots
      * @param bool|null $canAddWebPagePreviews Optional. True, if the user is allowed to add web page previews to their messages
      * @param bool|null $canReactToMessages    Optional. True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
      * @param bool|null $canEditTag            Optional. True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages.

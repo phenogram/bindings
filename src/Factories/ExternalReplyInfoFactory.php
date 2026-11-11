@@ -18,6 +18,7 @@ use Phenogram\Bindings\Factories\StoryFactory as Story;
 use Phenogram\Bindings\Factories\VenueFactory as Venue;
 use Phenogram\Bindings\Factories\VideoFactory as Video;
 use Phenogram\Bindings\Factories\VoiceFactory as Voice;
+use Phenogram\Bindings\Factories\WidgetFactory as Widget;
 use Phenogram\Bindings\Types\ExternalReplyInfo;
 use Phenogram\Bindings\Types\Interfaces\AnimationInterface;
 use Phenogram\Bindings\Types\Interfaces\AudioInterface;
@@ -42,6 +43,7 @@ use Phenogram\Bindings\Types\Interfaces\VenueInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoInterface;
 use Phenogram\Bindings\Types\Interfaces\VideoNoteInterface;
 use Phenogram\Bindings\Types\Interfaces\VoiceInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetInterface;
 
 class ExternalReplyInfoFactory extends AbstractFactory
 {
@@ -63,6 +65,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
      * @param VideoInterface|null                                              $video              Optional. Optional. Message is a video, information about the video
      * @param VideoNoteInterface|null                                          $videoNote          Optional. Optional. Message is a video note, information about the video message
      * @param VoiceInterface|null                                              $voice              Optional. Optional. Message is a voice message, information about the file
+     * @param WidgetInterface|null                                             $widget             Optional. Optional. Message is an HTML widget, information about the widget
      * @param bool|null                                                        $hasMediaSpoiler    Optional. Optional. True, if the message media is covered by a spoiler animation
      * @param ChecklistInterface|null                                          $checklist          Optional. Optional. Message is a checklist
      * @param ContactInterface|null                                            $contact            Optional. Optional. Message is a shared contact, information about the contact
@@ -91,6 +94,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
         ?VideoInterface $video = null,
         ?VideoNoteInterface $videoNote = null,
         ?VoiceInterface $voice = null,
+        ?WidgetInterface $widget = null,
         ?bool $hasMediaSpoiler = null,
         ?ChecklistInterface $checklist = null,
         ?ContactInterface $contact = null,
@@ -119,6 +123,7 @@ class ExternalReplyInfoFactory extends AbstractFactory
             video: $video,
             videoNote: $videoNote,
             voice: $voice,
+            widget: $widget,
             hasMediaSpoiler: $hasMediaSpoiler,
             checklist: $checklist,
             contact: $contact,

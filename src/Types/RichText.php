@@ -22,6 +22,7 @@ namespace Phenogram\Bindings\Types;
  * @see RichTextEmailAddress
  * @see RichTextPhoneNumber
  * @see RichTextBankCardNumber
+ * @see RichTextTonAddress
  * @see RichTextMention
  * @see RichTextHashtag
  * @see RichTextCashtag

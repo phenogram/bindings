@@ -23,8 +23,10 @@ use Phenogram\Bindings\Types\Interfaces\PaidMediaPurchasedInterface;
 use Phenogram\Bindings\Types\Interfaces\PollAnswerInterface;
 use Phenogram\Bindings\Types\Interfaces\PollInterface;
 use Phenogram\Bindings\Types\Interfaces\PreCheckoutQueryInterface;
+use Phenogram\Bindings\Types\Interfaces\SharedWidgetQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\ShippingQueryInterface;
 use Phenogram\Bindings\Types\Interfaces\UpdateInterface;
+use Phenogram\Bindings\Types\Interfaces\WidgetQueryInterface;
 use Phenogram\Bindings\Types\Update;
 
 class UpdateFactory extends AbstractFactory
@@ -47,6 +49,8 @@ class UpdateFactory extends AbstractFactory
      * @param InlineQueryInterface|null                 $inlineQuery              Optional. Optional. New incoming inline query
      * @param ChosenInlineResultInterface|null          $chosenInlineResult       Optional. Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see our documentation on the feedback collecting for details on how to enable these updates for your bot.
      * @param CallbackQueryInterface|null               $callbackQuery            Optional. Optional. New incoming callback query
+     * @param WidgetQueryInterface|null                 $widgetQuery              Optional. Optional. New incoming query from a widget in a message sent by the bot or via the bot
+     * @param SharedWidgetQueryInterface|null           $sharedWidgetQuery        Optional. Optional. New incoming query from a forwarded message with a shared widget
      * @param ShippingQueryInterface|null               $shippingQuery            Optional. Optional. New incoming shipping query. Only for invoices with flexible price.
      * @param PreCheckoutQueryInterface|null            $preCheckoutQuery         Optional. Optional. New incoming pre-checkout query. Contains full information about checkout.
      * @param PaidMediaPurchasedInterface|null          $purchasedPaidMedia       Optional. Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
@@ -77,6 +81,8 @@ class UpdateFactory extends AbstractFactory
         ?InlineQueryInterface $inlineQuery = null,
         ?ChosenInlineResultInterface $chosenInlineResult = null,
         ?CallbackQueryInterface $callbackQuery = null,
+        ?WidgetQueryInterface $widgetQuery = null,
+        ?SharedWidgetQueryInterface $sharedWidgetQuery = null,
         ?ShippingQueryInterface $shippingQuery = null,
         ?PreCheckoutQueryInterface $preCheckoutQuery = null,
         ?PaidMediaPurchasedInterface $purchasedPaidMedia = null,
@@ -107,6 +113,8 @@ class UpdateFactory extends AbstractFactory
             inlineQuery: $inlineQuery,
             chosenInlineResult: $chosenInlineResult,
             callbackQuery: $callbackQuery,
+            widgetQuery: $widgetQuery,
+            sharedWidgetQuery: $sharedWidgetQuery,
             shippingQuery: $shippingQuery,
             preCheckoutQuery: $preCheckoutQuery,
             purchasedPaidMedia: $purchasedPaidMedia,

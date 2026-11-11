@@ -157,13 +157,16 @@ interface MessageInterface extends TypeInterface
     /** @var VoiceInterface|null $voice Optional. Message is a voice message, information about the file */
     public ?VoiceInterface $voice { set; get; }
 
-    /** @var string|null $caption Optional. Caption for the animation, audio, document, paid media, photo, video or voice */
+    /** @var WidgetInterface|null $widget Optional. Message is an HTML widget, information about the widget */
+    public ?WidgetInterface $widget { set; get; }
+
+    /** @var string|null $caption Optional. Caption for the animation, audio, document, live photo, paid media, photo, video, voice, or widget */
     public ?string $caption { set; get; }
 
     /** @var array<MessageEntityInterface>|null $captionEntities Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption */
     public ?array $captionEntities { set; get; }
 
-    /** @var bool|null $showCaptionAboveMedia Optional. True, if the caption must be shown above the message media */
+    /** @var bool|null $showCaptionAboveMedia Optional. True, if the caption must be shown above the message media or the widget */
     public ?bool $showCaptionAboveMedia { set; get; }
 
     /** @var bool|null $hasMediaSpoiler Optional. True, if the message media is covered by a spoiler animation */
@@ -328,6 +331,9 @@ interface MessageInterface extends TypeInterface
     /** @var PaidMessagePriceChangedInterface|null $paidMessagePriceChanged Optional. Service message: the price for paid messages has changed in the chat */
     public ?PaidMessagePriceChangedInterface $paidMessagePriceChanged { set; get; }
 
+    /** @var PaidMessagesWaivedInterface|null $paidMessagesWaived Optional. Service message: the sender of the message used a link of the other user, which allows sending messages to the user without paying Telegram Stars */
+    public ?PaidMessagesWaivedInterface $paidMessagesWaived { set; get; }
+
     /** @var PollOptionAddedInterface|null $pollOptionAdded Optional. Service message: answer option was added to a poll */
     public ?PollOptionAddedInterface $pollOptionAdded { set; get; }
 
@@ -348,6 +354,9 @@ interface MessageInterface extends TypeInterface
 
     /** @var SuggestedPostRefundedInterface|null $suggestedPostRefunded Optional. Service message: payment for a suggested post was refunded */
     public ?SuggestedPostRefundedInterface $suggestedPostRefunded { set; get; }
+
+    /** @var TonWalletTransferInterface|null $tonWalletTransfer Optional. Service message: a transfer with a TON wallet */
+    public ?TonWalletTransferInterface $tonWalletTransfer { set; get; }
 
     /** @var VideoChatScheduledInterface|null $videoChatScheduled Optional. Service message: video chat scheduled */
     public ?VideoChatScheduledInterface $videoChatScheduled { set; get; }
